@@ -1,3 +1,17 @@
+# 幻想动物画廊 WEB应用
+## 开发者 pinkcandyzhou
+项目地址 [幻想动物画廊](https://gallery.pinkcandy.top)
+
+**正在运行第三版**
+
+### 版本概览
+- 第四版（开发中） React+Node.js Express
+- 第三版 Vue3+纯PHP后端
+- 第二版 纯PHP实现 传统PHP嵌入HTML用法
+- 第一版 HTML 旧名：周周的网络世界
+
+------
+
 以下是vite创建项目的初始提示
 
 # React + TypeScript + Vite
