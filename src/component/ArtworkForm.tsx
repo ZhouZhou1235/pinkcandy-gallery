@@ -1,7 +1,7 @@
 import { Button, FormControl, FormLabel } from "@mui/material";
 import { GArea } from "../vars/ConstVars";
 import { Textarea,Input } from '@mui/joy';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { postRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { objToFormdata } from "../utils/tools";
@@ -12,15 +12,6 @@ export function ArtworkForm(){
     let options: SelectProps['options'] = []
     const navigate = useNavigate()
     const [tagPreview,setTagPreview] = useState(options)
-    // test 标签建议 向后端查询最近的标签
-    options.push({
-        label: '热门：犬科',
-        value: '犬科',
-    })
-    options.push({
-        label: '最近：gallery4',
-        value: 'gallery4',
-    })
     const [btnDisabled,setBtnDisabled] = useState(false)
     const [artworkForm,setArtworkForm] = useState({
         title: '',
@@ -28,6 +19,14 @@ export function ArtworkForm(){
         tags: '', // 数组的json表示
         file: '' as any, // File类
     })
+    useEffect(()=>{
+        // ...
+        // options.push({
+        //     label: '最近：gallery4',
+        //     value: 'gallery4',
+        // })
+        setTagPreview(options)
+    },[])
     // 更新标签列表
     const selectTag = (tags:string[])=>{
         artworkForm.tags = JSON.stringify(tags)
