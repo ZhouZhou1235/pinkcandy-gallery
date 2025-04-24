@@ -3,6 +3,7 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { ArtworkForm } from "../component/ArtworkForm";
 import { PlantpotForm } from "../component/PlantpotForm";
+import { BoardForm } from "../component/BoardForm";
 
 export function Add(){
     const [tabvalue,setTabvalue] = useState('gallery')
@@ -21,7 +22,7 @@ export function Add(){
                     </Tabs>
                     <TabPanel value={'gallery'}><ArtworkForm /></TabPanel>
                     <TabPanel value={'garden'}><PlantpotForm /></TabPanel>
-                    <TabPanel value={'board'}>3</TabPanel>
+                    <TabPanel value={'board'}><BoardForm /></TabPanel>
                 </TabContext>
             </div>
         </Box>

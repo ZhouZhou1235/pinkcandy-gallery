@@ -19,4 +19,5 @@ export const urls = {
     getResetPasswordCode: host+'/core/getResetPasswordCode',
     resetPassword: host+'/core/resetPassword',
     createPlantpot: host+'/core/createPlantpot',
+    addBoardMessage: host+'/core/addBoardMessage',
 };
