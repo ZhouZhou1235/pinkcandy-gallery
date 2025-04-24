@@ -20,4 +20,6 @@ export const urls = {
     resetPassword: host+'/core/resetPassword',
     createPlantpot: host+'/core/createPlantpot',
     addBoardMessage: host+'/core/addBoardMessage',
+    getBoradMessages: host+'/core/getBoradMessages',
+    getTopInfo: host+'/core/getTopInfo',
 };

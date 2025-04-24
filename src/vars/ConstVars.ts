@@ -35,7 +35,8 @@ export const DefaultObj = {
         species: '',
     },
     homedata: {
+        topInfo: '',
+        board: Array(),
         artworks: Array(),
-        tags: Array(),
     },
 }
