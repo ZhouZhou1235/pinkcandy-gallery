@@ -3,7 +3,6 @@
 import { GArea } from "./ConstVars";
 
 const host = GArea.proxyURL
-// const host = GArea.connectURL
 
 export const urls = {
     checkLogin: host+'/core/checkLogin',
@@ -22,4 +21,5 @@ export const urls = {
     addBoardMessage: host+'/core/addBoardMessage',
     getBoradMessages: host+'/core/getBoradMessages',
     getTopInfo: host+'/core/getTopInfo',
+    getDBRecordCount: host+'/core/getDBRecordCount',
 };

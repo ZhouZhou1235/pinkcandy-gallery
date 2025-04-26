@@ -42,7 +42,7 @@ export function Bar(){
                             <Link to={'/'}><Button variant="outlined">画廊</Button></Link>
                             <Link to={'/'}><Button variant="outlined">花园</Button></Link>
                             <Link to={'/'}><Button variant="outlined">标签</Button></Link>
-                            <Link to={'/'}><Button variant="outlined">关于</Button></Link>
+                            <Link to={'/about'}><Button variant="outlined">关于</Button></Link>
                             {
                                 userdata.username!=''
                                 ?

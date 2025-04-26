@@ -9,9 +9,9 @@ export const GArea = {
     headimageURL: "",
     backimageURL: "",
     logoURL: "/images/logo.png",
+    artworkimageURL: "http://localhost:3000/files/gallery/",
     defaultShowNum: 12,
     defaultGetNum: 20,
-    artworkimageURL: "http://localhost:3000/files/gallery/",
 }
 
 // 默认展示对象

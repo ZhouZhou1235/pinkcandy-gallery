@@ -25,7 +25,7 @@ export function Home(){
                 homedata.board = boardMessages
                 theBoardItems = homedata.board.map(item=>
                     <div className="list-group-item" key={item.id}>
-                        { item.name } { item.content }
+                        <strong>{ item.user.name }</strong> { item.content }
                     </div>
                 )
             }
