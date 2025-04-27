@@ -1,7 +1,8 @@
 // 工具
 
 
-// 通用
+// === 通用
+
 // key object 类型判断
 function isValidKey(key:any,object:object):key is keyof typeof object{return key in object;}
 
@@ -44,7 +45,8 @@ export function checkObjHaveEmpty(obj:Object,exclude:string[]=[]){
 export function isNumberString(num:string){return !isNaN(Number(num))}
 
 
-// 业务
+// === 业务
+
 // 标签类型数对应中文
 export function tagtypeNumToString(type:number){
     switch(type){

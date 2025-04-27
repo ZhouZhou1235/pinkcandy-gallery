@@ -5,6 +5,7 @@ import { ArtworkPreview } from "../component/ArtworkPreview";
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
+import { toNormalDate } from "../utils/tools";
 
 export function Home(){
     const [homedata,setHomedata] = useState(DefaultObj.homedata)
@@ -26,6 +27,8 @@ export function Home(){
                 theBoardItems = homedata.board.map(item=>
                     <div className="list-group-item" key={item.id}>
                         <strong>{ item.user.name }</strong> { item.content }
+                        <br />
+                        <small>{ toNormalDate(item.time) }</small>
                     </div>
                 )
             }
@@ -51,14 +54,13 @@ export function Home(){
                 <div className="row">
                     <div className="col-sm-4">
                         <div className="container" dangerouslySetInnerHTML={{__html:homedata.topInfo}} />
-                        <div className="container">
+                        <div className="container moblieHideBox">
                             <ul className="list-group list-group-flush">
                                 { boardItems }
                             </ul>
                         </div>
                     </div>
                     <div className="col-sm-8">
-                        <h2>画廊</h2>
                         <div className="row">
                             { artworkItems }
                         </div>

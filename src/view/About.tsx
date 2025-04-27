@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { GArea } from "../vars/ConstVars";
+import { toNormalDate } from "../utils/tools";
 
 function Info(){
     return(
@@ -12,20 +13,18 @@ function Info(){
                 粉糖 PINKCANDY<br />
                 变成毛绒绒的形状！🐾<br />
                 嘿！欢迎来到粉糖画廊！<br />
-                幻想动物画廊是站长蓝狗周周与伙伴们一同分享毛绒绒艺术作品的地方<br />
+                幻想动物画廊是站长蓝狗周周与伙伴们分享毛绒绒艺术作品的地方<br />
                 无任何广告或商业活动，为非盈利兴趣站点。<br />
                 <br />
                 粉糖粒子-幻想动物画廊 2023.10 创建<br />
             </p>
-            <h2>粉糖粒子画廊规则</h2>
+            <h2>粉糖画廊规则</h2>
             <p>
                 1 遵守我国的基本法律和道德规范<br />
-                2 不要发涩涩（18+）、猎奇恐怖、政治相关等敏感信息<br />
-                3 不要网络暴力其他小兽<br />
-                4 不要一次性发送太多或无意义内容<br />
-                5 不要添加错误的标签<br />
-                6 由于是幻想动物主题网站，所以不要发布与毛绒绒无关的图像。<br />
-                7 画廊由作者上传，即原创、二创、改图等均可，但不能是转载作品。<br />
+                2 不要发限制级作品、猎奇恐怖、政治相关等敏感信息<br />
+                3 不要一次性发送太多或无意义内容<br />
+                4 由于是幻想动物主题网站，所以不要发布与毛绒绒无关的图像。<br />
+                5 作品可以是原创、二创、改图等类型，由作者上传，不能转载作品。<br />
                 免责声明：<br />
                 幻想动物画廊提供的任何信息及产生的效应由其发布者负责，本网站不提供任何保证也不承担任何法律责任。<br />
             </p>
@@ -61,6 +60,8 @@ export function About(){
                 let theBoardItems = boardMessages.map(item=>
                     <div className="list-group-item" key={item.id}>
                         <strong>{ item.user.name }</strong> { item.content }
+                        <br />
+                        <small>{ toNormalDate(item.time) }</small>
                     </div>
                 )
                 setBoardItems(theBoardItems)
@@ -79,6 +80,8 @@ export function About(){
                 let theBoardItems = boardMessages.map(item=>
                     <div className="list-group-item" key={item.id}>
                         <strong>{ item.user.name }</strong> { item.content }
+                        <br />
+                        <small>{ toNormalDate(item.time) }</small>
                     </div>
                 )
                 setBoardItems(theBoardItems)

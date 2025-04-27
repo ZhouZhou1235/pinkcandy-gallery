@@ -22,4 +22,5 @@ export const urls = {
     getBoradMessages: host+'/core/getBoradMessages',
     getTopInfo: host+'/core/getTopInfo',
     getDBRecordCount: host+'/core/getDBRecordCount',
+    getArtwork: host+'/core/getArtwork',
 };

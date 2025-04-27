@@ -8,6 +8,7 @@ import { NotFound } from "./view/NotFound"
 import { User } from "./view/User"
 import { Add } from "./view/Add"
 import { About } from "./view/About"
+import { Artwork } from "./view/Artwork"
 
 function App(){
     return(
@@ -24,7 +25,8 @@ function App(){
                         <Route path="/login" element={<Login />} />
                         <Route path="/user" element={<User />} />
                         <Route path="/add" element={<Add />} />
-                        <Route path="/about" element={<About /> }/>
+                        <Route path="/about" element={<About />} />
+                        <Route path="/artwork/:id" element={<Artwork />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>

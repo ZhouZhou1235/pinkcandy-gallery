@@ -43,3 +43,7 @@ a {
 }
 .backImageBox img {width: 100%;}
 .backImageBox::-webkit-scrollbar {display: none;}
+.moblieHideBox {display: unset;}
+@media screen and (max-width: 600px){
+    .moblieHideBox {display: none;}
+}
