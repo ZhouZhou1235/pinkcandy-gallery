@@ -5,8 +5,8 @@
 **正在运行第三版**
 
 ### 版本概览
-- 第四版（开发中） React+Node.js Express
-- 第三版 Vue3+纯PHP后端
+- 第四版（开发中） React
+- 第三版 Vue3
 - 第二版 纯PHP实现 传统PHP嵌入HTML用法
 - 第一版 HTML 旧名：周周的网络世界
 
