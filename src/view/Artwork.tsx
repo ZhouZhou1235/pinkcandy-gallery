@@ -1,22 +1,24 @@
-import { Box, Button, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { useParams } from "react-router";
-import { DefaultObj, GArea } from "../vars/ConstVars";
+import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
 import { Image } from "antd";
 import { toNormalDate } from "../utils/tools";
-import { IconButton, Textarea } from "@mui/joy";
+import { Textarea } from "@mui/joy";
 
 export function Artwork(){
+    const params = useParams()
     const [artworkdata,setArtworkdata] = useState(DefaultObj.artworkdata)
     const [uploaderdata,setUploaderdata] = useState(DefaultObj.userdata)
-    const params = useParams()
     useEffect(()=>{
+        document.title = PageTitle.artwork
         let id = params.id
         getRequest(urls.getArtwork+'?id='+id).then(data=>{
             if(typeof data=='object'){
                 setArtworkdata(data)
+                document.title = PageTitle.artwork+data.title
                 getRequest(urls.getUser+'/'+data.username).then(data=>{
                     if(typeof data=='object'){
                         setUploaderdata(data)

@@ -2,8 +2,13 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Typograp
 import { RegisterForm } from "../component/RegisterForm";
 import { LoginForm } from "../component/LoginForm";
 import { ResetPasswordForm } from "../component/ResetPasswordForm";
+import { useEffect } from "react";
+import { PageTitle } from "../vars/ConstVars";
 
 export function Login(){
+    useEffect(()=>{
+        document.title = PageTitle.login
+    },[])
     return(
         <Box>
             <div className="container p-3">

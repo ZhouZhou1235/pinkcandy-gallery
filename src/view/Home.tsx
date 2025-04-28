@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { Footer } from "../component/Footer";
-import { DefaultObj, GArea } from "../vars/ConstVars";
+import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
 import { ArtworkPreview } from "../component/ArtworkPreview";
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
@@ -12,6 +12,7 @@ export function Home(){
     const [boardItems,setBoardItems] = useState([<span key={1}></span>])
     const [artworkItems,setArtworkItems] = useState([<span key={1}></span>])
     useEffect(()=>{
+        document.title = PageTitle.home
         loadHomeData()
     },[])
     async function loadHomeData(){

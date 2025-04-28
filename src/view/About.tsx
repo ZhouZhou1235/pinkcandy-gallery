@@ -2,7 +2,7 @@ import { Box, Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
-import { GArea } from "../vars/ConstVars";
+import { GArea, PageTitle } from "../vars/ConstVars";
 import { toNormalDate } from "../utils/tools";
 
 function Info(){
@@ -54,6 +54,7 @@ export function About(){
     const [boardItems,setBoardItems] = useState([<span key={1}></span>])
     const [boardPage,setBoardPage] = useState(1)
     useEffect(()=>{
+        document.title = PageTitle.about
         getRequest(urls.getBoradMessages+'?num='+GArea.defaultShowNum).then(data=>{
             if(typeof data=='object'){
                 let boardMessages :any[] = data

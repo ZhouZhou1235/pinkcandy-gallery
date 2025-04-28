@@ -1,10 +1,9 @@
 import { Breadcrumbs, Container, Link, Typography } from "@mui/material";
-import { DefaultObj } from "../vars/ConstVars";
 import { postRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { useNavigate } from "react-router";
 
-export function UserMenu({userdata=DefaultObj.userdata}){
+export function UserMenu(){
     let navigate = useNavigate()
     function logout(){
         postRequest(urls.logout).then(res=>{
@@ -17,8 +16,8 @@ export function UserMenu({userdata=DefaultObj.userdata}){
     return(
         <Container sx={{p:1}}>
             <Breadcrumbs>
-                <Typography>{userdata.name}</Typography>
-                <Link underline="hover" onClick={logout}>退出登录</Link>
+                <Typography>小兽空间</Typography>
+                <Link underline="hover" onClick={logout}>离开</Link>
             </Breadcrumbs>
         </Container>
     )
