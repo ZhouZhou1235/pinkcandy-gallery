@@ -1,7 +1,7 @@
 import { Button, FormControl, FormLabel, Input } from "@mui/material"
 import { useState } from "react"
-import { postRequest } from "../utils/HttpRequest"
-import { urls } from "../vars/urls"
+import { postRequest } from "../../utils/HttpRequest"
+import { urls } from "../../vars/urls"
 import { useNavigate } from "react-router"
 
 export function BoardForm(){

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
-import { postRequest } from "../utils/HttpRequest"
+import { postRequest } from "../../utils/HttpRequest"
 import { useState } from "react"
-import { urls } from "../vars/urls"
+import { urls } from "../../vars/urls"
 import { AccordionActions, AccordionDetails, Button, TextField } from "@mui/material"
 
 export function LoginForm(){

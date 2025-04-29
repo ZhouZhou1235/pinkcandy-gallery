@@ -2,6 +2,7 @@ import { Breadcrumbs, Container, Link, Typography } from "@mui/material";
 import { postRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { useNavigate } from "react-router";
+import { EditUserDialog } from "./EditUserDialog";
 
 export function UserMenu(){
     let navigate = useNavigate()
@@ -18,6 +19,7 @@ export function UserMenu(){
             <Breadcrumbs>
                 <Typography>小兽空间</Typography>
                 <Link underline="hover" onClick={logout}>离开</Link>
+                <EditUserDialog />
             </Breadcrumbs>
         </Container>
     )

@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { checkObjHaveEmpty, isEmailString, isUsername } from "../utils/tools"
+import { checkObjHaveEmpty, isEmailString, isUsername } from "../../utils/tools"
 import { AccordionActions, AccordionDetails, Button, TextField } from "@mui/material"
-import { postRequest } from "../utils/HttpRequest"
-import { urls } from "../vars/urls"
+import { postRequest } from "../../utils/HttpRequest"
+import { urls } from "../../vars/urls"
 import { useNavigate } from "react-router"
 
 export function RegisterForm(){

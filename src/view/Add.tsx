@@ -1,9 +1,9 @@
 import { TabContext, TabPanel } from "@mui/lab";
 import { Box, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
-import { ArtworkForm } from "../component/ArtworkForm";
-import { PlantpotForm } from "../component/PlantpotForm";
-import { BoardForm } from "../component/BoardForm";
+import { ArtworkForm } from "../component/form/ArtworkForm";
+import { PlantpotForm } from "../component/form/PlantpotForm";
+import { BoardForm } from "../component/form/BoardForm";
 import { PageTitle } from "../vars/ConstVars";
 
 export function Add(){

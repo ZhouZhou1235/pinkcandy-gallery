@@ -32,7 +32,7 @@ export function User(){
         <Box>
             <div className="container">
                 {
-                    userdata.headimage?
+                    userdata.backimage?
                     <div className="backImageBox">
                         <img src={GArea.backimageURL+userdata.backimage} alt="backimage" />
                     </div>
@@ -57,6 +57,7 @@ export function User(){
                                 <h1>{ userdata.name }</h1>
                                 <h2>
                                     { Number(userdata.sex)==1?'雄':Number(userdata.sex)==2?'雌':'' }
+                                    &nbsp;
                                     { userdata.species?userdata.species:'' }
                                 </h2>
                             </div>

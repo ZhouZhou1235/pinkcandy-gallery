@@ -1,7 +1,7 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Typography } from "@mui/material";
-import { RegisterForm } from "../component/RegisterForm";
-import { LoginForm } from "../component/LoginForm";
-import { ResetPasswordForm } from "../component/ResetPasswordForm";
+import { RegisterForm } from "../component/form/RegisterForm";
+import { LoginForm } from "../component/form/LoginForm";
+import { ResetPasswordForm } from "../component/form/ResetPasswordForm";
 import { useEffect } from "react";
 import { PageTitle } from "../vars/ConstVars";
 

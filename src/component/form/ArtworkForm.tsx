@@ -1,10 +1,10 @@
 import { Button, FormControl, FormLabel } from "@mui/material";
-import { GArea } from "../vars/ConstVars";
+import { GArea } from "../../vars/ConstVars";
 import { Textarea,Input } from '@mui/joy';
 import { useEffect, useState } from "react";
-import { postRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
-import { objToFormdata } from "../utils/tools";
+import { postRequest } from "../../utils/HttpRequest";
+import { urls } from "../../vars/urls";
+import { objToFormdata } from "../../utils/tools";
 import { useNavigate } from "react-router";
 import { Select, SelectProps } from "antd";
 

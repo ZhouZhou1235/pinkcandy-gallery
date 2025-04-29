@@ -1,8 +1,8 @@
 import { AccordionActions, AccordionDetails, Button, TextField } from "@mui/material";
 import { useState } from "react";
-import { checkObjHaveEmpty, isEmailString } from "../utils/tools";
-import { postRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
+import { checkObjHaveEmpty, isEmailString } from "../../utils/tools";
+import { postRequest } from "../../utils/HttpRequest";
+import { urls } from "../../vars/urls";
 import { useNavigate } from "react-router";
 
 export function ResetPasswordForm(){

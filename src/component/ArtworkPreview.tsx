@@ -9,7 +9,7 @@ export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
                 <Link to={'/artwork/'+artworkdata.id}>
                     <CardMedia
                         sx={{ height: 200 }}
-                        image={ GArea.artworkimageURL+artworkdata.filename }
+                        image={ GArea.artworkimagePreviewURL+artworkdata.filename }
                         title="artworkimage"
                     />
                     <CardContent>

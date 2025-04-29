@@ -23,4 +23,8 @@ export const urls = {
     getTopInfo: host+'/core/getTopInfo',
     getDBRecordCount: host+'/core/getDBRecordCount',
     getArtwork: host+'/core/getArtwork',
+    editUser: host+'/core/editUser',
+    editUserImage: host+'/core/editUserImage',
+    getEditUserImportantCode: host+'/core/getEditUserImportantCode',
+    editUserImportant: host+'/core/editUserImportant',
 };
