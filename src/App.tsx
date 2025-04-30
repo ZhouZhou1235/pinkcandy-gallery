@@ -9,6 +9,10 @@ import { User } from "./view/User"
 import { Add } from "./view/Add"
 import { About } from "./view/About"
 import { Artwork } from "./view/Artwork"
+import { Gallery } from "./view/Gallery"
+import { Garden } from "./view/Garden"
+import { Tag } from "./view/Tag"
+import { Search } from "./view/Search"
 
 function App(){
     return(
@@ -27,6 +31,10 @@ function App(){
                         <Route path="/add" element={<Add />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/artwork/:id" element={<Artwork />} />
+                        <Route path="/gallery" element={<Gallery />} />
+                        <Route path="/garden" element={<Garden />} />
+                        <Route path="/tag" element={<Tag />} />
+                        <Route path="/search" element={<Search />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>

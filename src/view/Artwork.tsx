@@ -9,12 +9,15 @@ import { toNormalDate } from "../utils/tools";
 import { Textarea } from "@mui/joy";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw, faStar } from '@fortawesome/free-solid-svg-icons';
+import { UserPreview } from "../component/UserPreview";
+import { TagList } from "../component/TagList";
 
 export function Artwork(){
     const params = useParams()
     const [loading,setLoading] = useState(true)
     const [artworkdata,setArtworkdata] = useState(DefaultObj.artworkdata)
     const [uploaderdata,setUploaderdata] = useState(DefaultObj.userdata)
+    const [artworktagList,setArtworktagList] = useState(<></>)
     useEffect(()=>{
         document.title = PageTitle.artwork
         let id = params.id
@@ -25,6 +28,11 @@ export function Artwork(){
                 getRequest(urls.getUser+'/'+data.username).then(data=>{
                     if(typeof data=='object'){
                         setUploaderdata(data)
+                    }
+                })
+                getRequest(urls.getTagsArtwork+'/'+id).then(data=>{
+                    if(data!=0){
+                        setArtworktagList(<TagList tagArray={data}/>)
                     }
                 })
             }
@@ -52,27 +60,12 @@ export function Artwork(){
                                 <Box sx={{mt: 2}}>
                                     <div className="row">
                                         <div className="col-sm-4">
-                                            <Avatar shape="square" size={64} icon={
-                                                <img src={
-                                                    uploaderdata.headimage
-                                                    ?
-                                                    GArea.headimageURL+uploaderdata.headimage
-                                                    :
-                                                    GArea.defaultHeadimage
-                                                } alt="headimage" />
-                                            } />
-                                            <br />
-                                            <span style={{fontSize:'2em'}}>{ uploaderdata.name }</span>
-                                            <br />
-                                            <span>
-                                                { Number(uploaderdata.sex)==1?'雄':Number(uploaderdata.sex)==2?'雌':'' }
-                                                &nbsp;
-                                                { uploaderdata.species?uploaderdata.species:'' }
-                                            </span>
+                                            <UserPreview userdata={uploaderdata}/>
                                         </div>
                                         <div className="col-sm-8 text-center">
                                             <Button startIcon={<FontAwesomeIcon icon={faPaw}/>}>印爪</Button>
                                             <Button startIcon={<FontAwesomeIcon icon={faStar}/>}>收藏</Button>
+                                            {artworktagList}
                                         </div>
                                     </div>
                                 </Box>
@@ -80,29 +73,26 @@ export function Artwork(){
                         </Card>
                     </div>
                     <div className="col-sm-4">
-
-                        <h1>标签</h1>
-                        
-                        <Textarea
-                            placeholder="作品感觉如何......"
-                            onChange={()=>{}}
-                            minRows={4}
-                            maxRows={8}
-                            startDecorator={
-                                <Box sx={{ display:'flex',gap:0.5,flex:1 }}>
-                                    评论
-                                </Box>
-                            }
-                            endDecorator={
-                                <Button variant="outlined" sx={{ ml: 'auto' }}>
-                                    发送
-                                </Button>
-                            }
-                            sx={{ minWidth: 300 }}
-                        />
-
-                        <h1>评论区</h1>
-
+                        <Box sx={{ mt: 2 }}>
+                            <Textarea
+                                placeholder="作品感觉如何......"
+                                onChange={()=>{}}
+                                minRows={4}
+                                maxRows={8}
+                                startDecorator={
+                                    <Box sx={{ display:'flex',gap:0.5,flex:1 }}>
+                                        评论
+                                    </Box>
+                                }
+                                endDecorator={
+                                    <Button variant="outlined" sx={{ ml: 'auto' }}>
+                                        发送
+                                    </Button>
+                                }
+                                sx={{ minWidth: 300 }}
+                            />
+                            <h1>评论区</h1>
+                        </Box>     
                     </div>
                 </div>
             </div>

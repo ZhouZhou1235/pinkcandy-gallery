@@ -38,10 +38,10 @@ export function Bar(){
                             spacing={1}
                             sx={{mx:2}}
                         >
-                            <Link to={'/'}><Button variant="outlined">来点粉糖</Button></Link>
-                            <Link to={'/'}><Button variant="outlined">画廊</Button></Link>
-                            <Link to={'/'}><Button variant="outlined">花园</Button></Link>
-                            <Link to={'/'}><Button variant="outlined">标签</Button></Link>
+                            <Link to={'/search'}><Button variant="outlined">来点粉糖</Button></Link>
+                            <Link to={'/gallery'}><Button variant="outlined">画廊</Button></Link>
+                            <Link to={'/garden'}><Button variant="outlined">花园</Button></Link>
+                            <Link to={'/tag'}><Button variant="outlined">标签</Button></Link>
                             <Link to={'/about'}><Button variant="outlined">关于</Button></Link>
                             {
                                 userdata.username!=''

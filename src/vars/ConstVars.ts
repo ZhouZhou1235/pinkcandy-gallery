@@ -41,6 +41,12 @@ export const DefaultObj = {
         board: Array(),
         artworks: Array(),
     },
+    tagArray: [{
+        id: '',
+        tag: '',
+        type: '',
+        info: '',
+    },],
 }
 
 // 页面标题
