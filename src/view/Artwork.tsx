@@ -4,7 +4,7 @@ import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { useParams } from "react-router";
 import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
-import { Avatar, Image, Spin } from "antd";
+import { Image, Spin } from "antd";
 import { toNormalDate } from "../utils/tools";
 import { Textarea } from "@mui/joy";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

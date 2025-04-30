@@ -2,7 +2,7 @@
 
 import { GArea } from "./ConstVars";
 
-const host = GArea.proxyURL
+const host = GArea.connectURL
 
 export const urls = {
     checkLogin: host+'/core/checkLogin',

@@ -1,19 +1,21 @@
 // 全局变量
 
+export const systemAPI = 'http://localhost:3000' // 后端接口
+export const proxyAPI = '/api' // 代理url 解决跨域问题
+
 // 静态固定量
 export const GArea = {
-    connectURL: "http://localhost:3000",
-    proxyURL: "/api",
+    connectURL: proxyAPI,
+    headimageURL: systemAPI+"/files/headimage/",
+    backimageURL: systemAPI+"/files/backimage/",
+    artworkimageURL: systemAPI+"/files/gallery/",
+    artworkimagePreviewURL: systemAPI+"/files/GalleryPreview/",
     defaultHeadimage: "/images/head.png",
     defaultBackimage: "/images/back.png",
-    headimageURL: "http://localhost:3000/files/headimage/",
-    backimageURL: "http://localhost:3000/files/backimage/",
     logoURL: "/images/logo.png",
-    artworkimageURL: "http://localhost:3000/files/gallery/",
-    artworkimagePreviewURL: "http://localhost:3000/files/GalleryPreview/",
+    image404URL: "/images/image404.png",
     defaultShowNum: 12,
     defaultGetNum: 20,
-    image404URL: "/images/image404.png",
 }
 
 // 默认展示对象
