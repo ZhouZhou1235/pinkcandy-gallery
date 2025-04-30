@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { toNormalDate } from "../utils/tools";
+import { Spin } from "antd";
 
 export function Home(){
+    const [loading,setLoading] = useState(true)
     const [homedata,setHomedata] = useState(DefaultObj.homedata)
     const [boardItems,setBoardItems] = useState([<span key={1}></span>])
     const [artworkItems,setArtworkItems] = useState([<span key={1}></span>])
@@ -48,9 +50,11 @@ export function Home(){
         setHomedata(homedata)
         setBoardItems(theBoardItems)
         setArtworkItems(theArtworkItems)
+        setLoading(false)
     }
     return(
         <Box sx={{ mt: 2 }}>
+            <Spin spinning={loading} fullscreen />
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-sm-4">

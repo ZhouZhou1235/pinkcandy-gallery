@@ -4,12 +4,15 @@ import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { useParams } from "react-router";
 import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
-import { Image } from "antd";
+import { Avatar, Image, Spin } from "antd";
 import { toNormalDate } from "../utils/tools";
 import { Textarea } from "@mui/joy";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaw, faStar } from '@fortawesome/free-solid-svg-icons';
 
 export function Artwork(){
     const params = useParams()
+    const [loading,setLoading] = useState(true)
     const [artworkdata,setArtworkdata] = useState(DefaultObj.artworkdata)
     const [uploaderdata,setUploaderdata] = useState(DefaultObj.userdata)
     useEffect(()=>{
@@ -25,10 +28,12 @@ export function Artwork(){
                     }
                 })
             }
+            setLoading(false)
         })
     },[])
     return(
         <Box>
+            <Spin spinning={loading} fullscreen />
             <div className="container">
                 <div className="row">
                     <div className="col-sm-8">
@@ -44,12 +49,35 @@ export function Artwork(){
                                     { artworkdata.info }
                                 </Typography>
                                 <small>{ toNormalDate(artworkdata.time) }</small>
+                                <Box sx={{mt: 2}}>
+                                    <div className="row">
+                                        <div className="col-sm-4">
+                                            <Avatar shape="square" size={64} icon={
+                                                <img src={
+                                                    uploaderdata.headimage
+                                                    ?
+                                                    GArea.headimageURL+uploaderdata.headimage
+                                                    :
+                                                    GArea.defaultHeadimage
+                                                } alt="headimage" />
+                                            } />
+                                            <br />
+                                            <span style={{fontSize:'2em'}}>{ uploaderdata.name }</span>
+                                            <br />
+                                            <span>
+                                                { Number(uploaderdata.sex)==1?'雄':Number(uploaderdata.sex)==2?'雌':'' }
+                                                &nbsp;
+                                                { uploaderdata.species?uploaderdata.species:'' }
+                                            </span>
+                                        </div>
+                                        <div className="col-sm-8 text-center">
+                                            <Button startIcon={<FontAwesomeIcon icon={faPaw}/>}>印爪</Button>
+                                            <Button startIcon={<FontAwesomeIcon icon={faStar}/>}>收藏</Button>
+                                        </div>
+                                    </div>
+                                </Box>
                             </CardContent>
                         </Card>
-
-                        <h1>上传者</h1>
-                        <h1>交互按钮</h1>
-
                     </div>
                     <div className="col-sm-4">
 

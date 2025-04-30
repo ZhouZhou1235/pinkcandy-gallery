@@ -27,4 +27,5 @@ export const urls = {
     editUserImage: host+'/core/editUserImage',
     getEditUserImportantCode: host+'/core/getEditUserImportantCode',
     editUserImportant: host+'/core/editUserImportant',
+    clearUserImage: host+'/core/clearUserImage',
 };

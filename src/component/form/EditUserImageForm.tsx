@@ -23,6 +23,14 @@ export function EditUserImageForm(){
             }
         })
     }
+    function clearUserImage(){
+        postRequest(urls.clearUserImage).then(res=>{
+            if(res==1){
+                setSnackbarOpen(true)
+                setSnackbarMessage('图片已清除')
+            }
+        })
+    }
     return(
         <>
             <span>
@@ -47,6 +55,7 @@ export function EditUserImageForm(){
                 }} />
                 <FormHelperText>背景墙</FormHelperText>
                 <DialogActions>
+                    <Button onClick={clearUserImage}>清除</Button>
                     <Button onClick={editUserImage}>上传</Button>
                 </DialogActions>
             </FormControl>

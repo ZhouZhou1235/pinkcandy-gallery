@@ -64,11 +64,18 @@ export function EditUserImportantForm(){
                 提示：修改关键信息需要验证，留空表示不修改。
             </DialogContentText>
             <FormControl fullWidth>
-                <TextField label="新密码" sx={{mt:2}} color="warning" disabled={editUserImportantFormDisabled} onChange={(e)=>{
-                    editUserImportantForm.password = e.target.value
-                    setEditUserImportantForm(editUserImportantForm)
-                    checkGetCode()
-                }}/>
+                <TextField
+                    label="新密码"
+                    sx={{mt:2}}
+                    color="warning"
+                    disabled={editUserImportantFormDisabled}
+                    type="password"
+                    onChange={(e)=>{
+                        editUserImportantForm.password = e.target.value
+                        setEditUserImportantForm(editUserImportantForm)
+                        checkGetCode()
+                    }}
+                />
                 <TextField label="新邮箱" sx={{mt:2}} color="warning" disabled={editUserImportantFormDisabled} onChange={(e)=>{
                     editUserImportantForm.email = e.target.value
                     setEditUserImportantForm(editUserImportantForm)
