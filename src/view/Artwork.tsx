@@ -6,11 +6,12 @@ import { useParams } from "react-router";
 import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
 import { Image, Spin } from "antd";
 import { toNormalDate } from "../utils/tools";
-import { Textarea } from "@mui/joy";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw, faStar } from '@fortawesome/free-solid-svg-icons';
 import { UserPreview } from "../component/UserPreview";
 import { TagList } from "../component/TagList";
+import { ArtworkCommentForm } from "../component/form/ArtworkCommentForm";
+import { ArtworkCommentList } from "../component/ArtworkCommentList";
 
 export function Artwork(){
     const params = useParams()
@@ -18,9 +19,13 @@ export function Artwork(){
     const [artworkdata,setArtworkdata] = useState(DefaultObj.artworkdata)
     const [uploaderdata,setUploaderdata] = useState(DefaultObj.userdata)
     const [artworktagList,setArtworktagList] = useState(<></>)
+    const [commentFormElement,setCommentFormElement] = useState(<></>)
+    const [commentListElement,setCommentListElement] = useState(<></>)
     useEffect(()=>{
         document.title = PageTitle.artwork
         let id = params.id
+        setCommentFormElement(<ArtworkCommentForm galleryid={id}/>)
+        setCommentListElement(<ArtworkCommentList galleryid={id}/>)
         getRequest(urls.getArtwork+'?id='+id).then(data=>{
             if(typeof data=='object'){
                 setArtworkdata(data)
@@ -73,26 +78,8 @@ export function Artwork(){
                         </Card>
                     </div>
                     <div className="col-sm-4">
-                        <Box sx={{ mt: 2 }}>
-                            <Textarea
-                                placeholder="作品感觉如何......"
-                                onChange={()=>{}}
-                                minRows={4}
-                                maxRows={8}
-                                startDecorator={
-                                    <Box sx={{ display:'flex',gap:0.5,flex:1 }}>
-                                        评论
-                                    </Box>
-                                }
-                                endDecorator={
-                                    <Button variant="outlined" sx={{ ml: 'auto' }}>
-                                        发送
-                                    </Button>
-                                }
-                                sx={{ minWidth: 300 }}
-                            />
-                            <h1>评论区</h1>
-                        </Box>     
+                        {commentFormElement}
+                        {commentListElement}
                     </div>
                 </div>
             </div>

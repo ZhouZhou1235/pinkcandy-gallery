@@ -29,4 +29,7 @@ export const urls = {
     editUserImportant: host+'/core/editUserImportant',
     clearUserImage: host+'/core/clearUserImage',
     getTagsArtwork: host+'/core/getTagsArtwork',
+    sendCommentArtwork: host+'/core/sendCommentArtwork',
+    getArtworkComments: host+'/core/getArtworkComments',
+    getCommentGalleryCount: host+'/core/getCommentGalleryCount',
 };

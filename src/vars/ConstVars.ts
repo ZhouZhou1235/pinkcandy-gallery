@@ -49,6 +49,19 @@ export const DefaultObj = {
         type: '',
         info: '',
     },],
+    artworkCommentArray: [{
+        id: '',
+        galleryid: '',
+        username: '',
+        content: '',
+        time: '',
+        user: {
+            name: '',
+            headimage: '',
+            sex: '',
+            species: '',
+        },
+    }],
 }
 
 // 页面标题
