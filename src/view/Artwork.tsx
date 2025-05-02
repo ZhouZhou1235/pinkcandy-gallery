@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
@@ -6,12 +6,11 @@ import { useParams } from "react-router";
 import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
 import { Image, Spin } from "antd";
 import { toNormalDate } from "../utils/tools";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaw, faStar } from '@fortawesome/free-solid-svg-icons';
 import { UserPreview } from "../component/UserPreview";
 import { TagList } from "../component/TagList";
 import { ArtworkCommentForm } from "../component/form/ArtworkCommentForm";
 import { ArtworkCommentList } from "../component/ArtworkCommentList";
+import { ArtworkPawArea } from "../component/ArtworkPawArea";
 
 export function Artwork(){
     const params = useParams()
@@ -21,11 +20,13 @@ export function Artwork(){
     const [artworktagList,setArtworktagList] = useState(<></>)
     const [commentFormElement,setCommentFormElement] = useState(<></>)
     const [commentListElement,setCommentListElement] = useState(<></>)
+    const [pawAreaElement,setPawAreaElement] = useState(<></>)
     useEffect(()=>{
         document.title = PageTitle.artwork
         let id = params.id
         setCommentFormElement(<ArtworkCommentForm galleryid={id}/>)
         setCommentListElement(<ArtworkCommentList galleryid={id}/>)
+        setPawAreaElement(<ArtworkPawArea galleryid={id}/>)
         getRequest(urls.getArtwork+'?id='+id).then(data=>{
             if(typeof data=='object'){
                 setArtworkdata(data)
@@ -68,8 +69,7 @@ export function Artwork(){
                                             <UserPreview userdata={uploaderdata}/>
                                         </div>
                                         <div className="col-sm-8 text-center">
-                                            <Button startIcon={<FontAwesomeIcon icon={faPaw}/>}>印爪</Button>
-                                            <Button startIcon={<FontAwesomeIcon icon={faStar}/>}>收藏</Button>
+                                            {pawAreaElement}
                                             {artworktagList}
                                         </div>
                                     </div>

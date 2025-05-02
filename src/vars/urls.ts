@@ -32,4 +32,7 @@ export const urls = {
     sendCommentArtwork: host+'/core/sendCommentArtwork',
     getArtworkComments: host+'/core/getArtworkComments',
     getCommentGalleryCount: host+'/core/getCommentGalleryCount',
+    pawArtworkMedia: host+'/core/pawArtworkMedia',
+    starArtworkMedia: host+'/core/starArtworkMedia',
+    getArtworkPawAreaInfo: host+'/core/getArtworkPawAreaInfo',
 };

@@ -62,6 +62,15 @@ export const DefaultObj = {
             species: '',
         },
     }],
+    pawAreaInfo: {
+        pawnum: 0,
+        starnum: 0,
+        commentnum: 0,
+        user: {
+            havepaw: false,
+            havestar: false,
+        },
+    },
 }
 
 // 页面标题

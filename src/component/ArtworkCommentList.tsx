@@ -16,7 +16,7 @@ export function ArtworkCommentList({galleryid=''}){
                         <img src={GArea.headimageURL+item.user.headimage} alt="headimage" width={50} className="rounded"/>
                     </div>
                     <div className="col-9">
-                        <div style={{fontSize:'1.2em'}}>{item.user.name} {item.user.sex} {item.user.species}</div>
+                        <div style={{fontSize:'1.2em'}}>{item.user.name} {Number(item.user.sex)==1?'雄':Number(item.user.sex)==2?'雌':''} {item.user.species}</div>
                         <div>{item.content}</div>
                         <small>{toNormalDate(item.time)}</small>
                     </div>

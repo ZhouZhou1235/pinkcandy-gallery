@@ -1,6 +1,8 @@
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Box, Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material";
 import { DefaultObj, GArea } from "../vars/ConstVars";
 import { Link } from "react-router";
+import { ArtworkPawArea } from "./ArtworkPawArea";
+import { toNormalDate } from "../utils/tools";
 
 export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
     return(
@@ -16,8 +18,14 @@ export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
                         <Typography gutterBottom variant="h5" component="div">
                             { artworkdata.title }
                         </Typography>
+                        <small>{ toNormalDate(artworkdata.time) }</small>
                     </CardContent>
                 </Link>
+                <CardActionArea>
+                    <div className="text-center">
+                        <ArtworkPawArea galleryid={artworkdata.id}/>
+                    </div>
+                </CardActionArea>
             </Card>
         </Box>
     )
