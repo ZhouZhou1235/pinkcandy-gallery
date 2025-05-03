@@ -66,7 +66,7 @@ export function Home(){
                         </div>
                     </div>
                     <div className="col-sm-8">
-                        <div className="row">
+                        <div className="row text-center">
                             { artworkItems }
                         </div>
                     </div>

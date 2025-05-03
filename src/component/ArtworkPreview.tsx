@@ -1,4 +1,4 @@
-import { Box, Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { DefaultObj, GArea } from "../vars/ConstVars";
 import { Link } from "react-router";
 import { ArtworkPawArea } from "./ArtworkPawArea";
@@ -21,11 +21,9 @@ export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
                         <small>{ toNormalDate(artworkdata.time) }</small>
                     </CardContent>
                 </Link>
-                <CardActionArea>
-                    <div className="text-center">
-                        <ArtworkPawArea galleryid={artworkdata.id}/>
-                    </div>
-                </CardActionArea>
+                <div className="text-center">
+                    <ArtworkPawArea galleryid={artworkdata.id}/>
+                </div>
             </Card>
         </Box>
     )

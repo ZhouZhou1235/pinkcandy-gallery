@@ -25,7 +25,12 @@ export function User(){
             });
         }
         else{
-            // ... 访问别兽的小兽空间
+            getRequest(urls.getUser+'/'+username).then(res=>{
+                if(typeof res=='object'){
+                    setUserdata(res)
+                    document.title = PageTitle.user+res.name
+                }
+            });
         }
     },[]);
     return(

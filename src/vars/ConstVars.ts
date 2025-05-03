@@ -1,15 +1,16 @@
 // 全局变量
 
 export const systemAPI = 'http://localhost:3000' // 后端接口
+export const resourcePath = 'http://localhost:3000' // 资源路径 gallery-system.pinkcandy.top
 export const proxyAPI = '/api' // 代理url 解决跨域问题
 
 // 静态固定量
 export const GArea = {
     connectURL: proxyAPI,
-    headimageURL: systemAPI+"/files/headimage/",
-    backimageURL: systemAPI+"/files/backimage/",
-    artworkimageURL: systemAPI+"/files/gallery/",
-    artworkimagePreviewURL: systemAPI+"/files/GalleryPreview/",
+    headimageURL: resourcePath+"/files/headimage/",
+    backimageURL: resourcePath+"/files/backimage/",
+    artworkimageURL: resourcePath+"/files/gallery/",
+    artworkimagePreviewURL: resourcePath+"/files/GalleryPreview/",
     defaultHeadimage: "/images/head.png",
     defaultBackimage: "/images/back.png",
     logoURL: "/images/logo.png",
@@ -61,6 +62,8 @@ export const DefaultObj = {
             sex: '',
             species: '',
         },
+        pawnum: 0,
+        havepaw: false,
     }],
     pawAreaInfo: {
         pawnum: 0,

@@ -1,9 +1,65 @@
-import { Box } from "@mui/material";
+import { Box, Pagination } from "@mui/material";
+import { useEffect, useState } from "react";
+import { getRequest } from "../utils/HttpRequest";
+import { urls } from "../vars/urls";
+import { Spin } from "antd";
+import { GArea } from "../vars/ConstVars";
+import { ArtworkPreview } from "../component/ArtworkPreview";
 
 export function Gallery(){
+    const [galleryPage,setGalleryPage] = useState(1)
+    const [loading,setLoading] = useState(true)
+    const [artworkItems,setArtworkItems] = useState([<span key={1}></span>])
+    function updateGalleryPage(_event:any,value:number){
+        getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}`).then(data=>{
+            if(data!=0){
+                let artworks :any[] = data
+                let theArtworkItems = artworks.map(item=>
+                    <div className="col-sm-3" key={item.id}>
+                        <ArtworkPreview artworkdata={item}/>
+                    </div>
+                )
+                setArtworkItems(theArtworkItems)
+            }
+        })
+    }
+    async function loadData(){
+        let theArtworkItems = [<span key={1}></span>]
+        await getRequest(urls.getArtworks+'?num='+GArea.defaultShowNum).then(x=>{
+            if(typeof x=='object'){
+                let artworks :any[] = x
+                theArtworkItems = artworks.map(item=>
+                    <div className="col-sm-3" key={item.id}>
+                        <ArtworkPreview artworkdata={item}/>
+                    </div>
+                )
+            }
+        })
+        await getRequest(urls.getDBRecordCount+'?table=gallery').then(count=>{
+            let pageNum = Math.floor(count/GArea.defaultShowNum)+1
+            setGalleryPage(pageNum)
+        })
+        setArtworkItems(theArtworkItems)
+        setLoading(false)
+    }
+    useEffect(()=>{
+        loadData()
+    },[])
     return(
-        <Box>
-
-        </Box>
+        <>
+            <Box sx={{mt:2}}>
+                <Spin spinning={loading} fullscreen />
+                <div className="container text-center">
+                    <div className="row">
+                        {artworkItems}
+                    </div>
+                    <div className="position-relative mt-2">
+                        <div className="position-absolute top-0 start-50 translate-middle-x">
+                            <Pagination count={galleryPage} onChange={ updateGalleryPage } color="primary" shape="rounded"/>
+                        </div>
+                    </div>
+                </div>
+            </Box>
+        </>
     )
 }

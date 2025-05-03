@@ -101,7 +101,11 @@ export function About(){
                         <ul className="list-group list-group-flush">
                             { boardItems }
                         </ul>
-                        <Pagination count={boardPage} onChange={ updateBoardPage } />    
+                        <div className="position-relative mt-2">
+                            <div className="position-absolute top-0 start-50 translate-middle-x">
+                                <Pagination count={boardPage} onChange={ updateBoardPage } />    
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
