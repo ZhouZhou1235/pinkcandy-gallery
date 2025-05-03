@@ -42,7 +42,7 @@ function Info(){
                 - 动物<br />
             </p>
             <small>
-                工作邮箱 pinkcandyzhou@qq.com<br />
+                工作邮箱 <a herf='mailto:pinkcandyzhou@qq.com'>pinkcandyzhou@qq.com<a/><br />
                 版权所有 粉糖粒子周周 保留所有权利<br />
                 Copyright © PinkCandyZhou. All rights reserved.<br /> 
             </small>
