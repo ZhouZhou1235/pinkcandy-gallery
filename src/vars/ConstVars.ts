@@ -57,6 +57,7 @@ export const DefaultObj = {
         content: '',
         time: '',
         user: {
+            username: '',
             name: '',
             headimage: '',
             sex: '',
@@ -73,6 +74,12 @@ export const DefaultObj = {
             havepaw: false,
             havestar: false,
         },
+    },
+    userInfoCount: {
+        watchernum: 0,
+        towatchnum: 0,
+        medianum: 0,
+        gotpawnum: 0,
     },
 }
 

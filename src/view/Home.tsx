@@ -7,6 +7,7 @@ import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { toNormalDate } from "../utils/tools";
 import { Spin } from "antd";
+import { Link } from "react-router";
 
 export function Home(){
     const [loading,setLoading] = useState(true)
@@ -29,7 +30,11 @@ export function Home(){
                 homedata.board = boardMessages
                 theBoardItems = homedata.board.map(item=>
                     <div className="list-group-item" key={item.id}>
-                        <strong>{ item.user.name }</strong> { item.content }
+                        <Link to={'/user/'+item.username}>
+                            <strong>{ item.user.name }</strong>
+                        </Link>
+                        &nbsp;
+                        { item.content }
                         <br />
                         <small>{ toNormalDate(item.time) }</small>
                     </div>

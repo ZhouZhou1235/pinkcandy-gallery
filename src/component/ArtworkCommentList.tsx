@@ -6,6 +6,7 @@ import { getRequest, postRequest } from "../utils/HttpRequest"
 import { urls } from "../vars/urls"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPaw } from "@fortawesome/free-solid-svg-icons"
+import { Link } from "react-router"
 
 export function ArtworkCommentList({galleryid=''}){
     const [commentListItems,setCommentListItems] = useState([<span key={1}></span>])
@@ -16,7 +17,9 @@ export function ArtworkCommentList({galleryid=''}){
             <li key={item.id} className="list-group-item">
                 <div className="row">
                     <div className="col-3 text-center">
-                        <img src={GArea.headimageURL+item.user.headimage} alt="headimage" width={50} className="rounded"/>
+                        <Link to={'/user/'+item.user.username}>
+                            <img src={GArea.headimageURL+item.user.headimage} alt="headimage" width={50} className="rounded"/>
+                        </Link>
                     </div>
                     <div className="col-9">
                         <div style={{fontSize:'1.2em'}}>{item.user.name} {Number(item.user.sex)==1?'雄':Number(item.user.sex)==2?'雌':''} {item.user.species}</div>

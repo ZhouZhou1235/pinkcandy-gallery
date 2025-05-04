@@ -12,10 +12,11 @@ export function LoginForm(){
     })
     function login(){
         postRequest(urls.login,loginForm).then(x=>{
-            if(typeof x=='number'){if(x==1){
-                navigate('/')
-                location.reload()
-            }else{console.log('login failed')}}
+                if(typeof x=='number'){if(x==1){
+                    navigate('/')
+                    location.reload()
+                }
+            }
         })
     }
     return(

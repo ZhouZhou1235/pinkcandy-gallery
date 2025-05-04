@@ -5,36 +5,49 @@ import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { UserMenu } from "../component/UserMenu";
 import { useParams } from "react-router-dom";
-import { Avatar } from "antd";
+import { Avatar, Spin } from "antd";
 import { toNormalDate } from "../utils/tools";
+import { UserWatchButton } from "../component/UserWatchButton";
+import { UserInfoCount } from "../component/UserInfoCount";
 
 export function User(){
     const params = useParams()
+    const [loading,setLoading] = useState(true)
     const [userdata,setUserdata] = useState(DefaultObj.userdata)
     const [userMenu,setUserMenu] = useState(<></>)
+    const [watchButton,setWatchButton] = useState(<></>)
+    const [infocountElement,setInfocountElement] = useState(<></>)
     useEffect(()=>{
         document.title = PageTitle.user
-        let username = params.username
-        if(!username){
-            getRequest(urls.getSessionUser).then(res=>{
-                if(typeof res=='object'){
-                    setUserdata(res)
-                    document.title = PageTitle.user+res.name
-                    setUserMenu(<UserMenu />)
-                }
-            });
-        }
-        else{
-            getRequest(urls.getUser+'/'+username).then(res=>{
-                if(typeof res=='object'){
-                    setUserdata(res)
-                    document.title = PageTitle.user+res.name
-                }
-            });
-        }
+        let username = params.username?params.username:'' as any
+        (async ()=>{
+            let theUserdata :any
+            if(!username){
+                await getRequest(urls.getSessionUser).then(res=>{
+                    if(typeof res=='object'){
+                        username = res.username
+                        theUserdata = res
+                        setUserMenu(<UserMenu />)
+                    }
+                });
+            }
+            else{
+                await getRequest(urls.getUser+'/'+username).then(res=>{
+                    if(typeof res=='object'){
+                        theUserdata = res
+                        setWatchButton(<UserWatchButton username={username}/>)
+                    }
+                });
+            }
+            setUserdata(theUserdata)
+            setInfocountElement(<UserInfoCount username={username}/>)
+            document.title = PageTitle.user+theUserdata.name
+            setLoading(false)
+        })()
     },[]);
     return(
         <Box>
+            <Spin spinning={loading} fullscreen />
             <div className="container">
                 {
                     userdata.backimage?
@@ -67,6 +80,8 @@ export function User(){
                                 </h2>
                             </div>
                         </div>
+                        {infocountElement}
+                        {watchButton}
                         <div className="p-2" style={{ whiteSpace:'pre-line' }}>
                             { userdata.info }
                             <br />

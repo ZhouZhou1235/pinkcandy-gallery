@@ -35,4 +35,7 @@ export const urls = {
     pawArtworkMedia: host+'/core/pawArtworkMedia',
     starArtworkMedia: host+'/core/starArtworkMedia',
     getArtworkPawAreaInfo: host+'/core/getArtworkPawAreaInfo',
+    haveWatch: host+'/core/haveWatch',
+    watchUser: host+'/core/watchUser',
+    getUserInfoCount: host+'/core/getUserInfoCount',
 };

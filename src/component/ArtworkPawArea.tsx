@@ -29,14 +29,14 @@ export function ArtworkPawArea({galleryid=''}){
                     onClick={()=>{pawMedia().then(res=>{if(res==1){setHavepaw(!havepaw)}})}}
                     variant={havepaw?'contained':'text'}
                 >
-                    {pawAreaInfo.pawnum}
+                    {pawAreaInfo.pawnum+(()=>{return havepaw?1:0})()}
                 </Button>
                 <Button
                     startIcon={<FontAwesomeIcon icon={faStar}/>}
                     onClick={()=>{starMedia().then(res=>{if(res==1){setHavestar(!havestar)}})}}
                     variant={havestar?'contained':'text'}
                 >
-                    {pawAreaInfo.starnum}
+                    {pawAreaInfo.starnum+(()=>{return havestar?1:0})()}
                 </Button>
                 <Button startIcon={<FontAwesomeIcon icon={faComment}/>} variant="outlined">{pawAreaInfo.commentnum}</Button>
             </ButtonGroup>

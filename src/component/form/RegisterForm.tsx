@@ -32,8 +32,7 @@ export function RegisterForm(){
         setRegisterFieldDisabled(true)
         postRequest(urls.getRegisterCode,registerForm).then(data=>{
             if(typeof data=='number'){
-                if(data==1){console.log(data)}
-                else{
+                if(data==0){
                     setRegisterCodeBtn(false)
                     setRegisterFieldDisabled(false)            
                 }

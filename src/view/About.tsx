@@ -4,6 +4,7 @@ import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { GArea, PageTitle } from "../vars/ConstVars";
 import { toNormalDate } from "../utils/tools";
+import { Link } from "react-router";
 
 function Info(){
     return(
@@ -42,7 +43,7 @@ function Info(){
                 - 动物<br />
             </p>
             <small>
-                工作邮箱 <a herf='mailto:pinkcandyzhou@qq.com'>pinkcandyzhou@qq.com<a/><br />
+                工作邮箱 <a href='mailto:pinkcandyzhou@qq.com'>pinkcandyzhou@qq.com</a><br />
                 版权所有 粉糖粒子周周 保留所有权利<br />
                 Copyright © PinkCandyZhou. All rights reserved.<br /> 
             </small>
@@ -60,7 +61,11 @@ export function About(){
                 let boardMessages :any[] = data
                 let theBoardItems = boardMessages.map(item=>
                     <div className="list-group-item" key={item.id}>
-                        <strong>{ item.user.name }</strong> { item.content }
+                        <Link to={'/user/'+item.username}>
+                            <strong>{ item.user.name }</strong>
+                        </Link>
+                        &nbsp;
+                        { item.content }
                         <br />
                         <small>{ toNormalDate(item.time) }</small>
                     </div>
