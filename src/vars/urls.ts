@@ -38,4 +38,6 @@ export const urls = {
     haveWatch: host+'/core/haveWatch',
     watchUser: host+'/core/watchUser',
     getUserInfoCount: host+'/core/getUserInfoCount',
+    getPlantpots: host+'/core/getPlantpots',
+    getPlantpotComments: host+'/core/getPlantpotComments',
 };

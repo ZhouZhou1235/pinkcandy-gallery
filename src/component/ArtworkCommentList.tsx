@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { DefaultObj, GArea } from "../vars/ConstVars"
-import { Box, Pagination } from "@mui/material"
+import { Box, Grid, Pagination } from "@mui/material"
 import { toNormalDate } from "../utils/tools"
 import { getRequest, postRequest } from "../utils/HttpRequest"
 import { urls } from "../vars/urls"
@@ -63,11 +63,11 @@ export function ArtworkCommentList({galleryid=''}){
                 <ul className="list-group">
                     {commentListItems}
                 </ul>
-                <div className="position-relative mt-2">
-                    <div className="position-absolute top-0 start-50 translate-middle-x">
+                <Grid container spacing={2} minHeight={50}>
+                    <Grid display="flex" justifyContent="center" alignItems="center">
                         <Pagination count={commentPage} onChange={ updateCommentPage } />
-                    </div>
-                </div>
+                    </Grid>
+                </Grid>
             </Box>
         </>
     )

@@ -22,9 +22,9 @@ export function UserPreview({userdata=DefaultObj.userdata}){
                     } alt="headimage" />
                 } />
             </Link>
-            <div style={{fontSize:'2em'}}>
+            <div style={{fontSize:'1.5em'}}>
                 { userdata.name }
-                &nbsp;
+                <br />
                 { Number(userdata.sex)==1?'雄':Number(userdata.sex)==2?'雌':'' }
                 &nbsp;
                 { userdata.species?userdata.species:'' }

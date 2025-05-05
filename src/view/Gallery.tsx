@@ -1,10 +1,11 @@
-import { Box, Pagination } from "@mui/material";
+import { Box, Grid, Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { Spin } from "antd";
-import { GArea } from "../vars/ConstVars";
+import { GArea, PageTitle } from "../vars/ConstVars";
 import { ArtworkPreview } from "../component/ArtworkPreview";
+import { Footer } from "../component/Footer";
 
 export function Gallery(){
     const [galleryPage,setGalleryPage] = useState(1)
@@ -43,6 +44,7 @@ export function Gallery(){
         setLoading(false)
     }
     useEffect(()=>{
+        document.title = PageTitle.gallery
         loadData()
     },[])
     return(
@@ -53,13 +55,14 @@ export function Gallery(){
                     <div className="row">
                         {artworkItems}
                     </div>
-                    <div className="position-relative mt-2">
-                        <div className="position-absolute top-0 start-50 translate-middle-x">
+                    <Grid container spacing={2} minHeight={50}>
+                        <Grid display="flex" justifyContent="center" alignItems="center">
                             <Pagination count={galleryPage} onChange={ updateGalleryPage } color="primary" shape="rounded"/>
-                        </div>
-                    </div>
+                        </Grid>
+                    </Grid>
                 </div>
             </Box>
+            <Footer />
         </>
     )
 }

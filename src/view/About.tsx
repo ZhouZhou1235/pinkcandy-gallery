@@ -1,4 +1,4 @@
-import { Box, Pagination } from "@mui/material";
+import { Box, Grid, Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
@@ -85,7 +85,11 @@ export function About(){
                 let boardMessages :any[] = data
                 let theBoardItems = boardMessages.map(item=>
                     <div className="list-group-item" key={item.id}>
-                        <strong>{ item.user.name }</strong> { item.content }
+                        <Link to={'/user/'+item.username}>
+                            <strong>{ item.user.name }</strong>
+                        </Link>
+                        &nbsp;
+                        { item.content }
                         <br />
                         <small>{ toNormalDate(item.time) }</small>
                     </div>
@@ -106,11 +110,11 @@ export function About(){
                         <ul className="list-group list-group-flush">
                             { boardItems }
                         </ul>
-                        <div className="position-relative mt-2">
-                            <div className="position-absolute top-0 start-50 translate-middle-x">
+                        <Grid container spacing={2} minHeight={50}>
+                            <Grid display="flex" justifyContent="center" alignItems="center">
                                 <Pagination count={boardPage} onChange={ updateBoardPage } />    
-                            </div>
-                        </div>
+                            </Grid>
+                        </Grid>
                     </div>
                 </div>
             </div>

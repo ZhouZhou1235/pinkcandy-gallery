@@ -11,6 +11,7 @@ export const GArea = {
     backimageURL: resourcePath+"/files/backimage/",
     artworkimageURL: resourcePath+"/files/gallery/",
     artworkimagePreviewURL: resourcePath+"/files/GalleryPreview/",
+    plantpotimageURL: resourcePath+"/files/garden/",
     defaultHeadimage: "/images/head.png",
     defaultBackimage: "/images/back.png",
     logoURL: "/images/logo.png",
@@ -43,6 +44,15 @@ export const DefaultObj = {
         topInfo: '',
         board: Array(),
         artworks: Array(),
+        firstPlantpot: {
+            id: '',
+            username: '',
+            filename: '',
+            title: '',
+            content: '',
+            createtime: '',
+            updatetime: '',
+        },
     },
     tagArray: [{
         id: '',
@@ -81,6 +91,37 @@ export const DefaultObj = {
         medianum: 0,
         gotpawnum: 0,
     },
+    plantpotCommentArray: [{
+        id: '',
+        gardenid: '',
+        username: '',
+        content: '',
+        filename: '',
+        time: '',
+        user: {
+            username: '',
+            name: '',
+            headimage: '',
+            sex: '',
+            species: '',
+        },
+        pawnum: 0,
+        havepaw: false,
+        reply: [{
+            id: '',
+            commentid: '',
+            username: '',
+            content: '',
+            time: '',
+            user: {
+                username: '',
+                name: '',
+                headimage: '',
+                sex: '',
+                species: '',
+            },
+        }],
+    }],
 }
 
 // 页面标题
@@ -92,4 +133,5 @@ export const PageTitle = {
     login: '幻想动物画廊 - 登录',
     notFound: '幻想动物画廊 - 404',
     user: '【小兽空间】',
+    gallery: '幻想动物画廊 - 画廊大厅',
 }
