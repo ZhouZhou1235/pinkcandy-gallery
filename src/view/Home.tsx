@@ -8,6 +8,8 @@ import { urls } from "../vars/urls";
 import { toNormalDate } from "../utils/tools";
 import { Spin } from "antd";
 import { Link } from "react-router";
+import { PlantpotPreview } from "../component/PlantpotPreview";
+import { PlantpotCommentList } from "../component/PlantpotCommentList";
 
 export function Home(){
     const [loading,setLoading] = useState(true)
@@ -55,77 +57,12 @@ export function Home(){
                     let plantpot = plantpots[0]
                     homedata.firstPlantpot = plantpot
                     let item = homedata.firstPlantpot
-                    let commentArray = DefaultObj.plantpotCommentArray
-                    await getRequest(urls.getPlantpotComments+`?id=${item.id}&num=${GArea.defaultShowNum}`).then(data=>{
-                        if(data!=0){commentArray=data}
-                        theFirstPlantpot = (
-                            <>
-                                <Card sx={{ mt: 2 }}>
-                                    {
-                                        item.filename
-                                        ?
-                                        <CardMedia
-                                            sx={{ height: 300 }}
-                                            image={ GArea.plantpotimageURL+item.filename }
-                                            title="artworkimage"
-                                        />
-                                        :
-                                        null
-                                    }
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="div">
-                                            {item.title}
-                                        </Typography>
-                                        <p style={{whiteSpace:'pre-line'}}>
-                                            {item.content}
-                                        </p>
-                                        <small>{toNormalDate(item.createtime)} 创建</small>
-                                        {
-                                            commentArray.length>0
-                                            ?
-                                            <Box sx={{mt:2}}>
-                                                <div className="row">
-                                                    <div className="col-8">
-                                                        <Link to={'/user/'+item.username}>
-                                                            <img
-                                                                src = {
-                                                                        commentArray[0].user.headimage
-                                                                        ?
-                                                                        GArea.headimageURL+commentArray[0].user.headimage
-                                                                        :
-                                                                        GArea.defaultHeadimage
-                                                                    }
-                                                                alt="headimage"
-                                                                width={64}
-                                                                height={64}
-                                                            />
-                                                        </Link>
-                                                        <br />
-                                                        <strong>{commentArray[0].user.name}</strong>
-                                                        <br />
-                                                        {commentArray[0].content}
-                                                        <br />
-                                                        <small>{toNormalDate(commentArray[0].time)}</small>
-                                                    </div>
-                                                    <div className="col-4">
-                                                        {
-                                                            commentArray[0].filename
-                                                            ?
-                                                            <img src={GArea.plantpotimageURL+commentArray[0].filename} alt="commentimage" width={'100%'} />
-                                                            :
-                                                            null
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </Box>
-                                            :
-                                            null
-                                        }
-                                    </CardContent>
-                                </Card>
-                            </>
-                        )
-                    })
+                    theFirstPlantpot = (
+                        <>
+                            <PlantpotPreview plantpotdata={item}/>
+                            <PlantpotCommentList gardenid={item.id}/>
+                        </>
+                    )
                 }
             }
         })
@@ -147,14 +84,14 @@ export function Home(){
                     <div className="col-sm-3">
                         <div className="container" dangerouslySetInnerHTML={{__html:homedata.topInfo}} />
                         <div className="container moblieHideBox">
-                            { firstPlantpot }
+                            <ul className="list-group list-group-flush">
+                                { boardItems }
+                            </ul>
                         </div>
                     </div>
                     <div className="col-sm-3">
                         <div className="container moblieHideBox">
-                            <ul className="list-group list-group-flush">
-                                { boardItems }
-                            </ul>
+                            { firstPlantpot }
                         </div>
                     </div>
                     <div className="col-sm-6">

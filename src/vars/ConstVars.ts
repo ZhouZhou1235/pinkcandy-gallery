@@ -16,6 +16,8 @@ export const GArea = {
     defaultBackimage: "/images/back.png",
     logoURL: "/images/logo.png",
     image404URL: "/images/image404.png",
+    GalleryPageview: '/images/GalleryPageview.png',
+    BaiBaiAndZhouZhou: '/images/BaiBaiAndZhouZhou.png',
     defaultShowNum: 12,
     defaultGetNum: 20,
 }
@@ -122,6 +124,15 @@ export const DefaultObj = {
             },
         }],
     }],
+    plantpotdata: {
+        id: '',
+        username: '',
+        filename: '',
+        title: '',
+        content: '',
+        createtime: '',
+        updatetime: '',
+    },
 }
 
 // 页面标题

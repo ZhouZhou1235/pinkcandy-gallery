@@ -9,6 +9,7 @@ import { Link } from "react-router";
 function Info(){
     return(
         <>
+            <img src={GArea.GalleryPageview} alt="gallerypageview" width={'100%'}/>
             <h1>幻想动物画廊</h1>
             <p>
                 粉糖 PINKCANDY<br />
@@ -115,6 +116,7 @@ export function About(){
                                 <Pagination count={boardPage} onChange={ updateBoardPage } />    
                             </Grid>
                         </Grid>
+                        <img src={GArea.BaiBaiAndZhouZhou} alt="baibaiandzhouzhou" width={'100%'}/>
                     </div>
                 </div>
             </div>

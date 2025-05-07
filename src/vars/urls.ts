@@ -40,4 +40,9 @@ export const urls = {
     getUserInfoCount: host+'/core/getUserInfoCount',
     getPlantpots: host+'/core/getPlantpots',
     getPlantpotComments: host+'/core/getPlantpotComments',
+    getCommentGardenCount: host+'/core/getCommentGardenCount',
+    pawPlantpotMedia: host+'/core/pawPlantpotMedia',
+    sendPlantpotCommentReply: host+'/core/sendPlantpotCommentReply',
+    starPlantpotMedia: host+'/core/starPlantpotMedia',
+    getPlantpotPawAreaInfo: host+'/core/getPlantpotPawAreaInfo',
 };
