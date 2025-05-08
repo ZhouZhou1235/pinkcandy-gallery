@@ -13,6 +13,7 @@ import { Gallery } from "./view/Gallery"
 import { Garden } from "./view/Garden"
 import { Tag } from "./view/Tag"
 import { Search } from "./view/Search"
+import { Plantpot } from "./view/Plantpot"
 
 function App(){
     return(
@@ -36,6 +37,7 @@ function App(){
                         <Route path="/garden" element={<Garden />} />
                         <Route path="/tag" element={<Tag />} />
                         <Route path="/search" element={<Search />} />
+                        <Route path="/plantpot/:id" element={<Plantpot />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>

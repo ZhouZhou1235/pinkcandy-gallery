@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { Footer } from "../component/Footer";
 import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
 import { ArtworkPreview } from "../component/ArtworkPreview";
@@ -9,18 +9,17 @@ import { toNormalDate } from "../utils/tools";
 import { Spin } from "antd";
 import { Link } from "react-router";
 import { PlantpotPreview } from "../component/PlantpotPreview";
-import { PlantpotCommentList } from "../component/PlantpotCommentList";
 
 export function Home(){
     const [loading,setLoading] = useState(true)
     const [homedata,setHomedata] = useState(DefaultObj.homedata)
     const [boardItems,setBoardItems] = useState([<span key={1}></span>])
     const [artworkItems,setArtworkItems] = useState([<span key={1}></span>])
-    const [firstPlantpot,setFirstPlantpot] = useState(<></>)
+    const [plantpotItems,setPlantpotItems] = useState([<span key={1}></span>])
     async function loadHomeData(){
         let theBoardItems = [<span key={1}></span>]
         let theArtworkItems = [<span key={1}></span>]
-        let theFirstPlantpot = <></>
+        let thePlantpotItems = [<span key={1}></span>]
         await getRequest(urls.getTopInfo).then(x=>{if(typeof x=='string'){homedata.topInfo=x}})
         await getRequest(urls.getBoradMessages+'?num='+GArea.defaultShowNum).then(x=>{
             if(typeof x=='object'){
@@ -44,32 +43,27 @@ export function Home(){
                 let artworks :any[] = x
                 homedata.artworks = artworks
                 theArtworkItems = homedata.artworks.map(item=>
-                    <div className="col-sm-3" key={item.id}>
+                    <div className="col-sm-3 p-2" key={item.id}>
                         <ArtworkPreview artworkdata={item}/>
                     </div>
                 )
             }
         })
-        await getRequest(urls.getPlantpots).then(async x=>{
+        await getRequest(urls.getPlantpots+'?num='+Math.floor(GArea.defaultShowNum/2)).then(x=>{
             if(typeof x=='object'){
                 let plantpots :any[] = x
-                if(plantpots.length>0){
-                    let plantpot = plantpots[0]
-                    homedata.firstPlantpot = plantpot
-                    let item = homedata.firstPlantpot
-                    theFirstPlantpot = (
-                        <>
-                            <PlantpotPreview plantpotdata={item}/>
-                            <PlantpotCommentList gardenid={item.id}/>
-                        </>
-                    )
-                }
+                homedata.plantpots = plantpots
+                thePlantpotItems = homedata.plantpots.map(item=>
+                    <div className="p-2" key={item.id}>
+                        <PlantpotPreview plantpotdata={item}/>
+                    </div>
+                )
             }
         })
         setHomedata(homedata)
         setBoardItems(theBoardItems)
         setArtworkItems(theArtworkItems)
-        setFirstPlantpot(theFirstPlantpot)
+        setPlantpotItems(thePlantpotItems)
         setLoading(false)
     }
     useEffect(()=>{
@@ -81,21 +75,21 @@ export function Home(){
             <Spin spinning={loading} fullscreen />
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-sm-3">
-                        <div className="container" dangerouslySetInnerHTML={{__html:homedata.topInfo}} />
-                        <div className="container moblieHideBox">
+                    <div className="col-sm-3 p-2">
+                        <div dangerouslySetInnerHTML={{__html:homedata.topInfo}} />
+                        <div className="moblieHideBox">
                             <ul className="list-group list-group-flush">
                                 { boardItems }
                             </ul>
                         </div>
                     </div>
                     <div className="col-sm-3">
-                        <div className="container moblieHideBox">
-                            { firstPlantpot }
+                        <div className="moblieHideBox">
+                            { plantpotItems }
                         </div>
                     </div>
                     <div className="col-sm-6">
-                        <div className="row text-center">
+                        <div className="row">
                             { artworkItems }
                         </div>
                     </div>

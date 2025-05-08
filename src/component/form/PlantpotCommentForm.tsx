@@ -1,20 +1,20 @@
-import { Button, Textarea } from "@mui/joy"
-import { Box, Snackbar } from "@mui/material"
-import { useState } from "react"
-import { postRequest } from "../../utils/HttpRequest"
-import { urls } from "../../vars/urls"
+import { Box, Button, Textarea } from "@mui/joy";
+import { useState } from "react";
+import { postRequest } from "../../utils/HttpRequest";
+import { urls } from "../../vars/urls";
+import { Snackbar } from "@mui/material";
 
-export function PlantpotCommentReplyForm({commentid=''}){
+export function PlantpotCommentForm({gardenid=''}){
     const [snackbarMessage,setSnackbarMessage] = useState('')
     const [snackbarOpen,setSnackbarOpen] = useState(false)
-    const [commentForm,setCommentForm] = useState({content: '',id:commentid})
+    const [commentForm,setCommentForm] = useState({content: '',id:gardenid})
     function closeSnackbar(){setSnackbarOpen(false);setSnackbarMessage('')}
-    function sendPlantpotCommentReply(){
-        postRequest(urls.sendPlantpotCommentReply,commentForm).then(res=>{
+    function sendCommentPlantpot(){
+        postRequest(urls.sendCommentPlantpot,commentForm).then(res=>{
             if(res==1){
                 commentForm.content = ''
                 setCommentForm(commentForm)
-                setSnackbarMessage('已贴叶纸条')
+                setSnackbarMessage('已生长叶子')
                 setSnackbarOpen(true)
             }
         })
@@ -30,21 +30,21 @@ export function PlantpotCommentReplyForm({commentid=''}){
                 />
             </span>
             <Textarea
-                placeholder="贴叶纸条......"
+                placeholder="生长叶子......"
                 onChange={(e)=>{
                     commentForm.content = e.target.value
                     setCommentForm(commentForm)
                 }}
-                minRows={2}
-                maxRows={4}
+                minRows={4}
+                maxRows={8}
                 startDecorator={
                     <Box sx={{ display:'flex',gap:0.5,flex:1 }}>
-                        叶纸条
+                        叶子
                     </Box>
                 }
                 endDecorator={
-                    <Button variant="outlined" sx={{ ml: 'auto' }} onClick={sendPlantpotCommentReply}>
-                        发送
+                    <Button variant="outlined" sx={{ ml: 'auto' }} onClick={sendCommentPlantpot}>
+                        生长
                     </Button>
                 }
                 sx={{ mt: 2 }}

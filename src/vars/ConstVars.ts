@@ -46,15 +46,7 @@ export const DefaultObj = {
         topInfo: '',
         board: Array(),
         artworks: Array(),
-        firstPlantpot: {
-            id: '',
-            username: '',
-            filename: '',
-            title: '',
-            content: '',
-            createtime: '',
-            updatetime: '',
-        },
+        plantpots: Array(),
     },
     tagArray: [{
         id: '',
@@ -145,4 +137,6 @@ export const PageTitle = {
     notFound: '幻想动物画廊 - 404',
     user: '【小兽空间】',
     gallery: '幻想动物画廊 - 画廊大厅',
+    garden: '幻想动物画廊 - 花园',
+    plantpot: '【盆栽】',
 }

@@ -6,6 +6,7 @@ import { Spin } from "antd";
 import { GArea, PageTitle } from "../vars/ConstVars";
 import { ArtworkPreview } from "../component/ArtworkPreview";
 import { Footer } from "../component/Footer";
+import { Masonry } from "@mui/lab";
 
 export function Gallery(){
     const [galleryPage,setGalleryPage] = useState(1)
@@ -30,7 +31,7 @@ export function Gallery(){
             if(typeof x=='object'){
                 let artworks :any[] = x
                 theArtworkItems = artworks.map(item=>
-                    <div className="col-sm-3" key={item.id}>
+                    <div className="col-sm-3 p-2" key={item.id}>
                         <ArtworkPreview artworkdata={item}/>
                     </div>
                 )
@@ -49,9 +50,9 @@ export function Gallery(){
     },[])
     return(
         <>
+            <Spin spinning={loading} fullscreen />
             <Box sx={{mt:2}}>
-                <Spin spinning={loading} fullscreen />
-                <div className="container text-center">
+                <div className="container">
                     <div className="row">
                         {artworkItems}
                     </div>

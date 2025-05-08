@@ -1,35 +1,50 @@
-import { Avatar } from "antd";
 import { DefaultObj, GArea } from "../vars/ConstVars";
 import { Link } from "react-router";
 import { UserWatchButton } from "./UserWatchButton";
 import { useEffect, useState } from "react";
+import { getRequest } from "../utils/HttpRequest";
+import { urls } from "../vars/urls";
 
-export function UserPreview({userdata=DefaultObj.userdata}){
+export function UserPreview({username=''}){
     const [watchButton,setWatchButton] = useState(<></>)
+    const [userdata,setUserdata] = useState(DefaultObj.userdata)
     useEffect(()=>{
-        if(userdata.username){setWatchButton(<UserWatchButton username={userdata.username}/>)}
-    },[userdata])
+        getRequest(urls.getUser+'/'+username).then(data=>{
+            if(data!=0){
+                setUserdata(data)
+                setWatchButton(<UserWatchButton username={data.username}/>)
+            }
+        })
+    },[])
     return(
-        <>
-            <Link to={'/user/'+userdata.username}>
-                <Avatar shape="square" size={64} icon={
-                    <img src={
-                        userdata.headimage
-                        ?
-                        GArea.headimageURL+userdata.headimage
-                        :
-                        GArea.defaultHeadimage
-                    } alt="headimage" />
-                } />
-            </Link>
-            <div style={{fontSize:'1.5em'}}>
-                { userdata.name }
-                <br />
-                { Number(userdata.sex)==1?'雄':Number(userdata.sex)==2?'雌':'' }
-                &nbsp;
-                { userdata.species?userdata.species:'' }
+        <div className="row text-center">
+            <div className="col-sm-4">
+                <Link to={'/user/'+userdata.username}>
+                    <img
+                        alt="headimage"
+                        width={'75'}
+                        className="rounded"
+                        src={
+                            userdata.headimage
+                            ?
+                            GArea.headimageURL+userdata.headimage
+                            :
+                            GArea.defaultHeadimage
+                        }
+                    />
+                </Link>
             </div>
-            {watchButton}
-        </>
+            <div className="col-sm-8">
+                <div style={{fontSize:'1.5em'}}>
+                    { userdata.name }
+                </div>
+                <div>
+                    { Number(userdata.sex)==1?'雄':Number(userdata.sex)==2?'雌':'' }
+                    &nbsp;
+                    { userdata.species?userdata.species:'' }
+                    {watchButton}
+                </div>
+            </div>
+        </div>
     )
 }

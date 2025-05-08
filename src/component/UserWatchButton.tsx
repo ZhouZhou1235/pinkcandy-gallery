@@ -1,6 +1,6 @@
 import { faShieldDog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, FormControl } from "@mui/material";
+import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { postRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
@@ -15,17 +15,13 @@ export function UserWatchButton({username=''}){
         })
     },[])
     return(
-        <>
-            <FormControl fullWidth>
-                <Button
-                    color='secondary'
-                    onClick={()=>{watchUser().then(res=>{if(res==1){setHaveWatch(!haveWatch)}})}}
-                    variant={haveWatch?'contained':'text'}
-                    startIcon={<FontAwesomeIcon icon={faShieldDog} />}
-                >
-                    {!haveWatch?'关注':'已关注'}
-                </Button>
-            </FormControl>
-        </>
+        <Button
+            color='secondary'
+            onClick={()=>{watchUser().then(res=>{if(res==1){setHaveWatch(!haveWatch)}})}}
+            variant={haveWatch?'contained':'text'}
+            startIcon={<FontAwesomeIcon icon={faShieldDog} />}
+        >
+            {!haveWatch?'关注':'已关注'}
+        </Button>
     )
 }

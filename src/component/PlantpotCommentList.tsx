@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPaw } from "@fortawesome/free-solid-svg-icons"
 import { Link } from "react-router"
 import { PlantpotCommentReplyForm } from "./form/PlantpotCommentReplyForm"
+import { Image } from 'antd'
 
 export function PlantpotCommentList({gardenid=''}){
     const [commentListItems,setCommentListItems] = useState([<span key={1}></span>])
@@ -39,7 +40,7 @@ export function PlantpotCommentList({gardenid=''}){
                         {
                             item.filename
                             ?
-                            <img src={GArea.plantpotimageURL+item.filename} alt="commentimage" width={'100%'}/>
+                            <Image src={GArea.plantpotimageURL+item.filename} alt="commentimage" width={'100%'}/>
                             :
                             null
                         }

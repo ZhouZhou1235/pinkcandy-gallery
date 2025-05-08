@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, FormControl } from "@mui/material";
 import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
@@ -61,15 +61,18 @@ export function User(){
                     <div className="col-sm-4">
                         <div className="row p-2">
                             <div className="col-3 d-flex align-items-center justify-content-center">
-                                <Avatar shape="square" size={75} icon={
-                                    <img src={
+                                <Avatar
+                                    shape="square"
+                                    size={75}
+                                    alt="headimage"
+                                    src={
                                         userdata.headimage
                                         ?
                                         GArea.headimageURL+userdata.headimage
                                         :
                                         GArea.defaultHeadimage
-                                    } alt="headimage" />
-                                } />
+                                    }
+                                />
                             </div>
                             <div className="col-9">
                                 <h1>{ userdata.name }</h1>
@@ -81,7 +84,7 @@ export function User(){
                             </div>
                         </div>
                         {infocountElement}
-                        {watchButton}
+                        <FormControl fullWidth>{watchButton}</FormControl>
                         <div className="p-2" style={{ whiteSpace:'pre-line' }}>
                             { userdata.info }
                             <br />

@@ -8,33 +8,38 @@ import { Image, Spin } from "antd";
 import { toNormalDate } from "../utils/tools";
 import { UserPreview } from "../component/UserPreview";
 import { TagList } from "../component/TagList";
-import { ArtworkCommentForm } from "../component/form/ArtworkCommentForm";
-import { ArtworkCommentList } from "../component/ArtworkCommentList";
-import { ArtworkPawArea } from "../component/ArtworkPawArea";
+import { PlantpotCommentList } from "../component/PlantpotCommentList";
+import { PlantpotCommentForm } from "../component/form/PlantpotCommentForm";
+import { PlantpotPawArea } from "../component/PlantpotPawArea";
 
-export function Artwork(){
+export function Plantpot(){
     const params = useParams()
     const [loading,setLoading] = useState(true)
-    const [artworkdata,setArtworkdata] = useState(DefaultObj.artworkdata)
-    const [artworktagList,setArtworktagList] = useState(<></>)
+    const [plantpotdata,setPlantpotdata] = useState(DefaultObj.plantpotdata)
+    const [plantpotTagList,setPlantpotTagList] = useState(<></>)
     const [userpreviewElement,setUserpreviewElement] = useState(<></>)
     const [commentFormElement,setCommentFormElement] = useState(<></>)
     const [commentListElement,setCommentListElement] = useState(<></>)
     const [pawAreaElement,setPawAreaElement] = useState(<></>)
     useEffect(()=>{
-        document.title = PageTitle.artwork
+        document.title = PageTitle.plantpot
         let id = params.id
-        setCommentFormElement(<ArtworkCommentForm galleryid={id}/>)
-        setCommentListElement(<ArtworkCommentList galleryid={id}/>)
-        setPawAreaElement(<ArtworkPawArea galleryid={id}/>)
-        getRequest(urls.getArtwork+'?id='+id).then(data=>{
+        setCommentFormElement(<PlantpotCommentForm gardenid={id}/>)
+        setCommentListElement(<PlantpotCommentList gardenid={id}/>)
+        setPawAreaElement(<PlantpotPawArea gardenid={id}/>)
+        getRequest(urls.getPlantpot+'?id='+id).then(data=>{
             if(typeof data=='object'){
-                setArtworkdata(data)
+                setPlantpotdata(data)
                 setUserpreviewElement(<UserPreview username={data.username}/>)
-                document.title = PageTitle.artwork+data.title
-                getRequest(urls.getTagsArtwork+'/'+id).then(data=>{
+                document.title = PageTitle.plantpot+data.title
+                // getRequest(urls.getUser+'/'+data.username).then(data=>{
+                //     if(typeof data=='object'){
+                //         setMasterdata(data)
+                //     }
+                // })
+                getRequest(urls.getTagsPlantpot+'/'+id).then(data=>{
                     if(data!=0){
-                        setArtworktagList(<TagList tagArray={data}/>)
+                        setPlantpotTagList(<TagList tagArray={data}/>)
                     }
                 })
             }
@@ -46,19 +51,27 @@ export function Artwork(){
             <Spin spinning={loading} fullscreen />
             <div className="container">
                 <div className="row">
-                    <div className="col-sm-8">
+                    <div className="col-sm-6">
                         <Card sx={{ mt: 2 }}>
-                            <div style={{ textAlign:'center' }} className="p-2">
-                                <Image src={ GArea.artworkimageURL+artworkdata.filename } height={'50vh'}/>
-                            </div>
+                            {
+                                plantpotdata.filename
+                                ?
+                                <div style={{ textAlign:'center' }} className="p-2">
+                                    <Image src={ GArea.plantpotimageURL+plantpotdata.filename } height={'50vh'}/>
+                                </div>
+                                :
+                                null
+                            }
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
-                                    { artworkdata.title }
+                                    { plantpotdata.title }
                                 </Typography>
-                                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                    { artworkdata.info }
-                                </Typography>
-                                <small>{ toNormalDate(artworkdata.time) }</small>
+                                <p style={{whiteSpace:'pre-line'}}>
+                                    { plantpotdata.content }
+                                </p>
+                                <small>{ toNormalDate(plantpotdata.createtime) } 创建</small>
+                                <br />
+                                <small>{ toNormalDate(plantpotdata.updatetime) } 更新</small>
                                 <Box sx={{mt: 2}}>
                                     <div className="row">
                                         <div className="col-sm-6">
@@ -66,14 +79,14 @@ export function Artwork(){
                                         </div>
                                         <div className="col-sm-6 text-center">
                                             {pawAreaElement}
-                                            {artworktagList}
+                                            {plantpotTagList}
                                         </div>
                                     </div>
                                 </Box>
                             </CardContent>
                         </Card>
                     </div>
-                    <div className="col-sm-4">
+                    <div className="col-sm-6">
                         {commentFormElement}
                         {commentListElement}
                     </div>

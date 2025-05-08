@@ -47,7 +47,7 @@ export function ArtworkCommentForm({galleryid=''}){
                         发送
                     </Button>
                 }
-                sx={{ minWidth: 300,mt: 2 }}
+                sx={{ mt: 2 }}
             />
         </>
     )

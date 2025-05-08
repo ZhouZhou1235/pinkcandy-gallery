@@ -6,20 +6,22 @@ import { toNormalDate } from "../utils/tools";
 
 export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
     return(
-        <Card sx={{ mt: 2 }}>
+        <Card>
+            <Link to={'/artwork/'+artworkdata.id}>
+                <CardMedia
+                    sx={{ height: 250 }}
+                    image={ GArea.artworkimagePreviewURL+artworkdata.filename }
+                    title="artworkimage"
+                />
+            </Link>
+            <CardContent>
                 <Link to={'/artwork/'+artworkdata.id}>
-                    <CardMedia
-                        sx={{ height: 200 }}
-                        image={ GArea.artworkimagePreviewURL+artworkdata.filename }
-                        title="artworkimage"
-                    />
-                </Link>
-                <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
                         { artworkdata.title }
                     </Typography>
-                    <small>{ toNormalDate(artworkdata.time) }</small>
-                </CardContent>
+                </Link>
+                <small>{ toNormalDate(artworkdata.time) }</small>
+            </CardContent>
             <div className="text-center">
                 <ArtworkPawArea galleryid={artworkdata.id}/>
             </div>
