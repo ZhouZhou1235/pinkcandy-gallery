@@ -80,7 +80,7 @@ export function PlantpotCommentList({gardenid=''}){
     }
     useEffect(()=>{
         getRequest(urls.getCommentGardenCount+'?id='+gardenid).then(count=>{
-            let pageNum = Math.floor(count/Math.floor(GArea.defaultShowNum))+1
+            let pageNum = Math.round(count/Math.floor(GArea.defaultShowNum))+1
             setCommentPage(pageNum)
         })
         getRequest(urls.getPlantpotComments+`?id=${gardenid}&num=${Math.floor(GArea.defaultShowNum)}`).then(data=>{

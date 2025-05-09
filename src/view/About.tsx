@@ -75,7 +75,7 @@ export function About(){
             }
         })
         getRequest(urls.getDBRecordCount+'?table=board').then(count=>{
-            let pageNum = Math.floor(count/GArea.defaultShowNum)+1
+            let pageNum = Math.round(count/GArea.defaultShowNum)+1
             setBoardPage(pageNum)
         })
     },[])

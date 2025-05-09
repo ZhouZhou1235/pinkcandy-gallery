@@ -6,7 +6,6 @@ import { Spin } from "antd";
 import { GArea, PageTitle } from "../vars/ConstVars";
 import { ArtworkPreview } from "../component/ArtworkPreview";
 import { Footer } from "../component/Footer";
-import { Masonry } from "@mui/lab";
 
 export function Gallery(){
     const [galleryPage,setGalleryPage] = useState(1)
@@ -38,7 +37,7 @@ export function Gallery(){
             }
         })
         await getRequest(urls.getDBRecordCount+'?table=gallery').then(count=>{
-            let pageNum = Math.floor(count/GArea.defaultShowNum)+1
+            let pageNum = Math.round(count/GArea.defaultShowNum)+1
             setGalleryPage(pageNum)
         })
         setArtworkItems(theArtworkItems)

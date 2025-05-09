@@ -73,7 +73,7 @@ export function RegisterForm(){
                 setRegisterForm(registerForm)
                 if(meetRegisterRequirement()){setRegisterCodeBtn(false)}else{setRegisterCodeBtn(true)}
             }} />
-            <TextField fullWidth label="验证码" variant="outlined" sx={{mt:2}} onChange={e=>{
+            <TextField fullWidth label="验证码" variant="outlined" disabled={ !registerFieldDisabled } sx={{mt:2}} onChange={e=>{
                 let theCode = e.target.value
                 registerForm.code = theCode
                 setRegisterForm(registerForm)

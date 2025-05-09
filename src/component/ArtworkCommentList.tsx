@@ -48,7 +48,7 @@ export function ArtworkCommentList({galleryid=''}){
     }
     useEffect(()=>{
         getRequest(urls.getCommentGalleryCount+'?id='+galleryid).then(count=>{
-            let pageNum = Math.floor(count/Math.floor(GArea.defaultShowNum/2))+1
+            let pageNum = Math.round(count/Math.floor(GArea.defaultShowNum/2))+1
             setCommentPage(pageNum)
         })
         getRequest(urls.getArtworkComments+`?id=${galleryid}&num=${Math.floor(GArea.defaultShowNum/2)}`).then(data=>{

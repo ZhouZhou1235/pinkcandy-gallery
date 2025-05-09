@@ -15,9 +15,11 @@ export function PlantpotPreview({plantpotdata=DefaultObj.plantpotdata}){
                                 { plantpotdata.title }
                             </Typography>
                         </Link>
+                        <p className="TextPreviewBox">{ plantpotdata.content }</p>
                         <small>{ toNormalDate(plantpotdata.createtime) } 创建</small>
                         <br />
                         <small>{ toNormalDate(plantpotdata.updatetime) } 更新</small>
+                        <br />
                         <PlantpotPawArea gardenid={plantpotdata.id} />
                     </div>
                     {

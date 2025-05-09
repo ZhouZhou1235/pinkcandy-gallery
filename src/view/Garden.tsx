@@ -45,7 +45,7 @@ export function Garden(){
             }
         })
         await getRequest(urls.getDBRecordCount+'?table=garden').then(count=>{
-            let pageNum = Math.floor(count/GArea.defaultShowNum)+1
+            let pageNum = Math.round(count/GArea.defaultShowNum)+1
             setGardenPage(pageNum)
         })
         setPlantpotItems(thePlantpotItems)

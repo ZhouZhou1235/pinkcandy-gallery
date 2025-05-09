@@ -23,7 +23,7 @@ export function UserInfoCount({username=''}){
                     {infocount.towatchnum}
                 </Button>
                 <Button startIcon={<FontAwesomeIcon icon={faPalette} />}>
-                    {infocount.medianum}
+                    {infocount.artworknum}
                 </Button>
                 <Button startIcon={<FontAwesomeIcon icon={faPaw} />}>
                     {infocount.gotpawnum}

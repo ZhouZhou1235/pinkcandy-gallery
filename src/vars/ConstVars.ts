@@ -82,7 +82,8 @@ export const DefaultObj = {
     userInfoCount: {
         watchernum: 0,
         towatchnum: 0,
-        medianum: 0,
+        artworknum: 0,
+        plantpotnum: 0,
         gotpawnum: 0,
     },
     plantpotCommentArray: [{
@@ -125,6 +126,19 @@ export const DefaultObj = {
         createtime: '',
         updatetime: '',
     },
+    userwatchArray: [{
+        id: '',
+        username: '',
+        watcher: '',
+        time: '',
+        user: {
+            username: '',
+            name: '',
+            headimage: '',
+            sex: '',
+            species: '',
+        },
+    }],
 }
 
 // 页面标题
@@ -139,4 +153,5 @@ export const PageTitle = {
     gallery: '幻想动物画廊 - 画廊大厅',
     garden: '幻想动物画廊 - 花园',
     plantpot: '【盆栽】',
+    myzoom: '【我的空间】',
 }

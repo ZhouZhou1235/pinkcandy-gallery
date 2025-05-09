@@ -5,7 +5,7 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom"
 import { Home } from "./view/Home"
 import { Login } from "./view/Login"
 import { NotFound } from "./view/NotFound"
-import { User } from "./view/User"
+import { UserZoom } from "./view/UserZoom"
 import { Add } from "./view/Add"
 import { About } from "./view/About"
 import { Artwork } from "./view/Artwork"
@@ -14,6 +14,8 @@ import { Garden } from "./view/Garden"
 import { Tag } from "./view/Tag"
 import { Search } from "./view/Search"
 import { Plantpot } from "./view/Plantpot"
+import { MyZoom } from "./view/MyZoom"
+import { Trends } from "./view/Trends"
 
 function App(){
     return(
@@ -28,8 +30,9 @@ function App(){
                     }>
                         <Route path="/" element={<Home />} />
                         <Route path="/login" element={<Login />} />
-                        <Route path="/user" element={<User />} />
-                        <Route path="/user/:username" element={<User />} />
+                        <Route path="/myzoom" element={<MyZoom />} />
+                        <Route path="/myzoom/message" element={<MyZoom optionName="message"/>} />
+                        <Route path="/user/:username" element={<UserZoom />} />
                         <Route path="/add" element={<Add />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/artwork/:id" element={<Artwork />} />
@@ -38,6 +41,7 @@ function App(){
                         <Route path="/tag" element={<Tag />} />
                         <Route path="/search" element={<Search />} />
                         <Route path="/plantpot/:id" element={<Plantpot />} />
+                        <Route path="/trends" element={<Trends />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>

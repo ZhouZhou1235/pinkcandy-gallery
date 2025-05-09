@@ -1,4 +1,4 @@
-import { Button, DialogActions, FormControl, FormHelperText, Snackbar } from "@mui/material";
+import { Button, DialogActions, DialogContentText, FormControl, FormHelperText, Snackbar } from "@mui/material";
 import { useState } from "react";
 import { postRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
@@ -41,6 +41,9 @@ export function EditUserImageForm(){
                     action={(<Button onClick={closeSnackbar}>关闭</Button>)}
                 />
             </span>
+            <DialogContentText>
+                提示：上传图片文件，过大会导致失败。
+            </DialogContentText>
             <FormControl fullWidth>
                 <input type="file" className="form-control" name="file" onChange={(e)=>{
                     let list:FileList|null = e.target.files

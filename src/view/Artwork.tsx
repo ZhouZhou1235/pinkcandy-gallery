@@ -13,7 +13,7 @@ import { ArtworkCommentList } from "../component/ArtworkCommentList";
 import { ArtworkPawArea } from "../component/ArtworkPawArea";
 
 export function Artwork(){
-    const params = useParams()
+    const {id} = useParams<{id:string}>()
     const [loading,setLoading] = useState(true)
     const [artworkdata,setArtworkdata] = useState(DefaultObj.artworkdata)
     const [artworktagList,setArtworktagList] = useState(<></>)
@@ -21,26 +21,28 @@ export function Artwork(){
     const [commentFormElement,setCommentFormElement] = useState(<></>)
     const [commentListElement,setCommentListElement] = useState(<></>)
     const [pawAreaElement,setPawAreaElement] = useState(<></>)
-    useEffect(()=>{
+    async function loadData(){
         document.title = PageTitle.artwork
-        let id = params.id
         setCommentFormElement(<ArtworkCommentForm galleryid={id}/>)
         setCommentListElement(<ArtworkCommentList galleryid={id}/>)
         setPawAreaElement(<ArtworkPawArea galleryid={id}/>)
-        getRequest(urls.getArtwork+'?id='+id).then(data=>{
-            if(typeof data=='object'){
+        await getRequest(urls.getArtwork+'?id='+id).then(data=>{
+            if(data!=0){
                 setArtworkdata(data)
                 setUserpreviewElement(<UserPreview username={data.username}/>)
                 document.title = PageTitle.artwork+data.title
-                getRequest(urls.getTagsArtwork+'/'+id).then(data=>{
-                    if(data!=0){
-                        setArtworktagList(<TagList tagArray={data}/>)
-                    }
-                })
             }
-            setLoading(false)
         })
-    },[])
+        await getRequest(urls.getTagsArtwork+'/'+id).then(data=>{
+            if(data!=0){
+                setArtworktagList(<TagList tagArray={data}/>)
+            }
+        })
+        setLoading(false)
+    }
+    useEffect(()=>{
+        loadData()
+    },[id])
     return(
         <Box>
             <Spin spinning={loading} fullscreen />

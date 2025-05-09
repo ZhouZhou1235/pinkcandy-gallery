@@ -48,4 +48,5 @@ export const urls = {
     sendCommentPlantpot: host+'/core/sendCommentPlantpot',
     getPlantpot: host+'/core/getPlantpot',
     getTagsPlantpot: host+'/core/getTagsPlantpot',
+    getUserWatch: host+'/core/getUserWatch',
 };

@@ -44,6 +44,14 @@ a {
 .backImageBox img {width: 100%;}
 .backImageBox::-webkit-scrollbar {display: none;}
 .moblieHideBox {display: unset;}
+.TextPreviewBox {
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    display: -webkit-box; 
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
 @media screen and (max-width: 600px){
     .moblieHideBox {display: none;}
 }

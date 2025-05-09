@@ -1,9 +1,11 @@
-import { Button, Stack } from "@mui/material";
+import { Badge, Button, Stack } from "@mui/material";
 import { DefaultObj, GArea } from "../vars/ConstVars";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getRequest, postRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd, faBell, faBook, faFan, faMagnifyingGlass, faPalette, faShieldDog, faTags, faTree } from "@fortawesome/free-solid-svg-icons";
 
 export function Bar(){
     const [userdata,setUserdata] = useState(DefaultObj.userdata)
@@ -38,20 +40,66 @@ export function Bar(){
                             spacing={1}
                             sx={{mx:2}}
                         >
-                            <Link to={'/search'}><Button variant="outlined">来点粉糖</Button></Link>
-                            <Link to={'/gallery'}><Button variant="outlined">画廊</Button></Link>
-                            <Link to={'/garden'}><Button variant="outlined">花园</Button></Link>
-                            <Link to={'/tag'}><Button variant="outlined">标签</Button></Link>
-                            <Link to={'/about'}><Button variant="outlined">关于</Button></Link>
+                            <Link to={'/search'}>
+                                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faMagnifyingGlass} />}>
+                                    来点粉糖
+                                </Button>
+                            </Link>
+                            <Link to={'/gallery'}>
+                                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faPalette} />}>
+                                    画廊
+                                </Button>
+                            </Link>
+                            <Link to={'/garden'}>
+                                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faTree} />}>
+                                    花园
+                                </Button>
+                            </Link>
+                            <Link to={'/tag'}>
+                                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faTags} />}>
+                                    标签
+                                </Button>
+                            </Link>
+                            <Link to={'/about'}>
+                                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faBook} />}>
+                                    关于
+                                </Button>
+                            </Link>
                             {
                                 userdata.username!=''
                                 ?
                                     <>
-                                        <Link to={'/user'}><Button variant="outlined" sx={{ minWidth:100 }} color="secondary">{ userdata.name }</Button></Link>
-                                        <Link to={'/add'}><Button variant="outlined" sx={{ minWidth:100 }} color="secondary">添加</Button></Link>
+                                        <Link to={'/myzoom'}>
+                                            <Button
+                                                variant="outlined"
+                                                color="secondary"
+                                                startIcon={<FontAwesomeIcon icon={faShieldDog} />}
+                                            >
+                                                { userdata.name }
+                                            </Button>
+                                        </Link>
+                                        <Link to={'/add'}>
+                                            <Button variant="outlined" color="secondary" startIcon={<FontAwesomeIcon icon={faAdd} />}>
+                                                添加
+                                            </Button>
+                                        </Link>
+                                        <Link to={'/myzoom/message'}>
+                                            <Button variant="text" color="secondary" startIcon={<FontAwesomeIcon icon={faBell} />}>
+                                                <Badge color="secondary" badgeContent={1}>
+                                                    消息
+                                                </Badge>
+                                            </Button>
+                                        </Link>
+                                        <Link to={'/trends'}>
+                                            <Button variant="text" color="secondary" startIcon={<FontAwesomeIcon icon={faFan} />}>
+                                                <Badge color="secondary" badgeContent={3}>
+                                                    动态
+                                                </Badge>
+                                            </Button>
+                                        </Link>
                                     </>
                                 :
-                                <Link to={'/login'}><Button variant="outlined" sx={{ minWidth:100 }} color="secondary">登录</Button></Link>
+                                <Link to={'/login'}><Button variant="outlined" color="secondary">登录</Button></Link>
                             }
                         </Stack>
                     </div>
