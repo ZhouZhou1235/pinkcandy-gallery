@@ -12,7 +12,7 @@ export function UserInfoCount({username=''}){
         getRequest(urls.getUserInfoCount+'?username='+username).then(data=>{
             if(data!=0){setInfocount(data)}
         })
-    },[])
+    },[username])
     return(
         <>
             <Stack direction='row'>

@@ -31,8 +31,8 @@ export function UserWatchList({username=''}){
         })
     }
     useEffect(()=>{
-        gettoloadUserWatch(pagenum)
-    },[pagenum])
+        gettoloadUserWatch(1)
+    },[pagenum,username])
     return(
         <>
             <Accordion>

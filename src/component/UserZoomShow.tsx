@@ -24,7 +24,7 @@ export function UserZoomShow({username=''}){
     const [gardenPage,setGardenPage] = useState(1)
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
     async function updateGalleryPage(_event:any,value:number){
-        await getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${userdata.username}`).then(data=>{
+        await getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${username}`).then(data=>{
             if(data!=0){
                 let artworks :any[] = data
                 let theArtworkItems = artworks.map(item=>
@@ -34,10 +34,13 @@ export function UserZoomShow({username=''}){
                 )
                 setArtworkitems(theArtworkItems)
             }
+            else{
+                setArtworkitems([<span key={1}></span>])
+            }
         })
     }
     async function updateGardenPage(_event:any,value:number){
-        await getRequest(urls.getPlantpots+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${userdata.username}`).then(data=>{
+        await getRequest(urls.getPlantpots+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${username}`).then(data=>{
             if(data!=0){
                 let plantpots :any[] = data
                 let thePlantpotItems = plantpots.map(item=>
@@ -46,6 +49,9 @@ export function UserZoomShow({username=''}){
                     </div>
                 )
                 setPlantpotitems(thePlantpotItems)
+            }
+            else{
+                setPlantpotitems([<span key={1}></span>])
             }
         })
     }
@@ -74,6 +80,7 @@ export function UserZoomShow({username=''}){
                     setGardenPage(plantpotPageNum)
                 }
             })
+            setInfocountElement(<></>)
             setInfocountElement(<UserInfoCount username={username}/>)
             setLoading(false)
         })()

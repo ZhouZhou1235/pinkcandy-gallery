@@ -13,7 +13,7 @@ export function UserWatchButton({username=''}){
             if(res==0){setHaveWatch(false)}
             else{setHaveWatch(true)}
         })
-    },[])
+    },[username])
     return(
         <Button
             color='secondary'
