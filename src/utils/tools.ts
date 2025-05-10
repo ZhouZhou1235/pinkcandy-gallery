@@ -1,5 +1,7 @@
 // 工具
 
+import { SelectProps } from "antd";
+
 
 // === 通用
 
@@ -13,7 +15,6 @@ export function toNormalDate(datetime:string){
 }
 
 // js对象转为FormData
-// 提示：只能转换常规的值 忽略File
 export function objToFormdata(obj:Object){
     let formData = new FormData();
     for(let key in obj){
@@ -73,3 +74,14 @@ export function tagtypeNumToColorString(type:number){
 
 // 是否为粉糖账号
 export function isUsername(num:string){return isNumberString(num)&&num.length==5}
+
+// 标签的SelectProps数组转换为字符串数组
+export function selectPropsTagsToArray(selectpropsArray:SelectProps['options']=[]){
+    let tagList :string[] = []
+    for(let i=0;i<selectpropsArray.length;i++){
+        let obj = selectpropsArray[i]
+        let tag = obj.value?.toString()
+        if(tag){tagList.push(tag)}
+    }
+    return tagList
+}

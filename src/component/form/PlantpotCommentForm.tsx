@@ -3,14 +3,15 @@ import { useState } from "react";
 import { postRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
 import { Snackbar } from "@mui/material";
+import { objToFormdata } from "../../utils/tools";
 
 export function PlantpotCommentForm({gardenid=''}){
     const [snackbarMessage,setSnackbarMessage] = useState('')
     const [snackbarOpen,setSnackbarOpen] = useState(false)
-    const [commentForm,setCommentForm] = useState({content: '',id:gardenid})
+    const [commentForm,setCommentForm] = useState({content: '',id:gardenid,file:'' as any})
     function closeSnackbar(){setSnackbarOpen(false);setSnackbarMessage('')}
     function sendCommentPlantpot(){
-        postRequest(urls.sendCommentPlantpot,commentForm).then(res=>{
+        postRequest(urls.sendCommentPlantpot,objToFormdata(commentForm),{'Content-Type':'mutipart/form-data'}).then(res=>{
             if(res==1){
                 commentForm.content = ''
                 setCommentForm(commentForm)
@@ -38,9 +39,14 @@ export function PlantpotCommentForm({gardenid=''}){
                 minRows={4}
                 maxRows={8}
                 startDecorator={
-                    <Box sx={{ display:'flex',gap:0.5,flex:1 }}>
-                        叶子
-                    </Box>
+                    <div className="input-group input-group-sm">
+                        <label className="input-group-text">附图</label>
+                        <input type="file" className="form-control" name="file" id="arkworkFile" onChange={(e)=>{
+                            let list:FileList|null = e.target.files
+                            if(list){commentForm.file = list[0]}
+                            setCommentForm(commentForm)
+                        }} />
+                    </div>
                 }
                 endDecorator={
                     <Button variant="outlined" sx={{ ml: 'auto' }} onClick={sendCommentPlantpot}>

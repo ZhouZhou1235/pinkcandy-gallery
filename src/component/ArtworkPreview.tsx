@@ -16,7 +16,7 @@ export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
             </Link>
             <CardContent>
                 <Link to={'/artwork/'+artworkdata.id}>
-                    <Typography gutterBottom variant="h5" component="div">
+                    <Typography gutterBottom variant="h5" component="div" className="OnelineTextBox">
                         { artworkdata.title }
                     </Typography>
                 </Link>

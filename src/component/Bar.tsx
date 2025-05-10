@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getRequest, postRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd, faBell, faBook, faFan, faMagnifyingGlass, faPalette, faShieldDog, faTags, faTree } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faBell, faBook, faFan, faMagnifyingGlass, faPalette, faRightToBracket, faShieldDog, faTags, faTree } from "@fortawesome/free-solid-svg-icons";
 
 export function Bar(){
     const [userdata,setUserdata] = useState(DefaultObj.userdata)
@@ -85,21 +85,25 @@ export function Bar(){
                                         </Link>
                                         <Link to={'/myzoom/message'}>
                                             <Button variant="text" color="secondary" startIcon={<FontAwesomeIcon icon={faBell} />}>
-                                                <Badge color="secondary" badgeContent={1}>
+                                                <Badge color="secondary" badgeContent={'-'}>
                                                     消息
                                                 </Badge>
                                             </Button>
                                         </Link>
                                         <Link to={'/trends'}>
                                             <Button variant="text" color="secondary" startIcon={<FontAwesomeIcon icon={faFan} />}>
-                                                <Badge color="secondary" badgeContent={3}>
+                                                <Badge color="secondary" badgeContent={'-'}>
                                                     动态
                                                 </Badge>
                                             </Button>
                                         </Link>
                                     </>
                                 :
-                                <Link to={'/login'}><Button variant="outlined" color="secondary">登录</Button></Link>
+                                <Link to={'/login'}>
+                                    <Button variant="outlined" color="secondary" startIcon={<FontAwesomeIcon icon={faRightToBracket} />}>
+                                        登录
+                                    </Button>
+                                </Link>
                             }
                         </Stack>
                     </div>

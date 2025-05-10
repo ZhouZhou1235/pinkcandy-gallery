@@ -20,7 +20,18 @@ export function PlantpotCommentList({gardenid=''}){
                 <div className="row">
                     <div className="col-3 text-center">
                         <Link to={'/user/'+item.user.username}>
-                            <img src={GArea.headimageURL+item.user.headimage} alt="headimage" width={50} className="rounded"/>
+                            <img
+                                src={
+                                    item.user.headimage
+                                    ?
+                                    GArea.headimageURL+item.user.headimage
+                                    :
+                                    GArea.defaultHeadimage
+                                }
+                                alt="headimage"
+                                width={50}
+                                className="rounded"
+                            />
                         </Link>
                     </div>
                     <div className="col-6">

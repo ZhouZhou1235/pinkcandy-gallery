@@ -23,8 +23,8 @@ export function UserZoomShow({username=''}){
     const [galleryPage,setGalleryPage] = useState(1)
     const [gardenPage,setGardenPage] = useState(1)
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
-    function updateGalleryPage(_event:any,value:number){
-        getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${userdata.username}`).then(data=>{
+    async function updateGalleryPage(_event:any,value:number){
+        await getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${userdata.username}`).then(data=>{
             if(data!=0){
                 let artworks :any[] = data
                 let theArtworkItems = artworks.map(item=>
@@ -36,8 +36,8 @@ export function UserZoomShow({username=''}){
             }
         })
     }
-    function updateGardenPage(_event:any,value:number){
-        getRequest(urls.getPlantpots+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${userdata.username}`).then(data=>{
+    async function updateGardenPage(_event:any,value:number){
+        await getRequest(urls.getPlantpots+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${userdata.username}`).then(data=>{
             if(data!=0){
                 let plantpots :any[] = data
                 let thePlantpotItems = plantpots.map(item=>
@@ -64,28 +64,8 @@ export function UserZoomShow({username=''}){
                     })
                 }
             });
-            await getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}&username=${username}`).then(x=>{
-                if(x!=0){
-                    let artworks :any[] = x
-                    let theArtworkItems = artworks.map(item=>
-                        <div className="col-sm-4 p-2" key={item.id}>
-                            <ArtworkPreview artworkdata={item}/>
-                        </div>
-                    )
-                    setArtworkitems(theArtworkItems)
-                }
-            })
-            await getRequest(urls.getPlantpots+`?num=${GArea.defaultShowNum}&username=${username}`).then(x=>{
-                if(typeof x=='object'){
-                    let plantpots :any[] = x
-                    let thePlantpotItems = plantpots.map(item=>
-                        <div className="p-2" key={item.id}>
-                            <PlantpotPreview plantpotdata={item}/>
-                        </div>
-                    )
-                    setPlantpotitems(thePlantpotItems)
-                }
-            })
+            await updateGalleryPage(null,1)
+            await updateGardenPage(null,1)
             await getRequest(urls.getUserInfoCount+'?username='+username).then(data=>{
                 if(data!=0){
                     let artworkPageNum = Math.round(data.artworknum/GArea.defaultShowNum)+1

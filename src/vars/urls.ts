@@ -49,4 +49,11 @@ export const urls = {
     getPlantpot: host+'/core/getPlantpot',
     getTagsPlantpot: host+'/core/getTagsPlantpot',
     getUserWatch: host+'/core/getUserWatch',
+    getStarArtworks: host+'/core/getStarArtworks',
+    getStarPlantpots: host+'/core/getStarPlantpots',
+    getUserStarInfoCount: host+'/core/getUserStarInfoCount',
+    editArtwork: host+'/core/editArtwork',
+    editPlantpot: host+'/core/editPlantpot',
+    deleteArtwork: host+'/core/deleteArtwork',
+    deletePlantpot: host+'/core/deletePlantpot',
 };

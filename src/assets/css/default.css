@@ -52,6 +52,11 @@ a {
     -webkit-line-clamp: 3;
     line-clamp: 3;
 }
+.OnelineTextBox {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 @media screen and (max-width: 600px){
     .moblieHideBox {display: none;}
 }

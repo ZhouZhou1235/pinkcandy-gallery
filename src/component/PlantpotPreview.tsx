@@ -11,7 +11,7 @@ export function PlantpotPreview({plantpotdata=DefaultObj.plantpotdata}){
                 <div className="row">
                     <div className="col-8">
                         <Link to={'/plantpot/'+plantpotdata.id}>
-                            <Typography gutterBottom variant="h5" component="div">
+                            <Typography gutterBottom variant="h5" component="div" className="OnelineTextBox">
                                 { plantpotdata.title }
                             </Typography>
                         </Link>
