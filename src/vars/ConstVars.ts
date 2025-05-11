@@ -149,9 +149,8 @@ export const PageTitle = {
     artwork: '【作品】',
     login: '幻想动物画廊 - 登录',
     notFound: '幻想动物画廊 - 404',
-    user: '【小兽空间】',
     gallery: '幻想动物画廊 - 画廊大厅',
     garden: '幻想动物画廊 - 花园',
     plantpot: '【盆栽】',
-    myzoom: '【我的空间】',
+    zoom: '【空间】',
 }

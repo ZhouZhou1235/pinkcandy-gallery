@@ -83,7 +83,7 @@ export function Bar(){
                                                 添加
                                             </Button>
                                         </Link>
-                                        <Link to={'/myzoom/message'}>
+                                        <Link to={'/notice'}>
                                             <Button variant="text" color="secondary" startIcon={<FontAwesomeIcon icon={faBell} />}>
                                                 <Badge color="secondary" badgeContent={'-'}>
                                                     消息

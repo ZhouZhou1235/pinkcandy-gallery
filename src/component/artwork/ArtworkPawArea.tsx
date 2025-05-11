@@ -1,10 +1,10 @@
 import { faComment, faPaw, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, ButtonGroup } from "@mui/material";
-import { getRequest, postRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
+import { getRequest, postRequest } from "../../utils/HttpRequest";
+import { urls } from "../../vars/urls";
 import { useEffect, useState } from "react";
-import { DefaultObj } from "../vars/ConstVars";
+import { DefaultObj } from "../../vars/ConstVars";
 
 export function ArtworkPawArea({galleryid=''}){
     const [havepaw,setHavepaw] = useState(false)

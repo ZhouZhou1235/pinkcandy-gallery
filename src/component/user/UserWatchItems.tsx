@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { DefaultObj, GArea } from "../vars/ConstVars";
+import { DefaultObj, GArea } from "../../vars/ConstVars";
 
 export function UserWatchItems({userwatchArray=DefaultObj.userwatchArray}){
     return(

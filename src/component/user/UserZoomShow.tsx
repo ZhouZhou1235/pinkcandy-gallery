@@ -1,15 +1,15 @@
 import { FormControl, Grid, Pagination, Tab, Tabs } from "@mui/material";
-import { DefaultObj, GArea } from "../vars/ConstVars";
+import { DefaultObj, GArea, PageTitle } from "../../vars/ConstVars";
 import { SyntheticEvent, useEffect, useState } from "react";
-import { getRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
+import { getRequest } from "../../utils/HttpRequest";
+import { urls } from "../../vars/urls";
 import { Avatar, Spin } from "antd";
-import { toNormalDate } from "../utils/tools";
-import { UserWatchButton } from "../component/UserWatchButton";
-import { UserInfoCount } from "../component/UserInfoCount";
-import { ArtworkPreview } from "../component/ArtworkPreview";
+import { toNormalDate } from "../../utils/tools";
+import { UserWatchButton } from "./UserWatchButton";
+import { UserInfoCount } from "./UserInfoCount";
+import { ArtworkPreview } from "../artwork/ArtworkPreview";
 import { TabContext, TabPanel } from "@mui/lab";
-import { PlantpotPreview } from "../component/PlantpotPreview";
+import { PlantpotPreview } from "../plantpot/PlantpotPreview";
 import { UserWatchList } from "./UserWatchList";
 
 export function UserZoomShow({username=''}){
@@ -62,7 +62,7 @@ export function UserZoomShow({username=''}){
                 if(typeof res=='object'){
                     let theUserdata = res
                     setUserdata(theUserdata)
-                    document.title += theUserdata.name
+                    document.title = PageTitle.zoom+theUserdata.name
                     getRequest(urls.getSessionUser).then(data=>{
                         if(data!=0){
                             if(username!=data.username){setWatchButton(<UserWatchButton username={username}/>)}

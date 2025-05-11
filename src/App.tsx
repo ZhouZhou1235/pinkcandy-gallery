@@ -16,6 +16,7 @@ import { Search } from "./view/Search"
 import { Plantpot } from "./view/Plantpot"
 import { MyZoom } from "./view/MyZoom"
 import { Trends } from "./view/Trends"
+import { Notice } from "./view/Notice"
 
 function App(){
     return(
@@ -31,7 +32,7 @@ function App(){
                         <Route path="/" element={<Home />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/myzoom" element={<MyZoom />} />
-                        <Route path="/myzoom/message" element={<MyZoom optionName="message"/>} />
+                        <Route path="/notice" element={<Notice />} />
                         <Route path="/user/:username" element={<UserZoom />} />
                         <Route path="/add" element={<Add />} />
                         <Route path="/about" element={<About />} />

@@ -56,4 +56,8 @@ export const urls = {
     editPlantpot: host+'/core/editPlantpot',
     deleteArtwork: host+'/core/deleteArtwork',
     deletePlantpot: host+'/core/deletePlantpot',
+    getUserNoticePawArtwork: host+'/core/getUserNoticePawArtwork',
+    getUserNoticePawPlantpot: host+'/core/getUserNoticePawPlantpot',
+    getUserNoticeTextEcho: host+'/core/getUserNoticeTextEcho',
+    getUserNoticeWatcher: host+'/core/getUserNoticeWatcher',
 };

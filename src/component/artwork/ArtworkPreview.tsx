@@ -1,8 +1,8 @@
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import { DefaultObj, GArea } from "../vars/ConstVars";
+import { DefaultObj, GArea } from "../../vars/ConstVars";
 import { Link } from "react-router";
 import { ArtworkPawArea } from "./ArtworkPawArea";
-import { toNormalDate } from "../utils/tools";
+import { toNormalDate } from "../../utils/tools";
 
 export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
     return(

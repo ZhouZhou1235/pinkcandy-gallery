@@ -1,14 +1,14 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
-import { EditUserForm } from "./form/EditUserForm";
+import { EditUserForm } from "./../form/EditUserForm";
 import { TabContext, TabPanel } from "@mui/lab";
-import { EditUserImportantForm } from "./form/EditUserImportantForm";
-import { EditUserImageForm } from "./form/EditUserImageForm";
+import { EditUserImportantForm } from "./../form/EditUserImportantForm";
+import { EditUserImageForm } from "./../form/EditUserImageForm";
 import { useNavigate } from "react-router";
-import { postRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
+import { postRequest } from "../../utils/HttpRequest";
+import { urls } from "../../vars/urls";
 
-export function EditUserDialog(){
+export function UserEditDialog(){
     const navigate = useNavigate()
     const [tabvalue,setTabvalue] = useState('editUser')
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}

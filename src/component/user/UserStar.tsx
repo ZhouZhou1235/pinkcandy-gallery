@@ -1,11 +1,11 @@
 import { TabContext, TabPanel } from "@mui/lab";
 import { Grid, Pagination, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
-import { getRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
-import { GArea } from "../vars/ConstVars";
-import { ArtworkPreview } from "./ArtworkPreview";
-import { PlantpotPreview } from "./PlantpotPreview";
+import { getRequest } from "../../utils/HttpRequest";
+import { urls } from "../../vars/urls";
+import { GArea } from "../../vars/ConstVars";
+import { ArtworkPreview } from "../artwork/ArtworkPreview";
+import { PlantpotPreview } from "../plantpot/PlantpotPreview";
 
 export function UserStar({username=''}){
     const [artworkitems,setArtworkitems] = useState([<span key={1}></span>])

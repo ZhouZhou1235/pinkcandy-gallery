@@ -1,14 +1,14 @@
 import { Box } from "@mui/material";
 import { Footer } from "../component/Footer";
 import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
-import { ArtworkPreview } from "../component/ArtworkPreview";
+import { ArtworkPreview } from "../component/artwork/ArtworkPreview";
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { toNormalDate } from "../utils/tools";
 import { Spin } from "antd";
 import { Link } from "react-router";
-import { PlantpotPreview } from "../component/PlantpotPreview";
+import { PlantpotPreview } from "../component/plantpot/PlantpotPreview";
 
 export function Home(){
     const [loading,setLoading] = useState(true)

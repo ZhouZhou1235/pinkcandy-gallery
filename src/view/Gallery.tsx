@@ -4,7 +4,7 @@ import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { Spin } from "antd";
 import { GArea, PageTitle } from "../vars/ConstVars";
-import { ArtworkPreview } from "../component/ArtworkPreview";
+import { ArtworkPreview } from "../component/artwork/ArtworkPreview";
 import { Footer } from "../component/Footer";
 
 export function Gallery(){

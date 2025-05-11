@@ -6,11 +6,11 @@ import { useParams } from "react-router";
 import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
 import { Image, Spin } from "antd";
 import { toNormalDate } from "../utils/tools";
-import { UserPreview } from "../component/UserPreview";
+import { UserPreview } from "../component/user/UserPreview";
 import { TagList } from "../component/TagList";
-import { PlantpotCommentList } from "../component/PlantpotCommentList";
+import { PlantpotCommentList } from "../component/plantpot/PlantpotCommentList";
 import { PlantpotCommentForm } from "../component/form/PlantpotCommentForm";
-import { PlantpotPawArea } from "../component/PlantpotPawArea";
+import { PlantpotPawArea } from "../component/plantpot/PlantpotPawArea";
 
 export function Plantpot(){
     const params = useParams()

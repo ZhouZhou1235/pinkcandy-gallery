@@ -1,6 +1,6 @@
 import { Card, CardContent, Typography } from "@mui/material";
-import { DefaultObj, GArea } from "../vars/ConstVars";
-import { toNormalDate } from "../utils/tools";
+import { DefaultObj, GArea } from "../../vars/ConstVars";
+import { toNormalDate } from "../../utils/tools";
 import { PlantpotPawArea } from "./PlantpotPawArea";
 import { Link } from "react-router";
 

@@ -2,8 +2,8 @@ import { faShieldDog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { postRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
+import { postRequest } from "../../utils/HttpRequest";
+import { urls } from "../../vars/urls";
 
 export function UserWatchButton({username=''}){
     const [haveWatch,setHaveWatch] = useState(false)

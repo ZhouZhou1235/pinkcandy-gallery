@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { PageTitle } from "../vars/ConstVars";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { UserZoomShow } from "../component/UserZoomShow";
+import { UserZoomShow } from "../component/user/UserZoomShow";
 
 export function UserZoom(){
     const {username} = useParams<{username:string}>()

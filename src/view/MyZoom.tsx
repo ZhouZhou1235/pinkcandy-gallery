@@ -3,12 +3,12 @@ import { PageTitle } from "../vars/ConstVars";
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
-import { UserZoomShow } from "../component/UserZoomShow";
-import { UserStar } from "../component/UserStar";
-import { EditUserDialog } from "../component/EditUserDialog";
-import { UserMediaControl } from "../component/UserMediaControl";
+import { UserZoomShow } from "../component/user/UserZoomShow";
+import { UserStar } from "../component/user/UserStar";
+import { UserEditDialog } from "../component/user/UserEditDialog";
+import { UserMediaControl } from "../component/user/UserMediaControl";
 
-export function MyZoom({optionName=''}){
+export function MyZoom(){
     const [username,setUsername] = useState('')
     const [userzoomElement,setUserzoomElement] = useState(<></>)
     const [selectedOption,setSelectedOption] = useState('zoom')
@@ -19,10 +19,6 @@ export function MyZoom({optionName=''}){
             case 'zoom':
                 theElement = <UserZoomShow username={username}/>
                 setSelectedOption('zoom')
-                break
-            case 'message':
-                theElement = <h1>消息</h1>
-                setSelectedOption('message')
                 break
             case 'star':
                 theElement = <UserStar username={username}/>
@@ -37,25 +33,22 @@ export function MyZoom({optionName=''}){
         if(ok){setUserzoomElement(theElement)}
     }
     useEffect(()=>{
-        document.title = PageTitle.myzoom
         getRequest(urls.getSessionUser).then(data=>{
             if(data!=0){
                 let username = data.username
                 setUserzoomElement(<UserZoomShow username={username}/>)
                 setUsername(username)
-                selectOption(optionName)
             }
         })
-    },[optionName]);
+    },[]);
     return(
         <Box>
             <div className="container">
                 <div className="p-2">
                     <Button onClick={()=>{selectOption('zoom')}} variant={selectedOption=='zoom'?'contained':'text'}>空间</Button>
-                    <Button onClick={()=>{selectOption('message')}} variant={selectedOption=='message'?'contained':'text'}>消息</Button>
                     <Button onClick={()=>{selectOption('star')}} variant={selectedOption=='star'?'contained':'text'}>收藏</Button>
                     <Button onClick={()=>{selectOption('control')}} variant={selectedOption=='control'?'contained':'text'}>内容管理</Button>
-                    <EditUserDialog />
+                    <UserEditDialog />
                 </div>
                 {userzoomElement}
             </div>

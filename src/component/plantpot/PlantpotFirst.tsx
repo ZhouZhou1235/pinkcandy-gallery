@@ -1,8 +1,8 @@
-import { toNormalDate } from "../utils/tools";
-import { DefaultObj, GArea } from "../vars/ConstVars";
-import { PlantpotCommentForm } from "./form/PlantpotCommentForm";
+import { toNormalDate } from "../../utils/tools";
+import { DefaultObj, GArea } from "../../vars/ConstVars";
+import { PlantpotCommentForm } from "./../form/PlantpotCommentForm";
 import { PlantpotCommentList } from "./PlantpotCommentList";
-import { UserPreview } from "./UserPreview";
+import { UserPreview } from "./../user/UserPreview";
 
 export function PlantpotFirst({plantpotdata=DefaultObj.plantpotdata}){
     return(

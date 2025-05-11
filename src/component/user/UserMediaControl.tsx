@@ -1,15 +1,15 @@
 import { TabContext, TabPanel } from "@mui/lab";
 import { Grid, Pagination, Tab, Tabs, Button } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
-import { getRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
-import { GArea } from "../vars/ConstVars";
-import { ArtworkPreview } from "./ArtworkPreview";
-import { PlantpotPreview } from "./PlantpotPreview";
-import { EditArtworkForm } from "./form/EditArtworkForm";
-import { EditPlantpotForm } from "./form/EditPlantpotForm";
-import { DeleteArtworkButton } from "./DeleteArtworkButton";
-import { DeletePlantpotButton } from "./DeletePlantpotButton";
+import { getRequest } from "../../utils/HttpRequest";
+import { urls } from "../../vars/urls";
+import { GArea } from "../../vars/ConstVars";
+import { ArtworkPreview } from "../artwork/ArtworkPreview";
+import { PlantpotPreview } from "../plantpot/PlantpotPreview";
+import { EditArtworkForm } from "../form/EditArtworkForm";
+import { EditPlantpotForm } from "../form/EditPlantpotForm";
+import { DeleteArtworkButton } from "../DeleteArtworkButton";
+import { DeletePlantpotButton } from "../DeletePlantpotButton";
 
 export function UserMediaControl({username=''}){
     const [artworkitems,setArtworkitems] = useState([<span key={1}></span>])

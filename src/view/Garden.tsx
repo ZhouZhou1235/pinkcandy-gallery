@@ -5,8 +5,8 @@ import { urls } from "../vars/urls";
 import { Spin } from "antd";
 import { GArea, PageTitle } from "../vars/ConstVars";
 import { Footer } from "../component/Footer";
-import { PlantpotPreview } from "../component/PlantpotPreview";
-import { PlantpotFirst } from "../component/PlantpotFirst";
+import { PlantpotPreview } from "../component/plantpot/PlantpotPreview";
+import { PlantpotFirst } from "../component/plantpot/PlantpotFirst";
 
 export function Garden(){
     const [gardenPage,setGardenPage] = useState(1)

@@ -6,11 +6,11 @@ import { useParams } from "react-router";
 import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
 import { Image, Spin } from "antd";
 import { toNormalDate } from "../utils/tools";
-import { UserPreview } from "../component/UserPreview";
+import { UserPreview } from "../component/user/UserPreview";
 import { TagList } from "../component/TagList";
 import { ArtworkCommentForm } from "../component/form/ArtworkCommentForm";
-import { ArtworkCommentList } from "../component/ArtworkCommentList";
-import { ArtworkPawArea } from "../component/ArtworkPawArea";
+import { ArtworkCommentList } from "../component/artwork/ArtworkCommentList";
+import { ArtworkPawArea } from "../component/artwork/ArtworkPawArea";
 
 export function Artwork(){
     const {id} = useParams<{id:string}>()
