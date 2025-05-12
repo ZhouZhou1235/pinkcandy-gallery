@@ -45,7 +45,6 @@ export function EditUserImportantForm(){
                 setSnackbarOpen(true)
                 setSnackbarMessage('关键信息修改完成')
                 navigate('/')
-                location.reload()
             }
             else{setEditBtnDisabled(false)}
         })

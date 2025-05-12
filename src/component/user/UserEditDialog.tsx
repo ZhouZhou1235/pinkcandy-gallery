@@ -17,10 +17,7 @@ export function UserEditDialog(){
     function closeDialog(){setOpen(false)}
     function logout(){
         postRequest(urls.logout).then(res=>{
-            if(typeof res=='number'){if(res==1){
-                navigate('/')
-                location.reload()
-            }}
+            if(typeof res=='number'){if(res==1){navigate('/');location.reload()}}
         })
     }
     return(

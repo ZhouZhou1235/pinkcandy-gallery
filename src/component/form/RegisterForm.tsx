@@ -43,10 +43,7 @@ export function RegisterForm(){
         setRegisterBtn(true)
         postRequest(urls.register,registerForm).then(data=>{
             if(typeof data=='number'){
-                if(data==1){
-                    navigate('/')
-                    location.reload()
-                }
+                if(data==1){navigate('/');location.reload()}
                 else{setRegisterBtn(false)}
             }
         })

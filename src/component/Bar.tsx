@@ -2,26 +2,107 @@ import { Badge, Button, Stack } from "@mui/material";
 import { DefaultObj, GArea } from "../vars/ConstVars";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getRequest, postRequest } from "../utils/HttpRequest";
+import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faBell, faBook, faFan, faMagnifyingGlass, faPalette, faRightToBracket, faShieldDog, faTags, faTree } from "@fortawesome/free-solid-svg-icons";
 
+function BarOption(){
+    return(
+        <>
+            <Link to={'/search'}>
+                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faMagnifyingGlass} />}>
+                    来点粉糖
+                </Button>
+            </Link>
+            <Link to={'/gallery'}>
+                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faPalette} />}>
+                    画廊
+                </Button>
+            </Link>
+            <Link to={'/garden'}>
+                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faTree} />}>
+                    花园
+                </Button>
+            </Link>
+            <Link to={'/tag'}>
+                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faTags} />}>
+                    标签
+                </Button>
+            </Link>
+            <Link to={'/about'}>
+                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faBook} />}>
+                    关于
+                </Button>
+            </Link>
+        </>
+    )
+}
+
+function LoginButton(){
+    return(
+        <Link to={'/login'}>
+            <Button variant="outlined" color="secondary" startIcon={<FontAwesomeIcon icon={faRightToBracket} />}>
+                登录
+            </Button>
+        </Link>
+    )
+}
+
+function UserArea(userdata=DefaultObj.userdata,noticenum=0,trendsnum=0){
+    return(
+        <>
+            <Link to={'/myzoom'}>
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    startIcon={<FontAwesomeIcon icon={faShieldDog} />}
+                >
+                    { userdata.name }
+                </Button>
+            </Link>
+            <Link to={'/add'}>
+                <Button variant="outlined" color="secondary" startIcon={<FontAwesomeIcon icon={faAdd} />}>
+                    添加
+                </Button>
+            </Link>
+            <Link to={'/notice'}>
+                <Button variant="text" color="secondary" startIcon={<FontAwesomeIcon icon={faBell} />}>
+                    <Badge color="secondary" badgeContent={noticenum}>
+                        消息
+                    </Badge>
+                </Button>
+            </Link>
+            <Link to={'/trends'}>
+                <Button variant="text" color="secondary" startIcon={<FontAwesomeIcon icon={faFan} />}>
+                    <Badge color="secondary" badgeContent={trendsnum}>
+                        动态
+                    </Badge>
+                </Button>
+            </Link>
+        </>
+    )
+}
+
 export function Bar(){
-    const [userdata,setUserdata] = useState(DefaultObj.userdata)
+    const [userareaElement,setUserareaElement] = useState(LoginButton())
+    function updateState(){
+        (async()=>{
+            let data = await getRequest(urls.getSessionUser)
+            let noticenum = await getRequest(urls.getNoticenum+'?username='+data.username)
+            console.log(noticenum)
+            let trendsnum = 0 // ...
+            if(data!=0){setUserareaElement(UserArea(data,noticenum,trendsnum))}
+            else{setUserareaElement(LoginButton())}
+        })()
+    }
     useEffect(()=>{
-        postRequest(urls.checkLogin).then(x=>{
-            if(typeof x=='number'){if(x==1){
-                getRequest(urls.getSessionUser).then(x=>{
-                    if(typeof x=='object'){setUserdata(x)}
-                })
-            }}
-        })
+        updateState()
     },[])
     return(
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
-                <Link to={'/'}><img src={GArea.logoURL} alt="logo" height={50}/></Link>
+                <Link to={'/'} onClick={updateState}><img src={GArea.logoURL} alt="logo" height={50}/></Link>
                 <button
                     className="navbar-toggler"
                     type="button"
@@ -40,71 +121,8 @@ export function Bar(){
                             spacing={1}
                             sx={{mx:2}}
                         >
-                            <Link to={'/search'}>
-                                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faMagnifyingGlass} />}>
-                                    来点粉糖
-                                </Button>
-                            </Link>
-                            <Link to={'/gallery'}>
-                                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faPalette} />}>
-                                    画廊
-                                </Button>
-                            </Link>
-                            <Link to={'/garden'}>
-                                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faTree} />}>
-                                    花园
-                                </Button>
-                            </Link>
-                            <Link to={'/tag'}>
-                                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faTags} />}>
-                                    标签
-                                </Button>
-                            </Link>
-                            <Link to={'/about'}>
-                                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faBook} />}>
-                                    关于
-                                </Button>
-                            </Link>
-                            {
-                                userdata.username!=''
-                                ?
-                                    <>
-                                        <Link to={'/myzoom'}>
-                                            <Button
-                                                variant="outlined"
-                                                color="secondary"
-                                                startIcon={<FontAwesomeIcon icon={faShieldDog} />}
-                                            >
-                                                { userdata.name }
-                                            </Button>
-                                        </Link>
-                                        <Link to={'/add'}>
-                                            <Button variant="outlined" color="secondary" startIcon={<FontAwesomeIcon icon={faAdd} />}>
-                                                添加
-                                            </Button>
-                                        </Link>
-                                        <Link to={'/notice'}>
-                                            <Button variant="text" color="secondary" startIcon={<FontAwesomeIcon icon={faBell} />}>
-                                                <Badge color="secondary" badgeContent={'-'}>
-                                                    消息
-                                                </Badge>
-                                            </Button>
-                                        </Link>
-                                        <Link to={'/trends'}>
-                                            <Button variant="text" color="secondary" startIcon={<FontAwesomeIcon icon={faFan} />}>
-                                                <Badge color="secondary" badgeContent={'-'}>
-                                                    动态
-                                                </Badge>
-                                            </Button>
-                                        </Link>
-                                    </>
-                                :
-                                <Link to={'/login'}>
-                                    <Button variant="outlined" color="secondary" startIcon={<FontAwesomeIcon icon={faRightToBracket} />}>
-                                        登录
-                                    </Button>
-                                </Link>
-                            }
+                            <BarOption />
+                            {userareaElement}
                         </Stack>
                     </div>
                 </div>

@@ -60,4 +60,7 @@ export const urls = {
     getUserNoticePawPlantpot: host+'/core/getUserNoticePawPlantpot',
     getUserNoticeTextEcho: host+'/core/getUserNoticeTextEcho',
     getUserNoticeWatcher: host+'/core/getUserNoticeWatcher',
+    noticeFinishRead: host+'/core/noticeFinishRead',
+    noticeNotRead: host+'/core/noticeNotRead',
+    getNoticenum: host+'/core/getNoticenum',
 };
