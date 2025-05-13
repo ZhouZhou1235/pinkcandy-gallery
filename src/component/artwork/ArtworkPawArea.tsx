@@ -26,17 +26,25 @@ export function ArtworkPawArea({galleryid=''}){
             <ButtonGroup size="small" color="secondary">
                 <Button
                     startIcon={<FontAwesomeIcon icon={faPaw}/>}
-                    onClick={()=>{pawMedia().then(res=>{if(res==1){setHavepaw(!havepaw)}})}}
+                    onClick={()=>{pawMedia().then(res=>{if(res==1){
+                        havepaw?pawAreaInfo.pawnum--:pawAreaInfo.pawnum++
+                        setHavepaw(!havepaw)
+                        setPawAreaInfo(pawAreaInfo)
+                    }})}}
                     variant={havepaw?'contained':'text'}
                 >
-                    {pawAreaInfo.pawnum+(()=>{return havepaw?1:0})()}
+                    {pawAreaInfo.pawnum}
                 </Button>
                 <Button
                     startIcon={<FontAwesomeIcon icon={faStar}/>}
-                    onClick={()=>{starMedia().then(res=>{if(res==1){setHavestar(!havestar)}})}}
+                    onClick={()=>{starMedia().then(res=>{if(res==1){
+                        havestar?pawAreaInfo.starnum--:pawAreaInfo.starnum++
+                        setHavestar(!havestar)
+                        setPawAreaInfo(pawAreaInfo)
+                    }})}}
                     variant={havestar?'contained':'text'}
                 >
-                    {pawAreaInfo.starnum+(()=>{return havestar?1:0})()}
+                    {pawAreaInfo.starnum}
                 </Button>
                 <Button startIcon={<FontAwesomeIcon icon={faComment}/>} variant="outlined">{pawAreaInfo.commentnum}</Button>
             </ButtonGroup>

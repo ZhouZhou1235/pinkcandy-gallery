@@ -20,7 +20,6 @@ export function EditArtworkForm({galleryid=''}){
     })
     const selectTag = (tags:string[])=>{
         editArtworkForm.tags = JSON.stringify(tags)
-        console.log(editArtworkForm)
         setEditArtworkForm(editArtworkForm)
     }
     function closeSnackbar(){setSnackbarOpen(false);setSnackbarMessage('')}
@@ -75,7 +74,6 @@ export function EditArtworkForm({galleryid=''}){
                 )
             }
         })
-        console.log(theEditArtworkForm)
         setEditArtworkForm(theEditArtworkForm)
     }
     useEffect(()=>{

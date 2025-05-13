@@ -20,7 +20,6 @@ export function EditPlantpotForm({gardenid=''}){
     })
     const selectTag = (tags:string[])=>{
         editPlantpotForm.tags = JSON.stringify(tags)
-        console.log(editPlantpotForm)
         setEditPlantpotForm(editPlantpotForm)
     }
     function closeSnackbar(){setSnackbarOpen(false);setSnackbarMessage('')}
@@ -75,7 +74,6 @@ export function EditPlantpotForm({gardenid=''}){
                 )
             }
         })
-        console.log(theEditPlantpotForm)
         setEditPlantpotForm(theEditPlantpotForm)
     }
     useEffect(()=>{

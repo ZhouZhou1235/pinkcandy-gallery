@@ -15,7 +15,7 @@ export function UserPreview({username=''}){
                 setWatchButton(<UserWatchButton username={data.username}/>)
             }
         })
-    },[])
+    },[username])
     return(
         <div className="row text-center">
             <div className="col-sm-4">

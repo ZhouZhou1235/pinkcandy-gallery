@@ -365,7 +365,6 @@ function UserNoticeWatcher({username=''}){
     useEffect(()=>{
         getRequest(urls.getUserNoticeWatcher+`?username=${username}`).then(data=>{
             if(data!=0){
-                console.log(data)
                 let objArray :any[] = data
                 let theItems = objArray.map(item=>
                     <div className="list-group-item" key={item.id}>

@@ -63,4 +63,10 @@ export const urls = {
     noticeFinishRead: host+'/core/noticeFinishRead',
     noticeNotRead: host+'/core/noticeNotRead',
     getNoticenum: host+'/core/getNoticenum',
+    getUserTrendUsers: host+'/core/getUserTrendUsers',
+    trendFinishRead: host+'/core/trendFinishRead',
+    trendNotRead: host+'/core/trendNotRead',
+    getTrendnum: host+'/core/getTrendnum',
+    getUserTrendArtworks: host+'/core/getUserTrendArtworks',
+    getUserTrendPlantpots: host+'/core/getUserTrendPlantpots',
 };

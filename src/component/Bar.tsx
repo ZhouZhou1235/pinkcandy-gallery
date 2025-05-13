@@ -68,14 +68,14 @@ function UserArea(userdata=DefaultObj.userdata,noticenum=0,trendsnum=0){
             </Link>
             <Link to={'/notice'}>
                 <Button variant="text" color="secondary" startIcon={<FontAwesomeIcon icon={faBell} />}>
-                    <Badge color="secondary" badgeContent={noticenum}>
+                    <Badge color="info" badgeContent={noticenum}>
                         消息
                     </Badge>
                 </Button>
             </Link>
             <Link to={'/trends'}>
                 <Button variant="text" color="secondary" startIcon={<FontAwesomeIcon icon={faFan} />}>
-                    <Badge color="secondary" badgeContent={trendsnum}>
+                    <Badge color="info" badgeContent={trendsnum}>
                         动态
                     </Badge>
                 </Button>
@@ -90,8 +90,7 @@ export function Bar(){
         (async()=>{
             let data = await getRequest(urls.getSessionUser)
             let noticenum = await getRequest(urls.getNoticenum+'?username='+data.username)
-            console.log(noticenum)
-            let trendsnum = 0 // ...
+            let trendsnum = await getRequest(urls.getTrendnum+'?username='+data.username)
             if(data!=0){setUserareaElement(UserArea(data,noticenum,trendsnum))}
             else{setUserareaElement(LoginButton())}
         })()
