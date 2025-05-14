@@ -1,4 +1,4 @@
-import { Box, Button, Textarea } from "@mui/joy";
+import { Button, Textarea } from "@mui/joy";
 import { useState } from "react";
 import { postRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";

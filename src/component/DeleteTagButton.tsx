@@ -2,13 +2,15 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/
 import { useState } from "react";
 import { postRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
+import { DefaultObj } from "../vars/ConstVars";
+import { tagtypeNumToColorString } from "../utils/tools";
 
-export function DeletePlantpotButton({gardenid=''}){
+export function DeleteTagButton({tagdata=DefaultObj.tagdata}){
     const [open,setOpen] = useState(false)
     const [btnDisabled,setBtnDisabled] = useState(false)
-    function deletePlantpot(){
+    function deleteArtwork(){
         setOpen(false)
-        postRequest(urls.deletePlantpot,{id:gardenid}).then(res=>{
+        postRequest(urls.deleteTag,{id:tagdata.id}).then(res=>{
             if(res!=0){setBtnDisabled(true)}
         })
     }
@@ -24,19 +26,19 @@ export function DeletePlantpotButton({gardenid=''}){
                 color="error"
                 onClick={openDialog}
                 variant={btnDisabled?'contained':'text'}
-                disabled={btnDisabled}
+                disabled={btnDisabled || tagdata.usenum>10}
             >
                 {!btnDisabled?'删除':'已删除'}
             </Button>
             <Dialog open={open} fullWidth>
-                <DialogTitle>删除盆栽</DialogTitle>
+                <DialogTitle>删除标签</DialogTitle>
                 <DialogContent>
-                    <h2>这将删除该盆栽，操作不能撤回！</h2>
-                    <p>包括叶子 叶纸条等一切互动数据</p>
+                    <h2>即将删除<span style={{color:tagtypeNumToColorString(Number(tagdata.type))}}>{tagdata.tag}</span></h2>
+                    <p>包括所有媒体使用了此标签的标记</p>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeDialog}>取消</Button>
-                    <Button color="error" onClick={deletePlantpot}>确认删除</Button>
+                    <Button color="error" onClick={deleteArtwork}>确认删除</Button>
                 </DialogActions>
             </Dialog>
         </>

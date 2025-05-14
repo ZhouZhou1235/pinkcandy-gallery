@@ -53,6 +53,7 @@ export const DefaultObj = {
         tag: '',
         type: '',
         info: '',
+        usenum: 0,
     },],
     artworkCommentArray: [{
         id: '',
@@ -139,6 +140,13 @@ export const DefaultObj = {
             species: '',
         },
     }],
+    tagdata: {
+        id: '',
+        tag: '',
+        type: '',
+        info: '',
+        usenum: 0,
+    },
 }
 
 // 页面标题

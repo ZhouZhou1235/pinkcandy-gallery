@@ -32,7 +32,7 @@ export function DeleteArtworkButton({galleryid=''}){
                 <DialogTitle>删除作品</DialogTitle>
                 <DialogContent>
                     <h2>这将删除该作品，操作不能撤回！</h2>
-                    <h3>包括印爪 评论等一切互动数据</h3>
+                    <p>包括印爪 评论等一切互动数据</p>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeDialog}>取消</Button>

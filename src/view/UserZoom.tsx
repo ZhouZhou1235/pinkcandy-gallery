@@ -8,7 +8,7 @@ export function UserZoom(){
     const {username} = useParams<{username:string}>()
     const [userzoomElement,setUserzoomElement] = useState(<></>)
     useEffect(()=>{
-        document.title = PageTitle.user
+        document.title = PageTitle.zoom
         setUserzoomElement(<UserZoomShow username={username}/>)
     },[username]);
     return(

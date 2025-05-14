@@ -8,7 +8,7 @@ export function TagList({tagArray=DefaultObj.tagArray}){
     useEffect(()=>{
         let theTagItems = tagArray.map(item=>
             <Tag key={item.id} color={tagtypeNumToColorString(Number(item.type))}>
-                {item.tag}
+                {item.tag} {item.usenum}
             </Tag>
         )
         setTagItems(theTagItems)

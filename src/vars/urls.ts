@@ -69,4 +69,7 @@ export const urls = {
     getTrendnum: host+'/core/getTrendnum',
     getUserTrendArtworks: host+'/core/getUserTrendArtworks',
     getUserTrendPlantpots: host+'/core/getUserTrendPlantpots',
+    searchTags: host+'/core/searchTags',
+    editTag: host+'/core/editTag',
+    deleteTag: host+'/core/deleteTag',
 };
