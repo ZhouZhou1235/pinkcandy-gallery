@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { JSX, useEffect, useState } from "react"
 import { DefaultObj, GArea } from "../../vars/ConstVars"
 import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, Pagination, Typography } from "@mui/material"
 import { toNormalDate } from "../../utils/tools"
@@ -11,7 +11,7 @@ import { PlantpotCommentReplyForm } from "./../form/PlantpotCommentReplyForm"
 import { Image } from 'antd'
 
 export function PlantpotCommentList({gardenid=''}){
-    const [commentListItems,setCommentListItems] = useState([<span key={1}></span>])
+    const [commentListItems,setCommentListItems] = useState([] as JSX.Element[])
     const [commentPage,setCommentPage] = useState(1)
     function pawPlantpotComment(commentid=''){postRequest(urls.pawPlantpotMedia,{id:gardenid,commentid:commentid})}
     function updateItems(arr=DefaultObj.plantpotCommentArray){

@@ -72,4 +72,5 @@ export const urls = {
     searchTags: host+'/core/searchTags',
     editTag: host+'/core/editTag',
     deleteTag: host+'/core/deleteTag',
+    getTopTags: host+'/core/getTopTags',
 };

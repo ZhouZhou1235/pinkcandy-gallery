@@ -1,5 +1,5 @@
 import { Box, Grid, Pagination } from "@mui/material";
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { GArea, PageTitle } from "../vars/ConstVars";
@@ -53,7 +53,7 @@ function Info(){
 }
 
 export function About(){
-    const [boardItems,setBoardItems] = useState([<span key={1}></span>])
+    const [boardItems,setBoardItems] = useState([] as JSX.Element[])
     const [boardPage,setBoardPage] = useState(1)
     useEffect(()=>{
         document.title = PageTitle.about

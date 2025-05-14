@@ -1,5 +1,5 @@
 import { Box, Grid, Pagination } from "@mui/material";
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { Spin } from "antd";
@@ -10,7 +10,7 @@ import { Footer } from "../component/Footer";
 export function Gallery(){
     const [galleryPage,setGalleryPage] = useState(1)
     const [loading,setLoading] = useState(true)
-    const [artworkItems,setArtworkItems] = useState([<span key={1}></span>])
+    const [artworkItems,setArtworkItems] = useState([] as JSX.Element[])
     async function updateGalleryPage(_event:any,value:number){
         await getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}`).then(data=>{
             if(data!=0){

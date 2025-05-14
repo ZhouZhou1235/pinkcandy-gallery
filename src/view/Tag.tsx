@@ -3,15 +3,17 @@ import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { DefaultObj, GArea } from "../vars/ConstVars";
-import { tagtypeNumToColorString } from "../utils/tools";
+import { objSortBy, tagtypeNumToColorString } from "../utils/tools";
 import { EditTagForm } from "../component/form/EditTagForm";
 import { DeleteTagButton } from "../component/DeleteTagButton";
+import { TagList } from "../component/TagList";
 
 export function Tag(){
     const [tagPage,setTagPage] = useState(1)
     const [tagtableItems,setTagtableItems] = useState([<TableRow key={1}></TableRow>])
     const [searchtagText,setSearchtagText] = useState('')
     const [searchtagtableItems,setSearchtagtableItems] = useState([<TableRow key={1}></TableRow>])
+    const [toptagdata,setToptagdata] = useState(DefaultObj.tagArray)
     function renderTagtableItems(data=DefaultObj.tagArray){
         let theItems = data.map(item=>
             <TableRow key={item.id}>
@@ -48,8 +50,18 @@ export function Tag(){
             }
         })
     }
+    function getTopTags(){
+        getRequest(urls.getTags+`?num=${GArea.defaultShowNum*10}`).then(data=>{
+            if(data!=0){
+                let tagList :any[] = data
+                tagList.sort(objSortBy('usenum',true))
+                tagList.splice(GArea.defaultShowNum)
+                setToptagdata(data)
+            }
+        })
+    }
     function updateTagPage(_event:any,value:number){
-        getRequest(urls.getTags+`?num=${Math.floor(GArea.defaultShowNum)}&begin=${(value-1)*Math.floor(GArea.defaultShowNum)}`).then(data=>{
+        getRequest(urls.getTags+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}`).then(data=>{
             if(data!=0){
                 renderTagtableItems(data)
             }
@@ -65,6 +77,7 @@ export function Tag(){
     }
     useEffect(()=>{
         getTags()
+        getTopTags()
     },[])
     return(
         <Box>
@@ -83,6 +96,8 @@ export function Tag(){
                                 onClick={searchTags}
                             >搜索</button>
                         </div>
+                        <h3>近期热门</h3>
+                        <TagList tagArray={toptagdata}/>
                         <div>
                             <Table>
                                 <TableHead>

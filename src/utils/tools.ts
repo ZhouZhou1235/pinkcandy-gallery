@@ -2,9 +2,6 @@
 
 import { SelectProps } from "antd";
 
-
-// === 通用
-
 // key object 类型判断
 function isValidKey(key:any,object:object):key is keyof typeof object{return key in object;}
 
@@ -45,8 +42,18 @@ export function checkObjHaveEmpty(obj:Object,exclude:string[]=[]){
 // 是否为数字字符串
 export function isNumberString(num:string){return !isNaN(Number(num))}
 
-
-// === 业务
+// sort 对象数组的排序依据
+export function objSortBy(attr='',desc=false){
+    let num = 1
+    if(desc){num=-1}
+    return (a:any,b:any)=>{
+        a=a[attr];
+        b=b[attr];
+        if(a<b){return num*-1}
+        if(a>b){return num*1}
+        return 0;
+    }
+}
 
 // 标签类型数对应中文
 export function tagtypeNumToString(type:number){

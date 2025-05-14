@@ -10,7 +10,7 @@ import { faAdd, faBell, faBook, faFan, faMagnifyingGlass, faPalette, faRightToBr
 function BarOption(){
     return(
         <>
-            <Link to={'/search'}>
+            <Link to={'/pinkcandy'}>
                 <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faMagnifyingGlass} />}>
                     来点粉糖
                 </Button>

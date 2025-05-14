@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 
-export function Search(){
+export function PinkCandy(){
     return(
         <Box>
 

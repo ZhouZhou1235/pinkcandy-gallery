@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { Footer } from "../component/Footer";
 import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
 import { ArtworkPreview } from "../component/artwork/ArtworkPreview";
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { toNormalDate } from "../utils/tools";
@@ -13,13 +13,13 @@ import { PlantpotPreview } from "../component/plantpot/PlantpotPreview";
 export function Home(){
     const [loading,setLoading] = useState(true)
     const [homedata,setHomedata] = useState(DefaultObj.homedata)
-    const [boardItems,setBoardItems] = useState([<span key={1}></span>])
-    const [artworkItems,setArtworkItems] = useState([<span key={1}></span>])
-    const [plantpotItems,setPlantpotItems] = useState([<span key={1}></span>])
+    const [boardItems,setBoardItems] = useState([] as JSX.Element[])
+    const [artworkItems,setArtworkItems] = useState([] as JSX.Element[])
+    const [plantpotItems,setPlantpotItems] = useState([] as JSX.Element[])
     async function loadHomeData(){
-        let theBoardItems = [<span key={1}></span>]
-        let theArtworkItems = [<span key={1}></span>]
-        let thePlantpotItems = [<span key={1}></span>]
+        let theBoardItems = [] as JSX.Element[]
+        let theArtworkItems = [] as JSX.Element[]
+        let thePlantpotItems = [] as JSX.Element[]
         await getRequest(urls.getTopInfo).then(x=>{if(typeof x=='string'){homedata.topInfo=x}})
         await getRequest(urls.getBoradMessages+'?num='+GArea.defaultShowNum).then(x=>{
             if(typeof x=='object'){

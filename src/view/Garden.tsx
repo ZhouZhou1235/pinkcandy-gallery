@@ -1,5 +1,5 @@
 import { Box, Grid, Pagination } from "@mui/material";
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { Spin } from "antd";
@@ -11,7 +11,7 @@ import { PlantpotFirst } from "../component/plantpot/PlantpotFirst";
 export function Garden(){
     const [gardenPage,setGardenPage] = useState(1)
     const [loading,setLoading] = useState(true)
-    const [plantpotItems,setPlantpotItems] = useState([<span key={1}></span>])
+    const [plantpotItems,setPlantpotItems] = useState([] as JSX.Element[])
     const [firstplantpotItem,setFirstplantpotItem] = useState(<></>)
     function updateGardenPage(_event:any,value:number){
         getRequest(urls.getPlantpots+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}`).then(data=>{
@@ -30,7 +30,7 @@ export function Garden(){
         })
     }
     async function loadData(){
-        let thePlantpotItems = [<span key={1}></span>]
+        let thePlantpotItems = [] as JSX.Element[]
         await getRequest(urls.getPlantpots+'?num='+GArea.defaultShowNum).then(x=>{
             if(typeof x=='object'){
                 let plantpots :any[] = x

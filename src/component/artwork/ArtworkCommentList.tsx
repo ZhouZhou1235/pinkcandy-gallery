@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { JSX, useEffect, useState } from "react"
 import { DefaultObj, GArea } from "../../vars/ConstVars"
 import { Box, Grid, Pagination } from "@mui/material"
 import { toNormalDate } from "../../utils/tools"
@@ -9,7 +9,7 @@ import { faPaw } from "@fortawesome/free-solid-svg-icons"
 import { Link } from "react-router"
 
 export function ArtworkCommentList({galleryid=''}){
-    const [commentListItems,setCommentListItems] = useState([<span key={1}></span>])
+    const [commentListItems,setCommentListItems] = useState([] as JSX.Element[])
     const [commentPage,setCommentPage] = useState(1)
     function pawArtworkComment(commentid=''){postRequest(urls.pawArtworkMedia,{id:galleryid,commentid:commentid})}
     function updateItems(arr=DefaultObj.artworkCommentArray){

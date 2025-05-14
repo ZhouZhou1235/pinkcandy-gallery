@@ -1,6 +1,6 @@
 import { TabContext, TabPanel } from "@mui/lab";
 import { Grid, Pagination, Tab, Tabs, Button } from "@mui/material";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { JSX, SyntheticEvent, useEffect, useState } from "react";
 import { getRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
 import { GArea } from "../../vars/ConstVars";
@@ -12,8 +12,8 @@ import { DeleteArtworkButton } from "../DeleteArtworkButton";
 import { DeletePlantpotButton } from "../DeletePlantpotButton";
 
 export function UserMediaControl({username=''}){
-    const [artworkitems,setArtworkitems] = useState([<span key={1}></span>])
-    const [plantpotitems,setPlantpotitems] = useState([<span key={1}></span>])
+    const [artworkitems,setArtworkitems] = useState([] as JSX.Element[])
+    const [plantpotitems,setPlantpotitems] = useState([] as JSX.Element[])
     const [editformElement,setEditformElement] = useState(<></>)
     const [galleryPage,setGalleryPage] = useState(1)
     const [gardenPage,setGardenPage] = useState(1)

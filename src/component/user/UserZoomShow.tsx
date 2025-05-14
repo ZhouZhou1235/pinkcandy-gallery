@@ -1,6 +1,6 @@
 import { FormControl, Grid, Pagination, Tab, Tabs } from "@mui/material";
 import { DefaultObj, GArea, PageTitle } from "../../vars/ConstVars";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { JSX, SyntheticEvent, useEffect, useState } from "react";
 import { getRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
 import { Avatar, Spin } from "antd";
@@ -17,8 +17,8 @@ export function UserZoomShow({username=''}){
     const [userdata,setUserdata] = useState(DefaultObj.userdata)
     const [watchButton,setWatchButton] = useState(<></>)
     const [infocountElement,setInfocountElement] = useState(<></>)
-    const [artworkitems,setArtworkitems] = useState([<span key={1}></span>])
-    const [plantpotitems,setPlantpotitems] = useState([<span key={1}></span>])
+    const [artworkitems,setArtworkitems] = useState([] as JSX.Element[])
+    const [plantpotitems,setPlantpotitems] = useState([] as JSX.Element[])
     const [tabvalue,setTabvalue] = useState('artworks')
     const [galleryPage,setGalleryPage] = useState(1)
     const [gardenPage,setGardenPage] = useState(1)
@@ -35,7 +35,7 @@ export function UserZoomShow({username=''}){
                 setArtworkitems(theArtworkItems)
             }
             else{
-                setArtworkitems([<span key={1}></span>])
+                setArtworkitems([] as JSX.Element[])
             }
         })
     }
@@ -51,7 +51,7 @@ export function UserZoomShow({username=''}){
                 setPlantpotitems(thePlantpotItems)
             }
             else{
-                setPlantpotitems([<span key={1}></span>])
+                setPlantpotitems([] as JSX.Element[])
             }
         })
     }

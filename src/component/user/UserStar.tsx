@@ -1,6 +1,6 @@
 import { TabContext, TabPanel } from "@mui/lab";
 import { Grid, Pagination, Tab, Tabs } from "@mui/material";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { JSX, SyntheticEvent, useEffect, useState } from "react";
 import { getRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
 import { GArea } from "../../vars/ConstVars";
@@ -8,8 +8,8 @@ import { ArtworkPreview } from "../artwork/ArtworkPreview";
 import { PlantpotPreview } from "../plantpot/PlantpotPreview";
 
 export function UserStar({username=''}){
-    const [artworkitems,setArtworkitems] = useState([<span key={1}></span>])
-    const [plantpotitems,setPlantpotitems] = useState([<span key={1}></span>])
+    const [artworkitems,setArtworkitems] = useState([] as JSX.Element[])
+    const [plantpotitems,setPlantpotitems] = useState([] as JSX.Element[])
     const [galleryPage,setGalleryPage] = useState(1)
     const [gardenPage,setGardenPage] = useState(1)
     const [tabvalue,setTabvalue] = useState('artworks')

@@ -1,5 +1,5 @@
 import { Box, Button, FormControl, Tab, Tabs } from "@mui/material";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { JSX, SyntheticEvent, useEffect, useState } from "react";
 import { getRequest, postRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { GArea } from "../vars/ConstVars";
@@ -10,8 +10,8 @@ import { TabContext, TabPanel } from "@mui/lab";
 function UserNoticePawArtwork({username=''}){
     const [tabvalue,setTabvalue] = useState('artwork')
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
-    const [artworkItems,setArtworkItems] = useState([<span key={1}></span>])
-    const [artworkcommentItems,setArtworkcommentItems] = useState([<span key={1}></span>])
+    const [artworkItems,setArtworkItems] = useState([] as JSX.Element[])
+    const [artworkcommentItems,setArtworkcommentItems] = useState([] as JSX.Element[])
     useEffect(()=>{
         getRequest(urls.getUserNoticePawArtwork+`?username=${username}`).then(data=>{
             if(data!=0){
@@ -109,8 +109,8 @@ function UserNoticePawArtwork({username=''}){
 function UserNoticePawPlantpot({username=''}){
     const [tabvalue,setTabvalue] = useState('plantpot')
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
-    const [plantpotItems,setPlantpotItems] = useState([<span key={1}></span>])
-    const [plantpotcommentItems,setPlantpotcommentItems] = useState([<span key={1}></span>])
+    const [plantpotItems,setPlantpotItems] = useState([] as JSX.Element[])
+    const [plantpotcommentItems,setPlantpotcommentItems] = useState([] as JSX.Element[])
     useEffect(()=>{
         getRequest(urls.getUserNoticePawPlantpot+`?username=${username}`).then(data=>{
             if(data!=0){
@@ -214,9 +214,9 @@ function UserNoticePawPlantpot({username=''}){
 function UserNoticeTextEcho({username=''}){
     const [tabvalue,setTabvalue] = useState('artworkcomment')
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
-    const [artworkcommentItems,setArtworkcommentItems] = useState([<span key={1}></span>])
-    const [plantpotcommentItems,setPlantpotcommentItems] = useState([<span key={1}></span>])
-    const [plantpotcommentreplyItems,setPlantpotcommentreplyItems] = useState([<span key={1}></span>])
+    const [artworkcommentItems,setArtworkcommentItems] = useState([] as JSX.Element[])
+    const [plantpotcommentItems,setPlantpotcommentItems] = useState([] as JSX.Element[])
+    const [plantpotcommentreplyItems,setPlantpotcommentreplyItems] = useState([] as JSX.Element[])
     useEffect(()=>{
         getRequest(urls.getUserNoticeTextEcho+`?username=${username}`).then(data=>{
             if(data!=0){
@@ -361,7 +361,7 @@ function UserNoticeTextEcho({username=''}){
 }
 
 function UserNoticeWatcher({username=''}){
-    const [items,setItems] = useState([<span key={1}></span>])
+    const [items,setItems] = useState([] as JSX.Element[])
     useEffect(()=>{
         getRequest(urls.getUserNoticeWatcher+`?username=${username}`).then(data=>{
             if(data!=0){

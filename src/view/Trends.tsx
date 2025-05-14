@@ -1,6 +1,6 @@
 import { TabContext, TabPanel } from "@mui/lab";
 import { Box, Button, Stack, Tab, Tabs } from "@mui/material";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { JSX, SyntheticEvent, useEffect, useState } from "react";
 import { getRequest, postRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { GArea } from "../vars/ConstVars";
@@ -10,8 +10,8 @@ import { PlantpotPreview } from "../component/plantpot/PlantpotPreview";
 import { UserPreview } from "../component/user/UserPreview";
 
 function UserTrend(username=''){
-    const [artworkItems,setArtworkItems] = useState([<span key={1}></span>])
-    const [plantpotItems,setPlantpotItems] = useState([<span key={1}></span>])
+    const [artworkItems,setArtworkItems] = useState([] as JSX.Element[])
+    const [plantpotItems,setPlantpotItems] = useState([] as JSX.Element[])
     const [tabvalue,setTabvalue] = useState('artwork')
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
     function loadData(){
@@ -25,7 +25,7 @@ function UserTrend(username=''){
                 )
                 setArtworkItems(theItems)
             }
-            else{setArtworkItems([<span key={1}></span>])}
+            else{setArtworkItems([] as JSX.Element[])}
         })
         getRequest(urls.getUserTrendPlantpots+'?username='+username).then(data=>{
             if(data!=0){
@@ -37,7 +37,7 @@ function UserTrend(username=''){
                 )
                 setPlantpotItems(theItems)
             }
-            else{setPlantpotItems([<span key={1}></span>])}
+            else{setPlantpotItems([] as JSX.Element[])}
         })
     }
     useEffect(()=>{
@@ -75,7 +75,7 @@ function UserTrend(username=''){
 
 export function Trends(){
     const [selectedUsername,setSelectedUsername] = useState('')
-    const [trenduserItems,setTrenduserItems] = useState([<span key={1}></span>])
+    const [trenduserItems,setTrenduserItems] = useState([] as JSX.Element[])
     function renderTrenduserItems(data:any[]){
         let theTrenduserItems = data.map(item=>
             <div key={item.username} className="row p-2">
@@ -117,7 +117,7 @@ export function Trends(){
     function trendFinishRead(){
         postRequest(urls.trendFinishRead).then(res=>{
             if(res!=0){
-                setTrenduserItems([<span key={1}></span>])
+                setTrenduserItems([] as JSX.Element[])
                 setSelectedUsername('')
             }
         })

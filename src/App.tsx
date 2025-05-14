@@ -12,7 +12,7 @@ import { Artwork } from "./view/Artwork"
 import { Gallery } from "./view/Gallery"
 import { Garden } from "./view/Garden"
 import { Tag } from "./view/Tag"
-import { Search } from "./view/Search"
+import { PinkCandy } from "./view/PinkCandy"
 import { Plantpot } from "./view/Plantpot"
 import { MyZoom } from "./view/MyZoom"
 import { Trends } from "./view/Trends"
@@ -40,7 +40,7 @@ function App(){
                         <Route path="/gallery" element={<Gallery />} />
                         <Route path="/garden" element={<Garden />} />
                         <Route path="/tag" element={<Tag />} />
-                        <Route path="/search" element={<Search />} />
+                        <Route path="/pinkcandy" element={<PinkCandy />} />
                         <Route path="/plantpot/:id" element={<Plantpot />} />
                         <Route path="/trends" element={<Trends />} />
                     </Route>

@@ -1,11 +1,13 @@
 import { Button, FormControl, FormLabel } from "@mui/material";
 import { Textarea,Input } from '@mui/joy';
 import { useEffect, useState } from "react";
-import { postRequest } from "../../utils/HttpRequest";
+import { getRequest, postRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
-import { objToFormdata } from "../../utils/tools";
+import { objSortBy, objToFormdata } from "../../utils/tools";
 import { useNavigate } from "react-router";
 import { Select, SelectProps } from "antd";
+import { DefaultObj, GArea } from "../../vars/ConstVars";
+import { TagList } from "../TagList";
 
 export function PlantpotForm(){
     let options: SelectProps['options'] = []
@@ -18,16 +20,53 @@ export function PlantpotForm(){
         tags: '',
         file: '' as any,
     })
-    useEffect(()=>{
-        // ...
-        // options.push({
-        //     label: '最近：gallery4',
-        //     value: 'gallery4',
-        // })
+    const [searchTagArray,setSearchTagArray] = useState(DefaultObj.tagArray)
+    async function loadTagOptions(){
+        let options: SelectProps['options'] = []
+        await getRequest(urls.getTags+`?num=${GArea.defaultShowNum*10}`).then(data=>{
+            if(data!=0){
+                let tagList :any[] = data
+                tagList.sort(objSortBy('usenum',true))
+                tagList.splice(GArea.defaultShowNum)
+                for(let i=0;i<tagList.length;i++){
+                    options.push({
+                        label: '热门：'+tagList[i].tag,
+                        value: tagList[i].tag,
+                    })
+                }
+            }
+        })
+        await getRequest(urls.getTags+`?num=${GArea.defaultShowNum}`).then(data=>{
+            if(data!=0){
+                let tagList :any[] = data
+                for(let i=0;i<tagList.length;i++){
+                    options.push({
+                        label: '最新：'+tagList[i].tag,
+                        value: tagList[i].tag,
+                    })
+                }
+            }
+        })
         setTagPreview(options)
+    }
+    async function searchToShowTags(tags:string[]){
+        let theTagText = '';for(let i=0;i<tags.length;i++){theTagText += tags[i]+' '}
+        await getRequest(urls.searchTags+`?tagtext=${theTagText}`).then(data=>{
+            console.log(theTagText)
+            if(data!=0){
+                let tagList :any[] = data
+                tagList.sort(objSortBy('usenum',true))
+                tagList.splice(GArea.defaultShowNum)
+                setSearchTagArray(tagList)
+            }
+        })
+    }
+    useEffect(()=>{
+        loadTagOptions()
     },[])
     // 更新标签列表
     const selectTag = (tags:string[])=>{
+        searchToShowTags(tags)
         plantpotForm.tags = JSON.stringify(tags)
         setPlantpotForm(plantpotForm)
     }
@@ -68,6 +107,8 @@ export function PlantpotForm(){
                     onChange={selectTag}
                     options={tagPreview}
                 />
+                <TagList tagArray={searchTagArray}/>
+                <small>标签建议</small>
                 <Button variant="outlined" sx={{mt:2}} onClick={createPlantpot} disabled={btnDisabled}>创建</Button>
             </FormControl>
         </div>
