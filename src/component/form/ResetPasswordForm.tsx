@@ -44,6 +44,7 @@ export function ResetPasswordForm(){
     }
     return(
         <AccordionDetails>
+            <small>输入绑定的邮箱获取验证码，然后设置新的密码。</small>
             <TextField fullWidth label="邮箱" variant="outlined" sx={{mt:2}} disabled={ emailFieldDisabled } onChange={e=>{
                 let theEmail = e.target.value
                 resetPasswordForm.email = theEmail

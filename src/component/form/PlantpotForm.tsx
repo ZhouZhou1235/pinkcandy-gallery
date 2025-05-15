@@ -81,6 +81,12 @@ export function PlantpotForm(){
     }
     return(
         <div className="container">
+            <small>
+                至少填写标题和内容，
+                图片仅支持png、jpg、gif格式，
+                超过5M的图片可能导致失败。
+                输入标签有利于搜索。
+            </small>
             <div className="input-group">
                 <label className="input-group-text">盆栽首图</label>
                 <input type="file" className="form-control" name="file" id="arkworkFile" onChange={(e)=>{

@@ -43,7 +43,7 @@ export function EditUserImportantForm(){
         postRequest(urls.editUserImportant,editUserImportantForm).then(res=>{
             if(res==1){
                 setSnackbarOpen(true)
-                setSnackbarMessage('关键信息修改完成')
+                setSnackbarMessage('关键信息修改完成 需要刷新以重新登录')
                 navigate('/')
             }
             else{setEditBtnDisabled(false)}

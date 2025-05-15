@@ -283,20 +283,26 @@ function UserNoticeTextEcho({username=''}){
                                     {item.user.name} {Number(item.user.sex)==1?'雄':Number(item.user.sex)==2?'雌':''} {item.user.species}
                                 </Link>
                                 <br />
-                                给盆栽 {item.title} 生长叶子 
+                                给盆栽 <Link to={'/plantpot/'+item.gardenid}>{item.title}</Link> 生长叶子 
                                 <br />
                                 {item.content}
                                 <br />
                                 <small>{toNormalDate(item.time)}</small>
                             </div>
                             <div className="col-3" style={{overflow:'hidden'}}>
-                                <Link to={'/plantpot/'+item.gardenid}>
-                                    <img
-                                        src={GArea.plantpotimageURL+item.filename}
-                                        alt="plantpotimage"
-                                        height={100}
-                                    />
-                                </Link>
+                                {
+                                    item.filename
+                                    ?
+                                    <Link to={'/plantpot/'+item.gardenid}>
+                                        <img
+                                            src={GArea.plantpotimageURL+item.filename}
+                                            alt="plantpotimage"
+                                            height={100}
+                                        />
+                                    </Link>
+                                    :
+                                    null
+                                }
                             </div>
                         </div>
                     </div>

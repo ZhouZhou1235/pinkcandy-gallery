@@ -20,9 +20,9 @@ export function Login(){
                         <Container sx={{p:2}}>
                             <h1>堆积更多的毛绒绒！</h1>
                             <div>
-                                这是一个中文毛绒绒站点<br />
-                                输入粉糖账号和密码登录<br />
-                                也可以使用邮箱<br />
+                                幻想动物画廊🐾是一个非商业性质中文艺术图站，<br />
+                                用户可以浏览、发布分享有关毛绒绒的绘画作品。<br />
+                                如有问题请联系站长<a href="https://pinkcandy.top">小蓝狗</a>❄️<br />
                             </div>
                         </Container>
                         <Container sx={{p:2}}>

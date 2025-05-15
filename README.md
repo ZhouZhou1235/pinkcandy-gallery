@@ -14,8 +14,8 @@
 部署方案为 宝塔面板管理 Linux+Nginx+MySQL+本地文件库+HTTPS<br>
 后端仓库地址 [幻想动物画廊系统](https://github.com/ZhouZhou1235/GallerySystem)<br>
 
-**正在运行第三版**
-先前的版本已经废弃，正在开发第四版。
+**正在运行第四版**
+第三版于第四版稳定后废弃，先前的版本已经废弃。
 
 ### 版本概览
 - 第四版 React
