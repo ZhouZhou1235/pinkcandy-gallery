@@ -3,7 +3,7 @@ import { Box, Button, Stack, Tab, Tabs } from "@mui/material";
 import { JSX, SyntheticEvent, useEffect, useState } from "react";
 import { getRequest, postRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
-import { GArea } from "../vars/ConstVars";
+import { GArea, PageTitle } from "../vars/ConstVars";
 import { Link } from "react-router";
 import { ArtworkPreview } from "../component/artwork/ArtworkPreview";
 import { PlantpotPreview } from "../component/plantpot/PlantpotPreview";
@@ -131,6 +131,7 @@ export function Trends(){
         })
     }
     useEffect(()=>{
+        document.title = PageTitle.trends
         getUserTrendUsers()
     },[])
     return(

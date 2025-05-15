@@ -2,7 +2,7 @@ import { Box, Button, FormControl, Tab, Tabs } from "@mui/material";
 import { JSX, SyntheticEvent, useEffect, useState } from "react";
 import { getRequest, postRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
-import { GArea } from "../vars/ConstVars";
+import { GArea, PageTitle } from "../vars/ConstVars";
 import { toNormalDate } from "../utils/tools";
 import { Link } from "react-router";
 import { TabContext, TabPanel } from "@mui/lab";
@@ -369,6 +369,7 @@ function UserNoticeTextEcho({username=''}){
 function UserNoticeWatcher({username=''}){
     const [items,setItems] = useState([] as JSX.Element[])
     useEffect(()=>{
+        document.title = PageTitle.notice
         getRequest(urls.getUserNoticeWatcher+`?username=${username}`).then(data=>{
             if(data!=0){
                 let objArray :any[] = data

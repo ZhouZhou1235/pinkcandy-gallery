@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
-import { DefaultObj, GArea } from "../vars/ConstVars";
+import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { TagList } from "../component/TagList";
@@ -55,6 +55,7 @@ export function PinkCandy(){
         })
     }
     useEffect(()=>{
+        document.title = PageTitle.pinkcandy
         getTopTagsAndView()
     },[])
     return(

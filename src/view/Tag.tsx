@@ -2,7 +2,7 @@ import { Box, Grid, Pagination, Paper, Table, TableBody, TableCell, TableContain
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
-import { DefaultObj, GArea } from "../vars/ConstVars";
+import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
 import { objSortBy, tagtypeNumToColorString } from "../utils/tools";
 import { EditTagForm } from "../component/form/EditTagForm";
 import { DeleteTagButton } from "../component/DeleteTagButton";
@@ -76,6 +76,7 @@ export function Tag(){
         })
     }
     useEffect(()=>{
+        document.title = PageTitle.tag
         getTags()
         getTopTags()
     },[])

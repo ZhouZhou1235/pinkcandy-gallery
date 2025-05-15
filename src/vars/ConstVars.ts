@@ -190,4 +190,8 @@ export const PageTitle = {
     garden: '幻想动物画廊 - 花园',
     plantpot: '【盆栽】',
     zoom: '【空间】',
+    notice: '幻想动物画廊 - 消息中心',
+    pinkcandy: '幻想动物画廊 - 来点粉糖',
+    tag: '幻想动物画廊 - 标签系统',
+    trends: '幻想动物画廊 - 动态',
 }
