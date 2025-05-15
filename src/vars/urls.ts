@@ -73,4 +73,5 @@ export const urls = {
     editTag: host+'/core/editTag',
     deleteTag: host+'/core/deleteTag',
     getTopTags: host+'/core/getTopTags',
+    searchPinkCandy: host+'/core/searchPinkCandy',
 };

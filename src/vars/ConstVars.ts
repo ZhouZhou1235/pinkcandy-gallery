@@ -147,6 +147,35 @@ export const DefaultObj = {
         info: '',
         usenum: 0,
     },
+    pinkcandyResult: {
+        artwork: [{
+            id: '',
+            username: '',
+            filename: '',
+            title: '',
+            info: '',
+            time: '',
+        }],
+        plantpot: [{
+            id: '',
+            username: '',
+            filename: '',
+            title: '',
+            content: '',
+            createtime: '',
+            updatetime: '',
+        }],
+        user: [{
+            username: '',
+            name: '',
+            jointime: '',
+            info: '',
+            headimage: '',
+            backimage: '',
+            sex: '',
+            species: '',
+        }],
+    },
 }
 
 // 页面标题
