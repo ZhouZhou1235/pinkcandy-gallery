@@ -1,7 +1,7 @@
 // 全局变量
 
-export const systemAPI = 'http://localhost:3000' // 后端接口
-export const resourcePath = 'http://localhost:3000' // 资源路径 gallery-system.pinkcandy.top
+export const systemAPI = 'http://localhost:3000' // 后端接口 http://localhost:3000
+export const resourcePath = 'http://localhost:3000' // 资源路径 https://gallery-system.pinkcandy.top
 export const proxyAPI = '/api' // 代理url 解决跨域问题
 
 // 静态固定量
@@ -14,7 +14,7 @@ export const GArea = {
     plantpotimageURL: resourcePath+"/files/garden/",
     defaultHeadimage: "/images/head.png",
     defaultBackimage: "/images/back.png",
-    logoURL: "/images/logo.png",
+    logoURL: "/images/logo.svg",
     image404URL: "/images/image404.png",
     GalleryPageview: '/images/GalleryPageview.png',
     BaiBaiAndZhouZhou: '/images/BaiBaiAndZhouZhou.png',

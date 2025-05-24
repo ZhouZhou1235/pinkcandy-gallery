@@ -61,8 +61,8 @@ export function PinkCandy(){
     return(
         <Box>
             <div className="container">
-                <div className="text-center p-2 my-5 text-center">
-                    <img src={GArea.logoURL} alt="logo" className="d-block mx-auto m-2" width={'100%'} style={{maxWidth:'500px'}} />
+                <div className="text-center p-2 my-4 text-center">
+                    <img src={GArea.logoURL} alt="logo" className="d-block mx-auto m-2" width={'100%'} style={{maxWidth:'200px'}} />
                     <div className="col-lg-6 mx-auto">
                         <div className="input-group">
                             <input

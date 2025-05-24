@@ -52,20 +52,6 @@ function LoginButton(){
 function UserArea(userdata=DefaultObj.userdata,noticenum=0,trendsnum=0){
     return(
         <>
-            <Link to={'/myzoom'}>
-                <Button
-                    variant="outlined"
-                    color="secondary"
-                    startIcon={<FontAwesomeIcon icon={faShieldDog} />}
-                >
-                    { userdata.name }
-                </Button>
-            </Link>
-            <Link to={'/add'}>
-                <Button variant="outlined" color="secondary" startIcon={<FontAwesomeIcon icon={faAdd} />}>
-                    添加
-                </Button>
-            </Link>
             <Link to={'/notice'}>
                 <Button variant="text" color="secondary" startIcon={<FontAwesomeIcon icon={faBell} />}>
                     <Badge color="info" badgeContent={noticenum}>
@@ -78,6 +64,20 @@ function UserArea(userdata=DefaultObj.userdata,noticenum=0,trendsnum=0){
                     <Badge color="info" badgeContent={trendsnum}>
                         动态
                     </Badge>
+                </Button>
+            </Link>
+            <Link to={'/add'}>
+                <Button variant="outlined" color="secondary" startIcon={<FontAwesomeIcon icon={faAdd} />}>
+                    添加
+                </Button>
+            </Link>
+            <Link to={'/myzoom'}>
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    startIcon={<FontAwesomeIcon icon={faShieldDog} />}
+                >
+                    { userdata.name }
                 </Button>
             </Link>
         </>
@@ -101,7 +101,9 @@ export function Bar(){
     return(
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
-                <Link to={'/'} onClick={updateState}><img src={GArea.logoURL} alt="logo" height={50}/></Link>
+                <Link to={'/'} onClick={updateState}>
+                    <img src={GArea.logoURL} alt="logo" height={50} width={50}/>
+                </Link>
                 <button
                     className="navbar-toggler"
                     type="button"
@@ -121,9 +123,17 @@ export function Bar(){
                             sx={{mx:2}}
                         >
                             <BarOption />
-                            {userareaElement}
                         </Stack>
                     </div>
+                        <span className="navbar-text">
+                            <Stack
+                                direction={{ xs:'column',sm:'row' }}
+                                spacing={1}
+                                sx={{mx:2}}
+                            >
+                                {userareaElement}
+                            </Stack>
+                        </span>
                 </div>
             </div>
         </nav>
