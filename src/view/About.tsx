@@ -21,7 +21,7 @@ function Info(){
                 <br />
                 本项目已开源，欢迎兴趣同好访问学习或加入开发。<a href="https://github.com/ZhouZhou1235/pinkcandy-gallery">项目地址</a><br />
                 <br />
-                粉糖粒子-幻想动物画廊 2023.10 创建<br />
+                粉糖-幻想动物画廊 2023.10 创建<br />
             </p>
             <h2>粉糖画廊规则</h2>
             <p>
@@ -48,7 +48,7 @@ function Info(){
             </p>
             <small>
                 工作邮箱 <a href='mailto:pinkcandyzhou@qq.com'>pinkcandyzhou@qq.com</a><br />
-                版权所有 粉糖粒子周周 保留所有权利<br />
+                版权所有 粉糖周周 保留所有权利<br />
                 Copyright © PinkCandyZhou. All rights reserved.<br /> 
             </small>
         </>

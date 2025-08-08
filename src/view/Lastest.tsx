@@ -10,7 +10,7 @@ import { Spin } from "antd";
 import { Link } from "react-router";
 import { PlantpotPreview } from "../component/plantpot/PlantpotPreview";
 
-export function Home(){
+export function Lastest(){
     const [loading,setLoading] = useState(true)
     const [homedata,setHomedata] = useState(DefaultObj.homedata)
     const [boardItems,setBoardItems] = useState([] as JSX.Element[])
@@ -20,7 +20,6 @@ export function Home(){
         let theBoardItems = [] as JSX.Element[]
         let theArtworkItems = [] as JSX.Element[]
         let thePlantpotItems = [] as JSX.Element[]
-        await getRequest(urls.getTopInfo).then(x=>{if(typeof x=='string'){homedata.topInfo=x}})
         await getRequest(urls.getBoradMessages+'?num='+GArea.defaultShowNum).then(x=>{
             if(typeof x=='object'){
                 let boardMessages :any[] = x
@@ -76,7 +75,6 @@ export function Home(){
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-sm-3 p-2">
-                        <div dangerouslySetInnerHTML={{__html:homedata.topInfo}} />
                         <div className="moblieHideBox">
                             <ul className="list-group list-group-flush">
                                 { boardItems }

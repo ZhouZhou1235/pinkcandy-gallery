@@ -11,3 +11,15 @@ import './assets/css/default.css'
 
 // 创建根DOM 渲染
 createRoot(document.getElementById('root')!).render(<App />)
+
+// 检查ECMAScript支持
+if(eval("let x = 1; const y = 2; () => {}; `template`")){
+    console.log('PINKCANDY: FantasyFurryGallery load ready!')
+}
+else{
+    console.log('PINKCANDY: ECMAScript not support.')
+    let root = document.getElementById('root')
+    if(root){
+        root.innerHTML = '<h1>PINKCANDY: ECMAScript not support.</h1>'
+    }
+}

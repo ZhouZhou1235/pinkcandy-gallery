@@ -6,12 +6,17 @@ import { urls } from "../vars/urls";
 import { TagList } from "../component/TagList";
 import { objSortBy } from "../utils/tools";
 import { PinkcandyResultShow } from "../component/PinkcandyResultShow";
+import { Footer } from "../component/Footer";
 
 export function PinkCandy(){
+    const [topInfo,setTopInfo] = useState('')
     const [searchtext,setSearchtext] = useState('')
     const [toptagdata,setToptagdata] = useState(DefaultObj.tagArray)
     const [searchTagArray,setSearchTagArray] = useState(DefaultObj.tagArray)
     const [pinkcandyResultShowElement,setPinkcandyResultShowElement] = useState(<></>)
+    function getAndSetTopInfo(){
+        getRequest(urls.getTopInfo).then(x=>{if(typeof x=='string'){setTopInfo(x)}})
+    }
     function getTopTagsAndView(){
         getRequest(urls.getTags+`?num=${GArea.defaultShowNum*10}`).then(data=>{
             if(data!=0){
@@ -57,12 +62,13 @@ export function PinkCandy(){
     useEffect(()=>{
         document.title = PageTitle.pinkcandy
         getTopTagsAndView()
+        getAndSetTopInfo()
     },[])
     return(
         <Box>
             <div className="container">
                 <div className="text-center p-2 my-4 text-center">
-                    <img src={GArea.logoURL} alt="logo" className="d-block mx-auto m-2" width={'100%'} style={{maxWidth:'200px'}} />
+                    <img src={GArea.titleURL} alt="logo" className="d-block mx-auto m-2" width={'100%'} style={{maxWidth:'400px'}} />
                     <div className="col-lg-6 mx-auto">
                         <div className="input-group">
                             <input
@@ -77,9 +83,11 @@ export function PinkCandy(){
                             <button className="btn btn-outline-secondary" onClick={searchPinkCandy}>来点粉糖</button>
                         </div>
                         <TagList tagArray={searchTagArray}/>
+                        <div dangerouslySetInnerHTML={{__html:topInfo}} />
                     </div>
                 </div>
                 {pinkcandyResultShowElement}
+                <Footer />
             </div>
         </Box>
     )

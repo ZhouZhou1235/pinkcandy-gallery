@@ -12,7 +12,7 @@ export function Footer(){
                 <Button
                     startIcon={<FontAwesomeIcon icon={faSnowflake} />}
                 >
-                    粉糖粒子
+                    粉糖
                 </Button>
             </a>
             &nbsp;
@@ -24,7 +24,9 @@ export function Footer(){
                 </Button>
             </a>
             <br />
-            <small>站长小蓝狗🐾 1479499289@qq.com 保留所有权利 2023-2025 <a href="https://beian.miit.gov.cn">黔ICP备2024038291号</a></small>
+            <small>小蓝狗周周 1479499289@qq.com</small>
+            <br />
+            <small>保留所有权利 2023-2025 <a href="https://beian.miit.gov.cn">黔ICP备2024038291号</a></small>
         </Box>
     )
 }

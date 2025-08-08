@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd, faBell, faBook, faFan, faMagnifyingGlass, faPalette, faRightToBracket, faShieldDog, faTags, faTree } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faBell, faBook, faFan, faNewspaper, faPalette, faRightToBracket, faShieldDog, faTags, faTree } from "@fortawesome/free-solid-svg-icons";
 
 function BarOption(){
     return(
         <>
-            <Link to={'/pinkcandy'}>
-                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faMagnifyingGlass} />}>
-                    来点粉糖
+            <Link to={'/lastest'}>
+                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faNewspaper} />}>
+                    最新内容
                 </Button>
             </Link>
             <Link to={'/gallery'}>

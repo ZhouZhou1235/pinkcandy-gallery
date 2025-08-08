@@ -6,12 +6,7 @@ import { systemAPI } from './src/vars/ConstVars'
 export default defineConfig({
     plugins: [react()],
     // vite 代理服务器
-    // 原理：同源请求 vite重写url转发到后端接口
-    // 也可以使用Ngnix完成
-    // location ~ /api/* {
-    //     proxy_pass http://localhost:3000;
-    //     rewrite ^/api/(.*)$ /$1 break;
-    // }
+    // 同源请求 vite重写url转发到后端接口
     server: {
         proxy: {
             '/api': {
