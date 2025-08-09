@@ -9,6 +9,7 @@ import { faPaw } from "@fortawesome/free-solid-svg-icons"
 import { Link } from "react-router"
 import { PlantpotCommentReplyForm } from "./../form/PlantpotCommentReplyForm"
 import { Image } from 'antd'
+import { LazyLoadComponent } from "react-lazy-load-image-component"
 
 export function PlantpotCommentList({gardenid=''}){
     const [commentListItems,setCommentListItems] = useState([] as JSX.Element[])
@@ -51,7 +52,9 @@ export function PlantpotCommentList({gardenid=''}){
                         {
                             item.filename
                             ?
-                            <Image src={GArea.plantpotimageURL+item.filename} alt="commentimage" width={'100%'}/>
+                            <LazyLoadComponent children={
+                                <Image src={GArea.plantpotimageURL+item.filename} alt="commentimage" width={'100%'}/>
+                            } />
                             :
                             null
                         }

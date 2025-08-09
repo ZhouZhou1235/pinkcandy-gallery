@@ -19,7 +19,8 @@ export const GArea = {
     titleURL: "/images/title.png",
     image404URL: "/images/image404.png",
     GalleryPageview: '/images/GalleryPageview.png',
-    BaiBaiAndZhouZhou: '/images/BaiBaiAndZhouZhou.png',
+    BaiAndZhou: '/images/BaiAndZhou.png',
+    TuDouAndZhou: '/images/TuDouAndZhou.png',
     defaultShowNum: 12,
     defaultGetNum: 20,
 }

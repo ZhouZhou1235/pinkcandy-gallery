@@ -3,6 +3,7 @@ import { DefaultObj, GArea } from "../../vars/ConstVars";
 import { toNormalDate } from "../../utils/tools";
 import { PlantpotPawArea } from "./PlantpotPawArea";
 import { Link } from "react-router";
+import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 export function PlantpotPreview({plantpotdata=DefaultObj.plantpotdata}){
     return(
@@ -27,9 +28,11 @@ export function PlantpotPreview({plantpotdata=DefaultObj.plantpotdata}){
                         ?
                         <div className="col-4">
                             <Link to={'/plantpot/'+plantpotdata.id}>
-                                <div className="squareBox">
-                                    <img src={ GArea.plantpotimageURL+plantpotdata.filename } alt="plantpotimage"/>
-                                </div>
+                                <LazyLoadComponent children={
+                                    <div className="squareBox">
+                                        <img src={ GArea.plantpotimageURL+plantpotdata.filename } alt="plantpotimage"/>
+                                    </div>
+                                } />
                             </Link>
                         </div>
                         :

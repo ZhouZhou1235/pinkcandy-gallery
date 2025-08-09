@@ -9,21 +9,16 @@ import { Link } from "react-router";
 function Info(){
     return(
         <>
-            <img src={GArea.GalleryPageview} alt="gallerypageview" width={'100%'}/>
-            <h1>幻想动物画廊</h1>
+            <img src={GArea.titleURL} alt="title" width={'100%'}/>
             <p>
-                粉糖 PINKCANDY<br />
-                变成毛绒绒的形状！🐾<br />
-                嘿！欢迎来到粉糖画廊！<br />
-                幻想动物画廊🐾是一个非商业性质中文艺术图站，<br />
-                用户可以浏览、发布分享有关毛绒绒的绘画作品。<br />
-                小蓝狗周周想与伙伴们互相分享毛绒绒艺术~<br />
+                幻想动物画廊🐾是一个非商业性质中文艺术图站，
+                用户可以浏览、发布分享有关毛绒绒的绘画作品。
+                小蓝狗周周想与伙伴们互相分享毛绒绒艺术~
+                本项目已开源，如有兴趣欢迎浏览代码仓库！
                 <br />
-                本项目已开源，欢迎兴趣同好访问学习或加入开发。<a href="https://github.com/ZhouZhou1235/pinkcandy-gallery">项目地址</a><br />
-                <br />
-                粉糖-幻想动物画廊 2023.10 创建<br />
+                粉糖-幻想动物画廊 2023.10 创建
             </p>
-            <h2>粉糖画廊规则</h2>
+            <h2>规则</h2>
             <p>
                 1 遵守我国基本法律和道德规范<br />
                 2 不要发限制级作品、猎奇恐怖、政治相关等敏感信息<br />
@@ -35,8 +30,8 @@ function Info(){
             </p>
             <h2>什么是毛绒绒？</h2>
             <p>
-                毛绒绒是指由各种除人类以外的动物为主要原型创作出来的角色形象。<br />
-                喜爱毛绒绒的群体称为兽控，兽迷，“福瑞控”等。<br />
+                毛绒绒是指由各种除人类以外的动物为主要原型创作出来的角色形象，
+                喜爱毛绒绒的群体称为兽控，兽迷，“福瑞控”等。
                 毛绒绒的兽化程度可以细分为以下等级：<br />
                 - 人类<br />
                 1 仅有耳朵和尾巴作为装饰<br />
@@ -48,8 +43,8 @@ function Info(){
             </p>
             <small>
                 工作邮箱 <a href='mailto:pinkcandyzhou@qq.com'>pinkcandyzhou@qq.com</a><br />
-                版权所有 粉糖周周 保留所有权利<br />
-                Copyright © PinkCandyZhou. All rights reserved.<br /> 
+                版权所有 保留所有权利<br />
+                Copyright © pinkcandyzhou. All rights reserved.<br /> 
             </small>
         </>
     )
@@ -119,7 +114,8 @@ export function About(){
                                 <Pagination count={boardPage} onChange={ updateBoardPage } />    
                             </Grid>
                         </Grid>
-                        <img src={GArea.BaiBaiAndZhouZhou} alt="baibaiandzhouzhou" width={'100%'}/>
+                        <img src={GArea.BaiAndZhou} alt="BaiAndZhou" width={'100%'}/>
+                        <img src={GArea.TuDouAndZhou} alt="TuDouAndZhou" width={'100%'}/>
                     </div>
                 </div>
             </div>

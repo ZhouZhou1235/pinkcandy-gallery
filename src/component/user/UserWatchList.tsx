@@ -31,7 +31,7 @@ export function UserWatchList({username=''}){
         })
     }
     useEffect(()=>{
-        gettoloadUserWatch(1)
+        gettoloadUserWatch(pagenum)
     },[pagenum,username])
     return(
         <>

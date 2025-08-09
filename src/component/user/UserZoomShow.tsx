@@ -11,6 +11,7 @@ import { ArtworkPreview } from "../artwork/ArtworkPreview";
 import { TabContext, TabPanel } from "@mui/lab";
 import { PlantpotPreview } from "../plantpot/PlantpotPreview";
 import { UserWatchList } from "./UserWatchList";
+import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 export function UserZoomShow({username=''}){
     const [loading,setLoading] = useState(true)
@@ -93,11 +94,15 @@ export function UserZoomShow({username=''}){
             <Spin spinning={loading} fullscreen />
             <>
                 {
-                    userdata.backimage?
-                    <div className="backImageBox">
-                        <img src={GArea.backimageURL+userdata.backimage} alt="backimage" />
-                    </div>
-                    :null
+                    userdata.backimage
+                    ?
+                    <LazyLoadComponent children={
+                        <div className="backImageBox">
+                            <img src={GArea.backimageURL+userdata.backimage} alt="backimage" />
+                        </div>
+                    } />
+                    :
+                    null
                 }
                 <div className="row">
                     <div className="col-sm-4">

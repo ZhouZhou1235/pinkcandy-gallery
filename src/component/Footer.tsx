@@ -11,6 +11,7 @@ export function Footer(){
             <a href="https://pinkcandy.top">
                 <Button
                     startIcon={<FontAwesomeIcon icon={faSnowflake} />}
+                    size="small"
                 >
                     粉糖
                 </Button>
@@ -19,6 +20,7 @@ export function Footer(){
             <a href="https://github.com/ZhouZhou1235/pinkcandy-gallery">
                 <Button
                     startIcon={<FontAwesomeIcon icon={faCode} />}
+                    size="small"
                 >
                     github
                 </Button>

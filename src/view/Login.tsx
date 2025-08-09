@@ -22,7 +22,7 @@ export function Login(){
                             <div>
                                 幻想动物画廊🐾是一个非商业性质中文艺术图站，<br />
                                 用户可以浏览、发布分享有关毛绒绒的绘画作品。<br />
-                                如有问题请联系站长<a href="https://pinkcandy.top">小蓝狗</a>❄️<br />
+                                如有问题请联系<a href="https://pinkcandy.top">站长</a><br />
                             </div>
                         </Container>
                         <Container sx={{p:2}}>
