@@ -10,7 +10,7 @@ import { Spin } from "antd";
 import { Link } from "react-router";
 import { PlantpotPreview } from "../component/plantpot/PlantpotPreview";
 
-export function Lastest(){
+export function Latest(){
     const [loading,setLoading] = useState(true)
     const [homedata,setHomedata] = useState(DefaultObj.homedata)
     const [boardItems,setBoardItems] = useState([] as JSX.Element[])

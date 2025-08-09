@@ -10,7 +10,7 @@ import { faAdd, faBell, faBook, faFan, faNewspaper, faPalette, faRightToBracket,
 function BarOption(){
     return(
         <>
-            <Link to={'/lastest'}>
+            <Link to={'/latest'}>
                 <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faNewspaper} />}>
                     最新内容
                 </Button>
