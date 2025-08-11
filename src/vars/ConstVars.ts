@@ -18,7 +18,7 @@ export const GArea = {
     logoURL: "/images/logo.svg",
     titleURL: "/images/title.png",
     image404URL: "/images/image404.png",
-    GalleryPageview: '/images/GalleryPageview.png',
+    GalleryPageview: '/images/GalleryPageview.webp',
     BaiAndZhou: '/images/BaiAndZhou.png',
     TuDouAndZhou: '/images/TuDouAndZhou.png',
     defaultShowNum: 12,
@@ -182,7 +182,8 @@ export const DefaultObj = {
 
 // 页面标题
 export const PageTitle = {
-    home: '粉糖 - 幻想动物画廊',
+    pinkcandy: '粉糖 - 幻想动物画廊',
+    latest: '幻想动物画廊 - 最新内容',
     about: '幻想动物画廊 - 关于',
     add: '幻想动物画廊 - 添加',
     artwork: '【作品】',
@@ -193,7 +194,6 @@ export const PageTitle = {
     plantpot: '【盆栽】',
     zoom: '【空间】',
     notice: '幻想动物画廊 - 消息中心',
-    pinkcandy: '幻想动物画廊 - 来点粉糖',
     tag: '幻想动物画廊 - 标签系统',
     trends: '幻想动物画廊 - 动态',
 }

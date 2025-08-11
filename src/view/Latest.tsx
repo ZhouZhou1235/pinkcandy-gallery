@@ -66,7 +66,7 @@ export function Latest(){
         setLoading(false)
     }
     useEffect(()=>{
-        document.title = PageTitle.home
+        document.title = PageTitle.latest
         loadHomeData()
     },[])
     return(
