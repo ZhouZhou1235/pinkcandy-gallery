@@ -45,8 +45,6 @@ export function UserWatchList({username=''}){
                     </Typography>
                 </AccordionSummary>
                 {watcherElement}
-                <Button onClick={lastPage} startIcon={<FontAwesomeIcon icon={faArrowLeft}/>}/>
-                <Button onClick={nextPage} startIcon={<FontAwesomeIcon icon={faArrowRight}/>}/>
             </Accordion>
             <Accordion>
                 <AccordionSummary
@@ -58,9 +56,9 @@ export function UserWatchList({username=''}){
                     </Typography>
                 </AccordionSummary>
                 {towatchElement}
-                <Button onClick={lastPage} startIcon={<FontAwesomeIcon icon={faArrowLeft}/>}/>
-                <Button onClick={nextPage} startIcon={<FontAwesomeIcon icon={faArrowRight}/>}/>
             </Accordion>
+            <Button onClick={lastPage} startIcon={<FontAwesomeIcon icon={faArrowLeft}/>}/>
+            <Button onClick={nextPage} startIcon={<FontAwesomeIcon icon={faArrowRight}/>}/>
         </>
     )
 }
