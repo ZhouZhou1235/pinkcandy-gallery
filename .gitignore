@@ -21,3 +21,4 @@ dist-ssr
 package-lock.json
 
 files
+back-end/config.js

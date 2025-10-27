@@ -58,8 +58,8 @@ const config = {
         service: 'qq',
         secure: true,
         auth: {
-            user: '1479499289@qq.com',
-            pass: 'auyvbrlqnjeejhjd',
+            user: 'xxx@qq.com',
+            pass: '......',
         },
     },
     // 跨域设置
