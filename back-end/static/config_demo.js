@@ -20,7 +20,7 @@ const config = {
     DATABASE_mysql: { // MySQL 配置
         host: 'localhost',
         user: 'root',
-        password: '0bbea4dec08c4bc6',
+        password: '123456',
         database: 'pinkcandy_gallery',
     },
     DATABASE_sequelize: { // ORM 数据模型映射
@@ -57,8 +57,8 @@ const config = {
         service: 'qq',
         secure: true,
         auth: {
-            user: '1479499289@qq.com',
-            pass: 'auyvbrlqnjeejhjd',
+            user: 'xxx@qq.com',
+            pass: '......',
         },
     },
     // 跨域设置

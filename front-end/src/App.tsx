@@ -10,10 +10,8 @@ import { Add } from "./view/Add"
 import { About } from "./view/About"
 import { Artwork } from "./view/Artwork"
 import { Gallery } from "./view/Gallery"
-import { Garden } from "./view/Garden"
 import { Tag } from "./view/Tag"
 import { PinkCandy } from "./view/PinkCandy"
-import { Plantpot } from "./view/Plantpot"
 import { MyZoom } from "./view/MyZoom"
 import { Trends } from "./view/Trends"
 import { Notice } from "./view/Notice"
@@ -38,10 +36,8 @@ function App(){
                         <Route path="/about" element={<About />} />
                         <Route path="/artwork/:id" element={<Artwork />} />
                         <Route path="/gallery" element={<Gallery />} />
-                        <Route path="/garden" element={<Garden />} />
                         <Route path="/tag" element={<Tag />} />
                         <Route path="/latest" element={<Latest />} />
-                        <Route path="/plantpot/:id" element={<Plantpot />} />
                         <Route path="/trends" element={<Trends />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />

@@ -9,7 +9,6 @@ import { UserWatchButton } from "./UserWatchButton";
 import { UserInfoCount } from "./UserInfoCount";
 import { ArtworkPreview } from "../artwork/ArtworkPreview";
 import { TabContext, TabPanel } from "@mui/lab";
-import { PlantpotPreview } from "../plantpot/PlantpotPreview";
 import { UserWatchList } from "./UserWatchList";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
 
@@ -19,10 +18,8 @@ export function UserZoomShow({username=''}){
     const [watchButton,setWatchButton] = useState(<></>)
     const [infocountElement,setInfocountElement] = useState(<></>)
     const [artworkitems,setArtworkitems] = useState([] as JSX.Element[])
-    const [plantpotitems,setPlantpotitems] = useState([] as JSX.Element[])
     const [tabvalue,setTabvalue] = useState('artworks')
     const [galleryPage,setGalleryPage] = useState(1)
-    const [gardenPage,setGardenPage] = useState(1)
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
     async function updateGalleryPage(_event:any,value:number){
         await getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${username}`).then(data=>{
@@ -37,22 +34,6 @@ export function UserZoomShow({username=''}){
             }
             else{
                 setArtworkitems([] as JSX.Element[])
-            }
-        })
-    }
-    async function updateGardenPage(_event:any,value:number){
-        await getRequest(urls.getPlantpots+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${username}`).then(data=>{
-            if(data!=0){
-                let plantpots :any[] = data
-                let thePlantpotItems = plantpots.map(item=>
-                    <div className="p-2" key={item.id}>
-                        <PlantpotPreview plantpotdata={item}/>
-                    </div>
-                )
-                setPlantpotitems(thePlantpotItems)
-            }
-            else{
-                setPlantpotitems([] as JSX.Element[])
             }
         })
     }
@@ -72,13 +53,10 @@ export function UserZoomShow({username=''}){
                 }
             });
             await updateGalleryPage(null,1)
-            await updateGardenPage(null,1)
             await getRequest(urls.getUserInfoCount+'?username='+username).then(data=>{
                 if(data!=0){
                     let artworkPageNum = Math.round(data.artworknum/GArea.defaultShowNum)+1
-                    let plantpotPageNum = Math.round(data.plantpotnum/GArea.defaultShowNum)+1
                     setGalleryPage(artworkPageNum)
-                    setGardenPage(plantpotPageNum)
                 }
             })
             setInfocountElement(<></>)
@@ -148,7 +126,6 @@ export function UserZoomShow({username=''}){
                                 onChange={tabHandleChange}
                             >
                                 <Tab value="artworks" label="作品集" />
-                                <Tab value="plantpots" label="盆栽" />
                             </Tabs>
                             <TabPanel value={'artworks'} sx={{p:0}}>
                                 <div className="row">
@@ -157,14 +134,6 @@ export function UserZoomShow({username=''}){
                                 <Grid container spacing={2} minHeight={50}>
                                     <Grid display="flex" justifyContent="center" alignItems="center">
                                         <Pagination count={galleryPage} onChange={ updateGalleryPage } color="secondary" shape="rounded"/>
-                                    </Grid>
-                                </Grid>
-                            </TabPanel>
-                            <TabPanel value={'plantpots'}>
-                                {plantpotitems}
-                                <Grid container spacing={2} minHeight={50}>
-                                    <Grid display="flex" justifyContent="center" alignItems="center">
-                                        <Pagination count={gardenPage} onChange={ updateGardenPage } color="secondary" shape="rounded"/>
                                     </Grid>
                                 </Grid>
                             </TabPanel>

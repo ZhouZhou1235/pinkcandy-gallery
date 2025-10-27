@@ -5,18 +5,13 @@ import { getRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
 import { GArea } from "../../vars/ConstVars";
 import { ArtworkPreview } from "../artwork/ArtworkPreview";
-import { PlantpotPreview } from "../plantpot/PlantpotPreview";
 import { EditArtworkForm } from "../form/EditArtworkForm";
-import { EditPlantpotForm } from "../form/EditPlantpotForm";
 import { DeleteArtworkButton } from "../DeleteArtworkButton";
-import { DeletePlantpotButton } from "../DeletePlantpotButton";
 
 export function UserMediaControl({username=''}){
     const [artworkitems,setArtworkitems] = useState([] as JSX.Element[])
-    const [plantpotitems,setPlantpotitems] = useState([] as JSX.Element[])
     const [editformElement,setEditformElement] = useState(<></>)
     const [galleryPage,setGalleryPage] = useState(1)
-    const [gardenPage,setGardenPage] = useState(1)
     const [tabvalue,setTabvalue] = useState('artworks')
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
     function closeForm(){
@@ -24,9 +19,6 @@ export function UserMediaControl({username=''}){
     }
     function selecttoeditArtwork(id=''){
         setEditformElement(<EditArtworkForm galleryid={id}/>)
-    }
-    function selecttoeditPlantpot(id=''){
-        setEditformElement(<EditPlantpotForm gardenid={id}/>)
     }
     function updateGalleryPage(_event:any,value:number){
         getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${username}`).then(data=>{
@@ -43,31 +35,13 @@ export function UserMediaControl({username=''}){
             }
         })
     }
-    function updateGardenPage(_event:any,value:number){
-        getRequest(urls.getPlantpots+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${username}`).then(data=>{
-            if(data!=0){
-                let plantpots :any[] = data
-                let thePlantpotItems = plantpots.map(item=>
-                    <div className="p-2" key={item.id}>
-                        <PlantpotPreview plantpotdata={item}/>
-                        <Button color="warning" onClick={()=>{selecttoeditPlantpot(item.id)}}>编辑</Button>
-                        <DeletePlantpotButton gardenid={item.id}/>
-                    </div>
-                )
-                setPlantpotitems(thePlantpotItems)
-            }
-        })
-    }
     useEffect(()=>{
         (async()=>{
             updateGalleryPage(null,1)
-            updateGardenPage(null,1)
             await getRequest(urls.getUserInfoCount+'?username='+username).then(data=>{
                 if(data!=0){
                     let artworkPageNum = Math.round(data.artworknum/GArea.defaultShowNum)+1
-                    let plantpotPageNum = Math.round(data.plantpotnum/GArea.defaultShowNum)+1
                     setGalleryPage(artworkPageNum)
-                    setGardenPage(plantpotPageNum)
                 }
             })
         })()
@@ -86,7 +60,6 @@ export function UserMediaControl({username=''}){
                         onChange={tabHandleChange}
                     >
                         <Tab value="artworks" label="作品集" />
-                        <Tab value="plantpots" label="盆栽" />
                     </Tabs>
                     <TabPanel value={'artworks'} sx={{p:0}}>
                         <div className="row">
@@ -95,14 +68,6 @@ export function UserMediaControl({username=''}){
                         <Grid container spacing={2} minHeight={50}>
                             <Grid display="flex" justifyContent="center" alignItems="center">
                                 <Pagination count={galleryPage} onChange={ updateGalleryPage } color="secondary" shape="rounded"/>
-                            </Grid>
-                        </Grid>
-                    </TabPanel>
-                    <TabPanel value={'plantpots'}>
-                        {plantpotitems}
-                        <Grid container spacing={2} minHeight={50}>
-                            <Grid display="flex" justifyContent="center" alignItems="center">
-                                <Pagination count={gardenPage} onChange={ updateGardenPage } color="secondary" shape="rounded"/>
                             </Grid>
                         </Grid>
                     </TabPanel>

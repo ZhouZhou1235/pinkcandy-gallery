@@ -8,17 +8,11 @@ export const tableName = {
     gallery: 'gallery',
     tag: 'tag',
     tag_gallery: 'tag_gallery',
-    garden: 'garden',
-    tag_garden: 'tag_garden',
     board: 'board',
     gallery_comment: 'gallery_comment',
     gallery_paw: 'gallery_paw',
     gallery_star: 'gallery_star',
     user_watch: 'user_watch',
-    garden_comment: 'garden_comment',
-    garden_paw: 'garden_paw',
-    garden_star: 'garden_star',
-    garden_comment_reply: 'garden_comment_reply',
     user_active: 'user_active',
 };
 
@@ -143,58 +137,6 @@ export const TagGallery = sqllize.define(tableName.tag_gallery,
     {timestamps: false,tableName: tableName.tag_gallery},
 );
 
-export const Garden = sqllize.define(tableName.garden,
-    {
-        id: {
-            type: DataTypes.STRING,
-            primaryKey: true,
-        },
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        filename: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        title: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        content: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        createtime: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-        updatetime: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-    },
-    {timestamps: false,tableName: tableName.garden},
-);
-
-export const TagGarden = sqllize.define(tableName.tag_garden,
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-        },
-        tagid: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        gardenid: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-    },
-    {timestamps: false,tableName: tableName.tag_garden},
-);
-
 export const Board = sqllize.define(tableName.board,
     {
         id: {
@@ -311,110 +253,6 @@ export const UserWatch = sqllize.define(tableName.user_watch,
         },
     },
     {timestamps: false,tableName: tableName.user_watch},
-);
-
-export const GardenComment = sqllize.define(tableName.garden_comment,
-    {
-        id: {
-            type: DataTypes.STRING,
-            primaryKey: true,
-        },
-        gardenid: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        content: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        filename: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        time: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-    },
-    {timestamps: false,tableName: tableName.garden_comment},
-);
-
-export const GardenPaw = sqllize.define(tableName.garden_paw,
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-        },
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        gardenid: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        commentid: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        time: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-    },
-    {timestamps: false,tableName: tableName.garden_paw},
-);
-
-export const GardenStar = sqllize.define(tableName.garden_star,
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-        },
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        gardenid: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        time: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-    },
-    {timestamps: false,tableName: tableName.garden_star},
-);
-
-export const GardenCommentReply = sqllize.define(tableName.garden_comment_reply,
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-        },
-        commentid: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        content: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        time: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-    },
-    {timestamps: false,tableName: tableName.garden_comment_reply},
 );
 
 export const UserActive = sqllize.define(tableName.user_active,

@@ -42,8 +42,6 @@ export function PinkCandy(){
         if(
             data.artwork.length>0
             ||
-            data.plantpot.length>0
-            ||
             data.user.length>0
         ){return true}
         return false

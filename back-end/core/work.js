@@ -1,4 +1,4 @@
-import { Board, Gallery, GalleryComment, Garden, tableName, Tag, TagGallery, TagGarden, User } from "./database/models.js";
+import { Board, Gallery, GalleryComment, tableName, Tag, TagGallery, User } from "./database/models.js";
 import fs from 'fs';
 import config  from "../config.js";
 import sqllize from './database/orm_sequelize.js';
@@ -10,10 +10,8 @@ export function getDBRecordCount(table=''){
     switch(table){
         case tableName.board: return Board.count();
         case tableName.gallery: return Gallery.count();
-        case tableName.garden: return Garden.count();
         case tableName.tag: return Tag.count();
         case tableName.tag_gallery: return TagGallery.count();
-        case tableName.tag_garden: return TagGarden.count();
         case tableName.user: return User.count();
         case tableName.gallery_comment: return GalleryComment.count();
         default: return 0;
@@ -61,37 +59,6 @@ export async function addTagsForArtwork(id='',tagList=['']){
     }
 }
 
-// 添加盆栽的标签
-export async function addTagsForPlantpot(id='',tagList=['']){
-    for(let tag in tagList){
-        Tag.findOne({where:{tag:tagList[tag]}}).then((data)=>{
-            if(!data){
-                let tagid = Math.floor(Math.pow(10,10)*Math.random());
-                sqllize.transaction(async t=>{
-                    await Tag.create({
-                        id: tagid,
-                        tag: tagList[tag],
-                        type: 1,
-                        time: Date(),
-                    },{ transaction:t });
-                    await TagGarden.create({
-                        tagid: tagid,
-                        gardenid: id,
-                    },{ transaction:t });
-                });
-            }
-            else{
-                sqllize.transaction(async t=>{
-                    await TagGarden.create({
-                        tagid: data.id,
-                        gardenid: id,
-                    },{ transaction:t });
-                });
-            }
-        });
-    }
-}
-
 // express-fileupload 将图片保存到临时文件夹 然后压缩并保存
 export async function imageCompressToSave(file,savepath='',resizeNum=config.FILE_imageResizeNum){
     if(!file || !savepath){return false;}
@@ -117,7 +84,6 @@ export async function addUsenumForTagdatas(data=[]){
         let usenum = await (async()=>{
             let num = 0;
             num += await TagGallery.count({where:{tagid:data[i]['id']}});
-            num += await TagGarden.count({where:{tagid:data[i]['id']}});
             return num;
         })()
         data[i]['usenum'] = usenum;

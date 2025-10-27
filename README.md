@@ -58,12 +58,11 @@ node main.js
 
 ### 公开接口
 **https://gallery-system.pinkcandy.top**
-| 方法 | URL                          | 参数                     | 返回数据               | 说明                     |
-|------|------------------------------|--------------------------|------------------------|--------------------------|
-| GET  | /core/searchPinkCandy        | searchtext: 关键词       | {artworks,plantpots,users} | 全站搜索               |
-| GET  | /files/gallery/:filename     | filename: 文件名         | 图片文件               | 获取作品原图             |
-| GET  | /files/headimage/:filename   | filename: 文件名         | 图片文件               | 获取用户头像             |
-| GET  | /core/getUser/:username      | username: 用户名         | 用户公开信息对象       | 获取用户资料             |
-| GET  | /core/getArtworks            | [begin, num, username]   | 作品数组               | 分页获取作品列表         |
-| GET  | /core/getArtwork             | id: 作品ID               | 作品详情对象           | 获取单个作品完整信息     |
-| GET  | /core/getTagsArtwork/:id     | id: 作品ID               | 标签数组               | 获取作品关联标签         |
+|方法|URL|参数|返回数据|说明|
+|GET|/core/searchPinkCandy|searchtext: 关键词|{artworks,users}|全站搜索|
+|GET|/files/gallery/:filename|filename: 文件名|图片文件|获取作品原图|
+|GET|/files/headimage/:filename|filename: 文件名|图片文件|获取用户头像|
+|GET|/core/getUser/:username|username: 用户名|用户公开信息对象|获取用户资料|
+|GET|/core/getArtworks|[begin, num, username]|作品数组|分页获取作品列表|
+|GET|/core/getArtwork|id: 作品ID|作品详情对象|获取单个作品完整信息|
+|GET|/core/getTagsArtwork/:id|id: 作品ID|标签数组|获取作品关联标签|

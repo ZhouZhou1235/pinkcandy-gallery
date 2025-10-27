@@ -6,12 +6,10 @@ import { urls } from "../vars/urls";
 import { GArea, PageTitle } from "../vars/ConstVars";
 import { Link } from "react-router";
 import { ArtworkPreview } from "../component/artwork/ArtworkPreview";
-import { PlantpotPreview } from "../component/plantpot/PlantpotPreview";
 import { UserPreview } from "../component/user/UserPreview";
 
 function UserTrend(username=''){
     const [artworkItems,setArtworkItems] = useState([] as JSX.Element[])
-    const [plantpotItems,setPlantpotItems] = useState([] as JSX.Element[])
     const [tabvalue,setTabvalue] = useState('artwork')
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
     function loadData(){
@@ -26,18 +24,6 @@ function UserTrend(username=''){
                 setArtworkItems(theItems)
             }
             else{setArtworkItems([] as JSX.Element[])}
-        })
-        getRequest(urls.getUserTrendPlantpots+'?username='+username).then(data=>{
-            if(data!=0){
-                let theArray :any[] = data
-                let theItems = theArray.map(item=>
-                    <div key={item.id}>
-                        <PlantpotPreview plantpotdata={item}/>
-                    </div>
-                )
-                setPlantpotItems(theItems)
-            }
-            else{setPlantpotItems([] as JSX.Element[])}
         })
     }
     useEffect(()=>{
@@ -56,15 +42,11 @@ function UserTrend(username=''){
                     onChange={tabHandleChange}
                 >
                     <Tab value="artwork" label="发布作品" />
-                    <Tab value="plantpot" label="盆栽生长" />
                 </Tabs>
                 <TabPanel value={'artwork'}>
                     <div className="row">
                         {artworkItems}
                     </div>
-                </TabPanel>
-                <TabPanel value={'plantpot'}>
-                    {plantpotItems}
                 </TabPanel>
             </TabContext>
         </>

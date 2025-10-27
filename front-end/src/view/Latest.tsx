@@ -8,18 +8,15 @@ import { urls } from "../vars/urls";
 import { toNormalDate } from "../utils/tools";
 import { Spin } from "antd";
 import { Link } from "react-router";
-import { PlantpotPreview } from "../component/plantpot/PlantpotPreview";
 
 export function Latest(){
     const [loading,setLoading] = useState(true)
     const [homedata,setHomedata] = useState(DefaultObj.homedata)
     const [boardItems,setBoardItems] = useState([] as JSX.Element[])
     const [artworkItems,setArtworkItems] = useState([] as JSX.Element[])
-    const [plantpotItems,setPlantpotItems] = useState([] as JSX.Element[])
     async function loadHomeData(){
         let theBoardItems = [] as JSX.Element[]
         let theArtworkItems = [] as JSX.Element[]
-        let thePlantpotItems = [] as JSX.Element[]
         await getRequest(urls.getBoradMessages+'?num='+GArea.defaultShowNum).then(x=>{
             if(typeof x=='object'){
                 let boardMessages :any[] = x
@@ -48,21 +45,9 @@ export function Latest(){
                 )
             }
         })
-        await getRequest(urls.getPlantpots+'?num='+Math.floor(GArea.defaultShowNum/2)).then(x=>{
-            if(typeof x=='object'){
-                let plantpots :any[] = x
-                homedata.plantpots = plantpots
-                thePlantpotItems = homedata.plantpots.map(item=>
-                    <div className="p-2" key={item.id}>
-                        <PlantpotPreview plantpotdata={item}/>
-                    </div>
-                )
-            }
-        })
         setHomedata(homedata)
         setBoardItems(theBoardItems)
         setArtworkItems(theArtworkItems)
-        setPlantpotItems(thePlantpotItems)
         setLoading(false)
     }
     useEffect(()=>{
@@ -81,12 +66,7 @@ export function Latest(){
                             </ul>
                         </div>
                     </div>
-                    <div className="col-sm-3">
-                        <div className="moblieHideBox">
-                            { plantpotItems }
-                        </div>
-                    </div>
-                    <div className="col-sm-6">
+                    <div className="col-sm-9">
                         <div className="row">
                             { artworkItems }
                         </div>

@@ -106,117 +106,10 @@ function UserNoticePawArtwork({username=''}){
     )
 }
 
-function UserNoticePawPlantpot({username=''}){
-    const [tabvalue,setTabvalue] = useState('plantpot')
-    const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
-    const [plantpotItems,setPlantpotItems] = useState([] as JSX.Element[])
-    const [plantpotcommentItems,setPlantpotcommentItems] = useState([] as JSX.Element[])
-    useEffect(()=>{
-        getRequest(urls.getUserNoticePawPlantpot+`?username=${username}`).then(data=>{
-            if(data!=0){
-                let plantpotObjArray :any[] = data.plantpot
-                let thePlantpotItems = plantpotObjArray.map(item=>
-                    <div className="list-group-item" key={item.id}>
-                        <div className="row">
-                            <div className="col-9">
-                                <Link to={'/user/'+item.user.username}>
-                                    <img
-                                        src={
-                                            item.user.headimage
-                                            ?
-                                            GArea.headimageURL+item.user.headimage
-                                            :
-                                            GArea.defaultHeadimage
-                                        }
-                                        alt="headimage"
-                                        width={50}
-                                        height={50}
-                                        className="rounded"
-                                    />
-                                    {item.user.name} {Number(item.user.sex)==1?'雄':Number(item.user.sex)==2?'雌':''} {item.user.species}
-                                </Link>
-                                <br />
-                                给盆栽 <Link to={'/plantpot/'+item.gardenid}>{item.title}</Link> 印爪了
-                                <br />
-                                <small>{toNormalDate(item.time)}</small>
-                            </div>
-                            <div className="col-3" style={{overflow:'hidden'}}>
-                                {
-                                    item.filename
-                                    ?
-                                    <Link to={'/plantpot/'+item.gardenid}>
-                                        <img
-                                            src={GArea.plantpotimageURL+item.filename}
-                                            alt="plantpotimage"
-                                            height={100}
-                                        />
-                                    </Link>
-                                    :
-                                    null
-                                }
-                            </div>
-                        </div>
-                    </div>
-                )
-                setPlantpotItems(thePlantpotItems)
-                let plantpotcommentObjArray :any[] = data.plantpotcomment
-                let thePlantpotcommentItems = plantpotcommentObjArray.map(item=>
-                    <div className="list-group-item" key={item.id}>
-                        <Link to={'/user/'+item.user.username}>
-                            <img
-                                src={
-                                    item.user.headimage
-                                    ?
-                                    GArea.headimageURL+item.user.headimage
-                                    :
-                                    GArea.defaultHeadimage
-                                }
-                                alt="headimage"
-                                width={50}
-                                height={50}
-                                className="rounded"
-                            />
-                            {item.user.name} {Number(item.user.sex)==1?'雄':Number(item.user.sex)==2?'雌':''} {item.user.species}
-                        </Link>
-                        <br />
-                        给 <Link to={'/plantpot/'+item.gardenid}>盆栽</Link> 叶子 {item.content} 印爪了
-                        <br />
-                        <small>{toNormalDate(item.time)}</small>
-                    </div>
-                )
-                setPlantpotcommentItems(thePlantpotcommentItems)
-            }
-        })
-    },[username])
-    return(
-        <TabContext value={tabvalue}>
-            <Tabs
-                value={tabvalue}
-                onChange={tabHandleChange}
-            >
-                <Tab value="plantpot" label="盆栽" />
-                <Tab value="plantpotcomment" label="叶子" />
-            </Tabs>
-            <TabPanel value={'plantpot'}>
-                <div className="list-group">
-                    {plantpotItems}
-                </div>
-            </TabPanel>
-            <TabPanel value={'plantpotcomment'}>
-                <div className="list-group">
-                    {plantpotcommentItems}
-                </div>
-            </TabPanel>
-        </TabContext>
-    )
-}
-
 function UserNoticeTextEcho({username=''}){
     const [tabvalue,setTabvalue] = useState('artworkcomment')
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
     const [artworkcommentItems,setArtworkcommentItems] = useState([] as JSX.Element[])
-    const [plantpotcommentItems,setPlantpotcommentItems] = useState([] as JSX.Element[])
-    const [plantpotcommentreplyItems,setPlantpotcommentreplyItems] = useState([] as JSX.Element[])
     useEffect(()=>{
         getRequest(urls.getUserNoticeTextEcho+`?username=${username}`).then(data=>{
             if(data!=0){
@@ -261,79 +154,6 @@ function UserNoticeTextEcho({username=''}){
                     </div>
                 )
                 setArtworkcommentItems(theArtworkcommentItems)
-                let plantpotcommentObjArray :any[] = data.plantpotcomment
-                let thePlantpotcommentItems = plantpotcommentObjArray.map(item=>
-                    <div className="list-group-item" key={item.id}>
-                        <div className="row">
-                            <div className="col-9">
-                                <Link to={'/user/'+item.user.username}>
-                                    <img
-                                        src={
-                                            item.user.headimage
-                                            ?
-                                            GArea.headimageURL+item.user.headimage
-                                            :
-                                            GArea.defaultHeadimage
-                                        }
-                                        alt="headimage"
-                                        width={50}
-                                        height={50}
-                                        className="rounded"
-                                    />
-                                    {item.user.name} {Number(item.user.sex)==1?'雄':Number(item.user.sex)==2?'雌':''} {item.user.species}
-                                </Link>
-                                <br />
-                                给盆栽 <Link to={'/plantpot/'+item.gardenid}>{item.title}</Link> 生长叶子 
-                                <br />
-                                {item.content}
-                                <br />
-                                <small>{toNormalDate(item.time)}</small>
-                            </div>
-                            <div className="col-3" style={{overflow:'hidden'}}>
-                                {
-                                    item.filename
-                                    ?
-                                    <Link to={'/plantpot/'+item.gardenid}>
-                                        <img
-                                            src={GArea.plantpotimageURL+item.filename}
-                                            alt="plantpotimage"
-                                            height={100}
-                                        />
-                                    </Link>
-                                    :
-                                    null
-                                }
-                            </div>
-                        </div>
-                    </div>
-                )
-                setPlantpotcommentItems(thePlantpotcommentItems)
-                let plantpotcommentreplyObjArray :any[] = data.plantpotcommentreply
-                let thePlantpotcommentreplyItems = plantpotcommentreplyObjArray.map(item=>
-                    <div className="list-group-item" key={item.id}>
-                        <Link to={'/user/'+item.user.username}>
-                            <img
-                                src={
-                                    item.user.headimage
-                                    ?
-                                    GArea.headimageURL+item.user.headimage
-                                    :
-                                    GArea.defaultHeadimage
-                                }
-                                alt="headimage"
-                                width={50}
-                                height={50}
-                                className="rounded"
-                            />
-                            {item.user.name} {Number(item.user.sex)==1?'雄':Number(item.user.sex)==2?'雌':''} {item.user.species}
-                        </Link>
-                        <br />
-                        给 <Link to={'/plantpot/'+item.gardenid}>叶子</Link> 贴叶纸条 {item.content}
-                        <br />
-                        <small>{toNormalDate(item.time)}</small>
-                    </div>
-                )
-                setPlantpotcommentreplyItems(thePlantpotcommentreplyItems)
             }
         })
     },[username])
@@ -344,22 +164,10 @@ function UserNoticeTextEcho({username=''}){
                 onChange={tabHandleChange}
             >
                 <Tab value="artworkcomment" label="作品评论" />
-                <Tab value="plantpotcomment" label="叶子" />
-                <Tab value="plantpotcommentreply" label="叶纸条" />
             </Tabs>
             <TabPanel value={'artworkcomment'}>
                 <div className="list-group">
                     {artworkcommentItems}
-                </div>
-            </TabPanel>
-            <TabPanel value={'plantpotcomment'}>
-                <div className="list-group">
-                    {plantpotcommentItems}
-                </div>
-            </TabPanel>
-            <TabPanel value={'plantpotcommentreply'}>
-                <div className="list-group">
-                    {plantpotcommentreplyItems}
                 </div>
             </TabPanel>
         </TabContext>
@@ -417,9 +225,6 @@ export function Notice(){
             case 'pawArtwork':
                 theElement = <UserNoticePawArtwork username={username}/>
                 break
-            case 'pawPlantpot':
-                theElement = <UserNoticePawPlantpot username={username}/>
-                break
             case 'textEcho':
                 theElement = <UserNoticeTextEcho username={username}/>
                 break
@@ -467,7 +272,6 @@ export function Notice(){
                         </Box>
                         <FormControl fullWidth>
                             <Button variant={selectedOption=='pawArtwork'?'contained':'text'} onClick={()=>{selectOption('pawArtwork')}}>作品印爪</Button>
-                            <Button variant={selectedOption=='pawPlantpot'?'contained':'text'} onClick={()=>{selectOption('pawPlantpot')}}>盆栽印爪</Button>
                             <Button variant={selectedOption=='textEcho'?'contained':'text'} onClick={()=>{selectOption('textEcho')}}>文字回应</Button>
                             <Button variant={selectedOption=='watcher'?'contained':'text'} onClick={()=>{selectOption('watcher')}}>新增粉丝</Button>
                         </FormControl>

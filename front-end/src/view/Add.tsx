@@ -2,7 +2,6 @@ import { TabContext, TabPanel } from "@mui/lab";
 import { Box, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { ArtworkForm } from "../component/form/ArtworkForm";
-import { PlantpotForm } from "../component/form/PlantpotForm";
 import { BoardForm } from "../component/form/BoardForm";
 import { PageTitle } from "../vars/ConstVars";
 
@@ -21,11 +20,9 @@ export function Add(){
                         onChange={tabHandleChange}
                     >
                         <Tab value="gallery" label="上传作品" />
-                        <Tab value="garden" label="种植盆栽" />
                         <Tab value="board" label="粉糖留言板" />
                     </Tabs>
                     <TabPanel value={'gallery'}><ArtworkForm /></TabPanel>
-                    <TabPanel value={'garden'}><PlantpotForm /></TabPanel>
                     <TabPanel value={'board'}><BoardForm /></TabPanel>
                 </TabContext>
             </div>
