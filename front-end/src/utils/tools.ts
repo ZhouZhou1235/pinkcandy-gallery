@@ -92,3 +92,23 @@ export function selectPropsTagsToArray(selectpropsArray:SelectProps['options']=[
     }
     return tagList
 }
+
+// 获取 MessageEvent 的数据
+export function getMessageEventData(m:MessageEvent){return JSON.parse(m.data)}
+
+// 获取指定名称的cookie (document.cookie)
+export function getCookieFromDocument(cookieName:string){
+    let cookies :string = document.cookie;
+    let cookieArray = cookies.split(';');
+    for (let i=0;i<cookieArray.length;i++){
+        let cookie = cookieArray[i].trim();
+        let equalsIndex = cookie.indexOf('=');
+        if(equalsIndex==-1){continue;}
+        let name = cookie.substring(0,equalsIndex);
+        let value = cookie.substring(equalsIndex+1);
+        if(name==cookieName){
+            return decodeURIComponent(value);
+        }
+    }
+    return '';
+}

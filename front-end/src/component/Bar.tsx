@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd, faBell, faBook, faFan, faNewspaper, faPalette, faRightToBracket, faShieldDog, faTags } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faBell, faBook, faComments, faFan, faNewspaper, faPalette, faRightToBracket, faShieldDog, faTags } from "@fortawesome/free-solid-svg-icons";
 
 function BarOption(){
     return(
@@ -18,6 +18,11 @@ function BarOption(){
             <Link to={'/gallery'}>
                 <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faPalette} />}>
                     画廊
+                </Button>
+            </Link>
+            <Link to={'/chat'}>
+                <Button variant="outlined" startIcon={<FontAwesomeIcon icon={faComments} />}>
+                    聊天
                 </Button>
             </Link>
             <Link to={'/tag'}>

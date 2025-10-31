@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { systemAPI } from './src/vars/ConstVars'
+import { systemAPI, ws_http_system } from './src/vars/ConstVars'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -13,7 +13,12 @@ export default defineConfig({
                 target: systemAPI,
                 changeOrigin: true,
                 rewrite: (path)=>path.replace(/^\/api/,''),
-            }
+            },
+            '/chat_api': {
+                target: ws_http_system,
+                changeOrigin: true,
+                rewrite: (path)=>path.replace(/^\/chat_api/,''),
+            },
         }
     },
     // vite 编译打包配置

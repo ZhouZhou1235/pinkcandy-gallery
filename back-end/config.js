@@ -20,7 +20,7 @@ const config = {
     DATABASE_mysql: { // MySQL 配置
         host: 'localhost',
         user: 'root',
-        password: '0bbea4dec08c4bc6',
+        password: '123456',
         database: 'pinkcandy_gallery',
     },
     DATABASE_sequelize: { // ORM 数据模型映射

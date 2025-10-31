@@ -10,7 +10,6 @@ import { sendAMail } from './mailer.js';
 import fs from 'fs';
 import { console } from 'inspector';
 import { Op } from 'sequelize';
-import { GArea } from './ConstVars.js';
 
 // 访问规则表
 const routeTable = {
@@ -20,6 +19,7 @@ const routeTable = {
     files_backimage: '/files/backimage/:filename',
     files_galleryPreview: '/files/GalleryPreview/:filename',
     checkLogin: '/core/checkLogin',
+    getSessionId: '/core/getSessionId',
     getUser: '/core/getUser/:username',
     getSessionUser: '/core/getSessionUser',
     login: '/core/login',
@@ -108,8 +108,23 @@ export function loadMachineController(machine=express()){
         User.findOne({where:{username:username},attributes:{exclude:['password']}}).then(data=>{res.send(data);});
     });
     machine.get(routeTable.getSessionUser,(req,res)=>{ // 获取用户自己
-        let username = req.session.username;if(!username){return 0;}
-        User.findOne({where:{username:username},attributes:{exclude:['password']}}).then(data=>{res.send(data);});
+        if(req.query.sessionid){
+            req.sessionStore.get(req.query.sessionid,(error,sessionData)=>{
+                if(error){return 0;}
+                if(sessionData!=null){
+                    try{
+                        let username = sessionData.username;
+                        if(!username){return 0;}
+                        User.findOne({where:{username:username},attributes:{exclude:['password']}}).then(data=>{res.send(data);});
+                    }
+                    catch(e){console.log(e);return;}
+                }
+            });
+        }
+        else{
+            let username = req.session.username;if(!username){return 0;}
+            User.findOne({where:{username:username},attributes:{exclude:['password']}}).then(data=>{res.send(data);});
+        }
     });
     machine.get(routeTable.getArtworks,(req,res)=>{ // 获取作品
         let begin = req.query.begin;
@@ -659,7 +674,11 @@ export function loadMachineController(machine=express()){
     });
     // POST
     machine.post(routeTable.checkLogin,(req,res)=>{ // 检查登录
-        if(req.session.username){res.send(1);}else{res.send(0);}
+        let web_session_ok = req.session.username?true:false;
+        if(web_session_ok){res.send(1);}else{res.send(0);}
+    });
+    machine.post(routeTable.getSessionId,(req,res)=>{ //获取sessionid
+        if(req.session.username){res.send(req.sessionID);}else{res.send(0);}
     });
     machine.post(routeTable.login,(req,res)=>{ // 登录
         let loginForm = req.body;

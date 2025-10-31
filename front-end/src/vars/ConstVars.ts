@@ -1,13 +1,15 @@
 // 全局变量
 
-// 开发 http://localhost:3000
-// 生产 https://gallery-system.pinkcandy.top
+// 开发 systemAPI http://localhost:3000
+// 生产 systemAPI https://gallery-system.pinkcandy.top
 export const systemAPI = 'http://localhost:3000' // 后端接口
-export const proxyAPI = '/api' // 代理url 解决跨域问题
+export const ws_system = 'ws://localhost:8081' // socket服务器地址
+export const ws_http_system = 'http://localhost:8080' // socket服务器的HTTP服务
+export const proxyAPI = '/api' // 代理url
+export const ws_http_API = '/chat_api' // socket服务器的http服务代理
 
 // 静态固定量
 export const GArea = {
-    connectURL: proxyAPI,
     headimageURL: systemAPI+"/files/headimage/",
     backimageURL: systemAPI+"/files/backimage/",
     artworkimageURL: systemAPI+"/files/gallery/",
@@ -126,6 +128,24 @@ export const DefaultObj = {
             species: '',
         }],
     },
+    socketSendData: {
+        action: '',
+        cookie: '',
+        data: null as any,
+    },
+    socketEchoData: {
+        message: '',
+        type: '',
+        dateTime: Date(),
+    },
+    roomData: {
+        id: '',
+        owner_username: '',
+        name: '',
+        info: '',
+        type: '',
+        create_time: Date(),
+    },
 }
 
 // 页面标题
@@ -142,4 +162,5 @@ export const PageTitle = {
     notice: '幻想动物画廊 - 消息中心',
     tag: '幻想动物画廊 - 标签系统',
     trends: '幻想动物画廊 - 动态',
+    chat: '粉糖 - 聊天室',
 }

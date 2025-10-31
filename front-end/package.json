@@ -21,6 +21,7 @@
     "axios": "^1.8.4",
     "bootstrap": "^5.3.5",
     "react": "^19.0.0",
+    "react-cookies": "^0.1.1",
     "react-dom": "^19.0.0",
     "react-lazy-load-image-component": "^1.6.3",
     "react-router": "^7.5.0",
