@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="/docs/fantasyfurrygallery.png" alt="logo" width="50%">
+    <img src="/docs/images/fantasyfurrygallery.png" alt="logo" width="50%">
 </p>
 
 
