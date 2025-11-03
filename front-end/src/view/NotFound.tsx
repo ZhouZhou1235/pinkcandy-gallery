@@ -23,8 +23,6 @@ export function NotFound(){
                     <br />
                     <span style={{fontSize:'2em'}}>粉糖：页面未找到</span>
                     <br />
-                    <span>快叫周周修复异常！QAQ</span>
-                    <br />
                     <Link to={'/'}>返回首页</Link>
                 </div>
             </div>

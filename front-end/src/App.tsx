@@ -43,6 +43,7 @@ function App(){
                         <Route path="/trends" element={<Trends />} />
                         <Route path="/chat" element={<Chat />} />
                         <Route path="/chatzoom/:id" element={<ChatZoom />} />
+                        <Route path="/notfound" element={<NotFound />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>

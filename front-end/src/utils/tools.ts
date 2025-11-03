@@ -112,3 +112,22 @@ export function getCookieFromDocument(cookieName:string){
     }
     return '';
 }
+
+// 创建一个事件管理器
+export function createEventManager(){
+    return {
+        listeners: new Map<string,Function[]>(),
+        on(event:string,callback:Function){
+            if (!this.listeners.has(event)){
+            this.listeners.set(event, []);
+            }
+            this.listeners.get(event)!.push(callback);
+        },
+        emit(event:string,...args:any[]){
+            const callbacks = this.listeners.get(event);
+            if(callbacks){
+            callbacks.forEach(callback => callback(...args));
+            }
+        }
+    };
+};

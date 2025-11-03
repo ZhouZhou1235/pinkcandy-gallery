@@ -29,7 +29,8 @@ Machine.use(fileUpload({
 }));
 Machine.use(express.static(config.FILE_fileHub.root));
 Machine.use(cors(config.CORS_options));
-Machine.listen(config.LISTEN_PORT);
+Machine.listen(config.LISTEN_PORT,config.HOST,()=>{
+    console.log(`PINKCANDY: init ok. machine running at http://${config.HOST}:${config.LISTEN_PORT}`);
+});
 loadMachineController(Machine);
 createFilesDir();
-console.log('PINKCANDY: init ok. machine running at http://localhost:'+config.LISTEN_PORT);

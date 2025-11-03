@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { useState } from "react";
-import { postRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
+import { postRequest } from "../../utils/HttpRequest";
+import { urls } from "../../vars/urls";
 
 export function DeleteArtworkButton({galleryid=''}){
     const [open,setOpen] = useState(false)

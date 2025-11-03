@@ -29,8 +29,8 @@ class WebSocketManager {
     /**
      * 广播消息
      */
-    public static function broadcast(mixed $message){
-        $data = new EchoData($message,'broadcast')->getArrayData();
+    public static function broadcast(mixed $message,string $type='broadcast'){
+        $data = new EchoData($message,$type)->getArrayData();
         foreach(self::$connections as $connection){
             $connection->send(json_encode($data));
         }

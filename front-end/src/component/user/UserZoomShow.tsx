@@ -2,7 +2,7 @@ import { FormControl, Grid, Pagination, Tab, Tabs } from "@mui/material";
 import { DefaultObj, GArea, PageTitle } from "../../vars/ConstVars";
 import { JSX, SyntheticEvent, useEffect, useState } from "react";
 import { getRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
+import { socket_http_urls, urls } from "../../vars/urls";
 import { Avatar, Spin } from "antd";
 import { toNormalDate } from "../../utils/tools";
 import { UserWatchButton } from "./UserWatchButton";
@@ -11,6 +11,7 @@ import { ArtworkPreview } from "../artwork/ArtworkPreview";
 import { TabContext, TabPanel } from "@mui/lab";
 import { UserWatchList } from "./UserWatchList";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
+import { Link } from "react-router";
 
 export function UserZoomShow({username=''}){
     const [loading,setLoading] = useState(true)
@@ -18,6 +19,7 @@ export function UserZoomShow({username=''}){
     const [watchButton,setWatchButton] = useState(<></>)
     const [infocountElement,setInfocountElement] = useState(<></>)
     const [artworkitems,setArtworkitems] = useState([] as JSX.Element[])
+    const [chatzoomitems,setChatzoomitems] = useState([] as JSX.Element[])
     const [tabvalue,setTabvalue] = useState('artworks')
     const [galleryPage,setGalleryPage] = useState(1)
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
@@ -59,6 +61,21 @@ export function UserZoomShow({username=''}){
                     setGalleryPage(artworkPageNum)
                 }
             })
+            let rooms = await getRequest(socket_http_urls.getRooms+'?username='+username)
+            if(rooms){
+                let roomList :any[] = rooms
+                let theChatroomitems = roomList.map(item=>
+                    <li className="list-group-item" key={item.id} style={{
+                        borderColor:item.owner_username==username?'pink':'none',
+                        borderWidth:'3px',
+                    }}>
+                        <Link to={'/chatzoom/'+item.id}>
+                            <h2>{item.name}</h2>
+                        </Link>
+                    </li>
+                )
+                setChatzoomitems(theChatroomitems)
+            }
             setInfocountElement(<></>)
             setInfocountElement(<UserInfoCount username={username}/>)
             setLoading(false)
@@ -126,6 +143,7 @@ export function UserZoomShow({username=''}){
                                 onChange={tabHandleChange}
                             >
                                 <Tab value="artworks" label="作品集" />
+                                <Tab value="chatzoom" label="加入房间" />
                             </Tabs>
                             <TabPanel value={'artworks'} sx={{p:0}}>
                                 <div className="row">
@@ -136,6 +154,11 @@ export function UserZoomShow({username=''}){
                                         <Pagination count={galleryPage} onChange={ updateGalleryPage } color="secondary" shape="rounded"/>
                                     </Grid>
                                 </Grid>
+                            </TabPanel>
+                            <TabPanel value={'chatzoom'} sx={{p:0}}>
+                                <ul className="list-group p-2">
+                                    {chatzoomitems}
+                                </ul>
                             </TabPanel>
                         </TabContext>
                     </div>

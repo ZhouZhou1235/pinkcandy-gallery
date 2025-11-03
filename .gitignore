@@ -1,7 +1,8 @@
-*.log
 node_modules
 dist
-package-lock.json
 files
+vendor
+
+*.log
+package-lock.json
 composer.lock
-vendor/

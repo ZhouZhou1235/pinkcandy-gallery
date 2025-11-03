@@ -2,14 +2,16 @@ import { TabContext, TabPanel } from "@mui/lab";
 import { Grid, Pagination, Tab, Tabs, Button } from "@mui/material";
 import { JSX, SyntheticEvent, useEffect, useState } from "react";
 import { getRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
+import { socket_http_urls, urls } from "../../vars/urls";
 import { GArea } from "../../vars/ConstVars";
 import { ArtworkPreview } from "../artwork/ArtworkPreview";
 import { EditArtworkForm } from "../form/EditArtworkForm";
-import { DeleteArtworkButton } from "../DeleteArtworkButton";
+import { DeleteArtworkButton } from "../artwork/DeleteArtworkButton";
+import { EditRoomForm } from "../form/EditRoomForm";
 
 export function UserMediaControl({username=''}){
     const [artworkitems,setArtworkitems] = useState([] as JSX.Element[])
+    const [chatzoomitems,setChatzoomitems] = useState([] as  JSX.Element[])
     const [editformElement,setEditformElement] = useState(<></>)
     const [galleryPage,setGalleryPage] = useState(1)
     const [tabvalue,setTabvalue] = useState('artworks')
@@ -19,6 +21,9 @@ export function UserMediaControl({username=''}){
     }
     function selecttoeditArtwork(id=''){
         setEditformElement(<EditArtworkForm galleryid={id}/>)
+    }
+    function selecttoeditRoom(id=''){
+        setEditformElement(<EditRoomForm id={id}/>)
     }
     function updateGalleryPage(_event:any,value:number){
         getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${username}`).then(data=>{
@@ -44,6 +49,16 @@ export function UserMediaControl({username=''}){
                     setGalleryPage(artworkPageNum)
                 }
             })
+            let roomdata :any[] = await getRequest(socket_http_urls.getRooms+`?username=${username}`)
+            let theChatroomitems = roomdata.map(item=>
+                <li className="list-group-item" key={item.id}>
+                    <h2>
+                        <Button color="warning" onClick={()=>{selecttoeditRoom(item.id)}}>修改</Button>
+                        {item.name}
+                    </h2>
+                </li>
+            )
+            setChatzoomitems(theChatroomitems)
         })()
     },[])
     return(
@@ -60,6 +75,7 @@ export function UserMediaControl({username=''}){
                         onChange={tabHandleChange}
                     >
                         <Tab value="artworks" label="作品集" />
+                        <Tab value="chatzoom" label="房间" />
                     </Tabs>
                     <TabPanel value={'artworks'} sx={{p:0}}>
                         <div className="row">
@@ -70,6 +86,11 @@ export function UserMediaControl({username=''}){
                                 <Pagination count={galleryPage} onChange={ updateGalleryPage } color="secondary" shape="rounded"/>
                             </Grid>
                         </Grid>
+                    </TabPanel>
+                    <TabPanel value={'chatzoom'} sx={{p:0}}>
+                        <ul className="list-group p-2">
+                            {chatzoomitems}
+                        </ul>
                     </TabPanel>
                 </TabContext>
             </div>

@@ -8,6 +8,8 @@ export default defineConfig({
     // vite 代理服务器
     // 同源请求 vite重写url转发到后端接口
     server: {
+        host: 'localhost',
+        // port: 5173,
         proxy: {
             '/api': {
                 target: systemAPI,
