@@ -7,15 +7,18 @@ import session from 'express-session';
 import fileUpload from 'express-fileupload';
 import { createFilesDir } from './core/work.js';
 import cors from 'cors';
+import sessionFileStore from 'session-file-store';
 
 
 const Machine = express();
+const FileStore = sessionFileStore(session);
 Machine.use(session({
     secret:config.SESSION_secret,
     name:config.SESSION_name,
     cookie:config.SESSION_cookie,
     resave:config.SESSION_resave,
     saveUninitialized:config.SESSION_saveUninitialized,
+    store: new FileStore(config.SESSION_fileStore),
 }));
 Machine.use(express.json())
 Machine.use(express.urlencoded({

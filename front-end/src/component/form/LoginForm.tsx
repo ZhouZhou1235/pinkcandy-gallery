@@ -29,7 +29,7 @@ export function LoginForm(){
                     action={(<Button onClick={closeSnackbar}>关闭</Button>)}
                 />
             </span>
-            <small>输入粉糖账号和密码登录，也可以使用邮箱。</small>
+            <small>输入粉糖账号（或邮箱）和密码登录</small>
             <TextField
                 fullWidth
                 label="粉糖账号"

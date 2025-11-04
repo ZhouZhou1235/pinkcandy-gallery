@@ -2,55 +2,75 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Typograp
 import { RegisterForm } from "../component/form/RegisterForm";
 import { LoginForm } from "../component/form/LoginForm";
 import { ResetPasswordForm } from "../component/form/ResetPasswordForm";
-import { useEffect } from "react";
-import { PageTitle } from "../vars/ConstVars";
+import { useEffect, useState } from "react";
+import { GArea, PageTitle } from "../vars/ConstVars";
+
 
 export function Login(){
+    const [randomImage, setRandomImage] = useState(GArea.lucky.ZhouWalk)
     useEffect(()=>{
         document.title = PageTitle.login
+        const luckyImages = Object.values(GArea.lucky)
+        const randomIndex = Math.floor(Math.random() * luckyImages.length)
+        setRandomImage(luckyImages[randomIndex])
     },[])
     return(
         <Box>
             <div className="container p-3">
-                <div className="row">
-                    <div className="col-sm-8">
-                        <img src="/images/login.png" alt="login" width={'100%'} />
+                <div className="row align-items-center">
+                    <div className="col-lg-8 col-md-7">
+                        <div className="text-center">
+                            <img 
+                                src={randomImage} 
+                                alt="login" 
+                                className="img-fluid rounded shadow" 
+                                style={{maxHeight: '70vh', objectFit: 'contain'}}
+                            />
+                        </div>
                     </div>
-                    <div className="col-sm-4">
+                    <div className="col-lg-4 col-md-5">
                         <Container sx={{p:2}}>
-                            <h1>堆积更多的毛绒绒！</h1>
-                            <div>
-                                幻想动物画廊🐾是一个非商业性质中文艺术图站，<br />
-                                用户可以浏览、发布分享有关毛绒绒的绘画作品。<br />
-                                如有问题请联系<a href="https://pinkcandy.top">站长</a><br />
+                            <div className="text-center mb-4">
+                                <img 
+                                    src={GArea.titleURL} 
+                                    alt="logo" 
+                                    className="d-block mx-auto m-2" 
+                                    width={'100%'} 
+                                    style={{maxWidth:'400px'}} 
+                                />
+                            </div>
+                            <div className="text-muted">
+                                幻想动物画廊是一个非商业性质的毛绒绒主题中文艺术网站，
+                                用户能发布分享有关毛绒绒的绘画作品，
+                                还可以交流聊天。
                             </div>
                         </Container>
                         <Container sx={{p:2}}>
                             <div>
-                                <Accordion defaultExpanded>
+                                <Accordion defaultExpanded className="mb-2 shadow-sm">
                                     <AccordionSummary
                                         aria-controls="panel1-content"
                                         id="panel1-header"
                                     >
-                                    <Typography component="span">登录</Typography>
+                                    <Typography component="span" className="fw-bold">登录</Typography>
                                     </AccordionSummary>
                                     <LoginForm />
                                 </Accordion>
-                                <Accordion>
+                                <Accordion className="mb-2 shadow-sm">
                                     <AccordionSummary
                                         aria-controls="panel2-content"
                                         id="panel2-header"
                                     >
-                                    <Typography component="span">注册</Typography>
+                                    <Typography component="span" className="fw-bold">注册</Typography>
                                     </AccordionSummary>
                                     <RegisterForm />
                                 </Accordion>
-                                <Accordion>
+                                <Accordion className="shadow-sm">
                                     <AccordionSummary
                                         aria-controls="panel3-content"
                                         id="panel3-header"
                                     >
-                                    <Typography component="span">重设密码</Typography>
+                                    <Typography component="span" className="fw-bold">重设密码</Typography>
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <ResetPasswordForm />

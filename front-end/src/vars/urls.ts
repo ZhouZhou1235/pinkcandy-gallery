@@ -59,6 +59,7 @@ export const urls = {
     deleteTag: proxyAPI+'/core/deleteTag',
     getTopTags: proxyAPI+'/core/getTopTags',
     searchPinkCandy: proxyAPI+'/core/searchPinkCandy',
+    getRegisterableUsername: proxyAPI+'/core/getRegisterableUsername',
 }
 
 // socket服务器的http服务接口
@@ -71,4 +72,6 @@ export const socket_http_urls = {
     getRoomMembers: ws_http_API+'/core/getRoomMembers',
     getRooms: ws_http_API+'/core/getRooms',
     editRoom: ws_http_API+'/core/editRoom',
+    deleteRoom: ws_http_API+'/core/deleteRoom',
+    searchRooms: ws_http_API+'/core/searchRooms',
 }

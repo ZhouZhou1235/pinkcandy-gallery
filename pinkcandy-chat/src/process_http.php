@@ -124,9 +124,13 @@ $GLOBALS['routes'] = [
             return $res;
         }
         else{
+            $num = $request->get('num');
+            if(!is_numeric($num)){$num=50;}
+            if($num>1000){$num=1000;}
             $res = $db_connection->queryData("
                 SELECT * FROM room
                 ORDER BY create_time DESC
+                LIMIT $num
             ");
             return $res;
         }
@@ -147,7 +151,38 @@ $GLOBALS['routes'] = [
                 UPDATE room
                 SET name='$name',info='$info'
                 WHERE id='$room_id'
-            ")>0?1:0;;
+            ")>0?1:0;
+        }
+        return 0;
+    },
+    '/core/deleteRoom'=>function(Request $request){
+        if(accordUserAction($request)){
+            $postobj = $request->post();
+            $sessionId = $postobj['sessionId'];
+            $user = getUser($sessionId);if(!$user){return 0;}
+            $username = $user['username'];
+            $room_id = $postobj['id'];
+            $db_connection = new DataBaseConnection();
+            $res = $db_connection->queryData("SELECT * FROM room WHERE owner_username='$username' AND id='$room_id'");
+            if(count($res)==0){return 0;}
+            return $db_connection->multiExecuteData("
+                DELETE FROM room
+                WHERE owner_username='$username' AND id='$room_id';
+                DELETE FROM room_member
+                WHERE room_id='$room_id';
+                DELETE FROM message
+                WHERE room_id='$room_id';
+            ")>0?1:0;
+        }
+        return 0;
+    },
+    '/core/searchRooms'=>function(Request $request){
+        if($text=$request->get('text')){
+            $db_connection = new DataBaseConnection();
+            return $db_connection->queryData("
+                SELECT * FROM room
+                WHERE name LIKE '%$text%' OR id LIKE '%$text%'
+            ");
         }
         return 0;
     }

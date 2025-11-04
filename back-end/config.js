@@ -8,7 +8,7 @@ export const workPath = dirname(fileURLToPath(import.meta.url));
 
 const config = {
     HOST: 'localhost', // 主机
-    LISTEN_PORT: 3000, // 运行端口
+    LISTEN_PORT: 8081, // 运行端口
     TEXT_ENCODING: 'utf8', // 文本编码
     // session
     SESSION_secret: 'pinkcandy gallery', // session会话密钥
@@ -17,6 +17,11 @@ const config = {
     SESSION_resave: true,
     SESSION_saveUninitialized: true,
     SESSION_effectiveTime: 1000*60*5, // 有效时间
+    SESSION_fileStore: {
+        path: workPath+'/files/sessions',
+        ttl: 1000*60*60*24*7, // session过期时间
+        retries: 0 // 重试次数
+    },
     // 数据库
     DATABASE_mysql: { // MySQL 配置
         host: 'localhost',
@@ -43,6 +48,7 @@ const config = {
         headimage: workPath+'/files/headimage/',
         backimage: workPath+'/files/backimage/',
         tmp: workPath+'/files/tmp/',
+        sessions: workPath+'/files/sessions', // 关联SESSION_fileStore
     },
     FILE_staticURL: workPath+'/static',
     FILE_imageAllowExtension: [

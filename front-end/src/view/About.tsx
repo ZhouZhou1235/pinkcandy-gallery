@@ -9,18 +9,18 @@ import { Link } from "react-router";
 function Info(){
     return(
         <>
-            <img src={GArea.GalleryPageview} alt="title" width={'100%'}/>
-            <p>
-                幻想动物画廊🐾是一个非商业性质中文艺术图站，
-                用户可以浏览、发布分享有关毛绒绒的绘画作品。
-                本项目已开源，如有兴趣欢迎浏览代码仓库！
-                <br />
-                粉糖-幻想动物画廊 2023.10 创建
-            </p>
+            <div className="text-center">
+                <img src={GArea.titleURL} alt="title" width={'75%'}/>
+            </div>
+            <div className="text-center">
+                <small>
+                    非商业性质毛绒绒主题中文艺术网站
+                </small>
+            </div>
             <h2>规则</h2>
             <p>
                 1 遵守基本的道德规范<br />
-                2 不要发限制级作品、猎奇恐怖、政治相关等敏感信息<br />
+                2 不要发限制级、猎奇恐怖、政治相关等敏感信息<br />
                 3 不要一次性发送太多或无意义内容<br />
                 4 由于是幻想动物主题网站，所以不要发布与毛绒绒无关的作品。<br />
                 5 作品可以是原创、二创、改图等类型，由作者上传或取得作者授权后代上传，不能直接转载作品。<br />
@@ -76,7 +76,6 @@ export function About(){
             setBoardPage(pageNum)
         })
     },[])
-    // 更新留言板页
     function updateBoardPage(_event:any,value:number){
         getRequest(urls.getBoradMessages+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}`).then(data=>{
             if(typeof data=='object'){
@@ -100,13 +99,11 @@ export function About(){
         <Box>
             <div className="container">
                 <div className="row">
-                    <div className="col-sm-8">
+                    <div className="col-sm-8 p-2">
                         <Info />
                     </div>
-                    <div className="col-sm-4">
-                        <img src={GArea.BaiAndZhou} alt="BaiAndZhou" width={'50%'}/>
-                        <img src={GArea.TuDouAndZhou} alt="TuDouAndZhou" width={'50%'}/>
-                        <h1>粉糖留言板</h1>
+                    <div className="col-sm-4 p-2">
+                        <h2>粉糖留言板</h2>
                         <ul className="list-group list-group-flush">
                             { boardItems }
                         </ul>

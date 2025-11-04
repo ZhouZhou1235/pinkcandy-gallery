@@ -9,7 +9,7 @@ export default defineConfig({
     // 同源请求 vite重写url转发到后端接口
     server: {
         host: 'localhost',
-        // port: 5173,
+        port: 8080,
         proxy: {
             '/api': {
                 target: systemAPI,

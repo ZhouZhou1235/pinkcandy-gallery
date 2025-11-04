@@ -2,7 +2,6 @@
 
 import { Bar } from "./component/Bar"
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom"
-import { Latest } from "./view/Latest"
 import { Login } from "./view/Login"
 import { NotFound } from "./view/NotFound"
 import { UserZoom } from "./view/UserZoom"
@@ -39,7 +38,6 @@ function App(){
                         <Route path="/artwork/:id" element={<Artwork />} />
                         <Route path="/gallery" element={<Gallery />} />
                         <Route path="/tag" element={<Tag />} />
-                        <Route path="/latest" element={<Latest />} />
                         <Route path="/trends" element={<Trends />} />
                         <Route path="/chat" element={<Chat />} />
                         <Route path="/chatzoom/:id" element={<ChatZoom />} />

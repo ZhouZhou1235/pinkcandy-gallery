@@ -71,6 +71,7 @@ const routeTable = {
     editTag: '/core/editTag',
     deleteTag: '/core/deleteTag',
     searchPinkCandy: '/core/searchPinkCandy',
+    getRegisterableUsername: '/core/getRegisterableUsername',
 };
 
 // 加载控制器
@@ -666,11 +667,21 @@ export function loadMachineController(machine=express()){
                 result.artwork.push(data);
             }
             for(let i=0;i<usernameList.length;i++){
-                let data = await User.findOne({where:{username:usernameList[i]},attributes:{exclude:['password']}})
+                let data = await User.findOne({where:{username:usernameList[i]},attributes:{exclude:['password']}});
                 result.user.push(data);
             }
             res.send(result);
         })();
+    });
+    machine.get(routeTable.getRegisterableUsername,(req,res)=>{
+        (async()=>{
+            for(let i=0;i<10;i++){
+                let username = Math.floor(10000+Math.random()*90000);
+                let have = await User.findOne({where:{username:username}})?true:false;
+                if(!have){res.send(username);return;}
+            }
+            res.send(0);
+        })()
     });
     // POST
     machine.post(routeTable.checkLogin,(req,res)=>{ // 检查登录

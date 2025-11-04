@@ -2,7 +2,7 @@ import { Box, Card, CardContent, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
 import { Image, Spin } from "antd";
 import { toNormalDate } from "../utils/tools";
@@ -13,6 +13,7 @@ import { ArtworkCommentList } from "../component/artwork/ArtworkCommentList";
 import { ArtworkPawArea } from "../component/artwork/ArtworkPawArea";
 
 export function Artwork(){
+    const navigate = useNavigate()
     const {id} = useParams<{id:string}>()
     const [loading,setLoading] = useState(true)
     const [artworkdata,setArtworkdata] = useState(DefaultObj.artworkdata)
@@ -31,6 +32,10 @@ export function Artwork(){
                 setArtworkdata(data)
                 setUserpreviewElement(<UserPreview username={data.username}/>)
                 document.title = PageTitle.artwork+data.title
+            }
+            else{
+                navigate('/notfound')
+                return
             }
         })
         await getRequest(urls.getTagsArtwork+'/'+id).then(data=>{

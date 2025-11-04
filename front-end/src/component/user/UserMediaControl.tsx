@@ -8,6 +8,8 @@ import { ArtworkPreview } from "../artwork/ArtworkPreview";
 import { EditArtworkForm } from "../form/EditArtworkForm";
 import { DeleteArtworkButton } from "../artwork/DeleteArtworkButton";
 import { EditRoomForm } from "../form/EditRoomForm";
+import { DeleteRoomButton } from "../chat/DeleteRoomButton";
+import { Link } from "react-router";
 
 export function UserMediaControl({username=''}){
     const [artworkitems,setArtworkitems] = useState([] as JSX.Element[])
@@ -54,7 +56,8 @@ export function UserMediaControl({username=''}){
                 <li className="list-group-item" key={item.id}>
                     <h2>
                         <Button color="warning" onClick={()=>{selecttoeditRoom(item.id)}}>修改</Button>
-                        {item.name}
+                        <DeleteRoomButton id={item.id} />
+                        <Link to={'/chatzoom/'+item.id}>{item.name}</Link>
                     </h2>
                 </li>
             )

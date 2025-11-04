@@ -59,7 +59,7 @@ export function EditRoomForm({id=''}){
             <FormControl fullWidth>
                 <FormLabel>房间名</FormLabel>
                 <Input
-                    placeholder={editRoomForm.info}
+                    placeholder={editRoomForm.name}
                     onChange={(e)=>{
                         editRoomForm.name = e.target.value
                         setEditRoomForm(editRoomForm)

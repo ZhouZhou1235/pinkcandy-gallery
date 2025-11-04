@@ -3,9 +3,9 @@
 
 
 $GLOBALS['config'] = [
-    'http_server'=>'http://localhost:8080',
-    'websocket_server'=>'websocket://localhost:8081',
-    'pinkcandy_gallery_server'=>'http://localhost:3000',
+    'pinkcandy_gallery_server'=>'http://localhost:8081',
+    'http_server'=>'http://localhost:8082',
+    'websocket_server'=>'websocket://localhost:8083',
     'mysqli'=>[
         'hostname'=>'localhost',
         'username'=>'root',

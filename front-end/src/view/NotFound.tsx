@@ -9,22 +9,12 @@ export function NotFound(){
     },[])
     return(
         <Box>
-            <div
-                className="
-                    d-flex
-                    align-items-center
-                    justify-content-center
-                    text-center
-                "
-                style={{height:'100vh'}}
-            >
-                <div>
-                    <img src={GArea.image404URL} alt="not found" width={300} />
-                    <br />
-                    <span style={{fontSize:'2em'}}>粉糖：页面未找到</span>
-                    <br />
-                    <Link to={'/'}>返回首页</Link>
-                </div>
+            <div className="p-2 text-center">
+                <img src={GArea.image404URL} alt="not found" width={300} />
+                <br />
+                <span style={{fontSize:'2em'}}>粉糖：页面未找到</span>
+                <br />
+                <Link to={'/'}>返回首页</Link>
             </div>
         </Box>
     )

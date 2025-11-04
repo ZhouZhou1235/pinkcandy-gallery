@@ -10,7 +10,7 @@ export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
             <Link to={'/artwork/'+artworkdata.id}>
                 <LazyLoadComponent children={
                     <CardMedia
-                        sx={{ height: 250 }}
+                        sx={{ height: 200 }}
                         image={ GArea.artworkimagePreviewURL+artworkdata.filename }
                         title="artworkimage"
                     />

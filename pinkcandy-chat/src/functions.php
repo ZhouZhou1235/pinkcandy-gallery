@@ -2,21 +2,10 @@
 // 函数集
 
 
-use Workerman\Worker;
 use Workerman\Protocols\Http\Request;
 use Workerman\Connection\TcpConnection;
 use ZhouZhou\PinkCandyChat\WebSocketManager;
 
-
-/**
- * 创建workerman的worker服务器
- */ 
-function createServer(string $socketName,callable $onMessageFunction,int $count=4){
-    $server = new Worker($socketName);
-    $server->count = $count;
-    $server->onMessage = $onMessageFunction;
-    return $server;
-}
 
 /**
  * HTTP路由处理
