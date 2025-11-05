@@ -5,7 +5,6 @@ import { socket_http_urls, urls } from "../../vars/urls"
 import { Link, useNavigate } from "react-router"
 import Textarea from "@mui/joy/Textarea"
 import { Checkbox, Input } from "@mui/joy"
-import { JoinRoomButton } from "../chat/JoinRoomButton"
 
 export function RoomForm(){
     const navigate = useNavigate()
@@ -35,7 +34,7 @@ export function RoomForm(){
                         borderWidth:'3px',
                     }}>
                         <Link to={'/chatzoom/'+item.id}>
-                            <p><JoinRoomButton id={item.id} /> {item.name}</p>
+                            <p>{item.name}</p>
                         </Link>
                     </div>
                 )

@@ -4,6 +4,7 @@
 
 use Workerman\Protocols\Http\Request;
 use ZhouZhou\PinkCandyChat\DataBaseConnection;
+use ZhouZhou\PinkCandyChat\WebSocketManager;
 
 
 $GLOBALS['routes'] = [
@@ -55,6 +56,8 @@ $GLOBALS['routes'] = [
             $username = $user['username'];
             $room_id = $postobj['id'];
             $db_connection = new DataBaseConnection();
+            $res = $db_connection->queryData("SELECT * FROM room WHERE owner_username='$username' AND id='$room_id'");
+            if(count($res)>0){return 0;}
             if(count($db_connection->queryData("SELECT id FROM room_member WHERE username='$username' AND room_id='$room_id'"))==0){
                 return $db_connection->executeData("
                     INSERT INTO room_member(username,room_id,type)
@@ -114,6 +117,30 @@ $GLOBALS['routes'] = [
         return 0;
     },
     '/core/getRooms'=>function(Request $request){
+        $db_connection = new DataBaseConnection();
+        if($username=$request->get('username')){
+            $res = $db_connection->queryData("
+                SELECT r.*, rm.join_time, rm.type as member_type
+                FROM room_member rm
+                INNER JOIN room r ON rm.room_id = r.id
+                WHERE rm.username='$username'
+                ORDER BY r.create_time DESC
+            ");
+            return $res;
+        }
+        else{
+            $num = $request->get('num');
+            if(!is_numeric($num)){$num=50;}
+            if($num>1000){$num=1000;}
+            $res = $db_connection->queryData("
+                SELECT * FROM room
+                ORDER BY create_time DESC
+                LIMIT $num
+            ");
+            return $res;
+        }
+    },
+    '/core/getMyRooms'=>function(Request $request){
         $db_connection = new DataBaseConnection();
         if($username=$request->get('username')){
             $res = $db_connection->queryData("
@@ -185,5 +212,5 @@ $GLOBALS['routes'] = [
             ");
         }
         return 0;
-    }
+    },
 ]+scanStaticAssets('assets');

@@ -66,11 +66,11 @@ export function UserZoomShow({username=''}){
                 let roomList :any[] = rooms
                 let theChatroomitems = roomList.map(item=>
                     <li className="list-group-item" key={item.id} style={{
-                        borderColor:item.owner_username==username?'pink':'none',
+                        borderColor:item.owner_username==username?'skyblue':'none',
                         borderWidth:'3px',
                     }}>
                         <Link to={'/chatzoom/'+item.id}>
-                            <h2>{item.name}</h2>
+                            <strong>{item.name}</strong>
                         </Link>
                     </li>
                 )

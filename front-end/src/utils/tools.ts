@@ -80,7 +80,7 @@ export function tagtypeNumToColorString(type:number){
 }
 
 // 是否为粉糖账号
-export function isUsername(num:string){return isNumberString(num)&&num.length==5}
+export function isUsername(num:string){return isNumberString(num)}
 
 // 标签的SelectProps数组转换为字符串数组
 export function selectPropsTagsToArray(selectpropsArray:SelectProps['options']=[]){
@@ -131,3 +131,12 @@ export function createEventManager(){
         }
     };
 };
+
+// 颠倒数组
+export function reverseList(arr:Array<any>){
+    let outarr = []
+    for(let i=arr.length-1;i>0;i--){
+        outarr.push(arr[i])
+    }
+    return outarr
+}

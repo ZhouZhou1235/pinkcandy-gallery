@@ -1,49 +1,55 @@
 import { Textarea } from "@mui/joy";
 import { Accordion, AccordionSummary, Button, Typography } from "@mui/material";
-import { DefaultObj, ws_system } from "../../vars/ConstVars";
+import { DefaultObj } from "../../vars/ConstVars";
 import { sendDataToWebSocketServer } from "../../utils/WebSocket";
 import { useState } from "react";
 
-export function SendMessageForm({connection=new WebSocket(ws_system),sessionId='',room_id=''}){
-    const [messageForm,setMessageForm] = useState(DefaultObj.socketSendData)
+export function SendMessageForm({connection=null as WebSocket|null,sessionId='',room_id=''}){
+    const [messageContent,setMessageContent] = useState('')
+    const handleSendMessage = ()=>{
+        if (messageContent.trim()=='') return
+        let messageForm = DefaultObj.socketSendData
+        messageForm = {
+            action: 'send_message',
+            cookie: sessionId,
+            data: {
+                id: room_id,
+                content: messageContent
+            }
+        }
+        if(connection){
+            sendDataToWebSocketServer(connection,messageForm)
+        }
+        setMessageContent('')
+    }
     return(
         <div className="container p-2">
-            <Accordion style={{background: 'lavender'}}>
+            <Accordion style={{background:'rgba(50,150,200,0.25)'}}>
                 <AccordionSummary
                     aria-controls="sendMessageFrom-content"
                     id="sendMessageFrom-header"
                 >
-                    <Typography component="span">发言</Typography>
+                    <Typography component="span" fontWeight="medium">
+                        发送消息
+                    </Typography>
                 </AccordionSummary>
                 <Textarea
-                    onChange={e=>{
-                        setMessageForm({
-                            action:'send_message',
-                            cookie:sessionId,
-                            data:{
-                                id:room_id,
-                                content: e.target.value
-                            }
-                        })
-                    }}
-                    minRows={4}
-                    maxRows={8}
+                    value={messageContent}
+                    onChange={e=>setMessageContent(e.target.value)}
+                    minRows={5}
+                    maxRows={10}
+                    variant="outlined"
                     endDecorator={
-                        <Button variant="outlined" sx={{ ml: 'auto' }} onClick={()=>{
-                            sendDataToWebSocketServer(connection,messageForm)
-                            setMessageForm({
-                                action:'send_message',
-                                cookie:sessionId,
-                                data:{
-                                    id:room_id,
-                                    content: ''
-                                }
-                            })
-                        }}>
+                        <Button 
+                            variant="contained" 
+                            size="small"
+                            onClick={handleSendMessage}
+                            disabled={messageContent.trim()==''}
+                            sx={{ borderRadius: 1 }}
+                        >
                             发送
                         </Button>
                     }
-                    sx={{ mt: 2 }}
                 />
             </Accordion>
         </div>

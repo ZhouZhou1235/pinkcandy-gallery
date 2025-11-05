@@ -84,9 +84,11 @@ export function Bar(){
     function updateState(){
         (async()=>{
             let data = await getRequest(urls.getSessionUser)
-            let noticenum = await getRequest(urls.getNoticenum+'?username='+data.username)
-            let trendsnum = await getRequest(urls.getTrendnum+'?username='+data.username)
-            if(data!=0){setUserareaElement(UserArea(data,noticenum,trendsnum))}
+            if(data){
+                let noticenum = await getRequest(urls.getNoticenum+'?username='+data.username)
+                let trendsnum = await getRequest(urls.getTrendnum+'?username='+data.username)
+                setUserareaElement(UserArea(data,noticenum,trendsnum))
+            }
             else{setUserareaElement(LoginButton())}
         })()
     }

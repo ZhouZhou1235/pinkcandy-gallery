@@ -31,7 +31,7 @@ export function RegisterForm(){
         )
     }
     function handleInputChange(field:string,value:string){
-        const updatedForm = {
+        let updatedForm = {
             ...registerForm,
             [field]:value
         }

@@ -16,9 +16,9 @@ function Chat(){
         if(rooms){
             let theSearchRoomItems = rooms.map(item=>
                 <div className="list-group-item" key={item.id}>
-                    <h2>
+                    <strong>
                         <Link to={'/chatzoom/'+item.id}>{item.name}</Link>
-                    </h2>
+                    </strong>
                 </div>
             )
             setSearchRoomItems(theSearchRoomItems)
@@ -31,10 +31,9 @@ function Chat(){
             if(rooms){
                 let theRoomItems = rooms.map(item=>
                     <div className="list-group-item" key={item.id}>
-                        <h2>
-                            <JoinRoomButton id={item.id} />
-                            <Link to={'/chatzoom/'+item.id}>{item.name}</Link>
-                        </h2>
+                        <h4>
+                            <JoinRoomButton id={item.id} /> <Link to={'/chatzoom/'+item.id}>{item.name}</Link>
+                        </h4>
                         <small>{item.create_time} 创建</small>
                         <p style={{whiteSpace:'pre-line'}}>{item.info}</p>
                     </div>

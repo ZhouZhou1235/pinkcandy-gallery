@@ -115,15 +115,15 @@ export function loadMachineController(machine=express()){
                 if(sessionData!=null){
                     try{
                         let username = sessionData.username;
-                        if(!username){return 0;}
+                        if(!username){res.send(0);return 0;}
                         User.findOne({where:{username:username},attributes:{exclude:['password']}}).then(data=>{res.send(data);});
                     }
-                    catch(e){console.log(e);return;}
+                    catch(e){console.log(e);res.send(0);return 0;}
                 }
             });
         }
         else{
-            let username = req.session.username;if(!username){return 0;}
+            let username = req.session.username;if(!username){res.send(0);return 0;}
             User.findOne({where:{username:username},attributes:{exclude:['password']}}).then(data=>{res.send(data);});
         }
     });

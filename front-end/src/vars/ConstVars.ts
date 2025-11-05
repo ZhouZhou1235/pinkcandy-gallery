@@ -137,7 +137,7 @@ export const DefaultObj = {
         data: null as any,
     },
     socketEchoData: {
-        message: '',
+        message: '' as any,
         type: '',
         dateTime: Date(),
     },
@@ -165,4 +165,5 @@ export const PageTitle = {
     tag: '幻想动物画廊 - 标签',
     trends: '幻想动物画廊 - 动态',
     chat: '幻想动物画廊 - 聊天',
+    chatzoom: '房间 | ',
 }

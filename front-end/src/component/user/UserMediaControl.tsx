@@ -51,14 +51,14 @@ export function UserMediaControl({username=''}){
                     setGalleryPage(artworkPageNum)
                 }
             })
-            let roomdata :any[] = await getRequest(socket_http_urls.getRooms+`?username=${username}`)
+            let roomdata :any[] = await getRequest(socket_http_urls.getMyRooms+`?username=${username}`)
             let theChatroomitems = roomdata.map(item=>
                 <li className="list-group-item" key={item.id}>
-                    <h2>
+                    <strong>
                         <Button color="warning" onClick={()=>{selecttoeditRoom(item.id)}}>修改</Button>
                         <DeleteRoomButton id={item.id} />
                         <Link to={'/chatzoom/'+item.id}>{item.name}</Link>
-                    </h2>
+                    </strong>
                 </li>
             )
             setChatzoomitems(theChatroomitems)

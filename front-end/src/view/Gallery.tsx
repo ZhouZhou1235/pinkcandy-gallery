@@ -55,7 +55,7 @@ export function Gallery(){
             if(data!=0){
                 let tagList :any[] = data
                 tagList.sort(objSortBy('usenum',true))
-                tagList.splice(GArea.defaultShowNum)
+                tagList.splice(GArea.defaultShowNum*5)
                 setToptagdata(data)
             }
         })
