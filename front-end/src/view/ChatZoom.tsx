@@ -1,70 +1,49 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { DefaultObj, PageTitle, ws_system } from "../vars/ConstVars";
 import { useEffect, useState } from "react";
 import { getMessageEventData } from "../utils/tools";
 import { getRequest, postRequest } from "../utils/HttpRequest";
 import { socket_http_urls, urls } from "../vars/urls";
 import { useNavigate, useParams } from "react-router";
-import { JoinRoomButton } from "../component/chat/JoinRoomButton";
-import { SendMessageForm } from "../component/form/SendMessageForm";
+import { SendMessageForm } from "../component/chat/SendMessageBox";
 import { sendDataToWebSocketServer } from "../utils/WebSocket";
 import { RoomMemberItem } from "../component/chat/RoomMemberItem";
 import { RoomMessageItem } from "../component/chat/RoomMessageItem";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCrown, faHome } from "@fortawesome/free-solid-svg-icons";
+import { RoomManageDialog } from "../component/chat/RoomManageDialog";
 
-
-const socketActions = {
-    connect: (connection: WebSocket, sessionId: string, id: string) => {
-        const sendData = {
-            ...DefaultObj.socketSendData,
-            action: 'connect',
-            cookie: sessionId,
-            data: {id:id}
-        };
-        sendDataToWebSocketServer(connection, sendData);
-    },
-    sendMessage: (connection: WebSocket, sessionId: string, roomId: string, content: string) => {
-        sendDataToWebSocketServer(connection, {
-            action: 'send_message',
-            cookie: sessionId,
-            data: { id: roomId, content }
-        });
-    },
-    getOnlineRoomMember: (connection: WebSocket, sessionId: string, roomId: string) => {
-        sendDataToWebSocketServer(connection, {
-            action: 'get_online_room_member',
-            cookie: sessionId,
-            data: { id: roomId }
-        });
-    }
-};
-
-const httpRequests = {
-    getRoom: (id: string) => getRequest(socket_http_urls.getRoom + '?id=' + id),
-    getRoomMembers: (id: string) => getRequest(socket_http_urls.getRoomMembers + '?id=' + id),
-    getMessages: (id: string) => getRequest(socket_http_urls.getMessages + '?id=' + id),
-    getUser: (username: string) => getRequest(urls.getUser + '/' + username),
-    getSessionUser: () => getRequest(urls.getSessionUser),
-    getSessionId: () => postRequest(urls.getSessionId),
-    joinRoom: (sessionId: string, roomId: string) => postRequest(socket_http_urls.joinRoom, {
-        sessionId,
-        id: roomId
-    }),
-    haveJoin: (sessionId: string, roomId: string) => postRequest(socket_http_urls.haveJoin, {
-        sessionId,
-        id: roomId
-    }),
-};
 
 function ChatZoom(){
     const navigate = useNavigate()
     const {id} = useParams<{id:string}>()
+    const [haveJoin,setHaveJoin] = useState(false)
     const [roomData,setRoomData] = useState(DefaultObj.roomData)
     const [sessionId,setSessionId] = useState('')
     const [messageItem,setMessageItem] = useState(<></>)
     const [memberItem,setMemberItem] = useState(<></>)
     const [connection,setConnection] = useState<WebSocket|null>(null);
+    const [username,setUsername] = useState('')
+    const [manageDialogOpen, setManageDialogOpen] = useState(false)
+    const [roomMembers, setRoomMembers] = useState<any[]>([])
+    async function joinRoom(){
+        let x = await postRequest(socket_http_urls.joinRoom,{
+            sessionId: await postRequest(urls.getSessionId),
+            id: id,
+        })
+        if(connection&&id){
+            sendDataToWebSocketServer(connection,{
+                action:'call_room_member_update',
+                cookie:sessionId,
+                data:{id:id}
+            });
+        }
+        await updateMessageData()
+        return x
+    }
     async function updateMemberData(onlinelist=[]){
-        let theMemberData :any[] = await httpRequests.getRoomMembers(id!)
+        let theMemberData:any[] = await getRequest(socket_http_urls.getRoomMembers+'?id='+id!)
+        setRoomMembers(theMemberData)
         let theMemberDataObject = {} as any;
         for(let i=0;i<theMemberData.length;i++){
             let username = theMemberData[i].username
@@ -76,11 +55,18 @@ function ChatZoom(){
             onlinelist={onlinelist}
             memberdataobj={theMemberDataObject}
         />)
-        if(connection&&id){socketActions.getOnlineRoomMember(connection,sessionId,id)}
+        if(connection&&id){
+            sendDataToWebSocketServer(connection,{
+                action:'get_online_room_member',
+                cookie:sessionId,
+                data:{id:id}
+            });
+        }
     }
     async function updateMessageData(){
-        let theMemberData :any[] = await httpRequests.getRoomMembers(id!)
-        let theMessageData :any[] = await httpRequests.getMessages(id!)
+        let theMemberData:any[] = await getRequest(socket_http_urls.getRoomMembers+'?id='+id!)
+        setRoomMembers(theMemberData)
+        let theMessageData:any[] = await getRequest(socket_http_urls.getMessages+'?id='+id!)
         let theMemberDataObject = {} as any;
         for(let i=0;i<theMemberData.length;i++){
             let username = theMemberData[i].username
@@ -91,7 +77,13 @@ function ChatZoom(){
             messagedata={theMessageData}
             memberdataobj={theMemberDataObject}
         />)
-        if(connection&&id){socketActions.getOnlineRoomMember(connection,sessionId,id)}
+        if(connection&&id){
+            sendDataToWebSocketServer(connection,{
+                action:'get_online_room_member',
+                cookie:sessionId,
+                data:{id:id}
+            });
+        }
     }
     function createWebSocketConnection(sessionId:string){
         let connection = new WebSocket(ws_system)
@@ -106,32 +98,76 @@ function ChatZoom(){
                     updateMemberData(echoData.message||[])
                     break
                 case 'connect':
-                    if(connection&&id){socketActions.getOnlineRoomMember(connection,sessionId,id)}
+                    if(connection&&id){
+                        sendDataToWebSocketServer(connection,{
+                            action:'get_online_room_member',
+                            cookie:sessionId,
+                            data:{id:id}
+                        });
+                    }
+                    break
+                case 'close':
+                    if(connection&&id){
+                        sendDataToWebSocketServer(connection,{
+                            action:'get_online_room_member',
+                            cookie:sessionId,
+                            data:{id:id}
+                        });
+                    }
+                    break
+                case 'call_room_member_update':
+                    updateMessageData()
+                    if(connection&&id){
+                        sendDataToWebSocketServer(connection,{
+                            action:'get_online_room_member',
+                            cookie:sessionId,
+                            data:{id:id}
+                        });
+                    }
                     break
                 default:
                     break
             }
         }
         connection.onopen = ()=>{
-            socketActions.connect(connection,sessionId,id!);
-            socketActions.getOnlineRoomMember(connection,sessionId,id!);
+            sendDataToWebSocketServer(connection,{
+                ...DefaultObj.socketSendData,
+                action:'connect',
+                cookie:sessionId,
+                data:{id:id!}
+            })
+            sendDataToWebSocketServer(connection,{
+                action:'get_online_room_member',
+                cookie:sessionId,
+                data:{id:id!}
+            })
         }
         return connection
     }
     useEffect(() => {
         document.title = PageTitle.chatzoom;
         (async () => {
-            let theRoomData: any[] = await httpRequests.getRoom(id!)
+            let theRoomData: any[] = await getRequest(socket_http_urls.getRoom+'?id='+id!)
             if (theRoomData.length == 0) { navigate('/notfound'); return }
             document.title = PageTitle.chatzoom + theRoomData[0].name
             setRoomData(theRoomData[0])
-            let theUser = await httpRequests.getSessionUser()
-            if (theUser) {
-                let theSessionId = await httpRequests.getSessionId()
+            let theUser = await getRequest(urls.getSessionUser)
+            if(theUser){
+                let theSessionId = await postRequest(urls.getSessionId)
+                let theHaveJoin = await postRequest(socket_http_urls.haveJoin,{
+                    sessionId: theSessionId,
+                    id: id,
+                })
+                setUsername(theUser.username)
                 setSessionId(theSessionId)
-                await updateMemberData()
-                await updateMessageData()
                 setConnection(createWebSocketConnection(theSessionId));
+                if(theHaveJoin!=0){
+                    await updateMessageData()
+                    setHaveJoin(true)
+                }
+                else{
+                    setMessageItem(<p className="text-center">加入房间才能查看消息</p>)
+                }
             }
         })()
         return () => {
@@ -141,8 +177,35 @@ function ChatZoom(){
     return(
         <Box>
             <div className="container p-3 flex-grow-1 d-flex flex-column">
-                <div className="mb-3">
-                    <h2 className="mb-0"><JoinRoomButton id={id}/> {roomData.name}</h2>
+                <div className="mb-4">
+                    <div className="d-flex align-items-center gap-3">
+                        {
+                            roomData.owner_username==username
+                            ?
+                            <Button
+                                color='primary'
+                                onClick={()=>{setManageDialogOpen(true)}}
+                                variant='contained'
+                                startIcon={<FontAwesomeIcon icon={faCrown} />}
+                            >
+                                管理
+                            </Button>
+                            :
+                            <Button
+                                disabled={(roomData.type!='public'&&!haveJoin)||username==''}
+                                color='secondary'
+                                onClick={()=>{joinRoom().then(res=>{if(res==1){setHaveJoin(!haveJoin)}})}}
+                                variant={haveJoin?'contained':'outlined'}
+                                startIcon={<FontAwesomeIcon icon={faHome} />}
+                            >
+                                {!haveJoin?'加入':'已加入'}
+                            </Button>
+                        }
+
+                        <h2 className="mb-0 fs-3 fw-bold">
+                            {roomData.name}
+                        </h2>
+                    </div>
                 </div>
                 <div className="row flex-grow-1">
                     <div className="col-sm-8 d-flex flex-column" style={{height:'75vh',overflowY:'scroll'}}>
@@ -167,9 +230,26 @@ function ChatZoom(){
                 <SendMessageForm
                     connection={connection}
                     sessionId={sessionId}
-                    room_id={roomData.id}
+                    roomdata={roomData}
+                    disabled={!haveJoin}
                 />
             </div>
+            <RoomManageDialog
+                open={manageDialogOpen}
+                onClose={() => setManageDialogOpen(false)}
+                roomId={id!}
+                sessionId={sessionId}
+                members={roomMembers}
+                onMembersUpdate={()=>{
+                    if(connection&&id){
+                        sendDataToWebSocketServer(connection,{
+                            action:'call_room_member_update',
+                            cookie:sessionId,
+                            data:{id:id}
+                        });
+                    }
+                }}
+            />
         </Box>
     )
 }

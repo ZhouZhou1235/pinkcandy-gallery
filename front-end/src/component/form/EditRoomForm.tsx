@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, FormControl, FormLabel, Snackbar, Typography } from "@mui/material";
-import { Textarea,Input } from '@mui/joy';
+import { Textarea,Input, Checkbox } from '@mui/joy';
 import { useEffect, useState } from "react";
 import { getRequest, postRequest } from "../../utils/HttpRequest";
 import { socket_http_urls, urls } from "../../vars/urls";
@@ -14,6 +14,7 @@ export function EditRoomForm({id=''}){
         id: id,
         name: '',
         info: '',
+        type: '',
     })
     function closeSnackbar(){setSnackbarOpen(false);setSnackbarMessage('')}
     function editRoom(){
@@ -32,6 +33,7 @@ export function EditRoomForm({id=''}){
         theEditRoomForm.id = roomdata.id
         theEditRoomForm.name = roomdata.name
         theEditRoomForm.info = roomdata.info
+        theEditRoomForm.type = roomdata.type
         setRoomdata(roomdata)
         setEditRoomForm(theEditRoomForm)
     }
@@ -59,17 +61,40 @@ export function EditRoomForm({id=''}){
             <FormControl fullWidth>
                 <FormLabel>房间名</FormLabel>
                 <Input
-                    placeholder={editRoomForm.name}
+                    value={editRoomForm.name}
                     onChange={(e)=>{
-                        editRoomForm.name = e.target.value
-                        setEditRoomForm(editRoomForm)
+                        const updatedForm = {
+                            ...editRoomForm,
+                            name: e.target.value
+                        }
+                        setEditRoomForm(updatedForm)
                     }}
                 />
                 <FormLabel>房主说明</FormLabel>
-                <Textarea placeholder={editRoomForm.info} minRows={4} onChange={(e)=>{
-                    editRoomForm.info = e.target.value
-                    setEditRoomForm(editRoomForm)
-                }} />
+                <Textarea 
+                    value={editRoomForm.info} 
+                    minRows={4} 
+                    onChange={(e)=>{
+                        const updatedForm = {
+                            ...editRoomForm,
+                            info: e.target.value
+                        }
+                        setEditRoomForm(updatedForm)
+                    }} 
+                />
+                <div className="p-2">
+                    <Checkbox
+                        label="私有房间"
+                        checked={editRoomForm.type!='public'}
+                        onChange={()=>{
+                            const updatedForm = {
+                                ...editRoomForm,
+                                type: editRoomForm.type == 'public'?'private':'public'
+                            }                   
+                            setEditRoomForm(updatedForm)
+                        }}
+                    />
+                </div>
                 <Button sx={{mt:2}} onClick={editRoom} variant="outlined" color="warning">修改</Button>
             </FormControl>
         </>

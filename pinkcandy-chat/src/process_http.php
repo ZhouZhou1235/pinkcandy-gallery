@@ -4,7 +4,6 @@
 
 use Workerman\Protocols\Http\Request;
 use ZhouZhou\PinkCandyChat\DataBaseConnection;
-use ZhouZhou\PinkCandyChat\WebSocketManager;
 
 
 $GLOBALS['routes'] = [
@@ -57,8 +56,10 @@ $GLOBALS['routes'] = [
             $room_id = $postobj['id'];
             $db_connection = new DataBaseConnection();
             $res = $db_connection->queryData("SELECT * FROM room WHERE owner_username='$username' AND id='$room_id'");
-            if(count($res)>0){return 0;}
+            if(count($res)>0){return 0;} // 房主自己不能加入
             if(count($db_connection->queryData("SELECT id FROM room_member WHERE username='$username' AND room_id='$room_id'"))==0){
+                $res = $db_connection->queryData("SELECT * FROM room WHERE id='$room_id' AND type='public'");
+                if(count($res)==0){return 0;} // 私有房间不能加入
                 return $db_connection->executeData("
                     INSERT INTO room_member(username,room_id,type)
                     VALUES('$username','$room_id','member')
@@ -171,12 +172,13 @@ $GLOBALS['routes'] = [
             $room_id = $postobj['id'];
             $name = $postobj['name'];
             $info = $postobj['info'];
+            $type = $postobj['type'];
             $db_connection = new DataBaseConnection();
             $res = $db_connection->queryData("SELECT * FROM room WHERE owner_username='$username' AND id='$room_id'");
             if(count($res)==0 || empty($name)){return 0;}
             return $db_connection->executeData("
                 UPDATE room
-                SET name='$name',info='$info'
+                SET name='$name',info='$info',type='$type'
                 WHERE id='$room_id'
             ")>0?1:0;
         }
@@ -210,6 +212,46 @@ $GLOBALS['routes'] = [
                 SELECT * FROM room
                 WHERE name LIKE '%$text%' OR id LIKE '%$text%'
             ");
+        }
+        return 0;
+    },
+    '/core/inviteRoomMember'=>function(Request $request){
+        if(accordUserAction($request)){
+            $postobj = $request->post();
+            $sessionId = $postobj['sessionId'];
+            $user = getUser($sessionId);if(!$user){return 0;}
+            $username = $user['username'];
+            $room_id = $postobj['room_id'];
+            $target_username = $postobj['target_username'];
+            if(!getUserByUsername($target_username)){return 0;}
+            $db_connection = new DataBaseConnection();
+            $room_res = $db_connection->queryData("SELECT * FROM room WHERE owner_username='$username' AND id='$room_id'");
+            if(count($room_res)==0){return 0;}
+            $existing_member = $db_connection->queryData("SELECT id FROM room_member WHERE username='$target_username' AND room_id='$room_id'");
+            if(count($existing_member)>0){return 0;}
+            return $db_connection->executeData("
+                INSERT INTO room_member(username,room_id,type)
+                VALUES('$target_username','$room_id','member')
+            ")?1:0;
+        }
+        return 0;
+    },
+    '/core/removeRoomMember'=>function(Request $request){
+        if(accordUserAction($request)){
+            $postobj = $request->post();
+            $sessionId = $postobj['sessionId'];
+            $user = getUser($sessionId);if(!$user){return 0;}
+            $username = $user['username'];
+            $room_id = $postobj['room_id'];
+            $target_username = $postobj['target_username'];
+            $db_connection = new DataBaseConnection();
+            $room_res = $db_connection->queryData("SELECT * FROM room WHERE owner_username='$username' AND id='$room_id'");
+            if(count($room_res)==0){return 0;}
+            if($target_username==$username){return 0;}
+            return $db_connection->executeData("
+                DELETE FROM room_member
+                WHERE username='$target_username' AND room_id='$room_id'
+            ")?1:0;
         }
         return 0;
     },

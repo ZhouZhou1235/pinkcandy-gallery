@@ -11,7 +11,7 @@ export function RoomMemberItem({memberdata,onlinelist,memberdataobj}:{memberdata
             <Link to={'/user/'+item.username} className="me-2">
                 <Avatar
                     shape="square"
-                    size={64}
+                    size={50}
                     alt="headimage"
                     src={
                         memberdataobj[item.username]

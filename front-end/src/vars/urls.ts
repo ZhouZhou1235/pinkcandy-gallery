@@ -76,4 +76,6 @@ export const socket_http_urls = {
     searchRooms: ws_http_API+'/core/searchRooms',
     getMyRooms: ws_http_API+'/core/getMyRooms',
     getOnlineMembers: ws_http_API+'/core/getOnlineMembers',
+    inviteRoomMember: ws_http_API+'/core/inviteRoomMember',
+    removeRoomMember: ws_http_API+'/core/removeRoomMember',
 }

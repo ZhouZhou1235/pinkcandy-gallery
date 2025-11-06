@@ -83,5 +83,21 @@ $GLOBALS['websocket_events'] = [
             }
         }
         WebSocketManager::sendToClient($connection->id,$onlineUsernameList,'get_online_room_member');
-    }
+    },
+    'call_room_member_update'=>function(TcpConnection $connection,ClientSendData $clientSendData){
+        $arr = $clientSendData->getArrayData();
+        $data = $arr['data'];
+        if($room_id=$data['id']){
+            $db_connection = new DataBaseConnection();
+            $res = $db_connection->queryData("SELECT * FROM room_member WHERE room_id='$room_id'");
+            foreach($res as $obj){
+                $username = $obj['username'];
+                $connectionId = WebSocketManager::getUsernameConnetionId($username);
+                if($connectionId!=-1){
+                    $ip = $connection->getRemoteIp();
+                    WebSocketManager::sendToClient($connectionId,"$ip call update",'call_room_member_update');
+                }
+            }
+        }
+    },
 ];

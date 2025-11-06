@@ -4,7 +4,6 @@ import { getRequest } from "../utils/HttpRequest";
 import { socket_http_urls } from "../vars/urls";
 import { PageTitle } from "../vars/ConstVars";
 import { Link } from "react-router";
-import { JoinRoomButton } from "../component/chat/JoinRoomButton";
 
 
 function Chat(){
@@ -14,13 +13,16 @@ function Chat(){
     async function searchRooms(){
         let rooms :any[] = await getRequest(socket_http_urls.searchRooms+'?text='+searchText)
         if(rooms){
-            let theSearchRoomItems = rooms.map(item=>
-                <div className="list-group-item" key={item.id}>
-                    <strong>
-                        <Link to={'/chatzoom/'+item.id}>{item.name}</Link>
-                    </strong>
-                </div>
-            )
+            let theSearchRoomItems = rooms.map(item=>{
+                if(item.type!='public'){return<span key={item.id}></span>}
+                return(
+                    <div className="list-group-item" key={item.id}>
+                        <strong>
+                            <Link to={'/chatzoom/'+item.id}>{item.name}</Link>
+                        </strong>
+                    </div>
+                )
+            })
             setSearchRoomItems(theSearchRoomItems)
         }
     }
@@ -29,15 +31,18 @@ function Chat(){
         (async()=>{
             let rooms :any[] = await getRequest(socket_http_urls.getRooms+`?num=${10}`)
             if(rooms){
-                let theRoomItems = rooms.map(item=>
-                    <div className="list-group-item" key={item.id}>
-                        <h4>
-                            <JoinRoomButton id={item.id} /> <Link to={'/chatzoom/'+item.id}>{item.name}</Link>
-                        </h4>
-                        <small>{item.create_time} 创建</small>
-                        <p style={{whiteSpace:'pre-line'}}>{item.info}</p>
-                    </div>
-                )
+                let theRoomItems = rooms.map(item=>{
+                    if(item.type!='public'){return<span key={item.id}></span>}
+                    return(
+                        <div className="list-group-item" key={item.id}>
+                            <h4>
+                                <Link to={'/chatzoom/'+item.id}>{item.name}</Link>
+                            </h4>
+                            <small>{item.create_time} 创建</small>
+                            <p style={{whiteSpace:'pre-line'}}>{item.info}</p>
+                        </div>
+                    )
+                })
                 setRoomItems(theRoomItems)
             }
         })()
