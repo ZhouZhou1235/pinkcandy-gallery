@@ -1,9 +1,10 @@
 // 全局变量
 
-
+// 开发环境
 export const systemAPI = 'http://localhost:8081' // 后端接口
 export const ws_http_system = 'http://localhost:8082' // socket服务器的HTTP服务
 export const ws_system = 'ws://localhost:8083' // socket服务器地址
+
 export const proxyAPI = '/api' // 代理url
 export const ws_http_API = '/chat_api' // socket服务器的http服务代理
 

@@ -8,12 +8,14 @@ import { objSortBy } from "../utils/tools";
 import { PinkcandyResultShow } from "../component/PinkcandyResultShow";
 import { Footer } from "../component/Footer";
 
+
 export function PinkCandy(){
     const [topInfo,setTopInfo] = useState('')
     const [searchtext,setSearchtext] = useState('')
     const [toptagdata,setToptagdata] = useState(DefaultObj.tagArray)
     const [searchTagArray,setSearchTagArray] = useState(DefaultObj.tagArray)
     const [pinkcandyResultShowElement,setPinkcandyResultShowElement] = useState(<></>)
+    const [randomImages, setRandomImages] = useState<string[]>([])
     function getAndSetTopInfo(){
         getRequest(urls.getTopInfo).then(x=>{
             if(typeof x=='string'){
@@ -81,10 +83,18 @@ export function PinkCandy(){
             }
         })
     }
+    function showRandomLuckyImages(){
+        let luckyKeys = Object.keys(GArea.lucky)
+        let shuffled = luckyKeys.sort(() => 0.5 - Math.random())
+        let selected = shuffled.slice(0, 3)
+        let randomLuckyImages = selected.map(key => GArea.lucky[key as keyof typeof GArea.lucky])
+        setRandomImages(randomLuckyImages)
+    }
     useEffect(()=>{
         document.title = PageTitle.pinkcandy
         getTopTagsAndView()
         getAndSetTopInfo()
+        showRandomLuckyImages()
     },[])
     return(
         <Box sx={{mt: 2}}>
@@ -137,47 +147,34 @@ export function PinkCandy(){
                                 {pinkcandyResultShowElement}
                             </div>
                         ):(
-                            <>
-                                <div className="card mt-4">
-                                    <div className="card-body text-center">
-                                        <h3>欢迎来到幻想动物画廊</h3>
-                                        <p className="text-muted">
-                                            输入关键词，探索小蓝狗与伙伴们的精彩作品！
-                                        </p>
-                                        <div className="row mt-4">
-                                            <div className="col-sm-4">
-                                                <div className="text-primary">
-                                                    <i className="fas fa-palette fa-2x mb-2"></i>
-                                                    <h5>毛绒绒</h5>
-                                                    <p>发布和展示主题作品</p>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-4">
-                                                <div className="text-success">
-                                                    <i className="fas fa-users fa-2x mb-2"></i>
-                                                    <h5>交流分享</h5>
-                                                    <p>提供简易聊天社区</p>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-4">
-                                                <div className="text-warning">
-                                                    <i className="fas fa-tags fa-2x mb-2"></i>
-                                                    <h5>开源免费</h5>
-                                                    <p>项目代码公开学习使用</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="text-center p-2">
+                        <div className="row">
+                            <div className="col-md-8 p-2">
+                                <div className="text-center">
                                     <img 
-                                        src={GArea.SkyblueHound} 
-                                        alt="小蓝狗"
-                                        className="img-fluid rounded shadow" 
-                                        style={{maxHeight: '400px', objectFit: 'contain'}}
+                                        src={randomImages[0]}
+                                        alt="lucky main"
+                                        className="img-fluid rounded"
+                                        style={{maxHeight: '500px', objectFit: 'cover', width: '100%'}}
                                     />
                                 </div>
-                            </>
+                            </div>
+                            <div className="col-md-4 p-2">
+                                <div className="d-flex flex-column h-100">
+                                    {randomImages.slice(1).map((image, index) => (
+                                        <div key={index} className="mb-3 flex-fill">
+                                            <div className="text-center h-100">
+                                                <img 
+                                                    src={image}
+                                                    alt={`lucky ${index + 2}`}
+                                                    className="img-fluid rounded h-100"
+                                                    style={{objectFit: 'cover', width: '100%'}}
+                                                />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
                         )}
                     </div>
                 </div>

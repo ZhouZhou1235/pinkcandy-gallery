@@ -13,6 +13,9 @@ $GLOBALS['websocket_events'] = [
         $m = "PINKCANDY: hi $arr";
         WebSocketManager::sendToClient($connection->id,$m,'info');
     },
+    'ping'=>function(TcpConnection $connection,ClientSendData $clientSendData){
+        WebSocketManager::sendToClient($connection->id,'pong','pong');
+    },
     'send_message'=>function(TcpConnection $connection,ClientSendData $clientSendData){
         $arr = $clientSendData->getArrayData();
         $user = getUser($arr['cookie']);

@@ -87,10 +87,14 @@ function ChatZoom(){
     }
     function createWebSocketConnection(sessionId:string){
         let connection = new WebSocket(ws_system)
+        let pingInterval :any = null;        
         connection.onmessage = e=>{
             let echoData = DefaultObj.socketEchoData
             echoData = getMessageEventData(e)
             switch(echoData.type){
+                case 'pong':
+                    console.log('pong');
+                    break
                 case 'send_message':
                     updateMessageData()
                     break
@@ -130,6 +134,13 @@ function ChatZoom(){
             }
         }
         connection.onopen = ()=>{
+            pingInterval = setInterval(()=>{
+                sendDataToWebSocketServer(connection,{
+                    action:'ping',
+                    cookie:sessionId,
+                    data:{}
+                });
+            },30000);
             sendDataToWebSocketServer(connection,{
                 ...DefaultObj.socketSendData,
                 action:'connect',
@@ -141,6 +152,12 @@ function ChatZoom(){
                 cookie:sessionId,
                 data:{id:id!}
             })
+        }
+        connection.onclose = ()=>{
+            if(pingInterval){
+                clearInterval(pingInterval);
+                pingInterval = null;
+            }
         }
         return connection
     }

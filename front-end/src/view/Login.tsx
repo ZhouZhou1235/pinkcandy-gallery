@@ -2,18 +2,10 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Typograp
 import { RegisterForm } from "../component/form/RegisterForm";
 import { LoginForm } from "../component/form/LoginForm";
 import { ResetPasswordForm } from "../component/form/ResetPasswordForm";
-import { useEffect, useState } from "react";
-import { GArea, PageTitle } from "../vars/ConstVars";
+import { GArea } from "../vars/ConstVars";
 
 
 export function Login(){
-    const [randomImage, setRandomImage] = useState(GArea.lucky.ZhouWalk)
-    useEffect(()=>{
-        document.title = PageTitle.login
-        const luckyImages = Object.values(GArea.lucky)
-        const randomIndex = Math.floor(Math.random() * luckyImages.length)
-        setRandomImage(luckyImages[randomIndex])
-    },[])
     return(
         <Box>
             <div className="container p-3">
@@ -21,7 +13,7 @@ export function Login(){
                     <div className="col-lg-8 col-md-7">
                         <div className="text-center">
                             <img 
-                                src={randomImage} 
+                                src={GArea.SkyblueHound} 
                                 alt="login" 
                                 className="img-fluid rounded shadow" 
                                 style={{maxHeight: '70vh', objectFit: 'contain'}}
