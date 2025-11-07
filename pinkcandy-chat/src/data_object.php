@@ -10,7 +10,7 @@ class ClientSendData {
     private string $cookie;
     private mixed $data;
     public function __construct(string $data){
-        if(json_validate($data)){
+        if($data){
             try{
                 $arr = json_decode($data,true);
                 $this->action = $arr['action']?$arr['action']:'';
@@ -63,7 +63,7 @@ class UserData {
     private string $sex;
     private string $species;
     public function __construct(string $data){
-        if(json_validate($data)){
+        if($data){
             try{
                 $arr = json_decode($data,true);
                 $this->username = $arr['username']?$arr['username']:'';

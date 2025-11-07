@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 export const workPath = dirname(fileURLToPath(import.meta.url));
 
 const config = {
-    HOST: 'localhost', // 主机
+    HOST: '0.0.0.0', // 主机
     LISTEN_PORT: 8081, // 运行端口
     TEXT_ENCODING: 'utf8', // 文本编码
     // session

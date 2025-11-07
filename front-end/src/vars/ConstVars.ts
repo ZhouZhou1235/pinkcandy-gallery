@@ -1,20 +1,26 @@
 // 全局变量
 
-// 开发环境
-export const systemAPI = 'http://localhost:8081' // 后端接口
-export const ws_http_system = 'http://localhost:8082' // socket服务器的HTTP服务
-export const ws_system = 'ws://localhost:8083' // socket服务器地址
 
-export const proxyAPI = '/api' // 代理url
-export const ws_http_API = '/chat_api' // socket服务器的http服务代理
+// 代理字符常量
+export const backend_proxy_string = '/api' // 访问后端的代理字符
+export const ws_server_http_proxy_string = '/chat_api' // 访问socket服务器http的代理字符
+// 开发环境
+export const dev_backend_api = 'http://localhost:8081' // 后端接口
+export const dev_ws_server_http_api = 'http://localhost:8082' // socket服务器HTTP服务接口
+export const dev_ws_server_websocket_api = 'ws://localhost:8083' // socket服务器WebSocket服务接口
+// 生产环境
+export const prod_backend_api = 'https://gallery-system.pinkcandy.top'
+export const prod_ws_server_http_api = 'https://gallery-chat.pinkcandy.top'
+export const prod_ws_server_websocket_api = 'wss://gallery.pinkcandy.top/chat_ws'
+// 导出的配置
+let isproduction = true
+export const backend_api = isproduction?prod_backend_api:dev_backend_api
+export const ws_server_http_api = isproduction?prod_ws_server_http_api:dev_ws_server_http_api
+export const ws_server_websocket_api = isproduction?prod_ws_server_websocket_api:dev_ws_server_websocket_api
 
 
 // 静态固定量
 export const GArea = {
-    headimageURL: systemAPI+"/files/headimage/",
-    backimageURL: systemAPI+"/files/backimage/",
-    artworkimageURL: systemAPI+"/files/gallery/",
-    artworkimagePreviewURL: systemAPI+"/files/GalleryPreview/",
     defaultHeadimage: "/images/head.png",
     defaultBackimage: "/images/back.png",
     logoURL: "/images/logo.svg",
@@ -22,12 +28,29 @@ export const GArea = {
     image404URL: "/images/image404.png",
     SkyblueHound: '/images/SkyblueHound.webp',
     lucky: {
-        BaiAndZhou: '/images/lucky/BaiAndZhou.png',
-        TuDouAndZhou: '/images/lucky/TuDouAndZhou.png',
-        ZhouWalk: '/images/lucky/ZhouWalk.png',
+        BaiAndZhou: '/images/lucky/BaiAndZhou.webp',
+        TuDouAndZhou: '/images/lucky/TuDouAndZhou.webp',
+        ZhouWalk: '/images/lucky/ZhouWalk.webp',
     },
     defaultShowNum: 12,
     defaultGetNum: 20,
+}
+
+// 页面标题
+export const PageTitle = {
+    pinkcandy: '粉糖 - 幻想动物画廊',
+    about: '幻想动物画廊 - 关于',
+    add: '幻想动物画廊 - 添加',
+    artwork: '作品 | ',
+    login: '幻想动物画廊 - 登录',
+    notFound: '幻想动物画廊 - 404',
+    gallery: '幻想动物画廊 - 画廊',
+    zoom: '空间 | ',
+    notice: '幻想动物画廊 - 消息中心',
+    tag: '幻想动物画廊 - 标签',
+    trends: '幻想动物画廊 - 动态',
+    chat: '幻想动物画廊 - 聊天',
+    chatzoom: '房间 | ',
 }
 
 // 默认展示对象
@@ -150,21 +173,4 @@ export const DefaultObj = {
         type: '',
         create_time: Date(),
     },
-}
-
-// 页面标题
-export const PageTitle = {
-    pinkcandy: '粉糖 - 幻想动物画廊',
-    about: '幻想动物画廊 - 关于',
-    add: '幻想动物画廊 - 添加',
-    artwork: '作品 | ',
-    login: '幻想动物画廊 - 登录',
-    notFound: '幻想动物画廊 - 404',
-    gallery: '幻想动物画廊 - 画廊',
-    zoom: '空间 | ',
-    notice: '幻想动物画廊 - 消息中心',
-    tag: '幻想动物画廊 - 标签',
-    trends: '幻想动物画廊 - 动态',
-    chat: '幻想动物画廊 - 聊天',
-    chatzoom: '房间 | ',
 }

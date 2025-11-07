@@ -68,7 +68,7 @@ export function Trends(){
                             src={
                                 item.headimage
                                 ?
-                                GArea.headimageURL+item.headimage
+                                urls.headimageURL+item.headimage
                                 :
                                 GArea.defaultHeadimage
                             }

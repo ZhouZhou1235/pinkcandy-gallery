@@ -22,7 +22,7 @@ export function ArtworkCommentList({galleryid=''}){
                                 src={
                                     item.user.headimage
                                     ?
-                                    GArea.headimageURL+item.user.headimage
+                                    urls.headimageURL+item.user.headimage
                                     :
                                     GArea.defaultHeadimage
                                 }

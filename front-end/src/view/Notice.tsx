@@ -25,7 +25,7 @@ function UserNoticePawArtwork({username=''}){
                                         src={
                                             item.user.headimage
                                             ?
-                                            GArea.headimageURL+item.user.headimage
+                                            urls.headimageURL+item.user.headimage
                                             :
                                             GArea.defaultHeadimage
                                         }
@@ -44,7 +44,7 @@ function UserNoticePawArtwork({username=''}){
                             <div className="col-3" style={{overflow:'hidden'}}>
                                 <Link to={'/artwork/'+item.galleryid}>
                                     <img
-                                        src={GArea.artworkimagePreviewURL+item.filename}
+                                        src={urls.artworkimagePreviewURL+item.filename}
                                         alt="artworkimage"
                                         height={100}
                                     />
@@ -62,7 +62,7 @@ function UserNoticePawArtwork({username=''}){
                                 src={
                                     item.user.headimage
                                     ?
-                                    GArea.headimageURL+item.user.headimage
+                                    urls.headimageURL+item.user.headimage
                                     :
                                     GArea.defaultHeadimage
                                 }
@@ -123,7 +123,7 @@ function UserNoticeTextEcho({username=''}){
                                         src={
                                             item.user.headimage
                                             ?
-                                            GArea.headimageURL+item.user.headimage
+                                            urls.headimageURL+item.user.headimage
                                             :
                                             GArea.defaultHeadimage
                                         }
@@ -144,7 +144,7 @@ function UserNoticeTextEcho({username=''}){
                             <div className="col-3" style={{overflow:'hidden'}}>
                                 <Link to={'/artwork/'+item.galleryid}>
                                     <img
-                                        src={GArea.artworkimagePreviewURL+item.filename}
+                                        src={urls.artworkimagePreviewURL+item.filename}
                                         alt="artworkimage"
                                         height={100}
                                     />
@@ -188,7 +188,7 @@ function UserNoticeWatcher({username=''}){
                                 src={
                                     item.user.headimage
                                     ?
-                                    GArea.headimageURL+item.user.headimage
+                                    urls.headimageURL+item.user.headimage
                                     :
                                     GArea.defaultHeadimage
                                 }

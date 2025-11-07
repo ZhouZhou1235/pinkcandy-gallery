@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { useNavigate, useParams } from "react-router";
-import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
+import { DefaultObj, PageTitle } from "../vars/ConstVars";
 import { Image, Spin } from "antd";
 import { toNormalDate } from "../utils/tools";
 import { UserPreview } from "../component/user/UserPreview";
@@ -56,7 +56,7 @@ export function Artwork(){
                     <div className="col-sm-8">
                         <Card sx={{ mt: 2 }}>
                             <div style={{ textAlign:'center' }} className="p-2">
-                                <Image src={ GArea.artworkimageURL+artworkdata.filename } height={'50vh'}/>
+                                <Image src={ urls.artworkimageURL+artworkdata.filename } height={'50vh'}/>
                             </div>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">

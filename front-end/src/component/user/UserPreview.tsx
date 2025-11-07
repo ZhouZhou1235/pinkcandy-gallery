@@ -27,7 +27,7 @@ export function UserPreview({username=''}){
                         src={
                             userdata.headimage
                             ?
-                            GArea.headimageURL+userdata.headimage
+                            urls.headimageURL+userdata.headimage
                             :
                             GArea.defaultHeadimage
                         }

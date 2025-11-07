@@ -3,6 +3,7 @@ import { Link, } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { GArea } from "../../vars/ConstVars";
+import { urls } from "../../vars/urls";
 
 
 export function RoomMemberItem({memberdata,onlinelist,memberdataobj}:{memberdata:any[],onlinelist:string[],memberdataobj:any}){
@@ -16,7 +17,7 @@ export function RoomMemberItem({memberdata,onlinelist,memberdataobj}:{memberdata
                     src={
                         memberdataobj[item.username]
                         ?
-                        memberdataobj[item.username]['headimage']?GArea.headimageURL+memberdataobj[item.username]['headimage']:GArea.defaultHeadimage
+                        memberdataobj[item.username]['headimage']?urls.headimageURL+memberdataobj[item.username]['headimage']:GArea.defaultHeadimage
                         :
                         GArea.defaultHeadimage
                     }

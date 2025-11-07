@@ -46,7 +46,6 @@ function onMessageFunction(TcpConnection $connection,mixed $data){
 function getUser(string $sessionId):array|false{
     $userString = httpGetRequest($GLOBALS['config']['pinkcandy_gallery_server'].'/core/getSessionUser?sessionid='.$sessionId);
     if(!$userString){return false;}
-    if(!json_validate($userString)){return false;}
     $user = json_decode($userString,true);
     return $user;
 }
@@ -55,7 +54,6 @@ function getUser(string $sessionId):array|false{
 function getUserByUsername(string $username){
     $userString = httpGetRequest($GLOBALS['config']['pinkcandy_gallery_server'].'/core/getUser/'.$username);
     if(!$userString){return false;}
-    if(!json_validate($userString)){return false;}
     $user = json_decode($userString,true);
     return $user;
 }

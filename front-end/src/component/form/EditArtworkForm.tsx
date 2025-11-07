@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getRequest, postRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
 import { Select, SelectProps } from "antd";
-import { DefaultObj, GArea } from "../../vars/ConstVars";
+import { DefaultObj } from "../../vars/ConstVars";
 import { selectPropsTagsToArray } from "../../utils/tools";
 
 export function EditArtworkForm({galleryid=''}){
@@ -92,7 +92,7 @@ export function EditArtworkForm({galleryid=''}){
             <Card>
                 <CardMedia
                     sx={{ height: 300 }}
-                    image={ GArea.artworkimagePreviewURL+artworkdata.filename }
+                    image={ urls.artworkimagePreviewURL+artworkdata.filename }
                     title="artworkimage"
                 />
                 <CardContent>

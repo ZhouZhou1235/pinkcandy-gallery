@@ -93,7 +93,7 @@ export function UserZoomShow({username=''}){
                     ?
                     <LazyLoadComponent children={
                         <div className="backImageBox">
-                            <img src={GArea.backimageURL+userdata.backimage} alt="backimage" />
+                            <img src={urls.backimageURL+userdata.backimage} alt="backimage" />
                         </div>
                     } />
                     :
@@ -110,7 +110,7 @@ export function UserZoomShow({username=''}){
                                     src={
                                         userdata.headimage
                                         ?
-                                        GArea.headimageURL+userdata.headimage
+                                        urls.headimageURL+userdata.headimage
                                         :
                                         GArea.defaultHeadimage
                                     }

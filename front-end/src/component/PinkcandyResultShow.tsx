@@ -4,6 +4,7 @@ import { TabContext, TabPanel } from "@mui/lab";
 import { Grid, Pagination, Tab, Tabs } from "@mui/material";
 import { ArtworkPreview } from "./artwork/ArtworkPreview";
 import { Link } from "react-router";
+import { urls } from "../vars/urls";
 
 function copyArrayByPage(dataArray:any[],begin=0){
     let showArray = []
@@ -69,7 +70,7 @@ function UserShow(dataArray=[DefaultObj.userdata]){
                                     src={
                                         item.headimage
                                         ?
-                                        GArea.headimageURL+item.headimage
+                                        urls.headimageURL+item.headimage
                                         :
                                         GArea.defaultHeadimage
                                     }

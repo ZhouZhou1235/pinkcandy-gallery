@@ -1,8 +1,9 @@
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import { DefaultObj, GArea } from "../../vars/ConstVars";
+import { DefaultObj } from "../../vars/ConstVars";
 import { Link } from "react-router";
 import { ArtworkPawArea } from "./ArtworkPawArea";
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
+import { urls } from "../../vars/urls";
 
 export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
     return(
@@ -11,7 +12,7 @@ export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
                 <LazyLoadComponent children={
                     <CardMedia
                         sx={{ height: 200 }}
-                        image={ GArea.artworkimagePreviewURL+artworkdata.filename }
+                        image={ urls.artworkimagePreviewURL+artworkdata.filename }
                         title="artworkimage"
                     />
                 } />

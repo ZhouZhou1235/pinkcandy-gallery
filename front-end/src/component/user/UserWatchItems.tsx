@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { DefaultObj, GArea } from "../../vars/ConstVars";
+import { urls } from "../../vars/urls";
 
 export function UserWatchItems({userwatchArray=DefaultObj.userwatchArray}){
     return(
@@ -14,7 +15,7 @@ export function UserWatchItems({userwatchArray=DefaultObj.userwatchArray}){
                                         src={
                                             item.user.headimage
                                             ?
-                                            GArea.headimageURL+item.user.headimage
+                                            urls.headimageURL+item.user.headimage
                                             :
                                             GArea.defaultHeadimage
                                         }

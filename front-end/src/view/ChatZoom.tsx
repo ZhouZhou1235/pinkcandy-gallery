@@ -1,5 +1,5 @@
 import { Box, Button } from "@mui/material";
-import { DefaultObj, PageTitle, ws_system } from "../vars/ConstVars";
+import { DefaultObj, PageTitle, ws_server_websocket_api } from "../vars/ConstVars";
 import { useEffect, useState } from "react";
 import { getMessageEventData } from "../utils/tools";
 import { getRequest, postRequest } from "../utils/HttpRequest";
@@ -86,7 +86,7 @@ function ChatZoom(){
         }
     }
     function createWebSocketConnection(sessionId:string){
-        let connection = new WebSocket(ws_system)
+        let connection = new WebSocket(ws_server_websocket_api)
         let pingInterval :any = null;        
         connection.onmessage = e=>{
             let echoData = DefaultObj.socketEchoData

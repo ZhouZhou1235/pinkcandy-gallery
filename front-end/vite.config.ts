@@ -1,23 +1,23 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { systemAPI, ws_http_system } from './src/vars/ConstVars'
+import { dev_backend_api, dev_ws_server_http_api } from './src/vars/ConstVars';
+
 
 // https://vite.dev/config/
 export default defineConfig({
     plugins: [react()],
     // vite 代理服务器
-    // 同源请求 vite重写url转发到后端接口
     server: {
-        host: 'localhost',
+        host: '0.0.0.0',
         port: 8080,
         proxy: {
             '/api': {
-                target: systemAPI,
+                target: dev_backend_api,
                 changeOrigin: true,
                 rewrite: (path)=>path.replace(/^\/api/,''),
             },
             '/chat_api': {
-                target: ws_http_system,
+                target: dev_ws_server_http_api,
                 changeOrigin: true,
                 rewrite: (path)=>path.replace(/^\/chat_api/,''),
             },

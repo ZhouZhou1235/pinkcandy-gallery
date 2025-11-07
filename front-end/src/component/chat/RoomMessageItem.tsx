@@ -1,6 +1,7 @@
 import { Avatar } from "antd";
 import { GArea } from "../../vars/ConstVars";
 import { Link } from "react-router";
+import { urls } from "../../vars/urls";
 
 
 export function RoomMessageItem({messagedata,memberdataobj}:{messagedata:any[],memberdataobj:any}){
@@ -15,7 +16,7 @@ export function RoomMessageItem({messagedata,memberdataobj}:{messagedata:any[],m
                         src={
                             memberdataobj[item.username]
                             ?
-                            memberdataobj[item.username]['headimage']?GArea.headimageURL+memberdataobj[item.username]['headimage']:GArea.defaultHeadimage
+                            memberdataobj[item.username]['headimage']?urls.headimageURL+memberdataobj[item.username]['headimage']:GArea.defaultHeadimage
                             :
                             GArea.defaultHeadimage
                         }

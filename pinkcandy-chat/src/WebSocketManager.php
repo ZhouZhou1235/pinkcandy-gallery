@@ -46,7 +46,7 @@ class WebSocketManager {
      * 广播消息
      */
     public static function broadcast(mixed $message,string $type='broadcast'){
-        $data = new EchoData($message,$type)->getArrayData();
+        $data = (new EchoData($message,$type))->getArrayData();
         foreach(self::$connections as $connection){
             $connection->send(json_encode($data));
         }
@@ -56,7 +56,7 @@ class WebSocketManager {
      */
     public static function sendToClient(int $clientId,mixed $message,string $type='private'){
         if(isset(self::$connections[$clientId])){
-            $data = new EchoData($message,$type)->getArrayData();
+            $data = (new EchoData($message,$type))->getArrayData();
             self::$connections[$clientId]->send(json_encode($data));
             return true;
         }
