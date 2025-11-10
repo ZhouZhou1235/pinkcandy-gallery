@@ -31,6 +31,7 @@ function ChatZoom(){
             sessionId: await postRequest(urls.getSessionId),
             id: id,
         })
+        await updateMessageData()
         if(connection&&id){
             sendDataToWebSocketServer(connection,{
                 action:'call_room_member_update',
@@ -38,7 +39,6 @@ function ChatZoom(){
                 data:{id:id}
             });
         }
-        await updateMessageData()
         return x
     }
     async function updateMemberData(onlinelist=[]){
@@ -55,13 +55,6 @@ function ChatZoom(){
             onlinelist={onlinelist}
             memberdataobj={theMemberDataObject}
         />)
-        if(connection&&id){
-            sendDataToWebSocketServer(connection,{
-                action:'get_online_room_member',
-                cookie:sessionId,
-                data:{id:id}
-            });
-        }
     }
     async function updateMessageData(){
         let theMemberData:any[] = await getRequest(socket_http_urls.getRoomMembers+'?id='+id!)
@@ -77,13 +70,6 @@ function ChatZoom(){
             messagedata={theMessageData}
             memberdataobj={theMemberDataObject}
         />)
-        if(connection&&id){
-            sendDataToWebSocketServer(connection,{
-                action:'get_online_room_member',
-                cookie:sessionId,
-                data:{id:id}
-            });
-        }
     }
     function createWebSocketConnection(sessionId:string){
         let connection = new WebSocket(ws_server_websocket_api)
@@ -93,7 +79,6 @@ function ChatZoom(){
             echoData = getMessageEventData(e)
             switch(echoData.type){
                 case 'pong':
-                    console.log('pong');
                     break
                 case 'send_message':
                     updateMessageData()

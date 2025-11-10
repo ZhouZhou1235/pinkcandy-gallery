@@ -2,7 +2,6 @@ import { Box, Grid, Pagination } from "@mui/material";
 import { JSX, useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
-import { Spin } from "antd";
 import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
 import { ArtworkPreview } from "../component/artwork/ArtworkPreview";
 import { objSortBy } from "../utils/tools";
@@ -10,7 +9,6 @@ import { TagList } from "../component/TagList";
 
 export function Gallery(){
     const [galleryPage,setGalleryPage] = useState(1)
-    const [loading,setLoading] = useState(true)
     const [artworkItems,setArtworkItems] = useState([] as JSX.Element[])
     const [searchText,setSearchText] = useState('')
     const [searchArtworkItems,setSearchArtworkItems] = useState([] as JSX.Element[])
@@ -59,7 +57,6 @@ export function Gallery(){
                 setToptagdata(data)
             }
         })
-        setLoading(false)
     }
     useEffect(()=>{
         document.title = PageTitle.gallery
@@ -67,7 +64,6 @@ export function Gallery(){
     },[])
     return(
         <>
-            <Spin spinning={loading} fullscreen />
             <Box>
                 <div className="container">
                     <div className="row">

@@ -1,7 +1,9 @@
 // 配置
 
+
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 
 // 系统目录 ES标准实现 CommonJS __dirname
 export const workPath = dirname(fileURLToPath(import.meta.url));
@@ -65,7 +67,7 @@ const config = {
         secure: true,
         auth: {
             user: '1479499289@qq.com',
-            pass: 'auyvbrlqnjeejhjd',
+            pass: '......',
         },
     },
     // 跨域设置

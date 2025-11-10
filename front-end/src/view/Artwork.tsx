@@ -4,7 +4,7 @@ import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { useNavigate, useParams } from "react-router";
 import { DefaultObj, PageTitle } from "../vars/ConstVars";
-import { Image, Spin } from "antd";
+import { Image } from "antd";
 import { toNormalDate } from "../utils/tools";
 import { UserPreview } from "../component/user/UserPreview";
 import { TagList } from "../component/TagList";
@@ -15,7 +15,6 @@ import { ArtworkPawArea } from "../component/artwork/ArtworkPawArea";
 export function Artwork(){
     const navigate = useNavigate()
     const {id} = useParams<{id:string}>()
-    const [loading,setLoading] = useState(true)
     const [artworkdata,setArtworkdata] = useState(DefaultObj.artworkdata)
     const [artworktagList,setArtworktagList] = useState(<></>)
     const [userpreviewElement,setUserpreviewElement] = useState(<></>)
@@ -43,14 +42,12 @@ export function Artwork(){
                 setArtworktagList(<TagList tagArray={data}/>)
             }
         })
-        setLoading(false)
     }
     useEffect(()=>{
         loadData()
     },[id])
     return(
         <Box>
-            <Spin spinning={loading} fullscreen />
             <div className="container">
                 <div className="row">
                     <div className="col-sm-8">

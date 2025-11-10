@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { dev_backend_api, dev_ws_server_http_api } from './src/vars/ConstVars';
+import { dev_backend_api, dev_ws_server_http_api } from './src/vars/config';
 
 
 // https://vite.dev/config/

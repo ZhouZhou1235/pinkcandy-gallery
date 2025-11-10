@@ -3,7 +3,7 @@ import { DefaultObj, GArea, PageTitle } from "../../vars/ConstVars";
 import { JSX, SyntheticEvent, useEffect, useState } from "react";
 import { getRequest } from "../../utils/HttpRequest";
 import { socket_http_urls, urls } from "../../vars/urls";
-import { Avatar, Spin } from "antd";
+import { Avatar } from "antd";
 import { toNormalDate } from "../../utils/tools";
 import { UserWatchButton } from "./UserWatchButton";
 import { UserInfoCount } from "./UserInfoCount";
@@ -14,7 +14,6 @@ import { LazyLoadComponent } from "react-lazy-load-image-component";
 import { Link } from "react-router";
 
 export function UserZoomShow({username=''}){
-    const [loading,setLoading] = useState(true)
     const [userdata,setUserdata] = useState(DefaultObj.userdata)
     const [watchButton,setWatchButton] = useState(<></>)
     const [infocountElement,setInfocountElement] = useState(<></>)
@@ -41,7 +40,7 @@ export function UserZoomShow({username=''}){
     }
     function loadData(){
         (async ()=>{
-            if(!username){setLoading(false);return}
+            if(!username){return}
             await getRequest(urls.getUser+'/'+username).then(res=>{
                 if(typeof res=='object'){
                     let theUserdata = res
@@ -78,7 +77,6 @@ export function UserZoomShow({username=''}){
             }
             setInfocountElement(<></>)
             setInfocountElement(<UserInfoCount username={username}/>)
-            setLoading(false)
         })()
     }
     useEffect(()=>{
@@ -86,7 +84,6 @@ export function UserZoomShow({username=''}){
     },[username]);
     return(
         <>
-            <Spin spinning={loading} fullscreen />
             <>
                 {
                     userdata.backimage
