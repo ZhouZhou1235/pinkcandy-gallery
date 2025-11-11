@@ -21,7 +21,7 @@
 需要先完成环境搭建以及三个服务的配置文件
 windows开发环境可直接点击start-dev.bat开始 <br />
 
-前端 React<br />
+前端<br />
 - public 静态资源
 - src 源代码与资源
 - index.html 入口
@@ -34,7 +34,7 @@ npm run dev
 npm run build
 ```
 
-后端 Node.js Express<br />
+后端<br />
 - core 源代码
 - static 静态资源
 - main.js 启动
@@ -44,7 +44,7 @@ npm install
 node main.js
 ```
 
-通讯服务器 PHP Workerman<br />
+通讯服务器<br />
 - src 源代码与资源
 - composer.json Composer项目文件
 - main.php 启动
@@ -56,6 +56,11 @@ composer install
 php main.php # linux启动
 .\run.bat # windows启动
 ```
+
+管理命令行<br />
+- main.py 运行
+- requirements.txt python依赖库
+- run.txt 运行提示
 
 
 ## 部署参考

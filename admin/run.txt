@@ -1,0 +1,11 @@
+[windows]
+python -m venv venv
+venv\Scripts\activate
+python main.py
+deactivate
+
+[linux]
+python3 -m venv venv
+source venv/bin/activate
+python3 main.py
+deactivate

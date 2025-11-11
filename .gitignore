@@ -2,6 +2,7 @@ node_modules
 dist
 files
 vendor
+venv
 
 *.log
 package-lock.json
