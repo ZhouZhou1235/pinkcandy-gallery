@@ -5,7 +5,7 @@ import { faCode, faSnowflake } from "@fortawesome/free-solid-svg-icons";
 
 export function Footer(){
     return(
-        <Box sx={{textAlign: "center",mt: 2}}>
+        <Box sx={{textAlign: "center",mt: 2}} className="p-2">
             <img src={GArea.logoURL} alt="logo" height={50}/>
             <br />
             <a href="https://pinkcandy.top">

@@ -33,7 +33,6 @@ const routeTable = {
     resetPassword: '/core/resetPassword',
     addBoardMessage: '/core/addBoardMessage',
     getBoradMessages: '/core/getBoradMessages',
-    getTopInfo: '/core/getTopInfo',
     getDBRecordCount: '/core/getDBRecordCount',
     getArtwork: '/core/getArtwork',
     editUser: '/core/editUser',
@@ -181,9 +180,6 @@ export function loadMachineController(machine=express()){
             });
             res.send(data);
         })();
-    });
-    machine.get(routeTable.getTopInfo,(req,res)=>{ // 获取首页置顶信息
-        res.sendFile(config.FILE_staticURL+'/TopInfo.html');
     });
     machine.get(routeTable.getDBRecordCount,(req,res)=>{ // 获取数据库记录数
         let table = req.query.table;

@@ -123,7 +123,7 @@ export function Trends(){
                     <div className="col-sm-3">
                         <h2>动态</h2>
                         <Box sx={{mt:2,mb:2}}>
-                            <Button color="inherit" onClick={trendFinishRead}>完成浏览</Button>
+                            <Button color="info" variant="outlined" onClick={trendFinishRead}>完成浏览</Button>
                             <Button color="inherit" onClick={trendNotRead}>回看动态</Button>
                         </Box>
                         <Stack>

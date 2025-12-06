@@ -1,4 +1,3 @@
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { DefaultObj } from "../../vars/ConstVars";
 import { Link } from "react-router";
 import { ArtworkPawArea } from "./ArtworkPawArea";
@@ -7,26 +6,29 @@ import { urls } from "../../vars/urls";
 
 export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
     return(
-        <Card>
+        <div className="card h-100">
             <Link to={'/artwork/'+artworkdata.id}>
-                <LazyLoadComponent children={
-                    <CardMedia
-                        sx={{ height: 200 }}
-                        image={ urls.artworkimagePreviewURL+artworkdata.filename }
-                        title="artworkimage"
-                    />
-                } />
+                <LazyLoadComponent>
+                    <div className="ratio ratio-1x1">
+                        <img 
+                            src={ urls.artworkimagePreviewURL+artworkdata.filename }
+                            alt={artworkdata.title}
+                            className="card-img-top"
+                            style={{ objectFit: 'cover' }}
+                        />
+                    </div>
+                </LazyLoadComponent>
             </Link>
-            <CardContent>
-                <Link to={'/artwork/'+artworkdata.id}>
-                    <Typography gutterBottom variant="h5" component="div" className="OnelineTextBox">
+            <div className="card-body d-flex flex-column">
+                <Link to={'/artwork/'+artworkdata.id} className="text-decoration-none text-dark">
+                    <h5 className="card-title OnelineTextBox mb-2">
                         { artworkdata.title }
-                    </Typography>
+                    </h5>
                 </Link>
-            </CardContent>
-            <div className="text-center">
-                <ArtworkPawArea galleryid={artworkdata.id}/>
+                <div className="mt-auto">
+                    <ArtworkPawArea galleryid={artworkdata.id}/>
+                </div>
             </div>
-        </Card>
+        </div>
     )
 }

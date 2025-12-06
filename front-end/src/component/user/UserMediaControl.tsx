@@ -32,10 +32,14 @@ export function UserMediaControl({username=''}){
             if(data!=0){
                 let artworks :any[] = data
                 let theArtworkItems = artworks.map(item=>
-                    <div className="col-sm-3 p-2" key={item.id}>
-                        <ArtworkPreview artworkdata={item}/>
-                        <Button color="warning" onClick={()=>{selecttoeditArtwork(item.id)}}>修改</Button>
-                        <DeleteArtworkButton galleryid={item.id}/>
+                    <div className="col-sm-3 p-2 d-flex flex-column" key={item.id} style={{ height: '100%' }}>
+                        <div className="flex-grow-1">
+                            <ArtworkPreview artworkdata={item}/>
+                        </div>
+                        <div className="d-flex justify-content-between mt-2">
+                            <Button color="warning" onClick={()=>{selecttoeditArtwork(item.id)}}>修改</Button>
+                            <DeleteArtworkButton galleryid={item.id}/>
+                        </div>
                     </div>
                 )
                 setArtworkitems(theArtworkItems)

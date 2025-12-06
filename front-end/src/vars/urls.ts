@@ -24,7 +24,6 @@ export const urls = {
     resetPassword: backend_proxy_string+'/core/resetPassword',
     addBoardMessage: backend_proxy_string+'/core/addBoardMessage',
     getBoradMessages: backend_proxy_string+'/core/getBoradMessages',
-    getTopInfo: backend_proxy_string+'/core/getTopInfo',
     getDBRecordCount: backend_proxy_string+'/core/getDBRecordCount',
     getArtwork: backend_proxy_string+'/core/getArtwork',
     editUser: backend_proxy_string+'/core/editUser',

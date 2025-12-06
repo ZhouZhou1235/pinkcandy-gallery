@@ -72,7 +72,7 @@ export function Gallery(){
                             <div className="input-group mt-2 mb-2">
                                 <input
                                     className="form-control"
-                                    placeholder="搜索作品....."
+                                    placeholder="搜索作品"
                                     value={searchText}
                                     onChange={e=>setSearchText(e.target.value)}
                                 />

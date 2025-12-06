@@ -1,6 +1,6 @@
 import { faComment, faPaw, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { getRequest, postRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
 import { useEffect, useState } from "react";
@@ -21,33 +21,109 @@ export function ArtworkPawArea({galleryid=''}){
             }
         })
     },[])
+    const pawAction = () => {
+        pawMedia().then(res=>{
+            if(res==1){
+                const newInfo = {...pawAreaInfo};
+                if(havepaw){
+                    newInfo.pawnum--;
+                } else {
+                    newInfo.pawnum++;
+                }
+                setHavepaw(!havepaw);
+                setPawAreaInfo(newInfo);
+            }
+        });
+    }
+    const starAction = () => {
+        starMedia().then(res=>{
+            if(res==1){
+                const newInfo = {...pawAreaInfo};
+                if(havestar){
+                    newInfo.starnum--;
+                } else {
+                    newInfo.starnum++;
+                }
+                setHavestar(!havestar);
+                setPawAreaInfo(newInfo);
+            }
+        });
+    }
     return(
-        <>
-            <ButtonGroup size="small" color="secondary">
+        <Box sx={{ width: '100%' }}>
+            <Box 
+                className="d-none d-md-flex" 
+                sx={{ 
+                    width: '100%', 
+                    justifyContent: 'center',
+                    '& > *': { 
+                        flex: 1, 
+                        mx: 0.5,
+                        minWidth: 0
+                    },
+                }}
+            >
                 <Button
                     startIcon={<FontAwesomeIcon icon={faPaw}/>}
-                    onClick={()=>{pawMedia().then(res=>{if(res==1){
-                        havepaw?pawAreaInfo.pawnum--:pawAreaInfo.pawnum++
-                        setHavepaw(!havepaw)
-                        setPawAreaInfo(pawAreaInfo)
-                    }})}}
+                    onClick={pawAction}
                     variant={havepaw?'contained':'text'}
+                    size="small"
+                    sx={{ flex: 1 }}
                 >
                     {pawAreaInfo.pawnum}
                 </Button>
                 <Button
                     startIcon={<FontAwesomeIcon icon={faStar}/>}
-                    onClick={()=>{starMedia().then(res=>{if(res==1){
-                        havestar?pawAreaInfo.starnum--:pawAreaInfo.starnum++
-                        setHavestar(!havestar)
-                        setPawAreaInfo(pawAreaInfo)
-                    }})}}
+                    onClick={starAction}
                     variant={havestar?'contained':'text'}
+                    size="small"
+                    sx={{ flex: 1 }}
                 >
                     {pawAreaInfo.starnum}
                 </Button>
-                <Button startIcon={<FontAwesomeIcon icon={faComment}/>} variant="outlined">{pawAreaInfo.commentnum}</Button>
-            </ButtonGroup>
-        </>
+                <Button
+                    startIcon={<FontAwesomeIcon icon={faComment}/>}
+                    variant="outlined"
+                    size="small"
+                    sx={{ flex: 1 }}
+                >
+                    {pawAreaInfo.commentnum}
+                </Button>
+            </Box>
+            <Box 
+                className="d-flex d-md-none flex-column"
+                sx={{ width: '100%' }}
+            >
+                <Button
+                    startIcon={<FontAwesomeIcon icon={faPaw}/>}
+                    onClick={pawAction}
+                    variant={havepaw?'contained':'text'}
+                    size="small"
+                    fullWidth
+                    sx={{ justifyContent: 'flex-start', mb: 0.5 }}
+                >
+                    印爪 {pawAreaInfo.pawnum}
+                </Button>
+                <Button
+                    startIcon={<FontAwesomeIcon icon={faStar}/>}
+                    onClick={starAction}
+                    variant={havestar?'contained':'text'}
+                    size="small"
+                    fullWidth
+                    sx={{ justifyContent: 'flex-start', mb: 0.5 }}
+                >
+                    收藏 {pawAreaInfo.starnum}
+                </Button>
+                <Button
+                    startIcon={<FontAwesomeIcon icon={faComment}/>}
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    sx={{ justifyContent: 'flex-start' }}
+                >
+                    评论 {pawAreaInfo.commentnum}
+                </Button>
+            </Box>
+        </Box>
     )
 }

@@ -20,9 +20,15 @@ export const GArea = {
     image404URL: "/images/image404.png",
     SkyblueHound: '/images/SkyblueHound.webp',
     lucky: {
-        BaiAndZhou: '/images/lucky/BaiAndZhou.webp',
-        TuDouAndZhou: '/images/lucky/TuDouAndZhou.webp',
-        ZhouWalk: '/images/lucky/ZhouWalk.webp',
+        BaiAndZhou: {src:'/images/lucky/BaiAndZhou.webp',info:'白：给周在一次茶绘上的作品'},
+        TuDouAndZhou: {src:'/images/lucky/TuDouAndZhou.webp',info:'周：土豆是我印象深刻的好友之一'},
+        ZhouWalk: {src:'/images/lucky/ZhouWalk.webp',info:'羽：出去走走！'},
+        YuGift: {src:'/images/lucky/YuGift.webp',info:'羽：2025年生日'},
+        DirtHound: {src:'/images/lucky/DirtHound.webp',info:'小闪：蓝狗钻土'},
+        ZhouShow: {src:'images/lucky/ZhouShow.webp',info:'苏朗：周周卖艺'},
+        TuDouGift: {src:'images/lucky/TuDouGift.webp',info:'土豆：雨后彩虹'},
+        FantasyConfession: {src:'images/lucky/FantasyConfession.webp',info:'九尾：幻想中的告白'},
+        DrinkMilk: {src:'images/lucky/DrinkMilk.webp',info:'椰雪：奶狗'}
     },
     defaultShowNum: 12,
     defaultGetNum: 20,

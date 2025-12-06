@@ -267,7 +267,7 @@ export function Notice(){
                     <div className="col-sm-3">
                         <h2>消息中心</h2>
                         <Box sx={{mt:2,mb:2}}>
-                            <Button color="inherit" onClick={noticeFinishRead}>完成浏览</Button>
+                            <Button color="info" variant="outlined" onClick={noticeFinishRead}>完成浏览</Button>
                             <Button color="inherit" onClick={noticeNotRead}>回看消息</Button>
                         </Box>
                         <FormControl fullWidth>
