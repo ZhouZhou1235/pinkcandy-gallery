@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode, faSnowflake } from "@fortawesome/free-solid-svg-icons";
 
 export function Footer(){
+    const date = new Date()
     return(
         <Box sx={{textAlign: "center",mt: 2}} className="p-2">
             <img src={GArea.logoURL} alt="logo" height={50}/>
@@ -28,7 +29,7 @@ export function Footer(){
             <br />
             <small>小蓝狗周周 1479499289@qq.com</small>
             <br />
-            <small>保留所有权利 2023-2025 <a href="https://beian.miit.gov.cn">黔ICP备2024038291号</a></small>
+            <small>保留所有权利 2023-{date.getFullYear()} <a href="https://beian.miit.gov.cn">黔ICP备2024038291号</a></small>
         </Box>
     )
 }
