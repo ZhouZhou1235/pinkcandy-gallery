@@ -9,12 +9,6 @@ config = {
         'password':'123456',
         'database':'pinkcandy_gallery'
     },
-    'mysql_chat': {
-        'host':'localhost',
-        'user':'root',
-        'password':'123456',
-        'database':'pinkcandy_chat'
-    },
     'backend-files': {
         'files_path': '',
         'backimage':'/backimage',
@@ -31,13 +25,6 @@ db_connection_gallery = pymysql.connect(
     database=config['mysql_gallery']['database']
 )
 cursor_gallery = db_connection_gallery.cursor()
-db_connection_chat = pymysql.connect(
-    host=config['mysql_chat']['host'],
-    user=config['mysql_chat']['user'],
-    password=config['mysql_chat']['password'],
-    database=config['mysql_chat']['database']
-)
-cursor_chat = db_connection_chat.cursor()
 
 def clear_artwork_info(id):
     try:
@@ -69,26 +56,6 @@ def delete_artwork(id):
         print(f"删除作品失败: {e}")
         db_connection_gallery.rollback()
 
-def delete_room(id):
-    try:
-        cursor_chat.execute("DELETE FROM message WHERE room_id=%s", (id,))
-        cursor_chat.execute("DELETE FROM room_member WHERE room_id=%s", (id,))
-        cursor_chat.execute("DELETE FROM room WHERE id=%s", (id,))
-        db_connection_chat.commit()
-        print(f"房间 {id} 已删除")
-    except Exception as e:
-        print(f"删除房间失败: {e}")
-        db_connection_chat.rollback()
-
-def clear_room_message_content(id):
-    try:
-        cursor_chat.execute("UPDATE message SET content='[内容违规]' WHERE room_id=%s", (id,))
-        db_connection_chat.commit()
-        print(f"房间 {id} 的所有消息违规")
-    except Exception as e:
-        print(f"和谐房间消息失败: {e}")
-        db_connection_chat.rollback()
-
 def clear_user_info(username):
     try:
         cursor_gallery.execute("SELECT headimage, backimage FROM user WHERE username=%s", (username,))
@@ -111,11 +78,6 @@ def clear_user_info(username):
 
 def delete_user(username):
     try:
-        cursor_chat.execute("DELETE FROM message WHERE username=%s", (username,))
-        cursor_chat.execute("DELETE FROM room_member WHERE username=%s", (username,))
-        cursor_chat.execute("SELECT id FROM room WHERE owner_username=%s", (username,))
-        for room in cursor_chat.fetchall():
-            delete_room(room[0])
         cursor_gallery.execute("SELECT id FROM gallery WHERE username=%s", (username,))
         for artwork in cursor_gallery.fetchall():
             delete_artwork(artwork[0])
@@ -127,12 +89,10 @@ def delete_user(username):
         cursor_gallery.execute("DELETE FROM user_active WHERE username=%s", (username,))
         cursor_gallery.execute("DELETE FROM user WHERE username=%s", (username,))
         db_connection_gallery.commit()
-        db_connection_chat.commit()
         print(f"粉糖账号 {username} 及其所有关联已删除")
     except Exception as e:
         print(f"删除粉糖账号失败: {e}")
         db_connection_gallery.rollback()
-        db_connection_chat.rollback()
 
 def change_tag(oldtag, newtag):
     try:
@@ -146,14 +106,12 @@ def change_tag(oldtag, newtag):
 if __name__=='__main__':
     print('===幻想动物画廊管理员命令行===')
     while True:
-        print("\n1.和谐作品信息 2.删除作品 3.删除房间 4.和谐房间消息 5.和谐粉糖账号信息 6.删除粉糖账号 7.修改标签 0.退出")
+        print("\n1.和谐作品信息 2.删除作品 3.和谐粉糖账号信息 4.删除粉糖账号 5.修改标签 0.退出")
         choice = input("选择: ").strip()
         if choice == '0': break
         elif choice == '1': clear_artwork_info(input("作品ID: "))
         elif choice == '2': delete_artwork(input("作品ID: "))
-        elif choice == '3': delete_room(input("房间ID: "))
-        elif choice == '4': clear_room_message_content(input("房间ID: "))
-        elif choice == '5': clear_user_info(input("粉糖账号: "))
-        elif choice == '6': delete_user(input("粉糖账号: "))
-        elif choice == '7': change_tag(input("原标签: "), input("新标签: "))
+        elif choice == '3': clear_user_info(input("粉糖账号: "))
+        elif choice == '4': delete_user(input("粉糖账号: "))
+        elif choice == '5': change_tag(input("原标签: "), input("新标签: "))
         else: print("无效选择")

@@ -1,7 +1,6 @@
 // 请求地址
 
-import { backend_proxy_string, backend_api, ws_server_http_proxy_string } from "./ConstVars";
-
+import { backend_proxy_string, backend_api } from "./ConstVars";
 
 // 后端接口
 export const urls = {
@@ -63,22 +62,4 @@ export const urls = {
     getTopTags: backend_proxy_string+'/core/getTopTags',
     searchPinkCandy: backend_proxy_string+'/core/searchPinkCandy',
     getRegisterableUsername: backend_proxy_string+'/core/getRegisterableUsername',
-}
-
-// socket服务器的http服务接口
-export const socket_http_urls = {
-    createRoom: ws_server_http_proxy_string+'/core/createRoom',
-    getRoom: ws_server_http_proxy_string+'/core/getRoom',
-    joinRoom: ws_server_http_proxy_string+'/core/joinRoom',
-    haveJoin: ws_server_http_proxy_string+'/core/haveJoin',
-    getMessages: ws_server_http_proxy_string+'/core/getMessages',
-    getRoomMembers: ws_server_http_proxy_string+'/core/getRoomMembers',
-    getRooms: ws_server_http_proxy_string+'/core/getRooms',
-    editRoom: ws_server_http_proxy_string+'/core/editRoom',
-    deleteRoom: ws_server_http_proxy_string+'/core/deleteRoom',
-    searchRooms: ws_server_http_proxy_string+'/core/searchRooms',
-    getMyRooms: ws_server_http_proxy_string+'/core/getMyRooms',
-    getOnlineMembers: ws_server_http_proxy_string+'/core/getOnlineMembers',
-    inviteRoomMember: ws_server_http_proxy_string+'/core/inviteRoomMember',
-    removeRoomMember: ws_server_http_proxy_string+'/core/removeRoomMember',
 }

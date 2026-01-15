@@ -4,7 +4,6 @@ import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { useNavigate, useParams } from "react-router";
 import { DefaultObj, PageTitle } from "../vars/ConstVars";
-import { Image } from "antd";
 import { toNormalDate } from "../utils/tools";
 import { UserPreview } from "../component/user/UserPreview";
 import { TagList } from "../component/TagList";
@@ -21,10 +20,14 @@ export function Artwork(){
     const [commentFormElement,setCommentFormElement] = useState(<></>)
     const [commentListElement,setCommentListElement] = useState(<></>)
     const [pawAreaElement,setPawAreaElement] = useState(<></>)
+    const [updateNum,setUpdateNum] = useState(0)
+    function onUpdate(){
+        setUpdateNum(updateNum+1)
+    }
     async function loadData(){
         document.title = PageTitle.artwork
-        setCommentFormElement(<ArtworkCommentForm galleryid={id}/>)
-        setCommentListElement(<ArtworkCommentList galleryid={id}/>)
+        setCommentFormElement(<ArtworkCommentForm galleryid={id} onUpdate={onUpdate}/>)
+        setCommentListElement(<ArtworkCommentList galleryid={id} randomNum={Math.floor(Math.random()*100)}/>)
         setPawAreaElement(<ArtworkPawArea galleryid={id}/>)
         await getRequest(urls.getArtwork+'?id='+id).then(data=>{
             if(data!=0){
@@ -45,7 +48,7 @@ export function Artwork(){
     }
     useEffect(()=>{
         loadData()
-    },[id])
+    },[id,updateNum])
     return(
         <Box>
             <div className="container">
@@ -53,7 +56,12 @@ export function Artwork(){
                     <div className="col-sm-8">
                         <Card sx={{ mt: 2 }}>
                             <div style={{ textAlign:'center' }} className="p-2">
-                                <Image src={ urls.artworkimageURL+artworkdata.filename } height={'50vh'}/>
+                                <img
+                                    src={urls.artworkimageURL + artworkdata.filename}
+                                    className="img-fluid"
+                                    style={{ maxHeight: '50vh', objectFit: 'contain' }}
+                                    alt={artworkdata.title}
+                                />
                             </div>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">

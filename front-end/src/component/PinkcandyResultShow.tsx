@@ -21,7 +21,7 @@ function ArtworkShow(dataArray=[DefaultObj.artworkdata]){
     const [selectedPage,setSelectedPage] = useState(1)
     function updatePage(_event:any,value:number){setSelectedPage(value)}
     useEffect(()=>{
-        setPagenum(Math.round(dataArray.length/GArea.defaultShowNum)+1)
+        setPagenum(Math.ceil(dataArray.length/GArea.defaultShowNum))
         setShowArray(copyArrayByPage(dataArray,(selectedPage-1)*GArea.defaultShowNum))
     },[dataArray,selectedPage])
     return(
@@ -54,7 +54,7 @@ function UserShow(dataArray=[DefaultObj.userdata]){
     const [selectedPage,setSelectedPage] = useState(1)
     function updatePage(_event:any,value:number){setSelectedPage(value)}
     useEffect(()=>{
-        setPagenum(Math.round(dataArray.length/GArea.defaultShowNum)+1)
+        setPagenum(Math.ceil(dataArray.length/GArea.defaultShowNum))
         setShowArray(copyArrayByPage(dataArray,(selectedPage-1)*GArea.defaultShowNum))
     },[dataArray,selectedPage])
     return(

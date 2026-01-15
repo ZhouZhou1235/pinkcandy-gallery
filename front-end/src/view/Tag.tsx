@@ -42,8 +42,7 @@ export function Tag(){
             if(data!=0){
                 renderTagtableItems(data)
                 getRequest(urls.getDBRecordCount+'?table=tag').then(count=>{
-                    let pagenum = Math.round(count/Math.floor(GArea.defaultShowNum))+1
-                    setTagPage(pagenum)
+                    setTagPage(Math.ceil(count/Math.floor(GArea.defaultShowNum)))
                 })
             }
         })

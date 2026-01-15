@@ -97,7 +97,7 @@ export function ArtworkForm(){
             <div className="row">
                 <div className="col-sm-6 p-2">
                     <small>
-                        只能由作者或作者授权的代发者上传。
+                        只能由作者或经过作者授权上传。
                         至少上传图片和填写标题，
                         图片仅支持png、jpg、gif格式，
                         超过5M的图片可能导致失败。

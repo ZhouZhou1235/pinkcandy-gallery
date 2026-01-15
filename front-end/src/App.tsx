@@ -12,10 +12,7 @@ import { Gallery } from "./view/Gallery"
 import { Tag } from "./view/Tag"
 import { PinkCandy } from "./view/PinkCandy"
 import { MyZoom } from "./view/MyZoom"
-import { Trends } from "./view/Trends"
 import { Notice } from "./view/Notice"
-import Chat from "./view/Chat"
-import ChatZoom from "./view/ChatZoom"
 
 function App(){
     return(
@@ -38,9 +35,6 @@ function App(){
                         <Route path="/artwork/:id" element={<Artwork />} />
                         <Route path="/gallery" element={<Gallery />} />
                         <Route path="/tag" element={<Tag />} />
-                        <Route path="/trends" element={<Trends />} />
-                        <Route path="/chat" element={<Chat />} />
-                        <Route path="/chatzoom/:id" element={<ChatZoom />} />
                         <Route path="/notfound" element={<NotFound />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />

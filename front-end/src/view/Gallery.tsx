@@ -46,8 +46,7 @@ export function Gallery(){
     async function loadData(){
         await updateGalleryPage(null,1)
         await getRequest(urls.getDBRecordCount+'?table=gallery').then(count=>{
-            let pageNum = Math.round(count/GArea.defaultShowNum)+1
-            setGalleryPage(pageNum)
+            setGalleryPage(Math.ceil(count/GArea.defaultShowNum))
         })
         await getRequest(urls.getTags+`?num=${GArea.defaultShowNum*100}`).then(data=>{
             if(data!=0){

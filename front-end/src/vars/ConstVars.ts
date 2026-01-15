@@ -1,15 +1,10 @@
 // 全局变量
 
-import { config_backend_api, config_backend_proxy_string, config_ws_server_http_api, config_ws_server_http_proxy_string, config_ws_server_websocket_api } from "./config"
-
-
+import { config_backend_api, config_backend_proxy_string } from "./config"
 
 // 接口
 export const backend_proxy_string = config_backend_proxy_string
-export const ws_server_http_proxy_string = config_ws_server_http_proxy_string
 export const backend_api = config_backend_api
-export const ws_server_http_api = config_ws_server_http_api
-export const ws_server_websocket_api = config_ws_server_websocket_api
 
 // 静态固定量
 export const GArea = {
@@ -46,9 +41,6 @@ export const PageTitle = {
     zoom: '空间 | ',
     notice: '幻想动物画廊 - 消息中心',
     tag: '幻想动物画廊 - 标签',
-    trends: '幻想动物画廊 - 动态',
-    chat: '幻想动物画廊 - 聊天',
-    chatzoom: '房间 | ',
 }
 
 // 默认展示对象

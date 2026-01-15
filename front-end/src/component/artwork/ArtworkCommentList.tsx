@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPaw } from "@fortawesome/free-solid-svg-icons"
 import { Link } from "react-router"
 
-export function ArtworkCommentList({galleryid=''}){
+export function ArtworkCommentList({galleryid='',randomNum=0}){
     const [commentListItems,setCommentListItems] = useState([] as JSX.Element[])
     const [commentPage,setCommentPage] = useState(1)
     function pawArtworkComment(commentid=''){postRequest(urls.pawArtworkMedia,{id:galleryid,commentid:commentid})}
@@ -60,15 +60,14 @@ export function ArtworkCommentList({galleryid=''}){
     }
     useEffect(()=>{
         getRequest(urls.getCommentGalleryCount+'?id='+galleryid).then(count=>{
-            let pageNum = Math.round(count/Math.floor(GArea.defaultShowNum/2))+1
-            setCommentPage(pageNum)
+            setCommentPage(Math.ceil(count/Math.floor(GArea.defaultShowNum/2)))
         })
         getRequest(urls.getArtworkComments+`?id=${galleryid}&num=${Math.floor(GArea.defaultShowNum/2)}`).then(data=>{
             if(data!=0){
                 updateItems(data)
             }
         })
-    },[])
+    },[randomNum])
     return(
         <>
             <Box sx={{mt:2}}>

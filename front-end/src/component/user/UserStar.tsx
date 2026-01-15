@@ -29,8 +29,7 @@ export function UserStar({username=''}){
             updateGalleryPage(null,1)
             await getRequest(urls.getUserStarInfoCount+'?username='+username).then(data=>{
                 if(data!=0){
-                    let artworkPageNum = Math.round(data.artworknum/GArea.defaultShowNum)+1
-                    setGalleryPage(artworkPageNum)
+                    setGalleryPage(Math.ceil(data.artworknum/GArea.defaultShowNum))
                 }
             })
         })()

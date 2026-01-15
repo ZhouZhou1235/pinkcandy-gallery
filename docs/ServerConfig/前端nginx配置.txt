@@ -17,26 +17,9 @@ server
     location @router {
         rewrite ^.*$ /index.html last;
     }
-    # 对于后端的请求的转发
+    # 对于后端请求的转发
     location ~ /api/* {
       proxy_pass http://gallery-system.pinkcandy.top;
       rewrite ^/api/(.*)$ /$1 break;
-    }
-    # 对于通讯服务器http请求的转发
-    location ~ /chat_api/* {
-      proxy_pass http://gallery-chat.pinkcandy.top;
-      rewrite ^/chat_api/(.*)$ /$1 break;
-    }
-    # 对于通讯服务器websocket请求的转发
-    location /chat_ws {
-      proxy_pass http://127.0.0.1:8083;
-      proxy_http_version 1.1;
-      proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Connection "upgrade";
-      proxy_set_header Host $host;
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Proto $scheme;
-      proxy_read_timeout 60s;
     }
 }

@@ -7,16 +7,10 @@ cd back-end
 start "后端" cmd /k "npm install && node main.js"
 cd ..
 
-echo "启动通讯服务器"
-cd pinkcandy-chat
-start "通讯服务器" cmd /k "composer install && .\run.bat"
-cd ..
-
 echo "启动前端"
 cd front-end
 start "前端" cmd /k "npm install && npm run dev"
 cd ..
-
 
 echo "==="
 echo "幻想动物画廊开发环境运行"

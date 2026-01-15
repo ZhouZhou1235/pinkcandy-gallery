@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { dev_backend_api, dev_ws_server_http_api } from './src/vars/config';
+import { dev_backend_api } from './src/vars/config';
 
 
 // https://vite.dev/config/
@@ -15,11 +15,6 @@ export default defineConfig({
                 target: dev_backend_api,
                 changeOrigin: true,
                 rewrite: (path)=>path.replace(/^\/api/,''),
-            },
-            '/chat_api': {
-                target: dev_ws_server_http_api,
-                changeOrigin: true,
-                rewrite: (path)=>path.replace(/^\/chat_api/,''),
             },
         }
     },

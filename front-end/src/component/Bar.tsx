@@ -1,5 +1,5 @@
 import { DefaultObj, GArea } from "../vars/ConstVars";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
@@ -8,8 +8,6 @@ import {
 faAdd,
 faBell,
 faBook,
-faComments,
-faFan,
 faPalette,
 faRightToBracket,
 faShieldDog,
@@ -18,83 +16,102 @@ faBars,
 } from "@fortawesome/free-solid-svg-icons";
 
 function BarOption(){
+    const getNavLinkClass = ({ isActive }: { isActive: boolean }) => {
+        return `nav-link ${isActive ? "active fw-bold" : ""}`;
+    };
+    const getNavLinkStyle = ({ isActive }: { isActive: boolean }) => {
+        return {
+            color: isActive ? 'rgb(100, 200, 250)' : 'inherit',
+            fontWeight: isActive ? 'bold' : 'normal',
+            backgroundColor: isActive ? 'rgba(100, 100, 100, 0.1)' : 'transparent',
+            borderRadius: isActive ? '4px' : '0'
+        };
+    };
     return (
         <>
             <li className="nav-item">
-                <Link className="nav-link" to={"/gallery"}>
+                <NavLink className={getNavLinkClass} to={"/gallery"} style={getNavLinkStyle}>
                     <FontAwesomeIcon icon={faPalette} className="me-1" />
                     画廊
-                </Link>
+                </NavLink>
             </li>
             <li className="nav-item">
-                <Link className="nav-link" to={"/chat"}>
-                    <FontAwesomeIcon icon={faComments} className="me-1" />
-                    聊天
-                </Link>
-            </li>
-            <li className="nav-item">
-                <Link className="nav-link" to={"/tag"}>
+                <NavLink className={getNavLinkClass} to={"/tag"} style={getNavLinkStyle}>
                     <FontAwesomeIcon icon={faTags} className="me-1" />
                     标签
-                </Link>
+                </NavLink>
             </li>
             <li className="nav-item">
-                <Link className="nav-link" to={"/about"}>
+                <NavLink className={getNavLinkClass} to={"/about"} style={getNavLinkStyle}>
                     <FontAwesomeIcon icon={faBook} className="me-1" />
                     关于
-                </Link>
+                </NavLink>
             </li>
         </>
     );
 }
 
 function LoginButton(){
+    const getNavLinkClass = ({ isActive }: { isActive: boolean }) => {
+        return `nav-link ${isActive ? "active fw-bold" : ""}`;
+    };
+    const getNavLinkStyle = ({ isActive }: { isActive: boolean }) => {
+        return {
+            color: isActive ? 'rgb(50, 100, 250)' : 'inherit',
+            fontWeight: isActive ? 'bold' : 'normal',
+            backgroundColor: isActive ? 'rgba(100, 100, 100, 0.1)' : 'transparent',
+            borderRadius: isActive ? '4px' : '0'
+        };
+    };
     return (
         <li className="nav-item">
-        <Link className="nav-link" to={"/login"}>
+        <NavLink className={getNavLinkClass} to={"/login"} style={getNavLinkStyle}>
             <FontAwesomeIcon icon={faRightToBracket} className="me-1" />
             登录
-        </Link>
+        </NavLink>
         </li>
     )
 }
 
-function UserArea(userdata = DefaultObj.userdata,noticenum=0,trendsnum=0){
+function UserArea(userdata = DefaultObj.userdata, noticenum=0, trendsnum=0){
+    const getNavLinkClass = ({ isActive }: { isActive: boolean }) => {
+        return `nav-link ${isActive ? "active fw-bold" : ""}`;
+    };
+    const getNavLinkClassWithBadge = ({ isActive }: { isActive: boolean }) => {
+        return `nav-link position-relative ${isActive ? "active fw-bold" : ""}`;
+    };
+    const getNavLinkStyle = ({ isActive }: { isActive: boolean }) => {
+        return {
+            color: isActive ? 'rgb(100, 100, 250)' : 'inherit',
+            fontWeight: isActive ? 'bold' : 'normal',
+            backgroundColor: isActive ? 'rgba(100, 100, 100, 0.1)' : 'transparent',
+            borderRadius: isActive ? '4px' : '0'
+        };
+    };
     return(
         <>
         <li className="nav-item">
-            <Link className="nav-link position-relative" to={"/notice"}>
+            <NavLink className={getNavLinkClassWithBadge} to={"/notice"} style={getNavLinkStyle}>
             <FontAwesomeIcon icon={faBell} className="me-1" />
             消息
-            {noticenum > 0 && (
+            {noticenum+trendsnum > 0 && (
                 <span className="badge rounded-pill bg-danger">
-                {noticenum}
+                {noticenum+trendsnum}
                 </span>
             )}
-            </Link>
+            </NavLink>
         </li>
         <li className="nav-item">
-            <Link className="nav-link position-relative" to={"/trends"}>
-            <FontAwesomeIcon icon={faFan} className="me-1" />
-            动态
-            {trendsnum > 0 && (
-                <span className="badge rounded-pill bg-danger">
-                {trendsnum}
-                </span>
-            )}
-            </Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" to={"/add"}>
+            <NavLink className={getNavLinkClass} to={"/add"} style={getNavLinkStyle}>
             <FontAwesomeIcon icon={faAdd} className="me-1" />
             添加
-            </Link>
+            </NavLink>
         </li>
         <li className="nav-item">
-            <Link className="nav-link" to={"/myzoom"}>
+            <NavLink className={getNavLinkClass} to={"/myzoom"} style={getNavLinkStyle}>
             <FontAwesomeIcon icon={faShieldDog} className="me-1" />
             {userdata.name || "用户"}
-            </Link>
+            </NavLink>
         </li>
         </>
     )
@@ -103,6 +120,7 @@ function UserArea(userdata = DefaultObj.userdata,noticenum=0,trendsnum=0){
 export function Bar(){
     const [userareaElement,setUserareaElement] = useState(<LoginButton />)
     const [isNavCollapsed,setIsNavCollapsed] = useState(true)
+    
     function updateState(){
         (async () => {
         let data = await getRequest(urls.getSessionUser);
@@ -119,23 +137,32 @@ export function Bar(){
         }
         })();
     }
+    
     useEffect(()=>{
         updateState()
     }, []);
+    
     const handleNavToggle = () => {
         setIsNavCollapsed(!isNavCollapsed);
     };
+    
     const handleNavLinkClick = () => {
         if (window.innerWidth < 992) {
         setIsNavCollapsed(true);
         }
     };
+    
+    // 主页链接的高亮函数
+    const getBrandLinkClass = ({ isActive }: { isActive: boolean }) => {
+        return `navbar-brand d-flex align-items-center ${isActive ? "active" : ""}`;
+    };
+    
     return(
     <>
         <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
             <div className="container-fluid">
-            <Link
-                className="navbar-brand d-flex align-items-center"
+            <NavLink
+                className={getBrandLinkClass}
                 to={"/"}
                 onClick={() => {
                 updateState();
@@ -143,14 +170,11 @@ export function Bar(){
                 }}
             >
                 <img
-                src={GArea.logoURL}
-                alt="logo"
-                height="40"
-                width="40"
-                className="d-inline-block align-text-top me-2"
+                    src={GArea.titleURL}
+                    alt="logo"
+                    height="40"
                 />
-                <span className="fw-bold">幻想动物画廊</span>
-            </Link>
+            </NavLink>
             <button
                 className="navbar-toggler"
                 type="button"

@@ -27,9 +27,9 @@ export function Footer(){
                 </Button>
             </a>
             <br />
-            <small>小蓝狗周周 1479499289@qq.com</small>
+            <small>开发者邮箱 1479499289@qq.com</small>
             <br />
-            <small>保留所有权利 2023-{date.getFullYear()} <a href="https://beian.miit.gov.cn">黔ICP备2024038291号</a></small>
+            <small>© 2023-{date.getFullYear()} 小蓝狗周周 保留所有权利 <a href="https://beian.miit.gov.cn">黔ICP备2024038291号</a></small>
         </Box>
     )
 }

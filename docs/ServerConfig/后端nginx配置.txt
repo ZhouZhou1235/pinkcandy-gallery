@@ -17,7 +17,6 @@ server
     location ~ /purge(/.*) {
         proxy_cache_purge cache_one $host$request_uri$is_args$args;
     }
-
     location / {
         proxy_pass http://127.0.0.1:8081;
         proxy_set_header Host $host:$server_port;

@@ -48,6 +48,10 @@ export function BoardForm(){
                 <div className="col-sm-6">
                     <FormControl fullWidth>
                         <FormLabel>粉糖留言板</FormLabel>
+                        <small>
+                            网站的第一个纪念意义功能，
+                            留下想说的话吧！
+                        </small>
                         <Input 
                             placeholder="说些什么......" 
                             value={boardForm.content}

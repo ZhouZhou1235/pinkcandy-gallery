@@ -4,7 +4,7 @@ import { postRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
 import { Snackbar } from "@mui/material";
 
-export function ArtworkCommentForm({galleryid=''}){
+export function ArtworkCommentForm({galleryid='',onUpdate=function(){} as any}){
     const [snackbarMessage,setSnackbarMessage] = useState('')
     const [snackbarOpen,setSnackbarOpen] = useState(false)
     const [commentForm,setCommentForm] = useState({content: '',id:galleryid})
@@ -16,6 +16,7 @@ export function ArtworkCommentForm({galleryid=''}){
                 setCommentForm(commentForm)
                 setSnackbarMessage('已发送评论')
                 setSnackbarOpen(true)
+                onUpdate()
             }
         })
     }
@@ -30,10 +31,10 @@ export function ArtworkCommentForm({galleryid=''}){
                 />
             </span>
             <Textarea
-                placeholder="作品感觉如何......"
+                placeholder="输入评论......"
+                value={commentForm.content}
                 onChange={(e)=>{
-                    commentForm.content = e.target.value
-                    setCommentForm(commentForm)
+                    setCommentForm({content:e.target.value,id:commentForm.id})
                 }}
                 minRows={4}
                 maxRows={8}
