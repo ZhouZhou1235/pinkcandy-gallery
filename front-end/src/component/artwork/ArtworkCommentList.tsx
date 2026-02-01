@@ -11,7 +11,11 @@ import { Link } from "react-router"
 export function ArtworkCommentList({galleryid='',randomNum=0}){
     const [commentListItems,setCommentListItems] = useState([] as JSX.Element[])
     const [commentPage,setCommentPage] = useState(1)
-    function pawArtworkComment(commentid=''){postRequest(urls.pawArtworkMedia,{id:galleryid,commentid:commentid})}
+    const [theRandomNum,setTheRandomNum] = useState(randomNum)
+    function pawArtworkComment(commentid=''){
+        postRequest(urls.pawArtworkMedia,{id:galleryid,commentid:commentid})
+        .then(res=>{if(res){setTheRandomNum(Math.floor(Math.random()*100))}})
+    }
     function updateItems(arr=DefaultObj.artworkCommentArray){
         let items = arr.map(item=>
             <li key={item.id} className="list-group-item">
@@ -67,7 +71,7 @@ export function ArtworkCommentList({galleryid='',randomNum=0}){
                 updateItems(data)
             }
         })
-    },[randomNum])
+    },[theRandomNum,randomNum])
     return(
         <>
             <Box sx={{mt:2}}>

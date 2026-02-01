@@ -52,7 +52,6 @@ export function ArtworkForm(){
     async function searchToShowTags(tags:string[]){
         let theTagText = '';for(let i=0;i<tags.length;i++){theTagText += tags[i]+' '}
         await getRequest(urls.searchTags+`?tagtext=${theTagText}`).then(data=>{
-            console.log(theTagText)
             if(data!=0){
                 let tagList :any[] = data
                 tagList.sort(objSortBy('usenum',true))

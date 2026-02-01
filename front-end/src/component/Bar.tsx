@@ -13,6 +13,7 @@ faRightToBracket,
 faShieldDog,
 faTags,
 faBars,
+faPen,
 } from "@fortawesome/free-solid-svg-icons";
 
 function BarOption(){
@@ -39,6 +40,12 @@ function BarOption(){
                 <NavLink className={getNavLinkClass} to={"/tag"} style={getNavLinkStyle}>
                     <FontAwesomeIcon icon={faTags} className="me-1" />
                     标签
+                </NavLink>
+            </li>
+            <li className="nav-item">
+                <NavLink className={getNavLinkClass} to={"/board"} style={getNavLinkStyle}>
+                    <FontAwesomeIcon icon={faPen} className="me-1" />
+                    留言
                 </NavLink>
             </li>
             <li className="nav-item">

@@ -14,6 +14,7 @@ export const GArea = {
     titleURL: "/images/title.png",
     image404URL: "/images/image404.png",
     SkyblueHound: '/images/SkyblueHound.webp',
+    Board: '/images/board.png',
     lucky: {
         BaiAndZhou: {src:'/images/lucky/BaiAndZhou.webp',info:'白：给周在一次茶绘上的作品'},
         TuDouAndZhou: {src:'/images/lucky/TuDouAndZhou.webp',info:'周：土豆是我印象深刻的好友之一'},

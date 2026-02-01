@@ -1,17 +1,9 @@
+后端设置一个反向代理，请求最后到目标项目端口。
+
 server
 {
-    listen 80;
-    listen 443 ssl http2 ;
-    server_name gallery-system.pinkcandy.top;
-    index index.html index.htm default.htm default.html;
-    include /www/server/panel/vhost/nginx/extension/GallerySystem/*.conf;
-    #root /www/wwwroot/GallerySystem;
-    #CERT-APPLY-CHECK--START
-    # 用于SSL证书申请时的文件验证相关配置 -- 请勿删除
-    include /www/server/panel/vhost/nginx/well-known/GallerySystem.conf;
-    #CERT-APPLY-CHECK--END
 
-    # 需要支持HTTPS SSL......    
+    // ......
 
     # HTTP反向代理
     location ~ /purge(/.*) {

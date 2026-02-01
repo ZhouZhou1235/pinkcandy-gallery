@@ -13,6 +13,7 @@ import { Tag } from "./view/Tag"
 import { PinkCandy } from "./view/PinkCandy"
 import { MyZoom } from "./view/MyZoom"
 import { Notice } from "./view/Notice"
+import { Board } from "./view/Board"
 
 function App(){
     return(
@@ -35,6 +36,7 @@ function App(){
                         <Route path="/artwork/:id" element={<Artwork />} />
                         <Route path="/gallery" element={<Gallery />} />
                         <Route path="/tag" element={<Tag />} />
+                        <Route path="/board" element={<Board />} />
                         <Route path="/notfound" element={<NotFound />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />

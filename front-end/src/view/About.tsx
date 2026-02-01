@@ -1,167 +1,198 @@
-import { Box, Button, Grid, Pagination } from "@mui/material";
-import { JSX, useEffect, useState } from "react";
-import { getRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
+import { Button } from "@mui/material";
+import { useEffect } from "react";
 import { GArea, PageTitle } from "../vars/ConstVars";
-import { toNormalDate } from "../utils/tools";
-import { Link } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCode, faSnowflake } from "@fortawesome/free-solid-svg-icons";
+import { faCode, faSnowflake, faPalette, faShieldAlt, faPaw, faHome, faInfo } from "@fortawesome/free-solid-svg-icons";
 
-function Info(){
-    return(
+function Info() {
+    return (
         <>
-            <div className="text-center">
-                <img src={GArea.titleURL} alt="title" width={'75%'}/>
-            </div>
-            <div className="text-center">
-                <strong className="text-muted">
+            <div className="text-center mb-5">
+                <img 
+                    src={GArea.titleURL} 
+                    alt="幻想动物画廊" 
+                    className="img-fluid"
+                    style={{ maxWidth: '600px' }}
+                    width={'100%'}
+                />
+                <p className="lead text-muted mt-3">
                     来点粉糖，探索小蓝狗与伙伴们的精彩作品！
-                </strong>
+                </p>
             </div>
-            <div className="card mt-4">
-                <div className="card-body text-center">
-                    <div className="row mt-4">
-                        <div className="col-sm-4">
-                            <div className="text-primary">
-                                <i className="fas fa-palette fa-2x mb-2"></i>
-                                <h5>绘画交流</h5>
-                                <p>发布和展示毛绒主题作品</p>
+            <div className="row mb-5">
+                <div className="col-md-4 mb-4">
+                    <div className="card border-0 shadow-sm h-100 text-center p-4">
+                        <div className="text-primary mb-3">
+                            <FontAwesomeIcon icon={faPalette} size="2x" />
+                        </div>
+                        <h5 className="card-title">绘画交流</h5>
+                        <p className="card-text text-muted">
+                            发布毛绒绒主题艺术作品，与同好交流创作心得。
+                        </p>
+                    </div>
+                </div>
+                <div className="col-md-4 mb-4">
+                    <div className="card border-0 shadow-sm h-100 text-center p-4">
+                        <div className="text-success mb-3">
+                            <FontAwesomeIcon icon={faHome} size="2x" />
+                        </div>
+                        <h5 className="card-title">兴趣驱动</h5>
+                        <p className="card-text text-muted">
+                            完全非营利性质的独立项目
+                        </p>
+                    </div>
+                </div>
+                <div className="col-md-4 mb-4">
+                    <div className="card border-0 shadow-sm h-100 text-center p-4">
+                        <div className="text-warning mb-3">
+                            <FontAwesomeIcon icon={faCode} size="2x" />
+                        </div>
+                        <h5 className="card-title">代码开源</h5>
+                        <p className="card-text text-muted">
+                            项目代码公开透明，欢迎技术交流。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div className="card shadow-sm mb-5 border-0">
+                <div className="card-body p-4">
+                    <h3 className="card-title mb-4 text-primary">
+                        <FontAwesomeIcon icon={faInfo} className="me-2" />
+                        关于
+                    </h3>
+                    <p className="card-text mb-3">
+                        幻想动物画廊是一个非商业性质的毛绒绒主题中文艺术网站，
+                        用户能发布分享有关毛绒绒的绘画作品。
+                    </p>
+                    <p className="card-text mb-3">
+                        本网站是小蓝狗周周的个人项目，已获得国家软件著作权，并长期维护和更新。
+                        我致力于为兽迷爱好者提供一个展示、分享和交流绘画作品的友好平台。
+                    </p>
+                    <div className="d-flex flex-wrap gap-2">
+                        <a href="https://pinkcandy.top" className="text-decoration-none">
+                            <Button
+                                variant="contained"
+                                startIcon={<FontAwesomeIcon icon={faSnowflake} />}
+                                size="medium"
+                                className="me-2 mb-2"
+                                style={{ backgroundColor: 'palevioletred', color: 'white' }}
+                            >
+                                粉糖主站
+                            </Button>
+                        </a>
+                        <a href="https://github.com/ZhouZhou1235/pinkcandy-gallery" className="text-decoration-none">
+                            <Button
+                                variant="outlined"
+                                startIcon={<FontAwesomeIcon icon={faCode} />}
+                                size="medium"
+                                className="me-2 mb-2"
+                                style={{ backgroundColor: 'black', color: 'white' }}
+                            >
+                                GitHub
+                            </Button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div className="card shadow-sm mb-5 border-0">
+                <div className="card-body p-4">
+                    <h3 className="card-title mb-4 text-primary">
+                        <FontAwesomeIcon icon={faShieldAlt} className="me-2" />
+                        网站须知
+                    </h3>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <div className="mb-4">
+                                <h5 className="text-success mb-3">倡导</h5>
+                                <ul className="list-group list-group-flush">
+                                    <li className="list-group-item border-0 ps-0">
+                                        原创毛绒绒主题的艺术创作
+                                    </li>
+                                    <li className="list-group-item border-0 ps-0">
+                                        友好的作品评论和交流
+                                    </li>
+                                    <li className="list-group-item border-0 ps-0">
+                                        尊重他人的创作和观点
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        <div className="col-sm-4">
-                            <div className="text-success">
-                                <i className="fas fa-users fa-2x mb-2"></i>
-                                <h5>兴趣驱动</h5>
-                                <p>网站非营利开放使用</p>
+                        <div className="col-md-6">
+                            <div className="mb-4">
+                                <h5 className="text-danger mb-3">禁止</h5>
+                                <ul className="list-group list-group-flush">
+                                    <li className="list-group-item border-0 ps-0">
+                                        <span className="ms-2">限制级、敏感政治内容</span>
+                                    </li>
+                                    <li className="list-group-item border-0 ps-0">
+                                        <span className="ms-2">猎奇恐怖、暴力等不适内容</span>
+                                    </li>
+                                    <li className="list-group-item border-0 ps-0">
+                                        <span className="ms-2">未经授权的作品转载</span>
+                                    </li>
+                                    <li className="list-group-item border-0 ps-0">
+                                        <span className="ms-2">与主题无关的内容发布</span>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        <div className="col-sm-4">
-                            <div className="text-warning">
-                                <i className="fas fa-tags fa-2x mb-2"></i>
-                                <h5>代码开源</h5>
-                                <p>项目代码完全公开</p>
+                    </div>
+                    <div className="alert alert-light mt-3">
+                        <h6 className="alert-heading">免责声明</h6>
+                        <p className="mb-0 small">
+                            幻想动物画廊的所有内容均由用户自行上传和发布。
+                            本网站仅提供信息存储服务，不对用户发布的内容承担任何法律责任。
+                            如发现违规内容，及时联系管理员处理。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div className="card shadow-sm border-0 bg-primary bg-opacity-10">
+                <div className="card-body p-4">
+                    <h3 className="card-title mb-4 text-primary">
+                        <FontAwesomeIcon icon={faPaw} className="me-2" />
+                        什么是毛绒绒？
+                    </h3>
+                    <div className="row align-items-center">
+                        <div className="col-lg-8">
+                            <p className="card-text">
+                                毛绒绒（furry）是指以各种非人类动物为主要原型创作的角色形象
+                            </p>
+                            <p className="card-text">
+                                喜爱毛绒绒文化的群体常被称为兽迷、福瑞控或兽迷爱好者。
+                                角色的类型也有很大的差别。
+                                有的以直立行走为基础；
+                                有的完全按动物原型设计，称为纯兽（feral）；
+                                还有的不局限于哺乳动物，可能包括各种幻想生物......
+                            </p>
+                            <p className="card-text mb-0">
+                                在幻想动物画廊，我欢迎所有热爱毛绒绒艺术的朋友。
+                                无论你是创作者还是欣赏者，
+                                都能在这里找到属于你的艺术天地。
+                            </p>
+                        </div>
+                        <div className="col-lg-4 text-center mt-4 mt-lg-0">
+                            <div className="bg-white rounded p-3">
+                                <img src={GArea.logoURL} alt="logo" width={75}/>
+                                <h6 className="mb-0">PINKCANDY GALLERY</h6>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="p-2">
-                <h2>网站介绍</h2>
-                <p>
-                    幻想动物画廊是一个非商业性质的毛绒绒主题中文艺术网站，用户能发布分享有关毛绒绒的绘画作品。<br />
-                    本网站是小蓝狗周周的个人项目，已获得国家软件著作权并长期维护，具体技术细节请参阅github仓库。<br />
-                    <a href="https://pinkcandy.top">
-                        <Button
-                            startIcon={<FontAwesomeIcon icon={faSnowflake} />}
-                            size="small"
-                        >
-                            粉糖
-                        </Button>
-                    </a>
-                    &nbsp;
-                    <a href="https://github.com/ZhouZhou1235/pinkcandy-gallery">
-                        <Button
-                            startIcon={<FontAwesomeIcon icon={faCode} />}
-                            size="small"
-                        >
-                            github
-                        </Button>
-                    </a>
-                </p>
-                <h2>规则</h2>
-                <p>
-                    1 遵守基本的互联网规范<br />
-                    2 不要在网站任何地方发限制级、猎奇恐怖、政治相关等敏感信息，否则会被删除。<br />
-                    3 不要一次性发送太多或无意义的内容<br />
-                    4 由于是主题网站，所以不要发布与毛绒绒无关的作品。<br />
-                    5 作品可以是原创、二创、改图等类型，由作者上传或取得授权后上传，不能直接转载作品。<br />
-                    免责声明：<br />
-                    幻想动物画廊提供的任何信息及产生的效应由其发布者负责，本网站不提供任何保证也不承担任何法律责任。<br />
-                </p>
-                <h2>什么是毛绒？</h2>
-                <p>
-                    毛绒是指由各种除人类以外的动物为主要原型创作出来的角色形象，
-                    喜爱毛绒绒的群体称为兽控，兽迷，“福瑞控”等。
-                    毛绒绒的兽化程度可以细分为以下等级：<br />
-                    - 人类<br />
-                    1 仅有耳朵和尾巴作为装饰<br />
-                    2 更浓密的动物毛发<br />
-                    3 通常的兽人<br />
-                    4 以动物骨骼为基础<br />
-                    5 有思想的动物<br />
-                    - 动物<br />
-                </p>
             </div>
         </>
-    )
+    );
 }
 
-export function About(){
-    const [boardItems,setBoardItems] = useState([] as JSX.Element[])
-    const [boardPage,setBoardPage] = useState(1)
-    useEffect(()=>{
-        document.title = PageTitle.about
-        getRequest(urls.getBoradMessages+'?num='+GArea.defaultShowNum).then(data=>{
-            if(typeof data=='object'){
-                let boardMessages :any[] = data
-                let theBoardItems = boardMessages.map(item=>
-                    <div className="list-group-item" key={item.id}>
-                        <Link to={'/user/'+item.username}>
-                            <strong>{ item.user.name }</strong>
-                        </Link>
-                        &nbsp;
-                        { item.content }
-                        <br />
-                        <small>{ toNormalDate(item.time) }</small>
-                    </div>
-                )
-                setBoardItems(theBoardItems)
-            }
-        })
-        getRequest(urls.getDBRecordCount+'?table=board').then(count=>{
-            setBoardPage(Math.ceil(count/GArea.defaultShowNum))
-        })
-    },[])
-    function updateBoardPage(_event:any,value:number){
-        getRequest(urls.getBoradMessages+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}`).then(data=>{
-            if(typeof data=='object'){
-                let boardMessages :any[] = data
-                let theBoardItems = boardMessages.map(item=>
-                    <div className="list-group-item" key={item.id}>
-                        <Link to={'/user/'+item.username}>
-                            <strong>{ item.user.name }</strong>
-                        </Link>
-                        &nbsp;
-                        { item.content }
-                        <br />
-                        <small>{ toNormalDate(item.time) }</small>
-                    </div>
-                )
-                setBoardItems(theBoardItems)
-            }
-        })
-    }
-    return(
-        <Box>
+export function About() {
+    useEffect(() => {
+        document.title = PageTitle.about;
+    }, []);
+    return (
+        <div className="py-5">
             <div className="container">
-                <div className="row">
-                    <div className="col-sm-8 p-2">
-                        <Info />
-                    </div>
-                    <div className="col-sm-4 p-2">
-                        <h2>粉糖留言板</h2>
-                        <ul className="list-group list-group-flush">
-                            { boardItems }
-                        </ul>
-                        <Grid container spacing={2} minHeight={50}>
-                            <Grid display="flex" justifyContent="center" alignItems="center">
-                                <Pagination count={boardPage} onChange={ updateBoardPage } />    
-                            </Grid>
-                        </Grid>
-                    </div>
-                </div>
+                <Info />
             </div>
-        </Box>
-    )
+        </div>
+    );
 }

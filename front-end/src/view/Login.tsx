@@ -33,8 +33,7 @@ export function Login(){
                             </div>
                             <div className="text-muted">
                                 幻想动物画廊是一个非商业性质的毛绒绒主题中文艺术网站，
-                                用户能发布分享有关毛绒绒的绘画作品，
-                                还可以交流聊天。
+                                用户能发布分享有关毛绒绒的绘画作品。
                             </div>
                         </Container>
                         <Container sx={{p:2}}>

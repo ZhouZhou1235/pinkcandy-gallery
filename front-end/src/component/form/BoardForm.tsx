@@ -49,7 +49,6 @@ export function BoardForm(){
                     <FormControl fullWidth>
                         <FormLabel>粉糖留言板</FormLabel>
                         <small>
-                            网站的第一个纪念意义功能，
                             留下想说的话吧！
                         </small>
                         <Input 

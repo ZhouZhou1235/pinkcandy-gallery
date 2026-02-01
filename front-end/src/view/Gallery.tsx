@@ -13,6 +13,7 @@ export function Gallery(){
     const [searchText,setSearchText] = useState('')
     const [searchArtworkItems,setSearchArtworkItems] = useState([] as JSX.Element[])
     const [toptagdata,setToptagdata] = useState(DefaultObj.tagArray)
+    const [searchTagArray,setSearchTagArray] = useState(DefaultObj.tagArray)
     async function searchArtworks(){
         if(!searchText.trim()){
             setSearchArtworkItems([])
@@ -57,6 +58,20 @@ export function Gallery(){
             }
         })
     }
+    function searchTagsAndView(tagtext:string){
+        if(!tagtext.trim()){
+            setSearchTagArray(toptagdata)
+            return
+        }
+        getRequest(urls.searchTags+`?tagtext=${tagtext}`).then(data=>{
+            if(data!=0){
+                setSearchTagArray(data)
+            }
+            else{
+                setSearchTagArray(toptagdata)
+            }
+        })
+    }
     useEffect(()=>{
         document.title = PageTitle.gallery
         loadData()
@@ -73,7 +88,10 @@ export function Gallery(){
                                     className="form-control"
                                     placeholder="搜索作品"
                                     value={searchText}
-                                    onChange={e=>setSearchText(e.target.value)}
+                                    onChange={e=>{
+                                        setSearchText(e.target.value)
+                                        searchTagsAndView(e.target.value)
+                                    }}
                                 />
                                 <button
                                     className="btn btn-outline-secondary"
@@ -82,7 +100,7 @@ export function Gallery(){
                                     搜索
                                 </button>
                             </div>
-                            <TagList tagArray={toptagdata}/>
+                            <TagList tagArray={searchTagArray==DefaultObj.tagArray?toptagdata:searchTagArray}/>
                         </div>
                         <div className="col-sm-8 p-2">
                             {searchArtworkItems.length>0?(
