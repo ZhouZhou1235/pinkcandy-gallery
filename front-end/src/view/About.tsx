@@ -2,7 +2,8 @@ import { Button } from "@mui/material";
 import { useEffect } from "react";
 import { GArea, PageTitle } from "../vars/ConstVars";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCode, faSnowflake, faPalette, faShieldAlt, faPaw, faHome, faInfo } from "@fortawesome/free-solid-svg-icons";
+import { faCode, faPalette, faShieldAlt, faPaw, faHome, faInfo } from "@fortawesome/free-solid-svg-icons";
+import { Footer } from "../component/Footer";
 
 function Info() {
     return (
@@ -27,7 +28,7 @@ function Info() {
                         </div>
                         <h5 className="card-title">绘画交流</h5>
                         <p className="card-text text-muted">
-                            发布毛绒绒主题艺术作品，与同好交流创作心得。
+                            发布毛绒绒艺术作品
                         </p>
                     </div>
                 </div>
@@ -38,7 +39,7 @@ function Info() {
                         </div>
                         <h5 className="card-title">兴趣驱动</h5>
                         <p className="card-text text-muted">
-                            完全非营利性质的独立项目
+                            本网站为非营利独立项目
                         </p>
                     </div>
                 </div>
@@ -49,7 +50,7 @@ function Info() {
                         </div>
                         <h5 className="card-title">代码开源</h5>
                         <p className="card-text text-muted">
-                            项目代码公开透明，欢迎技术交流。
+                            项目代码公开透明
                         </p>
                     </div>
                 </div>
@@ -66,32 +67,17 @@ function Info() {
                     </p>
                     <p className="card-text mb-3">
                         本网站是小蓝狗周周的个人项目，已获得国家软件著作权，并长期维护和更新。
-                        我致力于为兽迷爱好者提供一个展示、分享和交流绘画作品的友好平台。
+                        我为身边的兽迷爱好伙伴们提供一个展示、分享和交流绘画作品的平台。
                     </p>
-                    <div className="d-flex flex-wrap gap-2">
-                        <a href="https://pinkcandy.top" className="text-decoration-none">
-                            <Button
-                                variant="contained"
-                                startIcon={<FontAwesomeIcon icon={faSnowflake} />}
-                                size="medium"
-                                className="me-2 mb-2"
-                                style={{ backgroundColor: 'palevioletred', color: 'white' }}
-                            >
-                                粉糖主站
-                            </Button>
-                        </a>
-                        <a href="https://github.com/ZhouZhou1235/pinkcandy-gallery" className="text-decoration-none">
-                            <Button
-                                variant="outlined"
-                                startIcon={<FontAwesomeIcon icon={faCode} />}
-                                size="medium"
-                                className="me-2 mb-2"
-                                style={{ backgroundColor: 'black', color: 'white' }}
-                            >
-                                GitHub
-                            </Button>
-                        </a>
-                    </div>
+                    <p className="card-text">
+                        什么是毛绒绒？
+                        毛绒绒（furry）是指以各种非人类动物为主要原型创作的角色形象。
+                        喜爱毛绒绒文化的群体常被称为兽迷、福瑞控或兽迷爱好者。
+                        角色的类型也有很大的差别。
+                        有的以直立行走为基础；
+                        有的完全按动物原型设计，称为纯兽（feral）；
+                        还有的不局限于哺乳动物，可能包括各种幻想生物......
+                    </p>
                 </div>
             </div>
             <div className="card shadow-sm mb-5 border-0">
@@ -106,13 +92,13 @@ function Info() {
                                 <h5 className="text-success mb-3">倡导</h5>
                                 <ul className="list-group list-group-flush">
                                     <li className="list-group-item border-0 ps-0">
-                                        原创毛绒绒主题的艺术创作
+                                        毛绒绒艺术创作
                                     </li>
                                     <li className="list-group-item border-0 ps-0">
-                                        友好的作品评论和交流
+                                        友好评论和交流
                                     </li>
                                     <li className="list-group-item border-0 ps-0">
-                                        尊重他人的创作和观点
+                                        尊重不同的创作观点
                                     </li>
                                 </ul>
                             </div>
@@ -129,9 +115,6 @@ function Info() {
                                     </li>
                                     <li className="list-group-item border-0 ps-0">
                                         <span className="ms-2">未经授权的作品转载</span>
-                                    </li>
-                                    <li className="list-group-item border-0 ps-0">
-                                        <span className="ms-2">与主题无关的内容发布</span>
                                     </li>
                                 </ul>
                             </div>
@@ -151,35 +134,69 @@ function Info() {
                 <div className="card-body p-4">
                     <h3 className="card-title mb-4 text-primary">
                         <FontAwesomeIcon icon={faPaw} className="me-2" />
-                        什么是毛绒绒？
+                        友情与相关链接
                     </h3>
                     <div className="row align-items-center">
-                        <div className="col-lg-8">
+                        <div className="col-lg-12">
                             <p className="card-text">
-                                毛绒绒（furry）是指以各种非人类动物为主要原型创作的角色形象
+                                <a href="https://fufud.cc" className="text-decoration-none">
+                                    <Button
+                                        variant="contained"
+                                        size="medium"
+                                        className="me-2 mb-2"
+                                        style={{background:'palevioletred'}}
+                                    >
+                                        福福玩具房
+                                    </Button>
+                                </a>
+                                <a href="https://www.starlight233.top" className="text-decoration-none">
+                                    <Button
+                                        variant="contained"
+                                        size="medium"
+                                        className="me-2 mb-2"
+                                        style={{background:'green'}}
+                                    >
+                                        紫菜的主页
+                                    </Button>
+                                </a>
+                                <a href="https://furryreillo.top" className="text-decoration-none">
+                                    <Button
+                                        variant="contained"
+                                        size="medium"
+                                        className="me-2 mb-2"
+                                        style={{background:'orange'}}
+                                    >
+                                        雷洛的主页
+                                    </Button>
+                                </a>
+                                <a href="https://feishiko.top" className="text-decoration-none">
+                                    <Button
+                                        variant="contained"
+                                        size="medium"
+                                        className="me-2 mb-2"
+                                        style={{background:'blue'}}
+                                    >
+                                        飞鱼的主页
+                                    </Button>
+                                </a>
+                                <a href="http://bgm.pokemonhome.cn" className="text-decoration-none">
+                                    <Button
+                                        variant="contained"
+                                        size="medium"
+                                        className="me-2 mb-2"
+                                        style={{background:'brown'}}
+                                    >
+                                        宝可梦之音
+                                    </Button>
+                                </a>
+                                <br />
+                                <small>26.3.7更新</small>
                             </p>
-                            <p className="card-text">
-                                喜爱毛绒绒文化的群体常被称为兽迷、福瑞控或兽迷爱好者。
-                                角色的类型也有很大的差别。
-                                有的以直立行走为基础；
-                                有的完全按动物原型设计，称为纯兽（feral）；
-                                还有的不局限于哺乳动物，可能包括各种幻想生物......
-                            </p>
-                            <p className="card-text mb-0">
-                                在幻想动物画廊，我欢迎所有热爱毛绒绒艺术的朋友。
-                                无论你是创作者还是欣赏者，
-                                都能在这里找到属于你的艺术天地。
-                            </p>
-                        </div>
-                        <div className="col-lg-4 text-center mt-4 mt-lg-0">
-                            <div className="bg-white rounded p-3">
-                                <img src={GArea.logoURL} alt="logo" width={75}/>
-                                <h6 className="mb-0">PINKCANDY GALLERY</h6>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }

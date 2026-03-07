@@ -24,7 +24,9 @@ export const GArea = {
         ZhouShow: {src:'images/lucky/ZhouShow.webp',info:'苏朗：周周卖艺'},
         TuDouGift: {src:'images/lucky/TuDouGift.webp',info:'土豆：雨后彩虹'},
         FantasyConfession: {src:'images/lucky/FantasyConfession.webp',info:'九尾：幻想中的告白'},
-        DrinkMilk: {src:'images/lucky/DrinkMilk.webp',info:'椰雪：奶狗'}
+        DrinkMilk: {src:'images/lucky/DrinkMilk.webp',info:'椰雪：奶狗'},
+        Exilian: {src:'images/lucky/Exilian.webp',info:'羽：天使西利羽'},
+        ZhouLick: {src:'images/lucky/ZhouLick.webp',info:'小墨：舔舔'},
     },
     defaultShowNum: 12,
     defaultGetNum: 20,

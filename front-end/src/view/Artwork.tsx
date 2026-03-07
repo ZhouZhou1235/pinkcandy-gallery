@@ -87,17 +87,17 @@ export function Artwork(){
                             <div className="mb-4">
                                 {artworktagList}
                             </div>
+                            <div className="mb-4">
+                                {commentFormElement}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="row mt-4">
+            <div className="row">
                 <div className="col-12">
                     <div className="card shadow-sm">
                         <div className="card-body">
-                            <div className="mb-4">
-                                {commentFormElement}
-                            </div>
                             <div className="mt-4">
                                 {commentListElement}
                             </div>

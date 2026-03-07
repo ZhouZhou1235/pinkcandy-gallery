@@ -67,9 +67,9 @@ export function Board(){
                         <h2>留言</h2>
                         <img src={GArea.Board} alt="board" width={'100%'}/>
                         <p>
-                            粉糖留言板是网站的第一个功能，作为开发学习纪念。
+                            粉糖留言板是纪念功能，Hello World！
                             <div style={{color:'blue'}}>
-                                幻想动物画廊已运行 {getDaysBetween(new Date('2023-10-1'),new Date())} 天
+                                “周周的网络世界”已运行 {getDaysBetween(new Date('2023-10-1'),new Date())} 天
                             </div>
                         </p>
                     </div>
