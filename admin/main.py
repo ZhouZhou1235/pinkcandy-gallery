@@ -69,7 +69,6 @@ def clear_user_info(username):
                 backimage_path = os.path.join(config['backend-files']['files_path'], config['backend-files']['backimage'], backimage)
                 if os.path.exists(backimage_path): os.remove(backimage_path)
         cursor_gallery.execute("UPDATE user SET name='[粉糖账号违规]', info='[粉糖账号信息违规]', headimage=NULL, backimage=NULL, sex=NULL, species=NULL WHERE username=%s", (username,))
-        cursor_gallery.execute("UPDATE board SET content='[内容违规]' WHERE username=%s", (username,))
         db_connection_gallery.commit()
         print(f"粉糖账号 {username} 信息违规")
     except Exception as e:
