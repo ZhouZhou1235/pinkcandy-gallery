@@ -44,6 +44,7 @@ export const PageTitle = {
     zoom: '空间 | ',
     notice: '幻想动物画廊 - 消息中心',
     tag: '幻想动物画廊 - 标签',
+    board: '幻想动物画廊 - 留言',
 }
 
 // 默认展示对象

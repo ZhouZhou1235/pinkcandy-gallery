@@ -1,4 +1,3 @@
-<!-- created by pinkcandyzhou -->
 <!doctype html>
 <html lang="zh-CN">
 <head>
@@ -12,7 +11,15 @@
 </head>
 <body>
     <div id="root"></div>
+    <div id="error"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <noscript>PINKCANDY: 本站点需要浏览器支持ECMAScript</noscript>
+    <noscript>PINKCANDY: 幻想动物画廊需要ECMAScript才能运行</noscript>
 </body>
+<script>
+    try{new Function('import("")');}
+    catch(e){
+        var errorinfo = 'PINKCANDY: 浏览器太旧，请升级后访问幻想动物画廊。错误信息：'+e;
+        document.getElementById('error').innerHTML = errorinfo;
+    }
+</script>
 </html>

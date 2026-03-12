@@ -10,7 +10,7 @@ export function Board(){
     const [boardItems,setBoardItems] = useState([] as JSX.Element[])
     const [boardPage,setBoardPage] = useState(1)
     useEffect(()=>{
-        document.title = PageTitle.about
+        document.title = PageTitle.board
         getRequest(urls.getBoradMessages+'?num='+GArea.defaultShowNum).then(data=>{
             if(typeof data=='object'){
                 let boardMessages :any[] = data
