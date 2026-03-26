@@ -1,8 +1,7 @@
-import { Button } from "@mui/material";
 import { useEffect } from "react";
 import { GArea, PageTitle } from "../vars/ConstVars";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCode, faPalette, faShieldAlt, faPaw, faHome, faInfo } from "@fortawesome/free-solid-svg-icons";
+import { faCode, faPalette, faShieldAlt, faHome, faInfo } from "@fortawesome/free-solid-svg-icons";
 import { Footer } from "../component/Footer";
 
 function Info() {
@@ -127,72 +126,6 @@ function Info() {
                             本网站仅提供信息存储服务，不对用户发布的内容承担任何法律责任。
                             如发现违规内容，及时联系管理员处理。
                         </p>
-                    </div>
-                </div>
-            </div>
-            <div className="card shadow-sm border-0 bg-primary bg-opacity-10">
-                <div className="card-body p-4">
-                    <h3 className="card-title mb-4 text-primary">
-                        <FontAwesomeIcon icon={faPaw} className="me-2" />
-                        友情与相关链接
-                    </h3>
-                    <div className="row align-items-center">
-                        <div className="col-lg-12">
-                            <p className="card-text">
-                                <a href="https://fufud.cc" className="text-decoration-none">
-                                    <Button
-                                        variant="contained"
-                                        size="medium"
-                                        className="me-2 mb-2"
-                                        style={{background:'palevioletred'}}
-                                    >
-                                        福福玩具房
-                                    </Button>
-                                </a>
-                                <a href="https://www.starlight233.top" className="text-decoration-none">
-                                    <Button
-                                        variant="contained"
-                                        size="medium"
-                                        className="me-2 mb-2"
-                                        style={{background:'green'}}
-                                    >
-                                        紫菜的主页
-                                    </Button>
-                                </a>
-                                <a href="https://furryreillo.top" className="text-decoration-none">
-                                    <Button
-                                        variant="contained"
-                                        size="medium"
-                                        className="me-2 mb-2"
-                                        style={{background:'orange'}}
-                                    >
-                                        雷洛的主页
-                                    </Button>
-                                </a>
-                                <a href="https://feishiko.top" className="text-decoration-none">
-                                    <Button
-                                        variant="contained"
-                                        size="medium"
-                                        className="me-2 mb-2"
-                                        style={{background:'blue'}}
-                                    >
-                                        飞鱼的主页
-                                    </Button>
-                                </a>
-                                <a href="http://bgm.pokemonhome.cn" className="text-decoration-none">
-                                    <Button
-                                        variant="contained"
-                                        size="medium"
-                                        className="me-2 mb-2"
-                                        style={{background:'brown'}}
-                                    >
-                                        宝可梦之音
-                                    </Button>
-                                </a>
-                                <br />
-                                <small>26.3.7更新</small>
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>

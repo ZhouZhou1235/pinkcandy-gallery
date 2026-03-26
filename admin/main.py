@@ -28,11 +28,11 @@ cursor_gallery = db_connection_gallery.cursor()
 
 def clear_artwork_info(id):
     try:
-        cursor_gallery.execute("UPDATE gallery SET title='[内容违规]', info='[内容违规]' WHERE id=%s", (id,))
+        cursor_gallery.execute("UPDATE gallery SET title='***', info='***' WHERE id=%s", (id,))
         db_connection_gallery.commit()
-        print(f"作品 {id} 信息违规")
+        print(f"清除作品 {id} 信息")
     except Exception as e:
-        print(f"和谐作品信息失败: {e}")
+        print(f"清除作品信息失败: {e}")
         db_connection_gallery.rollback()
 
 def delete_artwork(id):
@@ -68,11 +68,11 @@ def clear_user_info(username):
             if backimage:
                 backimage_path = os.path.join(config['backend-files']['files_path'], config['backend-files']['backimage'], backimage)
                 if os.path.exists(backimage_path): os.remove(backimage_path)
-        cursor_gallery.execute("UPDATE user SET name='[粉糖账号违规]', info='[粉糖账号信息违规]', headimage=NULL, backimage=NULL, sex=NULL, species=NULL WHERE username=%s", (username,))
+        cursor_gallery.execute("UPDATE user SET name='***', info='***', headimage=NULL, backimage=NULL, sex=NULL, species=NULL WHERE username=%s", (username,))
         db_connection_gallery.commit()
-        print(f"粉糖账号 {username} 信息违规")
+        print(f"清除粉糖账号 {username} 信息")
     except Exception as e:
-        print(f"和谐粉糖账号信息失败: {e}")
+        print(f"清除粉糖账号信息失败: {e}")
         db_connection_gallery.rollback()
 
 def delete_user(username):
@@ -105,7 +105,7 @@ def change_tag(oldtag, newtag):
 if __name__=='__main__':
     print('===幻想动物画廊管理员命令行===')
     while True:
-        print("\n1.和谐作品信息 2.删除作品 3.和谐粉糖账号信息 4.删除粉糖账号 5.修改标签 0.退出")
+        print("\n1.清除作品信息 2.删除作品 3.清除粉糖账号信息 4.删除粉糖账号 5.修改标签 0.退出")
         choice = input("选择: ").strip()
         if choice == '0': break
         elif choice == '1': clear_artwork_info(input("作品ID: "))

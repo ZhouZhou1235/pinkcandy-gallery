@@ -35,7 +35,6 @@ npm run build
 
 后端<br />
 - core 源代码
-- static 静态资源
 - main.js 启动
 - **config.js 配置文件**
 ```
