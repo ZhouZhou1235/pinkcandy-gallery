@@ -1,0 +1,8 @@
+1. 准备环境
+下载并配置 Node.js+npm MySQL
+
+2. 创建数据库
+启动 MySQL ，创建数据库，然后执行SQL pinkcandy_gallery.sql 。
+
+3. 运行
+按照README说明配置文件和执行命令

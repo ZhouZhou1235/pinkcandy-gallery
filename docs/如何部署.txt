@@ -1,0 +1,70 @@
+1. 编译
+前端项目编译成web产物（html+css+js）
+
+
+2. 创建web服务器
+在服务器上创建 nginx 网站
+配置nginx
+
+server
+{
+
+    // ......
+
+    location / {
+        try_files $uri $uri/ @router;
+        index index.html index.htm;
+    }
+    location @router {
+        rewrite ^.*$ /index.html last;
+    }
+    location ~ /api/* {
+      proxy_pass http://gallery-system.pinkcandy.top;
+      rewrite ^/api/(.*)$ /$1 break;
+    }
+}
+
+以上配置的作用是让前端路由管理页面，并正向代理请求到后端。
+
+
+3. 创建一个node服务
+在服务器上使用node执行后端代码，检查无误后创建nginx服务器。
+进行配置
+
+server
+{
+
+    // ......
+
+    # HTTP反向代理
+    location ~ /purge(/.*) {
+        proxy_cache_purge cache_one $host$request_uri$is_args$args;
+    }
+    location / {
+        proxy_pass http://127.0.0.1:8081;
+        proxy_set_header Host $host:$server_port;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header REMOTE-HOST $remote_addr;
+        add_header X-Cache $upstream_cache_status;
+        proxy_set_header X-Host $host:$server_port;
+        proxy_set_header X-Scheme $scheme;
+        proxy_connect_timeout 30s;
+        proxy_read_timeout 86400s;
+        proxy_send_timeout 30s;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+
+作用是后端设置一个反向代理，请求最后到目标项目端口。
+可以创建一个服务管理（如systemctl、宝塔面板等）
+
+
+4. 打开防火墙
+开放相关端口，访问网站。
+
+
+5. 完成
+网站基本搭建完成，绑定域名和添加SSL证书提供最佳体验。
