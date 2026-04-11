@@ -66,20 +66,20 @@ export function Board(){
                     <div className="col-sm-4 p-2">
                         <h2>留言</h2>
                         <img src={GArea.Board} alt="board" width={'100%'}/>
-                        <p>
+                        <div>
                             粉糖留言板是纪念功能，Hello World！
                             <div style={{color:'blue'}}>
                                 “周周的网络世界”已运行 {getDaysBetween(new Date('2023-10-1'),new Date())} 天
                             </div>
-                        </p>
+                        </div>
                     </div>
                     <div className="col-sm-8 p-2">
                         <ul className="list-group list-group-flush">
                             { boardItems }
                         </ul>
-                        <Grid container spacing={2} minHeight={50}>
-                            <Grid display="flex" justifyContent="center" alignItems="center">
-                                <Pagination count={boardPage} onChange={ updateBoardPage } />    
+                        <Grid container spacing={2} sx={{ minHeight: 50 }}>
+                            <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <Pagination count={boardPage} onChange={updateBoardPage} />
                             </Grid>
                         </Grid>
                     </div>

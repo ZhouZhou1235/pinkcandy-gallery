@@ -112,9 +112,9 @@ export function Tag(){
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                        <Grid container spacing={2} minHeight={50}>
-                            <Grid display="flex" justifyContent="center" alignItems="center">
-                                <Pagination count={tagPage} onChange={ updateTagPage } />
+                        <Grid container spacing={2} sx={{ minHeight: 50 }}>
+                            <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <Pagination count={tagPage} onChange={updateTagPage} />
                             </Grid>
                         </Grid>
                     </div>

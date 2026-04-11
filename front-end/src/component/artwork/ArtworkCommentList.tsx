@@ -78,9 +78,9 @@ export function ArtworkCommentList({galleryid='',randomNum=0}){
                 <ul className="list-group">
                     {commentListItems}
                 </ul>
-                <Grid container spacing={2} minHeight={50}>
-                    <Grid display="flex" justifyContent="center" alignItems="center">
-                        <Pagination count={commentPage} onChange={ updateCommentPage } />
+                <Grid container spacing={2} sx={{ minHeight: 50 }}>
+                    <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Pagination count={commentPage} onChange={updateCommentPage} />
                     </Grid>
                 </Grid>
             </Box>

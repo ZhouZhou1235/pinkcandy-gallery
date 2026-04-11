@@ -1,9 +1,7 @@
 // 配置
 
-
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-
 
 // 系统目录 ES标准实现 CommonJS __dirname
 export const workPath = dirname(fileURLToPath(import.meta.url));

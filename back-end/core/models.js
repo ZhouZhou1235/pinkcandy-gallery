@@ -1,7 +1,7 @@
-// ORM 数据模型
+// 数据模型
 
-import { DataTypes } from "sequelize";
-import sqllize from "./orm_sequelize.js";
+import { DataTypes,Sequelize } from "sequelize";
+import config from "../config.js";
 
 export const tableName = {
     user: 'user',
@@ -15,6 +15,13 @@ export const tableName = {
     user_watch: 'user_watch',
     user_active: 'user_active',
 };
+
+export const sqllize = new Sequelize(
+    config.DATABASE_mysql.database,
+    config.DATABASE_mysql.user,
+    config.DATABASE_mysql.password,
+    config.DATABASE_sequelize,
+);
 
 export const User = sqllize.define(tableName.user,
     {
@@ -276,3 +283,5 @@ export const UserActive = sqllize.define(tableName.user_active,
     },
     {timestamps: false,tableName: tableName.user_active},
 );
+
+export default sqllize;

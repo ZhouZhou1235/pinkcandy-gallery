@@ -115,14 +115,9 @@ export function Gallery(){
                                     <div className="row">
                                         {artworkItems}
                                     </div>
-                                    <Grid container spacing={2} minHeight={50} sx={{mt: 2}}>
-                                        <Grid display="flex" justifyContent="center" alignItems="center" width="100%">
-                                            <Pagination 
-                                                count={galleryPage} 
-                                                onChange={updateGalleryPage} 
-                                                color="primary" 
-                                                shape="rounded"
-                                            />
+                                    <Grid container spacing={2} sx={{ minHeight: 50, mt: 2 }}>
+                                        <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+                                            <Pagination count={galleryPage} onChange={updateGalleryPage} />
                                         </Grid>
                                     </Grid>
                                 </div>

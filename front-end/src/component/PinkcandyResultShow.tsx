@@ -39,9 +39,9 @@ function ArtworkShow(dataArray=[DefaultObj.artworkdata]){
                     null
                 }
             </div>
-            <Grid container spacing={2} minHeight={50}>
-                <Grid display="flex" justifyContent="center" alignItems="center">
-                    <Pagination count={pagenum} onChange={ updatePage } />
+            <Grid container spacing={2} sx={{ minHeight: 50 }}>
+                <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Pagination count={pagenum} onChange={updatePage} />
                 </Grid>
             </Grid>
         </>
@@ -87,9 +87,9 @@ function UserShow(dataArray=[DefaultObj.userdata]){
                     null
                 }
             </div>
-            <Grid container spacing={2} minHeight={50}>
-                <Grid display="flex" justifyContent="center" alignItems="center">
-                    <Pagination count={pagenum} onChange={ updatePage } />
+            <Grid container spacing={2} sx={{ minHeight: 50 }}>
+                <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Pagination count={pagenum} onChange={updatePage} />
                 </Grid>
             </Grid>
         </>

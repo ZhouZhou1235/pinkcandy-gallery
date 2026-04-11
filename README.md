@@ -13,6 +13,12 @@
 欢迎访问粉糖画廊代码仓库，本项目由小蓝狗周周长期维护。<br />
 技术栈：TypeScript, JavaScript, Node.js, Vite, Linux, Nginx, MySQL<br />
 
+node生态更新块，可使用ncu更新包。<br />
+```
+npm install -g npm-check-updates
+ncu -u
+```
+
 
 ### 结构
 

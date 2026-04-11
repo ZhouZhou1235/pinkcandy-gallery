@@ -1,12 +1,10 @@
 // 控制器
 
 import express from 'express';
-import { Board, Gallery, GalleryComment, GalleryPaw, GalleryStar, Tag, TagGallery, User, UserActive, UserWatch } from './database/models.js';
-import { arrayIntersect, checkObjComplete, comparePasswordHash, compressImage, createMomentByDate, createPasswordHash, createRandomID, explodeText, getExtension, isEqualObj, modelListToObjList, uniqueElementArray } from './utils.js';
-import { addTagsForArtwork, addUsenumForTagdatas, getDBRecordCount, imageCompressToSave } from './work.js';
+import { Board, Gallery, GalleryComment, GalleryPaw, GalleryStar, Tag, TagGallery, User, UserActive, UserWatch } from './models.js';
 import config from '../config.js';
-import sqllize from './database/orm_sequelize.js';
-import { sendAMail } from './mailer.js';
+import sqllize from './models.js';
+import * as functions from './functions.js';
 import fs from 'fs';
 import { console } from 'inspector';
 import { Op } from 'sequelize';
@@ -156,7 +154,7 @@ export function loadMachineController(machine=express()){
                 offset: Number(begin),
                 order: [['time','DESC']],
             });
-            data = await addUsenumForTagdatas(data);
+            data = await functions.addUsenumForTagdatas(data);
             res.send(data)
         })()
     });
@@ -185,7 +183,7 @@ export function loadMachineController(machine=express()){
         let table = req.query.table;
         if(!table){res.send(0);return;}
         (async ()=>{
-            let count = await getDBRecordCount(table);
+            let count = await functions.getDBRecordCount(table);
             res.send(count);
         })()
     });
@@ -213,7 +211,7 @@ export function loadMachineController(machine=express()){
                         },
                     ]
                 });
-                data = await addUsenumForTagdatas(data);
+                data = await functions.addUsenumForTagdatas(data);
                 res.send(data);
             }
             catch(e){console.log(e);res.send(0);}
@@ -242,7 +240,7 @@ export function loadMachineController(machine=express()){
                         },
                     ],
                 });
-                let result = modelListToObjList(data);
+                let result = functions.modelListToObjList(data);
                 for(let i=0;i<result.length;i++){
                     let obj = result[i];
                     obj['pawnum'] = await GalleryPaw.count({where:{commentid:obj.id}});
@@ -594,7 +592,7 @@ export function loadMachineController(machine=express()){
         if(!tagtext){res.send(0);return;}
         (async()=>{
             let result = [];
-            let tagList = explodeText(tagtext);
+            let tagList = functions.explodeText(tagtext);
             for(let i=0;i<tagList.length;i++){
                 let tag = tagList[i];
                 let theTags = await Tag.findAll({where:{tag:{[Op.like]:`%${tag}%`}}});
@@ -604,7 +602,7 @@ export function loadMachineController(machine=express()){
                     }
                 }
             }
-            result = await addUsenumForTagdatas(result);
+            result = await functions.addUsenumForTagdatas(result);
             // 过滤重复值
             let tagidList = [];
             let uniqueresult = [];
@@ -620,7 +618,7 @@ export function loadMachineController(machine=express()){
     machine.get(routeTable.searchPinkCandy,(req,res)=>{ // 来点粉糖
         let searchtext = req.query.searchtext;
         if(!searchtext){res.send(0);return;}
-        let tagList = explodeText(searchtext);
+        let tagList = functions.explodeText(searchtext);
         let result = {
             artwork: [],
             user: [],
@@ -641,7 +639,7 @@ export function loadMachineController(machine=express()){
                         theList.push(taggallery[j]['galleryid'])
                     }
                     if(galleryidList.length==0){galleryidList=theList;}
-                    else{galleryidList=arrayIntersect(galleryidList,theList);}
+                    else{galleryidList=functions.arrayIntersect(galleryidList,theList);}
                 }
                 let gallery = await Gallery.findAll({where:{title:{[Op.like]:`%${tag}%`}}});
                 for(let j=0;j<gallery.length;j++){galleryidList.push(gallery[j]['id']);}
@@ -656,8 +654,8 @@ export function loadMachineController(machine=express()){
                 });
                 for(let j=0;j<user.length;j++){usernameList.push(user[j]['username']);}
             }
-            galleryidList = uniqueElementArray(galleryidList);
-            usernameList = uniqueElementArray(usernameList);
+            galleryidList = functions.uniqueElementArray(galleryidList);
+            usernameList = functions.uniqueElementArray(usernameList);
             for(let i=0;i<galleryidList.length;i++){
                 let data = await Gallery.findOne({where:{id:galleryidList[i]}})
                 result.artwork.push(data);
@@ -689,7 +687,7 @@ export function loadMachineController(machine=express()){
     });
     machine.post(routeTable.login,(req,res)=>{ // 登录
         let loginForm = req.body;
-        if(!checkObjComplete(loginForm)){res.send(0);return;}
+        if(!functions.checkObjComplete(loginForm)){res.send(0);return;}
         let username = loginForm.username;
         let password = loginForm.password;
         User.findOne({
@@ -701,7 +699,7 @@ export function loadMachineController(machine=express()){
             }
         }).then(data=>{
             if(!data){res.send(0);return;}
-            if(!comparePasswordHash(password,data.password)){res.send(0);return;}
+            if(!functions.comparePasswordHash(password,data.password)){res.send(0);return;}
             let session = req.session;
             session['username'] = data.username;
             res.send(1);
@@ -717,10 +715,10 @@ export function loadMachineController(machine=express()){
         let info = artworkForm.info;
         let tags = artworkForm.tags;
         let file = req.files?.file;
-        let id = createRandomID();
+        let id = functions.createRandomID();
         let username = req.session.username;
         if(!title || !file || !username){res.send(0);return;}
-        let ext = getExtension(file.name);
+        let ext = functions.getExtension(file.name);
         if(!ext in config.FILE_imageAllowExtension){res.send(0);return;}
         let saveFilename = id+'.'+ext;
         let savepath = config.FILE_fileHub.gallery+saveFilename;
@@ -740,12 +738,12 @@ export function loadMachineController(machine=express()){
                         await UserActive.update({mediatime:Date()},{where:{username:username}},{transaction:t});
                         if(tags){
                             let tagList = JSON.parse(tags);
-                            addTagsForArtwork(id,tagList);
+                            functions.addTagsForArtwork(id,tagList);
                         }
                     });
                     if(result){
                         await file.mv(savepath);
-                        await compressImage(savepath,config.FILE_fileHub.galleryPreview+saveFilename);
+                        await functions.compressImage(savepath,config.FILE_fileHub.galleryPreview+saveFilename);
                         res.send(1);
                     }
                 }
@@ -764,7 +762,7 @@ export function loadMachineController(machine=express()){
             <h1>注册粉糖账号 ${ username }</h1>
             <p>验证码：${ code }</p>
         `
-        sendAMail(email,content).then(x=>{
+        functions.sendAMail(email,content).then(x=>{
             if(x){
                 req.session['registerForm'] = {
                     username: username,
@@ -781,10 +779,10 @@ export function loadMachineController(machine=express()){
     });
     machine.post(routeTable.register,(req,res)=>{ // 注册
         let registerForm = req.body;
-        if(isEqualObj(registerForm,req.session['registerForm'])){
+        if(functions.isEqualObj(registerForm,req.session['registerForm'])){
             try{
                 let username = registerForm.username;
-                let passwordhash = createPasswordHash(registerForm.password);
+                let passwordhash = functions.createPasswordHash(registerForm.password);
                 let name = registerForm.name;
                 let email = registerForm.email;
                 sqllize.transaction(async t=>{
@@ -836,7 +834,7 @@ export function loadMachineController(machine=express()){
                 req.session['resetPasswordEmail'] = email;
                 req.session['resetPasswordCode'] = code;
                 req.session.cookie.maxAge = config.SESSION_effectiveTime;
-                sendAMail(email,content).then(x=>{
+                functions.sendAMail(email,content).then(x=>{
                     if(x){res.send(1);}
                     else{res.send(0);}
                 });
@@ -852,7 +850,7 @@ export function loadMachineController(machine=express()){
         User.findOne({where:{email:email}}).then(data=>{
             try{
                 let username = data.username;
-                let passwordhash = createPasswordHash(password);
+                let passwordhash = functions.createPasswordHash(password);
                 sqllize.transaction(async t=>{
                     await User.update(
                         {password:passwordhash},
@@ -914,8 +912,8 @@ export function loadMachineController(machine=express()){
         if(!username){res.send(0);return;}
         if(!headimage && !backimage){res.send(0);return;}
         if(headimage){
-            let id = createRandomID();
-            let ext = getExtension(headimage.name);
+            let id = functions.createRandomID();
+            let ext = functions.getExtension(headimage.name);
             if(!ext in config.FILE_imageAllowExtension){res.send(0);return;}
             let saveFilename = id+'.'+ext;
             let savepath = config.FILE_fileHub.headimage+saveFilename;
@@ -928,15 +926,15 @@ export function loadMachineController(machine=express()){
                         {where:{username:username}},
                         { transaction:t },
                     );
-                    await imageCompressToSave(headimage,savepath);
+                    await functions.imageCompressToSave(headimage,savepath);
                     if(oldFilename){fs.unlinkSync(config.FILE_fileHub.headimage+oldFilename);}
                 });
             }
             catch(e){console.log(e);res.send(0);}
         }
         if(backimage){
-            let id = createRandomID();
-            let ext = getExtension(backimage.name);
+            let id = functions.createRandomID();
+            let ext = functions.getExtension(backimage.name);
             if(!ext in config.FILE_imageAllowExtension){res.send(0);return;}
             let saveFilename = id+'.'+ext;
             let savepath = config.FILE_fileHub.backimage+saveFilename;
@@ -949,7 +947,7 @@ export function loadMachineController(machine=express()){
                         {where:{username:username}},
                         { transaction:t },
                     );
-                    await imageCompressToSave(backimage,savepath,config.FILE_imageResizeNum*4);
+                    await functions.imageCompressToSave(backimage,savepath,config.FILE_imageResizeNum*4);
                     if(oldFilename){fs.unlinkSync(config.FILE_fileHub.backimage+oldFilename);}
                 });
             }
@@ -975,7 +973,7 @@ export function loadMachineController(machine=express()){
             `
             req.session['editUserImportantCode'] = code;
             req.session.cookie.maxAge = config.SESSION_effectiveTime;
-            sendAMail(email,content);
+            functions.sendAMail(email,content);
             res.send(1);
         })()
     });
@@ -988,7 +986,7 @@ export function loadMachineController(machine=express()){
         if(!username || code!=req.session['editUserImportantCode']){res.send(0);return;}
         if(password){
             try{
-                let passwordhash = createPasswordHash(password);
+                let passwordhash = functions.createPasswordHash(password);
                 sqllize.transaction(async t=>{
                     await User.update(
                         {password:passwordhash},
@@ -1042,7 +1040,7 @@ export function loadMachineController(machine=express()){
         catch(e){console.log(e);res.send(0);}
     });
     machine.post(routeTable.sendCommentArtwork,(req,res)=>{ // 发送作品评论
-        let commentid = createRandomID()
+        let commentid = functions.createRandomID()
         let galleryid = req.body.id;
         let username = req.session.username;
         let content = req.body.content;
@@ -1200,7 +1198,7 @@ export function loadMachineController(machine=express()){
                     );
                     if(tags){
                         let tagList = JSON.parse(tags);
-                        await addTagsForArtwork(id,tagList);
+                        await functions.addTagsForArtwork(id,tagList);
                     }
                     res.send(1);
                 });
@@ -1253,7 +1251,7 @@ export function loadMachineController(machine=express()){
         (async()=>{
             try{
                 let useractive = await UserActive.findOne({where:{username:username}});
-                let theTime = createMomentByDate(new Date(useractive.noticetime)).subtract(1,'months').toDate();
+                let theTime = functions.createMomentByDate(new Date(useractive.noticetime)).subtract(1,'months').toDate();
                 sqllize.transaction(async t=>{
                     await UserActive.update(
                         {noticetime:theTime},
@@ -1289,7 +1287,7 @@ export function loadMachineController(machine=express()){
         (async()=>{
             try{
                 let useractive = await UserActive.findOne({where:{username:username}});
-                let theTime = createMomentByDate(new Date(useractive.trendstime)).subtract(1,'months').toDate();
+                let theTime = functions.createMomentByDate(new Date(useractive.trendstime)).subtract(1,'months').toDate();
                 sqllize.transaction(async t=>{
                     await UserActive.update(
                         {trendstime:theTime},

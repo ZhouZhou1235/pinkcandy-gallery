@@ -5,10 +5,9 @@ import config from './config.js';
 import { loadMachineController } from './core/controller.js';
 import session from 'express-session';
 import fileUpload from 'express-fileupload';
-import { createFilesDir } from './core/work.js';
+import { createFilesDir } from './core/functions.js';
 import cors from 'cors';
 import sessionFileStore from 'session-file-store';
-
 
 const Machine = express();
 const FileStore = sessionFileStore(session);
