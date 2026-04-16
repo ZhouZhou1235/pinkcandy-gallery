@@ -17,7 +17,6 @@ export function PinkCandy(){
     const [pinkcandyResultShowElement,setPinkcandyResultShowElement] = useState(<></>)
     const [artworkItems,setArtworkItems] = useState([] as JSX.Element[])
     const [havelogin,setHavelogin] = useState(false)
-    const [randomImageObject,setRandomImageObject] = useState({} as any)
     function getTopTagsAndView(){
         getRequest(urls.getTags+`?num=${GArea.defaultShowNum*10}`).then(data=>{
             if(data!=0){
@@ -78,12 +77,6 @@ export function PinkCandy(){
             }
         })
     }
-    function loadLuckyImage(){
-        let objs = Object.values(GArea.lucky)
-        let index = Math.floor(Math.random()*objs.length)
-        let imageObj = objs[index]
-        setRandomImageObject(imageObj)
-    }
     async function loadArtworkItems(){
         await getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}`).then(data=>{
             if(data!=0){
@@ -101,7 +94,6 @@ export function PinkCandy(){
         document.title = PageTitle.pinkcandy
         getTopTagsAndView()
         loadArtworkItems()
-        loadLuckyImage()
         postRequest(urls.checkLogin).then(res=>{if(res){setHavelogin(true)}})
     },[])
     return(
@@ -151,12 +143,6 @@ export function PinkCandy(){
                                     <button type="button" className="btn btn-outline-primary">登录账号</button>
                                 </Link>
                             }
-                        </div>
-                        <div className="p-2 text-center">
-                            <div>
-                                <img src={randomImageObject.src} className="img-fluid rounded" alt="luckyimage" width={'75%'} />
-                            </div>
-                            <small>{randomImageObject.info}</small>
                         </div>
                     </div>
                     <div className="col-sm-8 p-2">
