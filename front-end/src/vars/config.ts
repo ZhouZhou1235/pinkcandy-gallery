@@ -4,7 +4,7 @@
 // 是否生产环境
 let isproduction = false
 // 开发环境
-export const dev_backend_api = 'http://localhost:8081'
+export const dev_backend_api = 'http://localhost:8082'
 // 生产环境
 export const prod_backend_api = 'https://gallery-system.pinkcandy.top'
 // 代理字符常量

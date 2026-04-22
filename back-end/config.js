@@ -8,7 +8,7 @@ export const workPath = dirname(fileURLToPath(import.meta.url));
 
 const config = {
     HOST: '0.0.0.0', // 主机
-    LISTEN_PORT: 8081, // 运行端口
+    LISTEN_PORT: 8082, // 运行端口
     TEXT_ENCODING: 'utf8', // 文本编码
     // session
     SESSION_secret: 'pinkcandy gallery', // session会话密钥
@@ -31,7 +31,7 @@ const config = {
     },
     DATABASE_sequelize: { // ORM 数据模型映射
         host: 'localhost',
-        post: 3306,
+        port: 3306,
         dialect: 'mysql',
         pool: {
             max: 10,
