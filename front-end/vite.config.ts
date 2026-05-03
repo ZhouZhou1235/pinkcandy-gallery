@@ -20,8 +20,8 @@ export default defineConfig({
     },
     // vite 编译打包配置
     build: {
-        chunkSizeWarningLimit:1000, // 模块过大警告
-        rollupOptions: { // 根据模块拆分编译
+        chunkSizeWarningLimit:1000,
+        rollupOptions: {
             output:{
                 manualChunks(id){
                     if(id.includes('node_modules')){

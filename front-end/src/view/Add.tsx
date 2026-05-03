@@ -1,66 +1,97 @@
-import { TabContext, TabPanel } from "@mui/lab";
-import { Box, Tab, Tabs, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
-import { SyntheticEvent, useEffect, useState } from "react";
+// 添加
+
+import { useEffect, useState } from "react";
 import { ArtworkForm } from "../component/form/ArtworkForm";
 import { BoardForm } from "../component/form/BoardForm";
 import { PageTitle } from "../vars/ConstVars";
 
-export function Add(){
+export function Add() {
     const [tabvalue, setTabvalue] = useState('gallery');
-    const [pendingTabValue, setPendingTabValue] = useState<string|null>(null);
-    const [openDialog, setOpenDialog] = useState(false);
-    const tabHandleChange = (_event: SyntheticEvent, newTabvalue: string)=>{
-        setPendingTabValue(newTabvalue)
-        setOpenDialog(true)
-    }
-    const handleConfirmSwitch = ()=>{
-        if(pendingTabValue){setTabvalue(pendingTabValue)}
-        handleCloseDialog()
-    }
-    const handleCloseDialog = ()=>{
-        setOpenDialog(false)
-        setPendingTabValue(null)
-    }
-    useEffect(()=>{
-        document.title = PageTitle.add
+    const [pendingTabValue, setPendingTabValue] = useState<string | null>(null);
+    const [showModal, setShowModal] = useState(false);
+
+    const handleTabClick = (newTabValue: string) => {
+        if (tabvalue !== newTabValue) {
+            setPendingTabValue(newTabValue);
+            setShowModal(true);
+        }
+    };
+
+    const handleConfirmSwitch = () => {
+        if (pendingTabValue) {
+            setTabvalue(pendingTabValue);
+        }
+        handleCloseModal();
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setPendingTabValue(null);
+    };
+
+    useEffect(() => {
+        document.title = PageTitle.add;
     }, []);
-    return(
-        <Box>
-            <div className="container">
-                <TabContext value={tabvalue}>
-                    <Tabs
-                        value={tabvalue}
-                        onChange={tabHandleChange}
+
+    return (
+        <div className="container py-3">
+            <ul className="nav nav-tabs mb-3">
+                <li className="nav-item">
+                    <button
+                        className={`nav-link ${tabvalue === 'gallery' ? 'active' : ''}`}
+                        onClick={() => handleTabClick('gallery')}
                     >
-                        <Tab value="gallery" label="上传作品" />
-                        <Tab value="board" label="粉糖留言板" />
-                    </Tabs>
-                    <TabPanel value={'gallery'}><ArtworkForm /></TabPanel>
-                    <TabPanel value={'board'}><BoardForm /></TabPanel>
-                </TabContext>
-                <Dialog
-                    open={openDialog}
-                    onClose={handleCloseDialog}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">
-                        确认切换
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            确定切换到其他选项？
-                            若有未完成的更改则会丢失
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleCloseDialog}>取消</Button>
-                        <Button onClick={handleConfirmSwitch} autoFocus>
-                            确定
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                        上传作品
+                    </button>
+                </li>
+                <li className="nav-item">
+                    <button
+                        className={`nav-link ${tabvalue === 'board' ? 'active' : ''}`}
+                        onClick={() => handleTabClick('board')}
+                    >
+                        粉糖留言板
+                    </button>
+                </li>
+            </ul>
+
+            <div className="tab-content">
+                {tabvalue === 'gallery' && <ArtworkForm />}
+                {tabvalue === 'board' && <BoardForm />}
             </div>
-        </Box>
+
+            {showModal && (
+                <div 
+                    className="modal show d-block" 
+                    tabIndex={-1} 
+                    style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+                    onClick={(e) => { if (e.target === e.currentTarget) handleCloseModal() }}
+                >
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">确认切换</h5>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={handleCloseModal}
+                                    aria-label="Close"
+                                ></button>
+                            </div>
+                            <div className="modal-body">
+                                <p>确定切换到其他选项？若有未完成的更改则会丢失。</p>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
+                                    取消
+                                </button>
+                                <button type="button" className="btn btn-primary" onClick={handleConfirmSwitch}>
+                                    确定
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 }

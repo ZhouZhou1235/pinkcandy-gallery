@@ -1,77 +1,80 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Typography } from "@mui/material";
+// 登录
+
 import { RegisterForm } from "../component/form/RegisterForm";
 import { LoginForm } from "../component/form/LoginForm";
 import { ResetPasswordForm } from "../component/form/ResetPasswordForm";
 import { GArea } from "../vars/ConstVars";
+import { useState } from "react";
 
+export function Login() {
+    const [activePanel, setActivePanel] = useState<'login' | 'register' | 'reset'>('login');
+    return (
+        <>
+            <div 
+                className="position-fixed top-0 start-0 w-100 h-100"
+                style={{
+                    zIndex: -1,
+                    backgroundImage: `url(${GArea.SkyblueHound})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundAttachment: 'fixed',
+                    backgroundRepeat: 'no-repeat'
+                }}
+            />
+            <div className="container py-4" style={{ minHeight: '100vh' }}>
+                <div className="row justify-content-center">
+                    <div className="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">
+                        <div className="card shadow-lg border-0 bg-white mt-4 mt-sm-5 mt-md-0">
+                            <div className="card-body p-4 p-md-5">
+                                <div className="text-center mb-4">
+                                    <img
+                                        src={GArea.titleURL}
+                                        alt="logo"
+                                        className="img-fluid"
+                                        style={{ maxWidth: '280px' }}
+                                    />
+                                </div>
+                                <div className="text-muted small text-center mb-4">
+                                    幻想动物画廊是一个非盈利毛绒绒主题中文艺术网站，用户能发布有关毛绒绒的绘画作品。
+                                </div>
 
-export function Login(){
-    return(
-        <Box>
-            <div className="container p-3">
-                <div className="row align-items-center">
-                    <div className="col-lg-8 col-md-7">
-                        <div className="text-center">
-                            <img 
-                                src={GArea.SkyblueHound} 
-                                alt="login" 
-                                className="img-fluid rounded shadow" 
-                                style={{maxHeight: '70vh', objectFit: 'contain'}}
-                            />
+                                <ul className="nav nav-tabs nav-fill mb-3">
+                                    <li className="nav-item">
+                                        <button
+                                            className={`nav-link ${activePanel === 'login' ? 'active' : ''}`}
+                                            onClick={() => setActivePanel('login')}
+                                        >
+                                            登录
+                                        </button>
+                                    </li>
+                                    <li className="nav-item">
+                                        <button
+                                            className={`nav-link ${activePanel === 'register' ? 'active' : ''}`}
+                                            onClick={() => setActivePanel('register')}
+                                        >
+                                            注册
+                                        </button>
+                                    </li>
+                                    <li className="nav-item">
+                                        <button
+                                            className={`nav-link ${activePanel === 'reset' ? 'active' : ''}`}
+                                            onClick={() => setActivePanel('reset')}
+                                        >
+                                            重设密码
+                                        </button>
+                                    </li>
+                                </ul>
+
+                                <div className="tab-content">
+                                    {activePanel === 'login' && <LoginForm />}
+                                    {activePanel === 'register' && <RegisterForm />}
+                                    {activePanel === 'reset' && <ResetPasswordForm />}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-lg-4 col-md-5">
-                        <Container sx={{p:2}}>
-                            <div className="text-center mb-4">
-                                <img 
-                                    src={GArea.titleURL} 
-                                    alt="logo" 
-                                    className="d-block mx-auto m-2" 
-                                    width={'100%'} 
-                                    style={{maxWidth:'400px'}} 
-                                />
-                            </div>
-                            <div className="text-muted">
-                                幻想动物画廊是一个非商业性质的毛绒绒主题中文艺术网站，
-                                用户能发布分享有关毛绒绒的绘画作品。
-                            </div>
-                        </Container>
-                        <Container sx={{p:2}}>
-                            <div>
-                                <Accordion defaultExpanded className="mb-2 shadow-sm">
-                                    <AccordionSummary
-                                        aria-controls="panel1-content"
-                                        id="panel1-header"
-                                    >
-                                    <Typography component="span" className="fw-bold">登录</Typography>
-                                    </AccordionSummary>
-                                    <LoginForm />
-                                </Accordion>
-                                <Accordion className="mb-2 shadow-sm">
-                                    <AccordionSummary
-                                        aria-controls="panel2-content"
-                                        id="panel2-header"
-                                    >
-                                    <Typography component="span" className="fw-bold">注册</Typography>
-                                    </AccordionSummary>
-                                    <RegisterForm />
-                                </Accordion>
-                                <Accordion className="shadow-sm">
-                                    <AccordionSummary
-                                        aria-controls="panel3-content"
-                                        id="panel3-header"
-                                    >
-                                    <Typography component="span" className="fw-bold">重设密码</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <ResetPasswordForm />
-                                    </AccordionDetails>
-                                </Accordion>
-                            </div>
-                        </Container>
                     </div>
                 </div>
             </div>
-        </Box>
-    )
+        </>
+    );
 }

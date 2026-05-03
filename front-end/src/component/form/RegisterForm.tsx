@@ -85,15 +85,7 @@ export function RegisterForm(){
                     action={(<Button onClick={closeSnackbar}>关闭</Button>)}
                 />
             </span>
-            <small>使用邮箱注册，自动生成粉糖账号。</small>
-            <br />
-            <small>
-                提示：<br />
-                一般不再允许自定义粉糖账号<br />
-                所有输入框都要填写<br />
-                验证码在输入的邮箱中查看<br />
-                格式或验证码错误将导致注册失败<br />
-            </small>
+            <small>使用邮箱注册，遇到问题请联系管理员。</small>
             <TextField
                 fullWidth
                 label="粉糖账号"

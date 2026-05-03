@@ -1,6 +1,5 @@
 import { JSX, useEffect, useState } from "react"
 import { DefaultObj, GArea } from "../../vars/ConstVars"
-import { Box, Grid, Pagination } from "@mui/material"
 import { toNormalDate } from "../../utils/tools"
 import { getRequest, postRequest } from "../../utils/HttpRequest"
 import { urls } from "../../vars/urls"
@@ -8,27 +7,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPaw } from "@fortawesome/free-solid-svg-icons"
 import { Link } from "react-router"
 
-export function ArtworkCommentList({galleryid='',randomNum=0}){
-    const [commentListItems,setCommentListItems] = useState([] as JSX.Element[])
-    const [commentPage,setCommentPage] = useState(1)
-    const [theRandomNum,setTheRandomNum] = useState(randomNum)
-    function pawArtworkComment(commentid=''){
-        postRequest(urls.pawArtworkMedia,{id:galleryid,commentid:commentid})
-        .then(res=>{if(res){setTheRandomNum(Math.floor(Math.random()*100))}})
+export function ArtworkCommentList({ galleryid = '', randomNum = 0 }) {
+    const [commentListItems, setCommentListItems] = useState([] as JSX.Element[])
+    const [commentPage, setCommentPage] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [theRandomNum, setTheRandomNum] = useState(randomNum)
+    const [hasComments, setHasComments] = useState(true)
+
+    function pawArtworkComment(commentid = '') {
+        postRequest(urls.pawArtworkMedia, { id: galleryid, commentid: commentid })
+            .then(res => { if (res) { setTheRandomNum(Math.floor(Math.random() * 100)) } })
     }
-    function updateItems(arr=DefaultObj.artworkCommentArray){
-        let items = arr.map(item=>
+
+    function updateItems(arr = DefaultObj.artworkCommentArray) {
+        if (!arr || arr.length === 0) {
+            setHasComments(false)
+            setCommentListItems([])
+            return
+        }
+        setHasComments(true)
+        let items = arr.map(item => (
             <li key={item.id} className="list-group-item">
                 <div className="row">
                     <div className="col-3 text-center">
-                        <Link to={'/user/'+item.user.username}>
+                        <Link to={'/user/' + item.user.username}>
                             <img
                                 src={
                                     item.user.headimage
-                                    ?
-                                    urls.headimageURL+item.user.headimage
-                                    :
-                                    GArea.defaultHeadimage
+                                        ?
+                                        urls.headimageURL + item.user.headimage
+                                        :
+                                        GArea.defaultHeadimage
                                 }
                                 alt="headimage"
                                 width={50}
@@ -38,52 +47,118 @@ export function ArtworkCommentList({galleryid='',randomNum=0}){
                         </Link>
                     </div>
                     <div className="col-9">
-                        <div style={{fontSize:'1.2em'}}>{item.user.name} {Number(item.user.sex)==1?'雄':Number(item.user.sex)==2?'雌':''} {item.user.species}</div>
+                        <div style={{ fontSize: '1.2em' }}>{item.user.name} {Number(item.user.sex) == 1 ? '雄' : Number(item.user.sex) == 2 ? '雌' : ''} {item.user.species}</div>
                         <div>{item.content}</div>
                         <small>{toNormalDate(item.time)}</small>
                         <button
-                            className={item.havepaw?'btn btn-secondary btn-sm active':'btn btn-sm'}
-                            data-bs-toggle="button"
-                            onClick={()=>{pawArtworkComment(item.id)}}
+                            className={item.havepaw ? 'btn btn-secondary btn-sm active ms-2' : 'btn btn-outline-secondary btn-sm ms-2'}
+                            onClick={() => { pawArtworkComment(item.id) }}
                         >
-                            <FontAwesomeIcon icon={faPaw}/>
+                            <FontAwesomeIcon icon={faPaw} className="me-1" />
                             {item.pawnum}
                         </button>
                     </div>
                 </div>
             </li>
-        )
+        ))
         setCommentListItems(items)
     }
-    function updateCommentPage(_event:any,value:number){
-        getRequest(urls.getArtworkComments+`?id=${galleryid}&num=${Math.floor(GArea.defaultShowNum/2)}&begin=${(value-1)*Math.floor(GArea.defaultShowNum/2)}`).then(data=>{
-            if(data!=0){
+
+    function updateCommentPage(page: number) {
+        setCurrentPage(page)
+        getRequest(urls.getArtworkComments + `?id=${galleryid}&num=${Math.floor(GArea.defaultShowNum / 2)}&begin=${(page - 1) * Math.floor(GArea.defaultShowNum / 2)}`).then(data => {
+            if (data != 0) {
                 updateItems(data)
+            } else {
+                updateItems([])
             }
         })
     }
-    useEffect(()=>{
-        getRequest(urls.getCommentGalleryCount+'?id='+galleryid).then(count=>{
-            setCommentPage(Math.ceil(count/Math.floor(GArea.defaultShowNum/2)))
-        })
-        getRequest(urls.getArtworkComments+`?id=${galleryid}&num=${Math.floor(GArea.defaultShowNum/2)}`).then(data=>{
-            if(data!=0){
-                updateItems(data)
+
+    function renderPagination() {
+        if (commentPage <= 1) return null
+
+        const pageNumbers = []
+        const maxVisible = 5
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2))
+        let endPage = Math.min(commentPage, startPage + maxVisible - 1)
+
+        if (endPage - startPage + 1 < maxVisible) {
+            startPage = Math.max(1, endPage - maxVisible + 1)
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pageNumbers.push(i)
+        }
+
+        return (
+            <nav aria-label="Page navigation" className="d-flex justify-content-center mt-3">
+                <ul className="pagination">
+                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                        <button className="page-link" onClick={() => updateCommentPage(currentPage - 1)} disabled={currentPage === 1}>
+                            上一页
+                        </button>
+                    </li>
+                    {startPage > 1 && (
+                        <>
+                            <li className="page-item">
+                                <button className="page-link" onClick={() => updateCommentPage(1)}>1</button>
+                            </li>
+                            {startPage > 2 && <li className="page-item disabled"><span className="page-link">...</span></li>}
+                        </>
+                    )}
+                    {pageNumbers.map(num => (
+                        <li key={num} className={`page-item ${currentPage === num ? 'active' : ''}`}>
+                            <button className="page-link" onClick={() => updateCommentPage(num)}>
+                                {num}
+                            </button>
+                        </li>
+                    ))}
+                    {endPage < commentPage && (
+                        <>
+                            {endPage < commentPage - 1 && <li className="page-item disabled"><span className="page-link">...</span></li>}
+                            <li className="page-item">
+                                <button className="page-link" onClick={() => updateCommentPage(commentPage)}>{commentPage}</button>
+                            </li>
+                        </>
+                    )}
+                    <li className={`page-item ${currentPage === commentPage ? 'disabled' : ''}`}>
+                        <button className="page-link" onClick={() => updateCommentPage(currentPage + 1)} disabled={currentPage === commentPage}>
+                            下一页
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        )
+    }
+
+    useEffect(() => {
+        getRequest(urls.getCommentGalleryCount + '?id=' + galleryid).then(count => {
+            const pages = Math.ceil(count / Math.floor(GArea.defaultShowNum / 2))
+            setCommentPage(pages > 0 ? pages : 1)
+            if (count === 0) {
+                setHasComments(false)
             }
         })
-    },[theRandomNum,randomNum])
-    return(
+        getRequest(urls.getArtworkComments + `?id=${galleryid}&num=${Math.floor(GArea.defaultShowNum / 2)}`).then(data => {
+            if (data != 0 && data.length > 0) {
+                updateItems(data)
+            } else {
+                updateItems([])
+            }
+        })
+    }, [theRandomNum, randomNum, galleryid])
+
+    return (
         <>
-            <Box sx={{mt:2}}>
-                <ul className="list-group">
-                    {commentListItems}
-                </ul>
-                <Grid container spacing={2} sx={{ minHeight: 50 }}>
-                    <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Pagination count={commentPage} onChange={updateCommentPage} />
-                    </Grid>
-                </Grid>
-            </Box>
+            {hasComments ? (
+                <>
+                    <ul className="list-group">
+                        {commentListItems}
+                    </ul>
+                    {renderPagination()}
+                </>
+            ):null}
         </>
     )
 }

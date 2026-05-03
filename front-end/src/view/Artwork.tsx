@@ -1,3 +1,5 @@
+// 作品
+
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
@@ -94,16 +96,8 @@ export function Artwork(){
                     </div>
                 </div>
             </div>
-            <div className="row">
-                <div className="col-12">
-                    <div className="card shadow-sm">
-                        <div className="card-body">
-                            <div className="mt-4">
-                                {commentListElement}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div className="container">
+                {commentListElement}
             </div>
         </div>
     )

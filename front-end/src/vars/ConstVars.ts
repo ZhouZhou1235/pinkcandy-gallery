@@ -15,6 +15,7 @@ export const GArea = {
     image404URL: "/images/image404.png",
     SkyblueHound: '/images/SkyblueHound.webp',
     Board: '/images/board.png',
+    homepage: '/images/homepage.webp',
     defaultShowNum: 12,
     defaultGetNum: 20,
 }

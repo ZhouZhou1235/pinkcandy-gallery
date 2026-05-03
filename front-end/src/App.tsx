@@ -8,9 +8,8 @@ import { UserZoom } from "./view/UserZoom"
 import { Add } from "./view/Add"
 import { About } from "./view/About"
 import { Artwork } from "./view/Artwork"
-import { Gallery } from "./view/Gallery"
 import { Tag } from "./view/Tag"
-import { PinkCandy } from "./view/PinkCandy"
+import { HomePage } from "./view/HomePage"
 import { MyZoom } from "./view/MyZoom"
 import { Notice } from "./view/Notice"
 import { Board } from "./view/Board"
@@ -26,7 +25,7 @@ function App(){
                             <Outlet />
                         </>
                     }>
-                        <Route path="/" element={<PinkCandy />} />
+                        <Route path="/" element={<HomePage />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/myzoom" element={<MyZoom />} />
                         <Route path="/notice" element={<Notice />} />
@@ -34,7 +33,6 @@ function App(){
                         <Route path="/add" element={<Add />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/artwork/:id" element={<Artwork />} />
-                        <Route path="/gallery" element={<Gallery />} />
                         <Route path="/tag" element={<Tag />} />
                         <Route path="/board" element={<Board />} />
                         <Route path="/notfound" element={<NotFound />} />

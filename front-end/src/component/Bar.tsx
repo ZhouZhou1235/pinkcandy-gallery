@@ -5,15 +5,14 @@ import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-faAdd,
-faBell,
-faBook,
-faPalette,
-faRightToBracket,
-faShieldDog,
-faTags,
-faBars,
-faPen,
+    faAdd,
+    faBell,
+    faBook,
+    faRightToBracket,
+    faShieldDog,
+    faTags,
+    faBars,
+    faPen,
 } from "@fortawesome/free-solid-svg-icons";
 
 function BarOption(){
@@ -30,12 +29,6 @@ function BarOption(){
     };
     return (
         <>
-            <li className="nav-item">
-                <NavLink className={getNavLinkClass} to={"/gallery"} style={getNavLinkStyle}>
-                    <FontAwesomeIcon icon={faPalette} className="me-1" />
-                    画廊
-                </NavLink>
-            </li>
             <li className="nav-item">
                 <NavLink className={getNavLinkClass} to={"/tag"} style={getNavLinkStyle}>
                     <FontAwesomeIcon icon={faTags} className="me-1" />
