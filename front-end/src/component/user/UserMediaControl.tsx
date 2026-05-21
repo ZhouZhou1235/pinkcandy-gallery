@@ -1,7 +1,6 @@
 import { JSX, SyntheticEvent, useEffect, useState } from "react";
-import { getRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
-import { GArea } from "../../vars/ConstVars";
+import { getRequest, urls } from "../../code/api";
+import { GArea } from "../../code/vars";
 import { ArtworkPreview } from "../artwork/ArtworkPreview";
 import { EditArtworkForm } from "../form/EditArtworkForm";
 import { DeleteArtworkButton } from "../artwork/DeleteArtworkButton";

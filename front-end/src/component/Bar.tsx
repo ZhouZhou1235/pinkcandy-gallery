@@ -1,8 +1,7 @@
-import { DefaultObj, GArea } from "../vars/ConstVars";
+import { DefaultObj, GArea } from "../code/vars";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
+import { getRequest, urls } from "../code/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faAdd,

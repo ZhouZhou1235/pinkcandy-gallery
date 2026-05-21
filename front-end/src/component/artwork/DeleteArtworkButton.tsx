@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { postRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
+import { postRequest, urls } from "../../code/api";
 
 export function DeleteArtworkButton({galleryid=''}){
     const [open,setOpen] = useState(false)

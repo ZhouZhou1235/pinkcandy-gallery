@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { getRequest, postRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
-import { DefaultObj } from "../../vars/ConstVars";
-import { selectPropsTagsToArray } from "../../utils/tools";
+import { getRequest, postRequest, urls } from "../../code/api";
+import { DefaultObj } from "../../code/vars";
+import { selectPropsTagsToArray } from "../../code/utils";
 
 interface SelectOption {
     label?: string;
@@ -22,8 +21,10 @@ export function EditArtworkForm({galleryid=''}){
     })
     const selectTag = (tags:string[])=>{
         setSelectedTags(tags)
-        editArtworkForm.tags = JSON.stringify(tags)
-        setEditArtworkForm(editArtworkForm)
+        setEditArtworkForm(prev => ({
+            ...prev,
+            tags: JSON.stringify(tags)
+        }))
     }
     function closeSnackbar(){setSnackbarOpen(false);setSnackbarMessage('')}
     function editArtwork(){
@@ -94,17 +95,31 @@ export function EditArtworkForm({galleryid=''}){
             <div className="mt-3">
                 <div className="mb-3">
                     <label className="form-label">标题</label>
-                    <input type="text" className="form-control" placeholder={editArtworkForm.title} onChange={(e)=>{
-                        editArtworkForm.title = e.target.value
-                        setEditArtworkForm(editArtworkForm)
-                    }}/>
+                    <input 
+                        type="text" 
+                        className="form-control" 
+                        value={editArtworkForm.title} 
+                        onChange={(e)=>{
+                            setEditArtworkForm(prev => ({
+                                ...prev,
+                                title: e.target.value
+                            }))
+                        }}
+                    />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">说明</label>
-                    <textarea className="form-control" rows={4} placeholder={editArtworkForm.info} onChange={(e)=>{
-                        editArtworkForm.info = e.target.value
-                        setEditArtworkForm(editArtworkForm)
-                    }}></textarea>
+                    <textarea 
+                        className="form-control" 
+                        rows={4} 
+                        value={editArtworkForm.info} 
+                        onChange={(e)=>{
+                            setEditArtworkForm(prev => ({
+                                ...prev,
+                                info: e.target.value
+                            }))
+                        }}
+                    ></textarea>
                 </div>
                 <div className="mb-3">
                     <label className="form-label">标签</label>

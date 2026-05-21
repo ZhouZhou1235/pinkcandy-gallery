@@ -1,10 +1,9 @@
 // 留言板
 
 import { JSX, useEffect, useState } from "react";
-import { getRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
-import { GArea, PageTitle } from "../vars/ConstVars";
-import { toNormalDate } from "../utils/tools";
+import { getRequest, urls } from "../code/api";
+import { GArea, PageTitle } from "../code/vars";
+import { toNormalDate } from "../code/utils";
 import { Link } from "react-router";
 
 export function Board() {

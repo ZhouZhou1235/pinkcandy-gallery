@@ -1,9 +1,8 @@
-import { DefaultObj, GArea } from "../../vars/ConstVars";
+import { DefaultObj, GArea } from "../../code/vars";
 import { Link } from "react-router";
 import { UserWatchButton } from "./UserWatchButton";
 import { useEffect, useState } from "react";
-import { getRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
+import { getRequest, urls } from "../../code/api";
 
 export function UserPreview({username=''}){
     const [watchButton,setWatchButton] = useState(<></>)

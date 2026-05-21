@@ -1,8 +1,7 @@
-import { DefaultObj } from "../../vars/ConstVars";
+import { DefaultObj } from "../../code/vars";
 import { useState } from "react";
-import { tagtypeNumToColorString } from "../../utils/tools";
-import { postRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
+import { tagtypeNumToColorString } from "../../code/utils";
+import { postRequest, urls } from "../../code/api";
 
 export function EditTagForm({tagdata=DefaultObj.tagdata}){
     const [open,setOpen] = useState(false)
@@ -36,16 +35,20 @@ export function EditTagForm({tagdata=DefaultObj.tagdata}){
                                 <h3 style={{color:tagtypeNumToColorString(Number(tagdata.type))}}>{tagdata.tag}</h3>
                                 <div className="mb-3">
                                     <label className="form-label">描述</label>
-                                    <textarea className="form-control" rows={4} defaultValue={tagdata.info} onChange={(e)=>{
-                                        editTagForm.info = e.target.value
-                                        setEditTagForm(editTagForm)
+                                    <textarea className="form-control" rows={4} value={editTagForm.info} onChange={(e)=>{
+                                        setEditTagForm(prev => ({
+                                            ...prev,
+                                            info: e.target.value
+                                        }))
                                     }}></textarea>
                                 </div>
                                 <div className="mb-3">
                                     <label className="form-label">标签类型</label>
-                                    <select className="form-select" defaultValue={tagdata.type} onChange={(event)=>{
-                                        editTagForm.type = event.target.value
-                                        setEditTagForm(editTagForm)
+                                    <select className="form-select" value={editTagForm.type} onChange={(event)=>{
+                                        setEditTagForm(prev => ({
+                                            ...prev,
+                                            type: event.target.value
+                                        }))
                                     }}>
                                         <option value={'1'}>描述</option>
                                         <option value={'2'}>作者</option>

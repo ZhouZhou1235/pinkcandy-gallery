@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react"
-import { getRequest } from "../../utils/HttpRequest"
-import { urls } from "../../vars/urls"
+import { getRequest, urls } from "../../code/api"
 import { UserWatchItems } from "./UserWatchItems"
-import { GArea } from "../../vars/ConstVars"
+import { GArea } from "../../code/vars"
 
 export function UserWatchList({ username = '' }) {
     const [watcherElement, setWatcherElement] = useState(<></>)

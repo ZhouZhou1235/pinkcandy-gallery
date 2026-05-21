@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { postRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
-import { DefaultObj } from "../vars/ConstVars";
-import { tagtypeNumToColorString } from "../utils/tools";
+import { postRequest, urls } from "../code/api";
+import { DefaultObj } from "../code/vars";
+import { tagtypeNumToColorString } from "../code/utils";
 
 export function DeleteTagButton({tagdata=DefaultObj.tagdata}){
     const [open,setOpen] = useState(false)

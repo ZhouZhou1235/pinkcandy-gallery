@@ -1,9 +1,8 @@
 import { JSX, useEffect, useState } from "react"
-import { getRequest, postRequest } from "../../utils/HttpRequest"
-import { urls } from "../../vars/urls"
+import { getRequest, postRequest, urls } from "../../code/api"
 import { Link } from "react-router"
-import { GArea } from "../../vars/ConstVars"
-import { toNormalDate } from "../../utils/tools"
+import { GArea } from "../../code/vars"
+import { toNormalDate } from "../../code/utils"
 
 export function BoardForm() {
     const [updatenum, setUpdatenum] = useState(0)

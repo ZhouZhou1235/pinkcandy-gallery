@@ -1,11 +1,10 @@
 // 首页
 
 import { JSX, useEffect, useState } from "react";
-import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
-import { getRequest, postRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
+import { DefaultObj, GArea, PageTitle } from "../code/vars";
+import { getRequest, postRequest, urls } from "../code/api";
+import { objSortBy } from "../code/utils";
 import { TagList } from "../component/TagList";
-import { objSortBy } from "../utils/tools";
 import { PinkcandyResultShow } from "../component/PinkcandyResultShow";
 import { Footer } from "../component/Footer";
 import { ArtworkPreview } from "../component/artwork/ArtworkPreview";
@@ -202,12 +201,8 @@ export function HomePage() {
             <div className="container">
                 <div className="row">
                     <div className="col-sm-12 col-md-4 p-2">
-                        <div className="text-center mb-4 p-2">
-                            <img
-                                src={GArea.titleURL}
-                                alt="logo"
-                                className="d-block mx-auto m-2 w-100"
-                            />
+                        <div className="text-center">
+                            <img src={GArea.titleURL} alt="logo" className="img-fluid" width={'80%'}/>
                         </div>
                         <div className="p-2">
                             <div className="input-group mb-3">

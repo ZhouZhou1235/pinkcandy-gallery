@@ -1,8 +1,8 @@
-import { DefaultObj } from "../../vars/ConstVars";
+import { DefaultObj } from "../../code/vars";
 import { Link } from "react-router";
 import { ArtworkPawArea } from "./ArtworkPawArea";
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
-import { urls } from "../../vars/urls";
+import { urls } from "../../code/api";
 import { useState } from "react";
 
 export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){

@@ -3,8 +3,7 @@ import { EditUserForm } from "./../form/EditUserForm";
 import { EditUserImportantForm } from "./../form/EditUserImportantForm";
 import { EditUserImageForm } from "./../form/EditUserImageForm";
 import { useNavigate } from "react-router";
-import { postRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
+import { postRequest, urls } from "../../code/api";
 
 export function UserEditDialog(){
     const navigate = useNavigate()

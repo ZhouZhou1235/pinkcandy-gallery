@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
-import { checkObjHaveEmpty, isEmailString, isUsername } from "../../utils/tools"
-import { getRequest, postRequest } from "../../utils/HttpRequest"
-import { urls } from "../../vars/urls"
+import { checkObjHaveEmpty, isEmailString, isUsername } from "../../code/utils"
+import { getRequest, postRequest, urls } from "../../code/api"
 import { useNavigate } from "react-router"
 
 export function RegisterForm(){
@@ -86,16 +85,18 @@ export function RegisterForm(){
             )}
             <small>使用邮箱注册，遇到问题请联系管理员。</small>
             <div className="mb-3">
+                <small>粉糖账号</small>
                 <input
                     type="text"
                     className="form-control"
-                    placeholder="粉糖账号是五位数字 如10000"
+                    placeholder={registerForm.username}
                     disabled={ registerFieldDisabled || !canSetUsername }
                     value={registerForm.username}
                     onChange={e=>handleInputChange('username', e.target.value)}
                 />
             </div>
             <div className="mb-3">
+                <small>邮箱</small>
                 <input
                     type="email"
                     className="form-control"
@@ -106,6 +107,7 @@ export function RegisterForm(){
                 />
             </div>
             <div className="mb-3">
+                <small>密码</small>
                 <input
                     type="password"
                     className="form-control"
@@ -116,16 +118,18 @@ export function RegisterForm(){
                 />
             </div>
             <div className="mb-3">
+                <small>名称</small>
                 <input
                     type="text"
                     className="form-control"
-                    placeholder="显示的名字"
+                    placeholder="名称"
                     disabled={ registerFieldDisabled }
                     value={registerForm.name}
                     onChange={e=>handleInputChange('name', e.target.value)}
                 />
             </div>
             <div className="mb-3">
+                <small>验证码</small>
                 <input
                     type="text"
                     className="form-control"

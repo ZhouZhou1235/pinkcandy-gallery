@@ -1,18 +1,18 @@
-// 全局变量
 
-import { config_backend_api, config_backend_proxy_string } from "./config"
+// 从config模块导入后端API配置
+import { config_backend_api, config_backend_proxy_string } from './config'
 
-// 接口
+// 后端代理路径和API地址
 export const backend_proxy_string = config_backend_proxy_string
 export const backend_api = config_backend_api
 
-// 静态固定量
+// 全局资源路径和默认配置
 export const GArea = {
-    defaultHeadimage: "/images/head.png",
-    defaultBackimage: "/images/back.png",
-    logoURL: "/images/logo.svg",
-    titleURL: "/images/title.png",
-    image404URL: "/images/image404.png",
+    defaultHeadimage: '/images/head.png',
+    defaultBackimage: '/images/back.png',
+    logoURL: '/images/logo.svg',
+    titleURL: '/images/title.png',
+    image404URL: '/images/image404.png',
     SkyblueHound: '/images/SkyblueHound.webp',
     Board: '/images/board.png',
     homepage: '/images/homepage.webp',
@@ -20,7 +20,7 @@ export const GArea = {
     defaultGetNum: 20,
 }
 
-// 页面标题
+// 页面标题配置
 export const PageTitle = {
     pinkcandy: '粉糖 - 幻想动物画廊',
     about: '幻想动物画廊 - 关于',
@@ -35,8 +35,9 @@ export const PageTitle = {
     board: '幻想动物画廊 - 留言',
 }
 
-// 默认展示对象
+// 默认数据对象模板
 export const DefaultObj = {
+    // 作品数据结构
     artworkdata: {
         id: '',
         username: '',
@@ -45,6 +46,7 @@ export const DefaultObj = {
         info: '',
         time: '',
     },
+    // 用户数据结构
     userdata: {
         username: '',
         name: '',
@@ -55,17 +57,20 @@ export const DefaultObj = {
         sex: '',
         species: '',
     },
+    // 首页数据
     homedata: {
-        board: Array(),
-        artworks: Array(),
+        board: Array(),     // 留言数据
+        artworks: Array(),  // 作品数据
     },
+    // 标签数据
     tagArray: [{
         id: '',
         tag: '',
         type: '',
         info: '',
         usenum: 0,
-    },],
+    }],
+    // 作品评论数据
     artworkCommentArray: [{
         id: '',
         galleryid: '',
@@ -79,24 +84,27 @@ export const DefaultObj = {
             sex: '',
             species: '',
         },
-        pawnum: 0,
-        havepaw: false,
+        pawnum: 0,      // 爪印数
+        havepaw: false, // 是否已爪
     }],
+    // 作品互动信息
     pawAreaInfo: {
-        pawnum: 0,
-        starnum: 0,
-        commentnum: 0,
+        pawnum: 0,          // 爪印数
+        starnum: 0,         // 星星数
+        commentnum: 0,      // 评论数
         user: {
-            havepaw: false,
-            havestar: false,
+            havepaw: false, // 是否已爪
+            havestar: false,// 是否已收藏
         },
     },
+    // 用户统计信息
     userInfoCount: {
-        watchernum: 0,
-        towatchnum: 0,
-        artworknum: 0,
-        gotpawnum: 0,
+        watchernum: 0,      // 粉丝数
+        towatchnum: 0,      // 关注数
+        artworknum: 0,      // 作品数
+        gotpawnum: 0,       // 获得的爪印数
     },
+    // 关注列表数据
     userwatchArray: [{
         id: '',
         username: '',
@@ -110,6 +118,7 @@ export const DefaultObj = {
             species: '',
         },
     }],
+    // 标签详情数据
     tagdata: {
         id: '',
         tag: '',
@@ -117,6 +126,7 @@ export const DefaultObj = {
         info: '',
         usenum: 0,
     },
+    // 粉糖搜索结果数据
     pinkcandyResult: {
         artwork: [{
             id: '',
@@ -137,16 +147,19 @@ export const DefaultObj = {
             species: '',
         }],
     },
+    // WebSocket发送数据
     socketSendData: {
         action: '',
         cookie: '',
         data: null as any,
     },
+    // WebSocket接收数据
     socketEchoData: {
         message: '' as any,
         type: '',
         dateTime: Date(),
     },
+    // 房间数据
     roomData: {
         id: '',
         owner_username: '',

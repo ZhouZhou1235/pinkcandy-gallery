@@ -3,7 +3,7 @@
 import { RegisterForm } from "../component/form/RegisterForm";
 import { LoginForm } from "../component/form/LoginForm";
 import { ResetPasswordForm } from "../component/form/ResetPasswordForm";
-import { GArea } from "../vars/ConstVars";
+import { GArea } from "../code/vars";
 import { useState } from "react";
 
 export function Login() {

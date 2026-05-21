@@ -1,6 +1,6 @@
 import { Link } from "react-router";
-import { DefaultObj, GArea } from "../../vars/ConstVars";
-import { urls } from "../../vars/urls";
+import { DefaultObj, GArea } from "../../code/vars";
+import { urls } from "../../code/api";
 
 export function UserWatchItems({userwatchArray=DefaultObj.userwatchArray}){
     return(

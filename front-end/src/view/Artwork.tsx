@@ -1,11 +1,10 @@
 // 作品
 
 import { useEffect, useState } from "react";
-import { getRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
+import { getRequest, urls } from "../code/api";
 import { useNavigate, useParams } from "react-router";
-import { DefaultObj, PageTitle } from "../vars/ConstVars";
-import { toNormalDate } from "../utils/tools";
+import { DefaultObj, PageTitle } from "../code/vars";
+import { toNormalDate } from "../code/utils";
 import { UserPreview } from "../component/user/UserPreview";
 import { TagList } from "../component/TagList";
 import { ArtworkCommentForm } from "../component/form/ArtworkCommentForm";
@@ -22,11 +21,15 @@ export function Artwork(){
     const [commentListElement, setCommentListElement] = useState(<></>)
     const [pawAreaElement, setPawAreaElement] = useState(<></>)
     const [updateNum, setUpdateNum] = useState(0)
+    const [imageLoading, setImageLoading] = useState(true)
+    const [displayImage, setDisplayImage] = useState('')
     function onUpdate(){
         setUpdateNum(updateNum + 1)
     }
     async function loadData(){
         document.title = PageTitle.artwork
+        setImageLoading(true)
+        setDisplayImage('')
         setCommentFormElement(<ArtworkCommentForm galleryid={id} onUpdate={onUpdate}/>)
         setCommentListElement(<ArtworkCommentList galleryid={id} randomNum={Math.floor(Math.random()*100)}/>)
         setPawAreaElement(<ArtworkPawArea galleryid={id}/>)
@@ -35,6 +38,17 @@ export function Artwork(){
                 setArtworkdata(data)
                 setUserpreviewElement(<UserPreview username={data.username}/>)
                 document.title = PageTitle.artwork + data.title
+                
+                const img = new Image()
+                img.src = urls.artworkimageURL + data.filename
+                img.onload = () => {
+                    setDisplayImage(img.src)
+                    setImageLoading(false)
+                }
+                img.onerror = () => {
+                    setDisplayImage(img.src)
+                    setImageLoading(false)
+                }
             } else {
                 navigate('/notfound')
                 return
@@ -56,16 +70,26 @@ export function Artwork(){
                     <div className="card shadow-sm">
                         <div className="card-body p-3">
                             <div className="text-center">
-                                <img
-                                    src={urls.artworkimageURL + artworkdata.filename}
-                                    className="img-fluid rounded"
-                                    style={{ 
-                                        maxHeight: '70vh', 
-                                        maxWidth: '100%',
-                                        objectFit: 'contain' 
-                                    }}
-                                    alt={artworkdata.title}
-                                />
+                                {imageLoading && (
+                                    <div className="py-5">
+                                        <div className="spinner-border text-primary" role="status">
+                                            <span className="visually-hidden">加载中...</span>
+                                        </div>
+                                        <p className="mt-3 text-muted">图片加载中...</p>
+                                    </div>
+                                )}
+                                {displayImage && (
+                                    <img
+                                        src={displayImage}
+                                        className="img-fluid rounded"
+                                        style={{ 
+                                            maxHeight: '70vh', 
+                                            maxWidth: '100%',
+                                            objectFit: 'contain' 
+                                        }}
+                                        alt={artworkdata.title}
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>

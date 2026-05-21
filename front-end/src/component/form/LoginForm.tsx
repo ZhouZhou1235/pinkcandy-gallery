@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom"
-import { postRequest } from "../../utils/HttpRequest"
+import { postRequest, urls } from "../../code/api"
 import { useState } from "react"
-import { urls } from "../../vars/urls"
 
 export function LoginForm(){
     const [snackbarMessage,setSnackbarMessage] = useState('')
@@ -30,6 +29,7 @@ export function LoginForm(){
             )}
             <small>输入粉糖账号和密码登录</small>
             <div className="mb-3">
+                <small>粉糖账号</small>
                 <input
                     type="text"
                     className="form-control"
@@ -41,6 +41,7 @@ export function LoginForm(){
                 />
             </div>
             <div className="mb-3">
+                <small>密码</small>
                 <input type="password" className="form-control" placeholder="密码" onChange={e=>{
                     loginForm.password = e.target.value
                     setLoginForm(loginForm)

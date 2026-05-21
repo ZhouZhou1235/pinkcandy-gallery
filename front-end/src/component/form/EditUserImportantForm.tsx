@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { isEmailString } from "../../utils/tools";
-import { postRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
+import { isEmailString } from "../../code/utils";
+import { postRequest, urls } from "../../code/api";
 import { useNavigate } from "react-router";
 
 export function EditUserImportantForm(){

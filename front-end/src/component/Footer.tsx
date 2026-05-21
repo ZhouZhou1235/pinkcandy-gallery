@@ -1,4 +1,4 @@
-import { GArea } from "../vars/ConstVars";
+import { GArea } from "../code/vars";
 
 export function Footer() {
     const date = new Date();

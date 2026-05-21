@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { postRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
-import { objToFormdata } from "../../utils/tools";
+import { postRequest, urls } from "../../code/api";
+import { objToFormdata } from "../../code/utils";
 
 export function EditUserImageForm(){
     const [editUserImageForm,setEditUserImageForm] = useState({

@@ -1,4 +1,4 @@
-import { PageTitle } from "../vars/ConstVars";
+import { PageTitle } from "../code/vars";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { UserZoomShow } from "../component/user/UserZoomShow";
@@ -11,10 +11,8 @@ export function UserZoom(){
         setUserzoomElement(<UserZoomShow username={username}/>)
     },[username]);
     return(
-        <div>
-            <div className="container">
-                {userzoomElement}
-            </div>
+        <div className="container">
+            {userzoomElement}
         </div>
     )
 }

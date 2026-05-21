@@ -1,8 +1,7 @@
-import { DefaultObj, GArea, PageTitle } from "../../vars/ConstVars";
+import { DefaultObj, GArea, PageTitle } from "../../code/vars";
 import { JSX, useEffect, useState } from "react";
-import { getRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
-import { toNormalDate } from "../../utils/tools";
+import { getRequest, urls } from "../../code/api";
+import { toNormalDate } from "../../code/utils";
 import { UserWatchButton } from "./UserWatchButton";
 import { UserInfoCount } from "./UserInfoCount";
 import { ArtworkPreview } from "../artwork/ArtworkPreview";
@@ -164,8 +163,10 @@ export function UserZoomShow({ username = '' }) {
                                     </p>
                                 </div>
                             </div>
-                            {infocountElement}
-                            <div className="mb-3">
+                            <div className="mb-3 p-2 bg-light rounded">
+                                {infocountElement}
+                            </div>
+                            <div className="mb-3 p-2">
                                 {watchButton}
                                 <hr className="my-3" />
                                 <UserWatchList username={username} />

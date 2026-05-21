@@ -1,7 +1,5 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { dev_backend_api } from './src/vars/config';
-
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -12,7 +10,7 @@ export default defineConfig({
         port: 8081,
         proxy: {
             '/api': {
-                target: dev_backend_api,
+                target: 'http://localhost:8082',
                 changeOrigin: true,
                 rewrite: (path)=>path.replace(/^\/api/,''),
             },

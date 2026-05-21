@@ -1,9 +1,8 @@
 import { faComment, faPaw, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getRequest, postRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
+import { getRequest, postRequest, urls } from "../../code/api";
 import { useEffect, useState } from "react";
-import { DefaultObj } from "../../vars/ConstVars";
+import { DefaultObj } from "../../code/vars";
 
 export function ArtworkPawArea({galleryid=''}){
     const [havepaw,setHavepaw] = useState(false)

@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { checkObjHaveEmpty, isEmailString } from "../../utils/tools";
-import { postRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
+import { checkObjHaveEmpty, isEmailString } from "../../code/utils";
+import { postRequest, urls } from "../../code/api";
 import { useNavigate } from "react-router";
 
 export function ResetPasswordForm(){
@@ -45,6 +44,7 @@ export function ResetPasswordForm(){
         <div>
             <small>输入绑定的邮箱获取验证码，然后设置新的密码。</small>
             <div className="mb-3">
+                <small>邮箱</small>
                 <input type="email" className="form-control" placeholder="邮箱" disabled={ emailFieldDisabled } onChange={e=>{
                     let theEmail = e.target.value
                     resetPasswordForm.email = theEmail
@@ -54,6 +54,7 @@ export function ResetPasswordForm(){
                 }} />
             </div>
             <div className="mb-3">
+                <small>验证码</small>
                 <input type="text" className="form-control" placeholder="验证码" disabled={ resetFieldDisabled } onChange={e=>{
                     resetPasswordForm.code = e.target.value
                     setResetPasswordForm(resetPasswordForm)
@@ -61,6 +62,7 @@ export function ResetPasswordForm(){
                 }} />
             </div>
             <div className="mb-3">
+                <small>新密码</small>
                 <input type="password" className="form-control" placeholder="设置新密码" disabled={ resetFieldDisabled } onChange={e=>{
                     resetPasswordForm.password = e.target.value
                     setResetPasswordForm(resetPasswordForm)

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
-import { DefaultObj } from "../../vars/ConstVars"
+import { DefaultObj } from "../../code/vars"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEye, faPalette, faPaw, faShieldDog } from "@fortawesome/free-solid-svg-icons"
-import { getRequest } from "../../utils/HttpRequest"
-import { urls } from "../../vars/urls"
+import { getRequest, urls } from "../../code/api"
 
 export function UserInfoCount({username=''}){
     const [infocount,setInfocount] = useState(DefaultObj.userInfoCount)
@@ -14,17 +13,17 @@ export function UserInfoCount({username=''}){
     },[username])
     return(
         <>
-            <div className="d-flex gap-3">
-                <button className="btn btn-outline-secondary" type="button">
+            <div className="d-flex flex-wrap gap-2">
+                <button className="btn btn-outline-secondary btn-sm px-2" type="button">
                     <FontAwesomeIcon icon={faShieldDog} /> {infocount.watchernum}
                 </button>
-                <button className="btn btn-outline-secondary" type="button">
+                <button className="btn btn-outline-secondary btn-sm px-2" type="button">
                     <FontAwesomeIcon icon={faEye} /> {infocount.towatchnum}
                 </button>
-                <button className="btn btn-outline-secondary" type="button">
+                <button className="btn btn-outline-secondary btn-sm px-2" type="button">
                     <FontAwesomeIcon icon={faPalette} /> {infocount.artworknum}
                 </button>
-                <button className="btn btn-outline-secondary" type="button">
+                <button className="btn btn-outline-secondary btn-sm px-2" type="button">
                     <FontAwesomeIcon icon={faPaw} /> {infocount.gotpawnum}
                 </button>
             </div>

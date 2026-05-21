@@ -32,7 +32,7 @@ ncu -u
 - index.html 入口
 - tsconfig.js TS配置
 - vite.config.js vite配置
-- **src/vars/config.ts 配置文件**
+- **src/code/config.ts 配置文件**
 ```
 npm install
 npm run dev

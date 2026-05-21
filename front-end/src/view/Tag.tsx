@@ -1,10 +1,9 @@
 // 标签
 
 import { JSX, useEffect, useState } from "react";
-import { getRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
-import { DefaultObj, GArea, PageTitle } from "../vars/ConstVars";
-import { tagtypeNumToColorString } from "../utils/tools";
+import { getRequest, urls } from "../code/api";
+import { DefaultObj, GArea, PageTitle } from "../code/vars";
+import { tagtypeNumToColorString } from "../code/utils";
 import { EditTagForm } from "../component/form/EditTagForm";
 import { DeleteTagButton } from "../component/DeleteTagButton";
 

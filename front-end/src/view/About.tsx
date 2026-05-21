@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { GArea, PageTitle } from "../vars/ConstVars";
+import { GArea, PageTitle } from "../code/vars";
 import { Footer } from "../component/Footer";
 
 export function About() {

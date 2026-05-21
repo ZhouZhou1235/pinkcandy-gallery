@@ -1,6 +1,6 @@
 import { JSX, useEffect, useState } from "react";
-import { DefaultObj } from "../vars/ConstVars";
-import { tagtypeNumToColorString } from "../utils/tools";
+import { DefaultObj } from "../code/vars";
+import { tagtypeNumToColorString } from "../code/utils";
 
 export function TagList({tagArray=DefaultObj.tagArray}){
     const [tagItems,setTagItems] = useState([] as JSX.Element[])

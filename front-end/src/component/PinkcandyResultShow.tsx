@@ -1,8 +1,8 @@
 import { SyntheticEvent, useEffect, useState } from "react";
-import { DefaultObj, GArea } from "../vars/ConstVars";
+import { DefaultObj, GArea } from "../code/vars";
 import { ArtworkPreview } from "./artwork/ArtworkPreview";
 import { Link } from "react-router";
-import { urls } from "../vars/urls";
+import { urls } from "../code/api";
 
 function copyArrayByPage(dataArray:any[],begin=0){
     let showArray = []

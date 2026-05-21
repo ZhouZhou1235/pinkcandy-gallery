@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { DefaultObj, GArea } from "../../vars/ConstVars";
-import { getRequest, postRequest } from "../../utils/HttpRequest";
-import { urls } from "../../vars/urls";
-import { objSortBy, objToFormdata } from "../../utils/tools";
+import { DefaultObj, GArea } from "../../code/vars";
+import { getRequest, postRequest, urls } from "../../code/api";
+import { objSortBy, objToFormdata } from "../../code/utils";
 import { useNavigate } from "react-router";
 import { TagList } from "../TagList";
 

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ArtworkForm } from "../component/form/ArtworkForm";
 import { BoardForm } from "../component/form/BoardForm";
-import { PageTitle } from "../vars/ConstVars";
+import { PageTitle } from "../code/vars";
 
 export function Add() {
     const [tabvalue, setTabvalue] = useState('gallery');

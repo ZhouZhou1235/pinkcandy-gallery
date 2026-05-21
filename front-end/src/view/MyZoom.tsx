@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { getRequest } from "../utils/HttpRequest";
-import { urls } from "../vars/urls";
+import { getRequest, urls } from "../code/api";
 import { UserZoomShow } from "../component/user/UserZoomShow";
 import { UserStar } from "../component/user/UserStar";
 import { UserEditDialog } from "../component/user/UserEditDialog";
@@ -40,16 +39,14 @@ export function MyZoom(){
         })
     },[]);
     return(
-        <div>
-            <div className="container">
-                <div className="p-2 d-flex gap-2">
-                    <button className={`btn ${selectedOption=='zoom'?'btn-primary':'btn-outline-primary'}`} onClick={()=>{selectOption('zoom')}}>空间</button>
-                    <button className={`btn ${selectedOption=='star'?'btn-primary':'btn-outline-primary'}`} onClick={()=>{selectOption('star')}}>收藏</button>
-                    <button className={`btn ${selectedOption=='control'?'btn-primary':'btn-outline-primary'}`} onClick={()=>{selectOption('control')}}>内容管理</button>
-                    <UserEditDialog />
-                </div>
-                {userzoomElement}
+        <div className="container">
+            <div className="p-2 d-flex gap-2">
+                <button className={`btn ${selectedOption=='zoom'?'btn-primary':'btn-outline-primary'}`} onClick={()=>{selectOption('zoom')}}>空间</button>
+                <button className={`btn ${selectedOption=='star'?'btn-primary':'btn-outline-primary'}`} onClick={()=>{selectOption('star')}}>收藏</button>
+                <button className={`btn ${selectedOption=='control'?'btn-primary':'btn-outline-primary'}`} onClick={()=>{selectOption('control')}}>内容管理</button>
+                <UserEditDialog />
             </div>
+            {userzoomElement}
         </div>
     )
 }
