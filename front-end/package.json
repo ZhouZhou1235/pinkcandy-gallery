@@ -9,34 +9,23 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@base-ui-components/react": "^1.0.0-rc.0",
-        "@base-ui/react": "^1.4.1",
-        "@base-ui/utils": "^0.2.8",
-        "@emotion/react": "^11.14.0",
-        "@emotion/styled": "^11.14.1",
         "@fortawesome/free-solid-svg-icons": "^7.2.0",
         "@fortawesome/react-fontawesome": "^3.3.1",
-        "@mui/icons-material": "^9.0.0",
-        "@mui/joy": "^5.0.0-beta.52",
-        "@mui/lab": "^9.0.0-beta.2",
-        "@mui/material": "^9.0.0",
-        "antd": "^6.3.7",
-        "axios": "^1.16.0",
+        "axios": "^1.16.1",
         "bootstrap": "^5.3.8",
-        "react": "^19.2.5",
-        "react-dom": "^19.2.5",
+        "react": "^19.2.6",
+        "react-dom": "^19.2.6",
         "react-lazy-load-image-component": "^1.6.3",
-        "react-router": "^7.14.2",
-        "react-router-dom": "^7.14.2"
+        "react-router": "^7.15.1",
+        "react-router-dom": "^7.15.1"
     },
     "devDependencies": {
-        "@types/react": "^19.2.14",
+        "@types/react": "^19.2.15",
         "@types/react-dom": "^19.2.3",
         "@types/react-lazy-load-image-component": "^1.6.5",
-        "@vitejs/plugin-react": "^6.0.1",
-        "globals": "^17.6.0",
+        "@vitejs/plugin-react": "^6.0.2",
+        "react-lazy-load-image-component": "^1.6.3",
         "typescript": "~6.0.3",
-        "typescript-eslint": "^8.59.1",
-        "vite": "^8.0.10"
+        "vite": "^8.0.13"
     }
 }

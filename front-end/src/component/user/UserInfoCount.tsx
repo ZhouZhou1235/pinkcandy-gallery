@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { DefaultObj } from "../../vars/ConstVars"
-import { Stack, Button } from "@mui/material"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEye, faPalette, faPaw, faShieldDog } from "@fortawesome/free-solid-svg-icons"
 import { getRequest } from "../../utils/HttpRequest"
@@ -15,20 +14,20 @@ export function UserInfoCount({username=''}){
     },[username])
     return(
         <>
-            <Stack direction='row'>
-                <Button startIcon={<FontAwesomeIcon icon={faShieldDog} />}>
-                    {infocount.watchernum}
-                </Button>
-                <Button startIcon={<FontAwesomeIcon icon={faEye} />}>
-                    {infocount.towatchnum}
-                </Button>
-                <Button startIcon={<FontAwesomeIcon icon={faPalette} />}>
-                    {infocount.artworknum}
-                </Button>
-                <Button startIcon={<FontAwesomeIcon icon={faPaw} />}>
-                    {infocount.gotpawnum}
-                </Button>
-            </Stack>
+            <div className="d-flex gap-3">
+                <button className="btn btn-outline-secondary" type="button">
+                    <FontAwesomeIcon icon={faShieldDog} /> {infocount.watchernum}
+                </button>
+                <button className="btn btn-outline-secondary" type="button">
+                    <FontAwesomeIcon icon={faEye} /> {infocount.towatchnum}
+                </button>
+                <button className="btn btn-outline-secondary" type="button">
+                    <FontAwesomeIcon icon={faPalette} /> {infocount.artworknum}
+                </button>
+                <button className="btn btn-outline-secondary" type="button">
+                    <FontAwesomeIcon icon={faPaw} /> {infocount.gotpawnum}
+                </button>
+            </div>
         </>
     )
 }

@@ -1,7 +1,5 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { EditUserForm } from "./../form/EditUserForm";
-import { TabContext, TabPanel } from "@mui/lab";
 import { EditUserImportantForm } from "./../form/EditUserImportantForm";
 import { EditUserImageForm } from "./../form/EditUserImageForm";
 import { useNavigate } from "react-router";
@@ -22,29 +20,41 @@ export function UserEditDialog(){
     }
     return(
         <>
-            <Button onClick={openDialog} color="warning">设置</Button>
-            <Dialog open={open} fullWidth>
-                <DialogTitle>设置</DialogTitle>
-                <DialogContent>
-                    <TabContext value={tabvalue}>
-                        <Tabs
-                            value={tabvalue}
-                            onChange={tabHandleChange}
-                        >
-                            <Tab value="editUser" label="修改信息" />
-                            <Tab value="editUserImportant" label="修改关键信息" />
-                            <Tab value="editUserImage" label="更换图片" />
-                        </Tabs>
-                        <TabPanel value={'editUser'}><EditUserForm /></TabPanel>
-                        <TabPanel value={'editUserImportant'}><EditUserImportantForm /></TabPanel>
-                        <TabPanel value={'editUserImage'}><EditUserImageForm /></TabPanel>
-                    </TabContext>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={logout} color="warning">退出登录</Button>
-                    <Button onClick={closeDialog}>关闭</Button>
-                </DialogActions>
-            </Dialog>
+            <button className="btn btn-sm btn-warning" onClick={openDialog}>设置</button>
+            {open && (
+                <div className="modal show d-block" tabIndex={-1} style={{backgroundColor: 'rgba(0,0,0,0.5)'}}>
+                    <div className="modal-dialog modal-lg">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">设置</h5>
+                                <button type="button" className="btn-close" onClick={closeDialog}></button>
+                            </div>
+                            <div className="modal-body">
+                                <ul className="nav nav-tabs mb-3">
+                                    <li className="nav-item">
+                                        <button className={`nav-link ${tabvalue === 'editUser' ? 'active' : ''}`} onClick={()=>tabHandleChange(null as any,'editUser')}>修改信息</button>
+                                    </li>
+                                    <li className="nav-item">
+                                        <button className={`nav-link ${tabvalue === 'editUserImportant' ? 'active' : ''}`} onClick={()=>tabHandleChange(null as any,'editUserImportant')}>修改关键信息</button>
+                                    </li>
+                                    <li className="nav-item">
+                                        <button className={`nav-link ${tabvalue === 'editUserImage' ? 'active' : ''}`} onClick={()=>tabHandleChange(null as any,'editUserImage')}>更换图片</button>
+                                    </li>
+                                </ul>
+                                <div className="tab-content">
+                                    {tabvalue === 'editUser' && <EditUserForm />}
+                                    {tabvalue === 'editUserImportant' && <EditUserImportantForm />}
+                                    {tabvalue === 'editUserImage' && <EditUserImageForm />}
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button className="btn btn-warning" onClick={logout}>退出登录</button>
+                                <button className="btn btn-secondary" onClick={closeDialog}>关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     )
 }

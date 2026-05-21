@@ -1,8 +1,6 @@
-import { Box, Button, Textarea } from "@mui/joy";
 import { useState } from "react";
 import { postRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
-import { Snackbar } from "@mui/material";
 
 export function ArtworkCommentForm({galleryid='',onUpdate=function(){} as any}){
     const [snackbarMessage,setSnackbarMessage] = useState('')
@@ -22,34 +20,30 @@ export function ArtworkCommentForm({galleryid='',onUpdate=function(){} as any}){
     }
     return(
         <>
-            <span>
-                <Snackbar
-                    anchorOrigin={{ vertical:'top',horizontal:'center'}}
-                    open={snackbarOpen}
-                    message={snackbarMessage}
-                    action={(<Button onClick={closeSnackbar}>关闭</Button>)}
-                />
-            </span>
-            <Textarea
-                placeholder="输入评论......"
-                value={commentForm.content}
-                onChange={(e)=>{
-                    setCommentForm({content:e.target.value,id:commentForm.id})
-                }}
-                minRows={4}
-                maxRows={8}
-                startDecorator={
-                    <Box sx={{ display:'flex',gap:0.5,flex:1 }}>
-                        评论
-                    </Box>
-                }
-                endDecorator={
-                    <Button variant="outlined" sx={{ ml: 'auto' }} onClick={sendCommentArtwork}>
-                        发送
-                    </Button>
-                }
-                sx={{ mt: 2 }}
-            />
+            <div className="input-group mb-3">
+                <span className="input-group-text">评论</span>
+                <textarea 
+                    className="form-control" 
+                    rows={4}
+                    placeholder="输入评论......"
+                    value={commentForm.content}
+                    onChange={(e)=>{
+                        setCommentForm({content:e.target.value,id:commentForm.id})
+                    }}
+                    style={{minHeight: '100px', maxHeight: '200px'}}
+                ></textarea>
+            </div>
+            <div className="d-flex justify-content-end">
+                <button className="btn btn-outline-primary" onClick={sendCommentArtwork}>发送</button>
+            </div>
+            {snackbarOpen && (
+                <div className="toast show position-fixed top-0 start-50 translate-middle-x" style={{zIndex: 9999}}>
+                    <div className="toast-body d-flex justify-content-between align-items-center">
+                        <span>{snackbarMessage}</span>
+                        <button className="btn-close" onClick={closeSnackbar}></button>
+                    </div>
+                </div>
+            )}
         </>
     )
 }

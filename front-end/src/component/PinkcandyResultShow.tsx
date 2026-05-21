@@ -1,7 +1,5 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import { DefaultObj, GArea } from "../vars/ConstVars";
-import { TabContext, TabPanel } from "@mui/lab";
-import { Grid, Pagination, Tab, Tabs } from "@mui/material";
 import { ArtworkPreview } from "./artwork/ArtworkPreview";
 import { Link } from "react-router";
 import { urls } from "../vars/urls";
@@ -19,7 +17,7 @@ function ArtworkShow(dataArray=[DefaultObj.artworkdata]){
     const [showArray,setShowArray] = useState([DefaultObj.artworkdata])
     const [pagenum,setPagenum] = useState(0)
     const [selectedPage,setSelectedPage] = useState(1)
-    function updatePage(_event:any,value:number){setSelectedPage(value)}
+    function updatePage(value:number){setSelectedPage(value)}
     useEffect(()=>{
         setPagenum(Math.ceil(dataArray.length/GArea.defaultShowNum))
         setShowArray(copyArrayByPage(dataArray,(selectedPage-1)*GArea.defaultShowNum))
@@ -39,11 +37,17 @@ function ArtworkShow(dataArray=[DefaultObj.artworkdata]){
                     null
                 }
             </div>
-            <Grid container spacing={2} sx={{ minHeight: 50 }}>
-                <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Pagination count={pagenum} onChange={updatePage} />
-                </Grid>
-            </Grid>
+            <div className="d-flex justify-content-center align-items-center" style={{minHeight: '50px'}}>
+                <nav>
+                    <ul className="pagination mb-0">
+                        {Array.from({length: pagenum}, (_, i) => (
+                            <li key={i} className={`page-item ${selectedPage === i+1 ? 'active' : ''}`}>
+                                <button className="page-link" onClick={()=>updatePage(i+1)}>{i+1}</button>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+            </div>
         </>
     )
 }
@@ -52,7 +56,7 @@ function UserShow(dataArray=[DefaultObj.userdata]){
     const [showArray,setShowArray] = useState([DefaultObj.userdata])
     const [pagenum,setPagenum] = useState(0)
     const [selectedPage,setSelectedPage] = useState(1)
-    function updatePage(_event:any,value:number){setSelectedPage(value)}
+    function updatePage(value:number){setSelectedPage(value)}
     useEffect(()=>{
         setPagenum(Math.ceil(dataArray.length/GArea.defaultShowNum))
         setShowArray(copyArrayByPage(dataArray,(selectedPage-1)*GArea.defaultShowNum))
@@ -87,11 +91,17 @@ function UserShow(dataArray=[DefaultObj.userdata]){
                     null
                 }
             </div>
-            <Grid container spacing={2} sx={{ minHeight: 50 }}>
-                <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Pagination count={pagenum} onChange={updatePage} />
-                </Grid>
-            </Grid>
+            <div className="d-flex justify-content-center align-items-center" style={{minHeight: '50px'}}>
+                <nav>
+                    <ul className="pagination mb-0">
+                        {Array.from({length: pagenum}, (_, i) => (
+                            <li key={i} className={`page-item ${selectedPage === i+1 ? 'active' : ''}`}>
+                                <button className="page-link" onClick={()=>updatePage(i+1)}>{i+1}</button>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+            </div>
         </>
     )
 }
@@ -101,17 +111,18 @@ export function PinkcandyResultShow({pinkcandyResult=DefaultObj.pinkcandyResult}
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
     return(
         <>
-            <TabContext value={tabvalue}>
-                <Tabs
-                    value={tabvalue}
-                    onChange={tabHandleChange}
-                >
-                    <Tab value="artwork" label="作品" />
-                    <Tab value="user" label="用户" />
-                </Tabs>
-                <TabPanel value={'artwork'}>{ArtworkShow(pinkcandyResult.artwork)}</TabPanel>
-                <TabPanel value={'user'}>{UserShow(pinkcandyResult.user)}</TabPanel>
-            </TabContext>
+            <ul className="nav nav-tabs">
+                <li className="nav-item">
+                    <button className={`nav-link ${tabvalue === 'artwork' ? 'active' : ''}`} onClick={()=>tabHandleChange(null as any,'artwork')}>作品</button>
+                </li>
+                <li className="nav-item">
+                    <button className={`nav-link ${tabvalue === 'user' ? 'active' : ''}`} onClick={()=>tabHandleChange(null as any,'user')}>用户</button>
+                </li>
+            </ul>
+            <div className="tab-content mt-3">
+                {tabvalue === 'artwork' && <div>{ArtworkShow(pinkcandyResult.artwork)}</div>}
+                {tabvalue === 'user' && <div>{UserShow(pinkcandyResult.user)}</div>}
+            </div>
         </>
     )
 }

@@ -1,6 +1,12 @@
 // 工具
 
-import { SelectProps } from "antd";
+// SelectProps 类型定义
+interface SelectOption {
+    label?: string;
+    value?: string | number;
+}
+
+type SelectOptions = SelectOption[];
 
 // key object 类型判断
 function isValidKey(key:any,object:object):key is keyof typeof object{return key in object;}
@@ -83,7 +89,7 @@ export function tagtypeNumToColorString(type:number){
 export function isUsername(num:string){return isNumberString(num)}
 
 // 标签的SelectProps数组转换为字符串数组
-export function selectPropsTagsToArray(selectpropsArray:SelectProps['options']=[]){
+export function selectPropsTagsToArray(selectpropsArray:SelectOptions=[]){
     let tagList :string[] = []
     for(let i=0;i<selectpropsArray.length;i++){
         let obj = selectpropsArray[i]

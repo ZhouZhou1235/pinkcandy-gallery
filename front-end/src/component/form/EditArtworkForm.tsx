@@ -1,17 +1,19 @@
-import { Button, Card, CardContent, CardMedia, FormControl, FormLabel, Snackbar, Typography } from "@mui/material";
-import { Textarea,Input } from '@mui/joy';
 import { useEffect, useState } from "react";
 import { getRequest, postRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
-import { Select, SelectProps } from "antd";
 import { DefaultObj } from "../../vars/ConstVars";
 import { selectPropsTagsToArray } from "../../utils/tools";
+
+interface SelectOption {
+    label?: string;
+    value?: string | number;
+}
 
 export function EditArtworkForm({galleryid=''}){
     const [snackbarMessage,setSnackbarMessage] = useState('')
     const [snackbarOpen,setSnackbarOpen] = useState(false)
     const [artworkdata,setArtworkdata] = useState(DefaultObj.artworkdata)
-    const [tagselectElement,setTagselectElement] = useState(<></>)
+    const [selectedTags,setSelectedTags] = useState([] as string[])
     const [editArtworkForm,setEditArtworkForm] = useState({
         id: galleryid,
         title: '',
@@ -19,6 +21,7 @@ export function EditArtworkForm({galleryid=''}){
         tags: '',
     })
     const selectTag = (tags:string[])=>{
+        setSelectedTags(tags)
         editArtworkForm.tags = JSON.stringify(tags)
         setEditArtworkForm(editArtworkForm)
     }
@@ -39,39 +42,26 @@ export function EditArtworkForm({galleryid=''}){
                 theEditArtworkForm.id = data.id
                 theEditArtworkForm.title = data.title
                 theEditArtworkForm.info = data.info
-                setTagselectElement(<></>)
             }
         })
         await getRequest(urls.getTagsArtwork+'/'+galleryid).then(data=>{
             if(data!=0){
                 let tagArray :any[] = data
-                let options: SelectProps['options'] = []
+                let options: SelectOption[] = []
+                let currentTags: string[] = []
                 for(let i=0;i<tagArray.length;i++){
                     let obj = tagArray[i];
                     options.push({
                         label: obj.tag,
                         value: obj.tag,
                     })
+                    currentTags.push(obj.tag)
                 }
+                setSelectedTags(currentTags)
                 theEditArtworkForm.tags = JSON.stringify(selectPropsTagsToArray(options))
-                setTagselectElement(
-                    <Select
-                        mode="tags"
-                        placeholder="输入标签"
-                        onChange={selectTag}
-                        options={options}
-                        defaultValue={selectPropsTagsToArray(options)}
-                    />
-                )
             }
             else{
-                setTagselectElement(
-                    <Select
-                        mode="tags"
-                        placeholder="输入标签"
-                        onChange={selectTag}
-                    />
-                )
+                setSelectedTags([])
             }
         })
         setEditArtworkForm(theEditArtworkForm)
@@ -81,45 +71,57 @@ export function EditArtworkForm({galleryid=''}){
     },[galleryid])
     return(
         <>
-            <span>
-                <Snackbar
-                    anchorOrigin={{ vertical:'top',horizontal:'center'}}
-                    open={snackbarOpen}
-                    message={snackbarMessage}
-                    action={(<Button onClick={closeSnackbar}>关闭</Button>)}
+            {snackbarOpen && (
+                <div className="toast show position-fixed top-0 start-50 translate-middle-x" style={{zIndex: 9999}}>
+                    <div className="toast-body d-flex justify-content-between align-items-center">
+                        <span>{snackbarMessage}</span>
+                        <button className="btn-close" onClick={closeSnackbar}></button>
+                    </div>
+                </div>
+            )}
+            <div className="card">
+                <img
+                    src={urls.artworkimagePreviewURL+artworkdata.filename}
+                    className="card-img-top"
+                    alt="artworkimage"
+                    style={{height: '300px', objectFit: 'cover'}}
                 />
-            </span>
-            <Card>
-                <CardMedia
-                    sx={{ height: 300 }}
-                    image={ urls.artworkimagePreviewURL+artworkdata.filename }
-                    title="artworkimage"
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div" className="OnelineTextBox">
-                        { artworkdata.title }
-                    </Typography>
-                    <p style={{whiteSpace:'pre-line'}}>{artworkdata.info}</p>
-                </CardContent>
-            </Card>
-            <FormControl fullWidth>
-                <FormLabel>标题</FormLabel>
-                <Input
-                    placeholder={editArtworkForm.title}
-                    onChange={(e)=>{
+                <div className="card-body">
+                    <h5 className="card-title OnelineTextBox">{artworkdata.title}</h5>
+                    <p className="card-text" style={{whiteSpace:'pre-line'}}>{artworkdata.info}</p>
+                </div>
+            </div>
+            <div className="mt-3">
+                <div className="mb-3">
+                    <label className="form-label">标题</label>
+                    <input type="text" className="form-control" placeholder={editArtworkForm.title} onChange={(e)=>{
                         editArtworkForm.title = e.target.value
                         setEditArtworkForm(editArtworkForm)
-                    }}
-                />
-                <FormLabel>说明</FormLabel>
-                <Textarea placeholder={editArtworkForm.info} minRows={4} onChange={(e)=>{
-                    editArtworkForm.info = e.target.value
-                    setEditArtworkForm(editArtworkForm)
-                }} />
-                <FormLabel>标签</FormLabel>
-                {tagselectElement}
-                <Button sx={{mt:2}} onClick={editArtwork} variant="outlined" color="warning">修改</Button>
-            </FormControl>
+                    }}/>
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">说明</label>
+                    <textarea className="form-control" rows={4} placeholder={editArtworkForm.info} onChange={(e)=>{
+                        editArtworkForm.info = e.target.value
+                        setEditArtworkForm(editArtworkForm)
+                    }}></textarea>
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">标签</label>
+                    <input 
+                        type="text" 
+                        className="form-control" 
+                        placeholder="输入标签，用逗号分隔"
+                        value={selectedTags.join(',')}
+                        onChange={(e)=>{
+                            const tags = e.target.value.split(',').map(t=>t.trim()).filter(t=>t)
+                            selectTag(tags)
+                        }}
+                    />
+                    <div className="form-text">当前标签: {selectedTags.join(', ') || '无'}</div>
+                </div>
+                <button className="btn btn-warning mt-2 w-100" onClick={editArtwork}>修改</button>
+            </div>
         </>
     )
 }

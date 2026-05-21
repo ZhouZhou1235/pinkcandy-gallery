@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { checkObjHaveEmpty, isEmailString, isUsername } from "../../utils/tools"
-import { AccordionActions, AccordionDetails, Button, Snackbar, TextField } from "@mui/material"
 import { getRequest, postRequest } from "../../utils/HttpRequest"
 import { urls } from "../../vars/urls"
 import { useNavigate } from "react-router"
@@ -76,64 +75,70 @@ export function RegisterForm(){
         })()
     },[])
     return(
-        <AccordionDetails>
-            <span>
-                <Snackbar
-                    anchorOrigin={{ vertical:'top',horizontal:'center'}}
-                    open={snackbarOpen}
-                    message={snackbarMessage}
-                    action={(<Button onClick={closeSnackbar}>关闭</Button>)}
-                />
-            </span>
+        <div>
+            {snackbarOpen && (
+                <div className="toast show position-fixed top-0 start-50 translate-middle-x" style={{zIndex: 9999}}>
+                    <div className="toast-body d-flex justify-content-between align-items-center">
+                        <span>{snackbarMessage}</span>
+                        <button className="btn-close" onClick={closeSnackbar}></button>
+                    </div>
+                </div>
+            )}
             <small>使用邮箱注册，遇到问题请联系管理员。</small>
-            <TextField
-                fullWidth
-                label="粉糖账号"
-                variant="standard"
-                disabled={ registerFieldDisabled || !canSetUsername }
-                placeholder="粉糖账号是五位数字 如10000"
-                value={registerForm.username}
-                onChange={e=>handleInputChange('username', e.target.value)}
-            />
-            <TextField
-                fullWidth
-                label="邮箱"
-                variant="standard"
-                disabled={ registerFieldDisabled }
-                placeholder="使用合法邮箱 如qq、gmail等"
-                value={registerForm.email}
-                onChange={e=>handleInputChange('email', e.target.value)}
-            />
-            <TextField 
-                fullWidth 
-                label="设置密码" 
-                variant="standard" 
-                disabled={ registerFieldDisabled } 
-                type="password" 
-                value={registerForm.password}
-                onChange={e=>handleInputChange('password', e.target.value)} 
-            />
-            <TextField
-                fullWidth
-                label="名称"
-                variant="standard"
-                disabled={ registerFieldDisabled }
-                placeholder="显示的名字"
-                value={registerForm.name}
-                onChange={e=>handleInputChange('name', e.target.value)}
-            />
-            <TextField 
-                fullWidth 
-                label="验证码" 
-                variant="standard" 
-                disabled={ !registerFieldDisabled } 
-                value={registerForm.code}
-                onChange={e=>handleInputChange('code', e.target.value)} 
-            />
-            <AccordionActions>
-                <Button variant="outlined" onClick={getRegisterCode} disabled={registerCodeBtn}>获取验证码</Button>
-                <Button variant="outlined" onClick={register} disabled={registerBtn}>注册</Button>
-            </AccordionActions>
-        </AccordionDetails>
+            <div className="mb-3">
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="粉糖账号是五位数字 如10000"
+                    disabled={ registerFieldDisabled || !canSetUsername }
+                    value={registerForm.username}
+                    onChange={e=>handleInputChange('username', e.target.value)}
+                />
+            </div>
+            <div className="mb-3">
+                <input
+                    type="email"
+                    className="form-control"
+                    placeholder="使用合法邮箱 如qq、gmail等"
+                    disabled={ registerFieldDisabled }
+                    value={registerForm.email}
+                    onChange={e=>handleInputChange('email', e.target.value)}
+                />
+            </div>
+            <div className="mb-3">
+                <input
+                    type="password"
+                    className="form-control"
+                    placeholder="设置密码"
+                    disabled={ registerFieldDisabled }
+                    value={registerForm.password}
+                    onChange={e=>handleInputChange('password', e.target.value)}
+                />
+            </div>
+            <div className="mb-3">
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="显示的名字"
+                    disabled={ registerFieldDisabled }
+                    value={registerForm.name}
+                    onChange={e=>handleInputChange('name', e.target.value)}
+                />
+            </div>
+            <div className="mb-3">
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="验证码"
+                    disabled={ !registerFieldDisabled }
+                    value={registerForm.code}
+                    onChange={e=>handleInputChange('code', e.target.value)}
+                />
+            </div>
+            <div className="d-flex gap-2">
+                <button className="btn btn-outline-primary" onClick={getRegisterCode} disabled={registerCodeBtn}>获取验证码</button>
+                <button className="btn btn-outline-primary" onClick={register} disabled={registerBtn}>注册</button>
+            </div>
+        </div>
     )
 }

@@ -1,4 +1,3 @@
-import { AccordionActions, AccordionDetails, Button, TextField } from "@mui/material";
 import { useState } from "react";
 import { checkObjHaveEmpty, isEmailString } from "../../utils/tools";
 import { postRequest } from "../../utils/HttpRequest";
@@ -43,29 +42,35 @@ export function ResetPasswordForm(){
         })
     }
     return(
-        <AccordionDetails>
+        <div>
             <small>输入绑定的邮箱获取验证码，然后设置新的密码。</small>
-            <TextField fullWidth label="邮箱" variant="standard" disabled={ emailFieldDisabled } onChange={e=>{
-                let theEmail = e.target.value
-                resetPasswordForm.email = theEmail
-                setResetPasswordForm(resetPasswordForm)
-                if(isEmailString(theEmail)){setGetCodeBtnDisabled(false)}
-                else{setGetCodeBtnDisabled(true)}
-            }} />
-            <TextField fullWidth label="验证码" variant="standard" disabled={ resetFieldDisabled } onChange={e=>{
-                resetPasswordForm.code = e.target.value
-                setResetPasswordForm(resetPasswordForm)
-                if(checkObjHaveEmpty(resetPasswordForm)){setResetBtnDisabled(true)}else{setResetBtnDisabled(false)}
-            }} />
-            <TextField fullWidth label="设置新密码" variant="standard" type="password" disabled={ resetFieldDisabled } onChange={e=>{
-                resetPasswordForm.password = e.target.value
-                setResetPasswordForm(resetPasswordForm)
-                if(checkObjHaveEmpty(resetPasswordForm)){setResetBtnDisabled(true)}else{setResetBtnDisabled(false)}
-            }} />
-            <AccordionActions>
-                <Button variant="outlined" onClick={getResetPasswordCode} disabled={getCodeBtnDisabled}>获取验证码</Button>
-                <Button variant="outlined" onClick={resetPassword} disabled={resetBtnDisabled}>重设密码</Button>
-            </AccordionActions>
-        </AccordionDetails>
+            <div className="mb-3">
+                <input type="email" className="form-control" placeholder="邮箱" disabled={ emailFieldDisabled } onChange={e=>{
+                    let theEmail = e.target.value
+                    resetPasswordForm.email = theEmail
+                    setResetPasswordForm(resetPasswordForm)
+                    if(isEmailString(theEmail)){setGetCodeBtnDisabled(false)}
+                    else{setGetCodeBtnDisabled(true)}
+                }} />
+            </div>
+            <div className="mb-3">
+                <input type="text" className="form-control" placeholder="验证码" disabled={ resetFieldDisabled } onChange={e=>{
+                    resetPasswordForm.code = e.target.value
+                    setResetPasswordForm(resetPasswordForm)
+                    if(checkObjHaveEmpty(resetPasswordForm)){setResetBtnDisabled(true)}else{setResetBtnDisabled(false)}
+                }} />
+            </div>
+            <div className="mb-3">
+                <input type="password" className="form-control" placeholder="设置新密码" disabled={ resetFieldDisabled } onChange={e=>{
+                    resetPasswordForm.password = e.target.value
+                    setResetPasswordForm(resetPasswordForm)
+                    if(checkObjHaveEmpty(resetPasswordForm)){setResetBtnDisabled(true)}else{setResetBtnDisabled(false)}
+                }} />
+            </div>
+            <div className="d-flex gap-2">
+                <button className="btn btn-outline-primary" onClick={getResetPasswordCode} disabled={getCodeBtnDisabled}>获取验证码</button>
+                <button className="btn btn-outline-primary" onClick={resetPassword} disabled={resetBtnDisabled}>重设密码</button>
+            </div>
+        </div>
     )
 }

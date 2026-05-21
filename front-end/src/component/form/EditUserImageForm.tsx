@@ -1,4 +1,3 @@
-import { Button, DialogActions, DialogContentText, FormControl, FormHelperText, Snackbar } from "@mui/material";
 import { useState } from "react";
 import { postRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
@@ -33,35 +32,35 @@ export function EditUserImageForm(){
     }
     return(
         <>
-            <span>
-                <Snackbar
-                    anchorOrigin={{ vertical:'top',horizontal:'center'}}
-                    open={snackbarOpen}
-                    message={snackbarMessage}
-                    action={(<Button onClick={closeSnackbar}>关闭</Button>)}
-                />
-            </span>
-            <DialogContentText>
-                提示：上传图片文件，过大会导致失败。
-            </DialogContentText>
-            <FormControl fullWidth>
+            {snackbarOpen && (
+                <div className="toast show position-fixed top-0 start-50 translate-middle-x" style={{zIndex: 9999}}>
+                    <div className="toast-body d-flex justify-content-between align-items-center">
+                        <span>{snackbarMessage}</span>
+                        <button className="btn-close" onClick={closeSnackbar}></button>
+                    </div>
+                </div>
+            )}
+            <p className="text-muted">提示：上传图片文件，过大会导致失败。</p>
+            <div className="mb-3">
                 <input type="file" className="form-control" name="file" onChange={(e)=>{
                     let list:FileList|null = e.target.files
                     if(list){editUserImageForm.headimage = list[0]}
                     setEditUserImageForm(editUserImageForm)
                 }} />
-                <FormHelperText>头像</FormHelperText>
+                <small className="form-text">头像</small>
+            </div>
+            <div className="mb-3">
                 <input type="file" className="form-control" name="file" onChange={(e)=>{
                     let list:FileList|null = e.target.files
                     if(list){editUserImageForm.backimage = list[0]}
                     setEditUserImageForm(editUserImageForm)
                 }} />
-                <FormHelperText>背景墙</FormHelperText>
-                <DialogActions>
-                    <Button onClick={clearUserImage}>清除</Button>
-                    <Button onClick={editUserImage}>上传</Button>
-                </DialogActions>
-            </FormControl>
+                <small className="form-text">背景墙</small>
+            </div>
+            <div className="d-flex gap-2">
+                <button className="btn btn-outline-secondary" onClick={clearUserImage}>清除</button>
+                <button className="btn btn-primary" onClick={editUserImage}>上传</button>
+            </div>
         </>
     )
 }

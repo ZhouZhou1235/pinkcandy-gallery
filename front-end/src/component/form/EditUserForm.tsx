@@ -2,8 +2,6 @@ import { useEffect, useState } from "react"
 import { DefaultObj } from "../../vars/ConstVars"
 import { getRequest, postRequest } from "../../utils/HttpRequest"
 import { urls } from "../../vars/urls"
-import { Textarea } from "@mui/joy";
-import { Button, DialogActions, DialogContentText, FormControl, FormHelperText, MenuItem, Select, Snackbar, TextField } from "@mui/material";
 
 export function EditUserForm(){
     const [editUserForm,setEditUserForm] = useState(DefaultObj.userdata)
@@ -31,48 +29,48 @@ export function EditUserForm(){
     },[])
     return(
         <>
-            <span>
-                <Snackbar
-                    anchorOrigin={{ vertical:'top',horizontal:'center'}}
-                    open={snackbarOpen}
-                    message={snackbarMessage}
-                    action={(<Button onClick={closeSnackbar}>关闭</Button>)}
-                />
-            </span>
-            <DialogContentText>
-                提示：名称不能为空
-            </DialogContentText>
-            <FormControl fullWidth>
-                <TextField label="名称" sx={{mt:2}} placeholder={editUserForm.name} onChange={(e)=>{
+            {snackbarOpen && (
+                <div className="toast show position-fixed top-0 start-50 translate-middle-x" style={{zIndex: 9999}}>
+                    <div className="toast-body d-flex justify-content-between align-items-center">
+                        <span>{snackbarMessage}</span>
+                        <button className="btn-close" onClick={closeSnackbar}></button>
+                    </div>
+                </div>
+            )}
+            <p className="text-muted">提示：名称不能为空</p>
+            <div className="mb-3">
+                <label className="form-label">名称</label>
+                <input type="text" className="form-control" placeholder={editUserForm.name} onChange={(e)=>{
                     editUserForm.name = e.target.value
                     setEditUserForm(editUserForm)
                 }}/>
-                <Textarea sx={{mt:2}} minRows={4} placeholder={editUserForm.info} onChange={(e)=>{
+            </div>
+            <div className="mb-3">
+                <label className="form-label">介绍</label>
+                <textarea className="form-control" rows={4} placeholder={editUserForm.info} onChange={(e)=>{
                     editUserForm.info = e.target.value
                     setEditUserForm(editUserForm)
-                }}/>
-                <FormHelperText>介绍</FormHelperText>
-                <Select
-                    sx={{mt:2}}
-                    defaultValue={'' as any}
-                    onChange={(event)=>{
-                        editUserForm.sex = event.target.value
-                        setEditUserForm(editUserForm)
-                    }}
-                >
-                    <MenuItem value={'1'}>雄</MenuItem>
-                    <MenuItem value={'2'}>雌</MenuItem>
-                    <MenuItem value={''}>无</MenuItem>
-                </Select>
-                <FormHelperText>选择性别</FormHelperText>
-                <TextField label="兽种" sx={{mt:2}} placeholder={editUserForm.species?editUserForm.species:''} onChange={(e)=>{
+                }}></textarea>
+            </div>
+            <div className="mb-3">
+                <label className="form-label">选择性别</label>
+                <select className="form-select" defaultValue={''} onChange={(event)=>{
+                    editUserForm.sex = event.target.value
+                    setEditUserForm(editUserForm)
+                }}>
+                    <option value={'1'}>雄</option>
+                    <option value={'2'}>雌</option>
+                    <option value={''}>无</option>
+                </select>
+            </div>
+            <div className="mb-3">
+                <label className="form-label">兽种</label>
+                <input type="text" className="form-control" placeholder={editUserForm.species?editUserForm.species:''} onChange={(e)=>{
                     editUserForm.species = e.target.value
                     setEditUserForm(editUserForm)
                 }}/>
-            </FormControl>
-            <DialogActions>
-                <Button onClick={editUser}>修改</Button>
-            </DialogActions>
+            </div>
+            <button className="btn btn-primary" onClick={editUser}>修改</button>
         </>
     )
 }

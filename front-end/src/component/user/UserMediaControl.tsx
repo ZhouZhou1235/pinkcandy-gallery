@@ -1,5 +1,3 @@
-import { TabContext, TabPanel } from "@mui/lab";
-import { Grid, Pagination, Tab, Tabs, Button } from "@mui/material";
 import { JSX, SyntheticEvent, useEffect, useState } from "react";
 import { getRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
@@ -20,7 +18,7 @@ export function UserMediaControl({username=''}){
     function selecttoeditArtwork(id=''){
         setEditformElement(<EditArtworkForm galleryid={id}/>)
     }
-    function updateGalleryPage(_event:any,value:number){
+    function updateGalleryPage(value:number){
         getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${username}`).then(data=>{
             if(data!=0){
                 let artworks :any[] = data
@@ -30,7 +28,7 @@ export function UserMediaControl({username=''}){
                             <ArtworkPreview artworkdata={item}/>
                         </div>
                         <div className="d-flex justify-content-between mt-2">
-                            <Button color="warning" onClick={()=>{selecttoeditArtwork(item.id)}}>修改</Button>
+                            <button className="btn btn-sm btn-outline-warning" onClick={()=>{selecttoeditArtwork(item.id)}}>修改</button>
                             <DeleteArtworkButton galleryid={item.id}/>
                         </div>
                     </div>
@@ -41,7 +39,7 @@ export function UserMediaControl({username=''}){
     }
     useEffect(()=>{
         (async()=>{
-            updateGalleryPage(null,1)
+            updateGalleryPage(1)
             await getRequest(urls.getUserInfoCount+'?username='+username).then(data=>{
                 if(data!=0){
                     setGalleryPage(Math.ceil(data.artworknum/GArea.defaultShowNum))
@@ -53,28 +51,35 @@ export function UserMediaControl({username=''}){
         <div className="row">
             <div className="col-sm-4">
                 <span>点击修改按钮来编辑</span>
-                <Button onClick={closeForm}>关闭</Button>
+                <button className="btn btn-sm btn-outline-secondary" onClick={closeForm}>关闭</button>
                 {editformElement}
             </div>
             <div className="col-sm-8">
-                <TabContext value={tabvalue}>
-                    <Tabs
-                        value={tabvalue}
-                        onChange={tabHandleChange}
-                    >
-                        <Tab value="artworks" label="作品集" />
-                    </Tabs>
-                    <TabPanel value={'artworks'} sx={{p:0}}>
-                        <div className="row">
-                            {artworkitems}
-                        </div>
-                        <Grid container spacing={2} sx={{ minHeight: 50 }}>
-                            <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <Pagination count={galleryPage} onChange={updateGalleryPage} />
-                            </Grid>
-                        </Grid>
-                    </TabPanel>
-                </TabContext>
+                <ul className="nav nav-tabs mb-3">
+                    <li className="nav-item">
+                        <button className={`nav-link ${tabvalue === 'artworks' ? 'active' : ''}`} onClick={()=>tabHandleChange(null as any,'artworks')}>作品集</button>
+                    </li>
+                </ul>
+                <div className="tab-content mt-3" style={{padding: 0}}>
+                    {tabvalue === 'artworks' && (
+                        <>
+                            <div className="row">
+                                {artworkitems}
+                            </div>
+                            <div className="d-flex justify-content-center align-items-center" style={{minHeight: '50px'}}>
+                                <nav>
+                                    <ul className="pagination mb-0">
+                                        {Array.from({length: galleryPage}, (_, i) => (
+                                            <li key={i} className={`page-item ${galleryPage === i+1 ? 'active' : ''}`}>
+                                                <button className="page-link" onClick={()=>updateGalleryPage(i+1)}>{i+1}</button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     )

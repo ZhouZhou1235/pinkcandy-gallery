@@ -1,4 +1,3 @@
-import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
@@ -41,16 +40,16 @@ export function MyZoom(){
         })
     },[]);
     return(
-        <Box>
+        <div>
             <div className="container">
-                <div className="p-2">
-                    <Button onClick={()=>{selectOption('zoom')}} variant={selectedOption=='zoom'?'contained':'text'}>空间</Button>
-                    <Button onClick={()=>{selectOption('star')}} variant={selectedOption=='star'?'contained':'text'}>收藏</Button>
-                    <Button onClick={()=>{selectOption('control')}} variant={selectedOption=='control'?'contained':'text'}>内容管理</Button>
+                <div className="p-2 d-flex gap-2">
+                    <button className={`btn ${selectedOption=='zoom'?'btn-primary':'btn-outline-primary'}`} onClick={()=>{selectOption('zoom')}}>空间</button>
+                    <button className={`btn ${selectedOption=='star'?'btn-primary':'btn-outline-primary'}`} onClick={()=>{selectOption('star')}}>收藏</button>
+                    <button className={`btn ${selectedOption=='control'?'btn-primary':'btn-outline-primary'}`} onClick={()=>{selectOption('control')}}>内容管理</button>
                     <UserEditDialog />
                 </div>
                 {userzoomElement}
             </div>
-        </Box>
+        </div>
     )
 }

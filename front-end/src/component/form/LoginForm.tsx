@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom"
 import { postRequest } from "../../utils/HttpRequest"
 import { useState } from "react"
 import { urls } from "../../vars/urls"
-import { AccordionActions, AccordionDetails, Button, Snackbar, TextField } from "@mui/material"
 
 export function LoginForm(){
     const [snackbarMessage,setSnackbarMessage] = useState('')
@@ -20,33 +19,36 @@ export function LoginForm(){
         })
     }
     return(
-        <AccordionDetails>
-            <span>
-                <Snackbar
-                    anchorOrigin={{ vertical:'top',horizontal:'center'}}
-                    open={snackbarOpen}
-                    message={snackbarMessage}
-                    action={(<Button onClick={closeSnackbar}>关闭</Button>)}
-                />
-            </span>
+        <div>
+            {snackbarOpen && (
+                <div className="toast show position-fixed top-0 start-50 translate-middle-x" style={{zIndex: 9999}}>
+                    <div className="toast-body d-flex justify-content-between align-items-center">
+                        <span>{snackbarMessage}</span>
+                        <button className="btn-close" onClick={closeSnackbar}></button>
+                    </div>
+                </div>
+            )}
             <small>输入粉糖账号和密码登录</small>
-            <TextField
-                fullWidth
-                label="粉糖账号"
-                variant="standard"
-                placeholder="粉糖账号/邮箱"
-                onChange={e=>{
-                    loginForm.username = e.target.value
+            <div className="mb-3">
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="粉糖账号/邮箱"
+                    onChange={e=>{
+                        loginForm.username = e.target.value
+                        setLoginForm(loginForm)
+                    }}
+                />
+            </div>
+            <div className="mb-3">
+                <input type="password" className="form-control" placeholder="密码" onChange={e=>{
+                    loginForm.password = e.target.value
                     setLoginForm(loginForm)
-                }}
-            />
-            <TextField fullWidth label="密码" variant="standard" type="password" onChange={e=>{
-                loginForm.password = e.target.value
-                setLoginForm(loginForm)
-            }} />
-            <AccordionActions>
-                <Button variant="outlined" onClick={login}>登录</Button>
-            </AccordionActions>
-        </AccordionDetails>
+                }} />
+            </div>
+            <div className="d-flex gap-2">
+                <button className="btn btn-outline-primary" onClick={login}>登录</button>
+            </div>
+        </div>
     )
 }

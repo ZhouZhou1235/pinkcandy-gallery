@@ -1,5 +1,3 @@
-import { TabContext, TabPanel } from "@mui/lab";
-import { Grid, Pagination, Tab, Tabs } from "@mui/material";
 import { JSX, SyntheticEvent, useEffect, useState } from "react";
 import { getRequest } from "../../utils/HttpRequest";
 import { urls } from "../../vars/urls";
@@ -11,7 +9,7 @@ export function UserStar({username=''}){
     const [galleryPage,setGalleryPage] = useState(1)
     const [tabvalue,setTabvalue] = useState('artworks')
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
-    function updateGalleryPage(_event:any,value:number){
+    function updateGalleryPage(value:number){
         getRequest(urls.getStarArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${username}`).then(data=>{
             if(data!=0){
                 let artworks :any[] = data
@@ -26,7 +24,7 @@ export function UserStar({username=''}){
     }
     useEffect(()=>{
         (async()=>{
-            updateGalleryPage(null,1)
+            updateGalleryPage(1)
             await getRequest(urls.getUserStarInfoCount+'?username='+username).then(data=>{
                 if(data!=0){
                     setGalleryPage(Math.ceil(data.artworknum/GArea.defaultShowNum))
@@ -36,24 +34,31 @@ export function UserStar({username=''}){
     },[])
     return(
         <>
-            <TabContext value={tabvalue}>
-                <Tabs
-                    value={tabvalue}
-                    onChange={tabHandleChange}
-                >
-                    <Tab value="artworks" label="作品集" />
-                </Tabs>
-                <TabPanel value={'artworks'} sx={{p:0}}>
-                    <div className="row">
-                        {artworkitems}
-                    </div>
-                    <Grid container spacing={2} sx={{ minHeight: 50 }}>
-                        <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <Pagination count={galleryPage} onChange={updateGalleryPage} />
-                        </Grid>
-                    </Grid>
-                </TabPanel>
-            </TabContext>
+            <ul className="nav nav-tabs mb-3">
+                <li className="nav-item">
+                    <button className={`nav-link ${tabvalue === 'artworks' ? 'active' : ''}`} onClick={()=>tabHandleChange(null as any,'artworks')}>作品集</button>
+                </li>
+            </ul>
+            <div className="tab-content mt-3" style={{padding: 0}}>
+                {tabvalue === 'artworks' && (
+                    <>
+                        <div className="row">
+                            {artworkitems}
+                        </div>
+                        <div className="d-flex justify-content-center align-items-center" style={{minHeight: '50px'}}>
+                            <nav>
+                                <ul className="pagination mb-0">
+                                    {Array.from({length: galleryPage}, (_, i) => (
+                                        <li key={i} className={`page-item ${galleryPage === i+1 ? 'active' : ''}`}>
+                                            <button className="page-link" onClick={()=>updateGalleryPage(i+1)}>{i+1}</button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </nav>
+                        </div>
+                    </>
+                )}
+            </div>
         </>
     )
 }

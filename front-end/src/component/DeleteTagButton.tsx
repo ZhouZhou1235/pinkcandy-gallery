@@ -1,4 +1,3 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { useState } from "react";
 import { postRequest } from "../utils/HttpRequest";
 import { urls } from "../vars/urls";
@@ -22,25 +21,33 @@ export function DeleteTagButton({tagdata=DefaultObj.tagdata}){
     }
     return(
         <>
-            <Button
-                color="error"
+            <button
+                className={`btn btn-sm ${btnDisabled?'btn-secondary':'btn-outline-danger'}`}
                 onClick={openDialog}
-                variant={btnDisabled?'contained':'text'}
                 disabled={btnDisabled || tagdata.usenum>10}
             >
                 {!btnDisabled?'删除':'已删除'}
-            </Button>
-            <Dialog open={open} fullWidth>
-                <DialogTitle>删除标签</DialogTitle>
-                <DialogContent>
-                    <h2>即将删除<span style={{color:tagtypeNumToColorString(Number(tagdata.type))}}>{tagdata.tag}</span></h2>
-                    <p>包括所有媒体使用了此标签的标记</p>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={closeDialog}>取消</Button>
-                    <Button color="error" onClick={deleteArtwork}>确认删除</Button>
-                </DialogActions>
-            </Dialog>
+            </button>
+            {open && (
+                <div className="modal show d-block" tabIndex={-1} style={{backgroundColor: 'rgba(0,0,0,0.5)'}}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">删除标签</h5>
+                                <button type="button" className="btn-close" onClick={closeDialog}></button>
+                            </div>
+                            <div className="modal-body">
+                                <h2>即将删除<span style={{color:tagtypeNumToColorString(Number(tagdata.type))}}>{tagdata.tag}</span></h2>
+                                <p>包括所有媒体使用了此标签的标记</p>
+                            </div>
+                            <div className="modal-footer">
+                                <button className="btn btn-secondary" onClick={closeDialog}>取消</button>
+                                <button className="btn btn-danger" onClick={deleteArtwork}>确认删除</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     )
 }

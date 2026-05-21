@@ -1,4 +1,3 @@
-import { Button, DialogActions, DialogContentText, FormControl, Snackbar, TextField } from "@mui/material";
 import { useState } from "react";
 import { isEmailString } from "../../utils/tools";
 import { postRequest } from "../../utils/HttpRequest";
@@ -51,46 +50,44 @@ export function EditUserImportantForm(){
     }
     return(
         <>
-            <span>
-                <Snackbar
-                    anchorOrigin={{ vertical:'top',horizontal:'center'}}
-                    open={snackbarOpen}
-                    message={snackbarMessage}
-                    action={(<Button onClick={closeSnackbar}>关闭</Button>)}
-                />
-            </span>
-            <DialogContentText>
-                提示：修改关键信息需要验证，留空表示不修改。
-            </DialogContentText>
-            <FormControl fullWidth>
-                <TextField
-                    label="新密码"
-                    sx={{mt:2}}
-                    color="warning"
-                    disabled={editUserImportantFormDisabled}
-                    type="password"
-                    onChange={(e)=>{
-                        editUserImportantForm.password = e.target.value
-                        setEditUserImportantForm(editUserImportantForm)
-                        checkGetCode()
-                    }}
-                />
-                <TextField label="新邮箱" sx={{mt:2}} color="warning" disabled={editUserImportantFormDisabled} onChange={(e)=>{
+            {snackbarOpen && (
+                <div className="toast show position-fixed top-0 start-50 translate-middle-x" style={{zIndex: 9999}}>
+                    <div className="toast-body d-flex justify-content-between align-items-center">
+                        <span>{snackbarMessage}</span>
+                        <button className="btn-close" onClick={closeSnackbar}></button>
+                    </div>
+                </div>
+            )}
+            <p className="text-muted">提示：修改关键信息需要验证，留空表示不修改。</p>
+            <div className="mb-3">
+                <label className="form-label">新密码</label>
+                <input type="password" className="form-control" disabled={editUserImportantFormDisabled} onChange={(e)=>{
+                    editUserImportantForm.password = e.target.value
+                    setEditUserImportantForm(editUserImportantForm)
+                    checkGetCode()
+                }}/>
+            </div>
+            <div className="mb-3">
+                <label className="form-label">新邮箱</label>
+                <input type="email" className="form-control" disabled={editUserImportantFormDisabled} onChange={(e)=>{
                     editUserImportantForm.email = e.target.value
                     setEditUserImportantForm(editUserImportantForm)
                     checkGetCode()
                 }}/>
-                <TextField label="验证码" sx={{mt:2}} color="warning" disabled={codeFieldDisabled} onChange={(e)=>{
+            </div>
+            <div className="mb-3">
+                <label className="form-label">验证码</label>
+                <input type="text" className="form-control" disabled={codeFieldDisabled} onChange={(e)=>{
                     let code = e.target.value
                     editUserImportantForm.code = code
                     setEditUserImportantForm(editUserImportantForm)
                     if(code){setEditBtnDisabled(false)}else{setEditBtnDisabled(true)}
                 }}/>
-                <DialogActions>
-                    <Button color="warning" disabled={codeBtnDisabled} onClick={getEditUserImportantCode}>获取</Button>
-                    <Button color="warning" disabled={editBtnDisabled} onClick={editUserImportant}>修改</Button>
-                </DialogActions>
-            </FormControl>
+            </div>
+            <div className="d-flex gap-2">
+                <button className="btn btn-warning" disabled={codeBtnDisabled} onClick={getEditUserImportantCode}>获取</button>
+                <button className="btn btn-warning" disabled={editBtnDisabled} onClick={editUserImportant}>修改</button>
+            </div>
         </>
     )
 }

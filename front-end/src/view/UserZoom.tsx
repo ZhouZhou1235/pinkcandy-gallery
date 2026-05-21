@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import { PageTitle } from "../vars/ConstVars";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -12,10 +11,10 @@ export function UserZoom(){
         setUserzoomElement(<UserZoomShow username={username}/>)
     },[username]);
     return(
-        <Box>
+        <div>
             <div className="container">
                 {userzoomElement}
             </div>
-        </Box>
+        </div>
     )
 }

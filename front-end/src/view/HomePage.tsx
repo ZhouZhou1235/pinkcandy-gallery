@@ -202,11 +202,11 @@ export function HomePage() {
             <div className="container">
                 <div className="row">
                     <div className="col-sm-12 col-md-4 p-2">
-                        <div className="text-center mb-4">
+                        <div className="text-center mb-4 p-2">
                             <img
-                                src={GArea.homepage}
-                                alt="homepage"
-                                className="d-block mx-auto m-2 w-100 rounded"
+                                src={GArea.titleURL}
+                                alt="logo"
+                                className="d-block mx-auto m-2 w-100"
                             />
                         </div>
                         <div className="p-2">
