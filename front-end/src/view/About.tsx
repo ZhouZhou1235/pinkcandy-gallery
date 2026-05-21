@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { GArea, PageTitle } from "../code/vars";
+import { PageTitle } from "../code/vars";
 import { Footer } from "../component/Footer";
 
 export function About() {
@@ -10,21 +10,9 @@ export function About() {
     return (
         <>
             <div className="container py-5">
-                <div className="text-center mb-5">
-                    <img 
-                        src={GArea.titleURL} 
-                        alt="幻想动物画廊" 
-                        className="img-fluid"
-                        style={{ maxWidth: '400px' }}
-                    />
-                    <p className="text-muted mt-3">
-                        来点粉糖，探索小蓝狗与伙伴们的精彩作品！
-                    </p>
-                </div>
                 <div className="card border-0 shadow-sm mb-4">
                     <div className="card-body p-4">
-                        <h5 className="fw-bold text-primary mb-3">关于</h5>
-                        <div className="row g-3 mb-4">
+                        <div className="row">
                             <div className="col-md-4">
                                 <div className="text-center">
                                     <div className="fw-bold text-primary mb-1">绘画交流</div>
@@ -44,7 +32,11 @@ export function About() {
                                 </div>
                             </div>
                         </div>
-
+                    </div>
+                </div>
+                <div className="card border-0 shadow-sm mb-4">
+                    <div className="card-body p-4">
+                        <h5 className="fw-bold text-primary mb-3">关于</h5>
                         <p className="small text-secondary mb-3">
                             幻想动物画廊是一个非盈利毛绒绒主题中文艺术网站，用户能发布有关毛绒绒的绘画作品。
                         </p>
@@ -52,12 +44,19 @@ export function About() {
                             本网站是小蓝狗周周的个人项目，已获得国家软件著作权，并长期维护和更新。
                             我为身边的兽迷爱好伙伴们提供一个展示、分享和交流绘画作品的平台。
                         </p>
-                        <p className="small text-secondary mb-0">
+                        <p className="small text-secondary mb-3">
                             什么是毛绒绒？毛绒绒（furry）是指以各种非人类动物为主要原型创作的角色形象。
                             喜爱毛绒绒文化的群体常被称为兽迷、福瑞控或兽迷爱好者。
                             角色的类型也有很大的差别。有的以直立行走为基础；
                             有的完全按动物原型设计，称为纯兽（feral）；
                             还有的不局限于哺乳动物，可能包括各种幻想生物......
+                        </p>
+                        <p className="small text-secondary mb-3">
+                            开发者邮箱 1479499289@qq.com
+                            <span>|</span>
+                            <a href="https://pinkcandy.top" target="_blank" rel="noopener noreferrer" className="text-decoration-none text-muted">粉糖</a>
+                            <span>|</span>
+                            <a href="https://github.com/ZhouZhou1235/pinkcandy-gallery" target="_blank" rel="noopener noreferrer" className="text-decoration-none text-muted">GitHub</a>
                         </p>
                     </div>
                 </div>
