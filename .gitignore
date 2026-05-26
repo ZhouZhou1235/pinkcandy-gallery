@@ -1,8 +1,7 @@
 node_modules
 dist
-files
 vendor
-venv
+storage
 
 *.log
 package-lock.json

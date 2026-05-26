@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="/docs/fantasyfurrygallery.png" alt="logo" width="50%">
+    <img src="/frontend/public/images/title.png" alt="logo" width="50%">
 </p>
 
 
@@ -8,47 +8,70 @@
 **后端 https://gallery-system.pinkcandy.top** <br />
 
 
-### 描述
+## 描述
 幻想动物画廊是一个非盈利毛绒绒主题中文艺术网站，用户能发布有关毛绒绒的绘画作品。<br />
 欢迎访问粉糖画廊代码仓库，本项目由小蓝狗周周长期维护。<br />
-技术栈：TypeScript, JavaScript, Node.js, Vite, Linux, Nginx, MySQL<br />
+技术栈：TypeScript, JavaScript, React, Vite, PHP, Slim, Eloquent ORM, MySQL<br />
 
-node生态更新块，可使用ncu更新包。<br />
+
+## 开发
+
+### 数据库
+```bash
+mysql -u username -p pinkcandy_gallery < pinkcandy_gallery.sql
 ```
-npm install -g npm-check-updates
-ncu -u
+
+### 后端
+配置 `config/config.php`<br />
+安装依赖<br />
+```bash
+composer install
+```
+启动<br />
+```bash
+php -S localhost:8082
 ```
 
-
-### 结构
-
-环境准备：Node.js+npm
-需要先完成环境搭建以及前后端服务的配置文件
-<br />
-
-前端<br />
-- public 静态资源
-- src 源代码与资源
-- index.html 入口
-- tsconfig.js TS配置
-- vite.config.js vite配置
-- **src/code/config.ts 配置文件**
-```
+### 前端
+配置 `src/code/config.ts`<br />
+安装依赖<br />
+```bash
 npm install
+```
+启动<br />
+```bash
 npm run dev
+```
+
+
+## 部署
+
+### 前端
+编译<br />
+```bash
 npm run build
 ```
+将 `dist/` 目录部署到 Web 服务器<br />
+以Nginx为例，完成以下配置。<br />
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
 
-后端<br />
-- core 源代码
-- main.js 启动
-- **config.js 配置文件**
-```
-npm install
-node main.js
+    location / {
+        root /path/to/frontend/dist;
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:8082/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
 ```
 
-管理命令行<br />
-- main.py 运行
-- requirements.txt python依赖库
-- run.txt 运行提示
+### 后端
+使用 PHP-FPM 或启动内置服务器
