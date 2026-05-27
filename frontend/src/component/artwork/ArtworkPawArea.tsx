@@ -48,7 +48,7 @@ export function ArtworkPawArea({galleryid=''}){
         });
     }
     return(
-        <div className="container-fluid p-0">
+        <div className="p-0">
             <div className="d-none d-md-block">
                 <div className="row g-2 justify-content-center">
                     <div className="col-auto">

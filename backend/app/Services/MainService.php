@@ -916,7 +916,7 @@ class MainService
         
         $noticetime = $userActive->noticetime;
         
-        return DB::table('user_watch')
+        $results = DB::table('user_watch')
             ->join('user', 'user_watch.watcher', '=', 'user.username')
             ->where('user_watch.username', $username)
             ->where('user_watch.watcher', '!=', $username)
@@ -925,6 +925,23 @@ class MainService
             ->select(['user_watch.*', 'user.name', 'user.headimage', 'user.sex', 'user.species'])
             ->get()
             ->all();
+        
+        $result = [];
+        foreach ($results as $item) {
+            $result[] = [
+                'id' => $item->id,
+                'user' => (object)[
+                    'username' => $item->watcher,
+                    'name' => $item->name,
+                    'headimage' => $item->headimage,
+                    'sex' => $item->sex,
+                    'species' => $item->species,
+                ],
+                'time' => $item->time,
+            ];
+        }
+        
+        return $result;
     }
     
     public function noticeFinishRead(string $username)
@@ -935,7 +952,12 @@ class MainService
     
     public function noticeNotRead(string $username)
     {
-        DB::table('user_active')->where('username', $username)->update(['noticetime' => '2000-01-01 00:00:00']);
+        $userActive = DB::table('user_active')->where('username', $username)->first();
+        if ($userActive) {
+            $currentNoticetime = $userActive->noticetime;
+            $newNoticetime = date('Y-m-d H:i:s', strtotime($currentNoticetime) - 30 * 24 * 60 * 60);
+            DB::table('user_active')->where('username', $username)->update(['noticetime' => $newNoticetime]);
+        }
         return true;
     }
     
@@ -1011,7 +1033,12 @@ class MainService
     
     public function trendNotRead(string $username)
     {
-        DB::table('user_active')->where('username', $username)->update(['trendstime' => '2000-01-01 00:00:00']);
+        $userActive = DB::table('user_active')->where('username', $username)->first();
+        if ($userActive) {
+            $currentTrendstime = $userActive->trendstime;
+            $newTrendstime = date('Y-m-d H:i:s', strtotime($currentTrendstime) - 30 * 24 * 60 * 60);
+            DB::table('user_active')->where('username', $username)->update(['trendstime' => $newTrendstime]);
+        }
         return true;
     }
     

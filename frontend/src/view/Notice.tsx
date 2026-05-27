@@ -141,13 +141,13 @@ function UserNoticePawArtwork({ username = '', refreshTrigger = 0 }) {
                             </div>
                             <div className="col-4 text-end">
                                 <Link to={'/artwork/' + item.galleryid}>
-                                    <img
-                                        src={urls.artworkimagePreviewURL + item.filename}
-                                        alt="artworkimage"
-                                        className="rounded"
-                                        style={{ height: '80px', objectFit: 'cover' }}
-                                    />
-                                </Link>
+                                        <img
+                                            src={urls.artworkimagePreviewURL + item.filename}
+                                            alt="artworkimage"
+                                            className="rounded"
+                                            style={{ maxWidth: '100%', height: 'auto', maxHeight: '80px', objectFit: 'cover' }}
+                                        />
+                                    </Link>
                             </div>
                         </div>
                     </div>
@@ -258,7 +258,7 @@ function UserNoticeTextEcho({ username = '', refreshTrigger = 0 }) {
                                         src={urls.artworkimagePreviewURL + item.filename}
                                         alt="artworkimage"
                                         className="rounded"
-                                        style={{ height: '80px', objectFit: 'cover' }}
+                                        style={{ maxWidth: '100%', height: 'auto', maxHeight: '80px', objectFit: 'cover' }}
                                     />
                                 </Link>
                             </div>
