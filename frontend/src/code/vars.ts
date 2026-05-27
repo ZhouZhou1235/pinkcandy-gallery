@@ -1,10 +1,4 @@
-
-// 从config模块导入后端API配置
-import { config_backend_api, config_backend_proxy_string } from './config'
-
-// 后端代理路径和API地址
-export const backend_proxy_string = config_backend_proxy_string
-export const backend_api = config_backend_api
+// 定义量
 
 // 全局资源路径和默认配置
 export const GArea = {
