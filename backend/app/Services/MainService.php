@@ -38,8 +38,22 @@ class MainService
     
     public function getTags(int $begin = 0, int $num = 50)
     {
-        $tags = DB::table('tag')->orderBy('time', 'desc')->offset($begin)->limit($num)->get()->all();
-        return $this->addUsenumForTags($tags);
+        $tagsResult = DB::table('tag')->orderBy('time', 'desc')->offset($begin)->limit($num)->get()->all();
+        
+        $tags = [];
+        foreach ($tagsResult as $tagObj) {
+            $usenum = DB::table('tag_gallery')->where('tagid', $tagObj->id)->count();
+            $tags[] = [
+                'id' => $tagObj->id,
+                'tag' => $tagObj->tag,
+                'type' => $tagObj->type,
+                'info' => $tagObj->info,
+                'time' => $tagObj->time,
+                'usenum' => $usenum
+            ];
+        }
+        
+        return $tags;
     }
     
     public function getBoardMessages(int $begin = 0, int $num = 50)
@@ -72,14 +86,28 @@ class MainService
     
     public function getTagsArtwork(string $id)
     {
-        $tags = DB::table('tag')
+        $tagsResult = DB::table('tag')
             ->join('tag_gallery', 'tag.id', '=', 'tag_gallery.tagid')
             ->where('tag_gallery.galleryid', $id)
             ->orderBy('tag.type', 'asc')
+            ->select('tag.*')
             ->get()
             ->all();
         
-        return $this->addUsenumForTags($tags);
+        $tags = [];
+        foreach ($tagsResult as $tagObj) {
+            $usenum = DB::table('tag_gallery')->where('tagid', $tagObj->id)->count();
+            $tags[] = [
+                'id' => $tagObj->id,
+                'tag' => $tagObj->tag,
+                'type' => $tagObj->type,
+                'info' => $tagObj->info,
+                'time' => $tagObj->time,
+                'usenum' => $usenum
+            ];
+        }
+        
+        return $tags;
     }
     
     public function getArtworkComments(string $id, int $begin = 0, int $num = 50, ?string $username = null)
@@ -265,12 +293,20 @@ class MainService
             foreach ($tags as $t) {
                 if (!in_array($t->id, $tagIds)) {
                     $tagIds[] = $t->id;
-                    $result[] = $t;
+                    $usenum = DB::table('tag_gallery')->where('tagid', $t->id)->count();
+                    $result[] = [
+                        'id' => $t->id,
+                        'tag' => $t->tag,
+                        'type' => $t->type,
+                        'info' => $t->info,
+                        'time' => $t->time,
+                        'usenum' => $usenum
+                    ];
                 }
             }
         }
         
-        return $this->addUsenumForTags($result);
+        return $result;
     }
     
     public function searchPinkCandy(string $searchtext)
