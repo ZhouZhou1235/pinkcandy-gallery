@@ -165,7 +165,7 @@ class MainService
     
     public function getUserWatch(string $username, int $begin = 0, int $num = 50)
     {
-        $watchers = DB::table('user_watch')
+        $watchersResult = DB::table('user_watch')
             ->join('user', 'user_watch.watcher', '=', 'user.username')
             ->where('user_watch.username', $username)
             ->select('user_watch.id', 'user_watch.username', 'user_watch.watcher', 'user.name', 'user.headimage', 'user.sex', 'user.species', 'user_watch.time')
@@ -175,7 +175,7 @@ class MainService
             ->get()
             ->all();
         
-        $towatch = DB::table('user_watch')
+        $towatchResult = DB::table('user_watch')
             ->join('user', 'user_watch.username', '=', 'user.username')
             ->where('user_watch.watcher', $username)
             ->select('user_watch.id', 'user_watch.username', 'user_watch.watcher', 'user.name', 'user.headimage', 'user.sex', 'user.species', 'user_watch.time')
@@ -184,6 +184,40 @@ class MainService
             ->limit($num)
             ->get()
             ->all();
+        
+        $watchers = [];
+        foreach ($watchersResult as $item) {
+            $watchers[] = [
+                'id' => $item->id,
+                'username' => $item->username,
+                'watcher' => $item->watcher,
+                'time' => $item->time,
+                'user' => [
+                    'username' => $item->watcher,
+                    'name' => $item->name,
+                    'headimage' => $item->headimage,
+                    'sex' => $item->sex,
+                    'species' => $item->species
+                ]
+            ];
+        }
+        
+        $towatch = [];
+        foreach ($towatchResult as $item) {
+            $towatch[] = [
+                'id' => $item->id,
+                'username' => $item->username,
+                'watcher' => $item->watcher,
+                'time' => $item->time,
+                'user' => [
+                    'username' => $item->username,
+                    'name' => $item->name,
+                    'headimage' => $item->headimage,
+                    'sex' => $item->sex,
+                    'species' => $item->species
+                ]
+            ];
+        }
         
         return ['watcher' => $watchers, 'towatch' => $towatch];
     }

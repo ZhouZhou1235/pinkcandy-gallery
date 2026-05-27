@@ -25,41 +25,44 @@ export function ArtworkCommentList({ galleryid = '', randomNum = 0 }) {
             return
         }
         setHasComments(true)
-        let items = arr.map(item => (
-            <li key={item.id} className="list-group-item">
-                <div className="row">
-                    <div className="col-3 text-center">
-                        <Link to={'/user/' + item.user.username}>
-                            <img
-                                src={
-                                    item.user.headimage
-                                        ?
-                                        urls.headimageURL + item.user.headimage
-                                        :
-                                        GArea.defaultHeadimage
-                                }
-                                alt="headimage"
-                                width={50}
-                                height={50}
-                                className="rounded"
-                            />
-                        </Link>
+        let items = arr.map(item => {
+            const user = item.user || {};
+            return (
+                <li key={item.id} className="list-group-item">
+                    <div className="row">
+                        <div className="col-3 text-center">
+                            <Link to={'/user/' + (user.username || '')}>
+                                <img
+                                    src={
+                                        user.headimage
+                                            ?
+                                            urls.headimageURL + user.headimage
+                                            :
+                                            GArea.defaultHeadimage
+                                    }
+                                    alt="headimage"
+                                    width={50}
+                                    height={50}
+                                    className="rounded"
+                                />
+                            </Link>
+                        </div>
+                        <div className="col-9">
+                            <div style={{ fontSize: '1.2em' }}>{user.name || '用户'} {Number(user.sex) == 1 ? '雄' : Number(user.sex) == 2 ? '雌' : ''} {user.species || ''}</div>
+                            <div>{item.content || ''}</div>
+                            <small>{toNormalDate(item.time)}</small>
+                            <button
+                                className={item.havepaw ? 'btn btn-secondary btn-sm active ms-2' : 'btn btn-outline-secondary btn-sm ms-2'}
+                                onClick={() => { pawArtworkComment(item.id) }}
+                            >
+                                <FontAwesomeIcon icon={faPaw} className="me-1" />
+                                {item.pawnum || 0}
+                            </button>
+                        </div>
                     </div>
-                    <div className="col-9">
-                        <div style={{ fontSize: '1.2em' }}>{item.user.name} {Number(item.user.sex) == 1 ? '雄' : Number(item.user.sex) == 2 ? '雌' : ''} {item.user.species}</div>
-                        <div>{item.content}</div>
-                        <small>{toNormalDate(item.time)}</small>
-                        <button
-                            className={item.havepaw ? 'btn btn-secondary btn-sm active ms-2' : 'btn btn-outline-secondary btn-sm ms-2'}
-                            onClick={() => { pawArtworkComment(item.id) }}
-                        >
-                            <FontAwesomeIcon icon={faPaw} className="me-1" />
-                            {item.pawnum}
-                        </button>
-                    </div>
-                </div>
-            </li>
-        ))
+                </li>
+            );
+        })
         setCommentListItems(items)
     }
 

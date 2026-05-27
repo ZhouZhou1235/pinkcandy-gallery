@@ -74,4 +74,11 @@ server {
 ```
 
 ### 后端
-使用 PHP-FPM 或启动内置服务器
+使用 PHP-FPM 或启动内置服务器<br />
+以Nginx为例，添加以下配置。<br />
+```nginx
+# index.php 处理请求
+location / {
+    try_files $uri $uri/ /index.php?$query_string;
+}
+```

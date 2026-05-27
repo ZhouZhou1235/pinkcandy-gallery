@@ -71,7 +71,9 @@ export const urls = {
 // 发送GET请求
 export async function getRequest(url: string) {
     let echoThing: any
-    await axios.get(url).then(res => {
+    await axios.get(url, {
+        withCredentials: true
+    }).then(res => {
         echoThing = res.data
     })
     return echoThing
@@ -80,7 +82,10 @@ export async function getRequest(url: string) {
 // 发送POST请求
 export async function postRequest(url: string, obj: Object | FormData = {}, header: Object = {}) {
     let echoThing: any
-    await axios.post(url, obj, header).then(res => {
+    await axios.post(url, obj, {
+        withCredentials: true,
+        ...header
+    }).then(res => {
         echoThing = res.data
     })
     return echoThing

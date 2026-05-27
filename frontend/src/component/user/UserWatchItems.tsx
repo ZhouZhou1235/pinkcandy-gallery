@@ -6,35 +6,39 @@ export function UserWatchItems({userwatchArray=DefaultObj.userwatchArray}){
     return(
         <div className="list-group">
             {
-                userwatchArray.map(item=>
-                    <div className="list-group-item" key={item.id}>
-                        <div className="row">
-                            <div className="col-3">
-                                <Link to={'/user/'+item.user.username}>
-                                    <img
-                                        src={
-                                            item.user.headimage
-                                            ?
-                                            urls.headimageURL+item.user.headimage
-                                            :
-                                            GArea.defaultHeadimage
-                                        }
-                                        alt="headimage"
-                                        width={50}
-                                        height={50}
-                                        className="rounded"
-                                    />
-                                </Link>
-                            </div>
-                            <div className="col-9">
-                                <div style={{fontSize:'1.2em'}}>{item.user.name}</div>
-                                { Number(item.user.sex)==1?'雄':Number(item.user.sex)==2?'雌':'' }
-                                &nbsp;
-                                { item.user.species?item.user.species:'' }
+                userwatchArray.map(item=>{
+                    // 安全地访问嵌套属性，提供默认值
+                    const user = item.user || {};
+                    return (
+                        <div className="list-group-item" key={item.id || user.username}>
+                            <div className="row">
+                                <div className="col-3">
+                                    <Link to={'/user/'+(user.username || '')}>
+                                        <img
+                                            src={
+                                                user.headimage
+                                                ?
+                                                urls.headimageURL+user.headimage
+                                                :
+                                                GArea.defaultHeadimage
+                                            }
+                                            alt="headimage"
+                                            width={50}
+                                            height={50}
+                                            className="rounded"
+                                        />
+                                    </Link>
+                                </div>
+                                <div className="col-9">
+                                    <div style={{fontSize:'1.2em'}}>{user.name || '用户'}</div>
+                                    { Number(user.sex)==1?'雄':Number(user.sex)==2?'雌':'' }
+                                    &nbsp;
+                                    { user.species?user.species:'' }
+                                </div>
                             </div>
                         </div>
-                    </div>
-                )
+                    )
+                })
             }
         </div>
     )

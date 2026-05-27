@@ -123,7 +123,7 @@ export function Bar(){
     function updateState(){
         (async () => {
         let data = await getRequest(urls.getSessionUser);
-        if (data) {
+        if (data && data !== 0 && data.username) {
             let noticenum = await getRequest(
             urls.getNoticenum + "?username=" + data.username
             );
