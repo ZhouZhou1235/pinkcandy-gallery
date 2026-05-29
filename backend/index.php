@@ -5,6 +5,7 @@ use App\Database\Database;
 use App\Controllers\MainController;
 use App\Controllers\SystemController;
 use App\Services\MainService;
+use App\Services\JsonSessionHandler;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -17,9 +18,11 @@ if (!is_dir($sessionSavePath)) {
     mkdir($sessionSavePath, 0755, true);
 }
 
+$handler = new JsonSessionHandler($config);
+session_set_save_handler($handler, true);
+
 $sessionConfig = [
     'name' => $config['session']['name'],
-    'save_path' => $sessionSavePath,
     'cookie_lifetime' => $config['session']['lifetime'],
     'cookie_path' => $config['session']['path'],
     'cookie_secure' => $config['session']['secure'],

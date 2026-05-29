@@ -187,17 +187,17 @@ class AdminService
 
     public function clearSessions()
     {
-        $sessionPath = session_save_path();
-        if (!$sessionPath) {
-            $sessionPath = dirname(__DIR__, 2) . '/storage/sessions';
-        }
+        $sessionPath = dirname(__DIR__, 2) . '/storage/sessions';
         
         $count = 0;
         if (is_dir($sessionPath)) {
-            $files = glob($sessionPath . '/sess_*');
+            $files = glob($sessionPath . '/session-*.json');
             foreach ($files as $file) {
-                if (is_file($file) && filemtime($file) < time() - 86400 * 7) {
-                    unlink($file);
+                $content = file_get_contents($file);
+                $data = json_decode($content, true);
+                
+                if ($data && isset($data['expires']) && time() > $data['expires']) {
+                    @unlink($file);
                     $count++;
                 }
             }
