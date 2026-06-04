@@ -28,17 +28,6 @@
             <div class="col-md-6 mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <h5>重新生成缩略图</h5>
-                        <p class="card-text">为所有作品重新生成缩略图</p>
-                        <form method="POST" action="/admin/resources/regenerate-thumbnails">
-                            <button type="submit" class="btn btn-primary">执行</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
                         <h5>清空无效Session</h5>
                         <p class="card-text">删除7天前的过期Session</p>
                         <form method="POST" action="/admin/resources/clear-sessions">

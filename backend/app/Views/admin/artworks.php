@@ -21,10 +21,15 @@
                 <a href="/admin/dashboard" class="btn btn-secondary btn-sm">返回控制台</a>
             </div>
         </div>
+        <?php if (isset($message)): ?>
+            <div class="alert alert-info"><?php echo $message; ?></div>
+        <?php endif; ?>
+        <p class="text-muted mb-3">共 <?php echo $total; ?> 个作品，第 <?php echo $currentPage; ?> / <?php echo $totalPages; ?> 页</p>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>缩略图</th>
                         <th>ID</th>
                         <th>标题</th>
                         <th>作者</th>
@@ -36,23 +41,49 @@
                 <tbody>
                     <?php foreach ($artworks as $artwork): ?>
                         <tr>
+                            <td>
+                                <img src="/files/GalleryPreview/<?php echo $artwork->filename; ?>" alt="缩略图" style="width: 80px; height: auto; object-fit: cover; border-radius: 4px;">
+                            </td>
                             <td><?php echo $artwork->id; ?></td>
                             <td><?php echo $artwork->title; ?></td>
                             <td><?php echo $artwork->username; ?> (<?php echo $artwork->user_name; ?>)</td>
                             <td><?php echo $artwork->filename; ?></td>
                             <td><?php echo $artwork->time; ?></td>
                             <td>
-                                <a href="/admin/artworks/delete/<?php echo $artwork->id; ?>" 
-                                   class="btn btn-sm btn-danger" 
-                                   onclick="return confirm('确定要删除这个作品吗？');">
-                                    删除
-                                </a>
+                                <div class="d-flex gap-2">
+                                    <a href="/admin/artworks/regenerate-thumbnail/<?php echo $artwork->id; ?>?page=<?php echo $currentPage; ?>" 
+                                       class="btn btn-sm btn-primary">
+                                        重新生成缩略图
+                                    </a>
+                                    <a href="/admin/artworks/delete/<?php echo $artwork->id; ?>" 
+                                       class="btn btn-sm btn-danger" 
+                                       onclick="return confirm('确定要删除这个作品吗？');">
+                                        删除
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
+        <?php if ($totalPages > 1): ?>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item <?php echo $currentPage <= 1 ? 'disabled' : ''; ?>">
+                        <a class="page-link" href="?page=<?php echo $currentPage - 1; ?>">上一页</a>
+                    </li>
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <li class="page-item <?php echo $i == $currentPage ? 'active' : ''; ?>">
+                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        </li>
+                    <?php endfor; ?>
+                    <li class="page-item <?php echo $currentPage >= $totalPages ? 'disabled' : ''; ?>">
+                        <a class="page-link" href="?page=<?php echo $currentPage + 1; ?>">下一页</a>
+                    </li>
+                </ul>
+            </nav>
+        <?php endif; ?>
     </div>
 </body>
 </html>

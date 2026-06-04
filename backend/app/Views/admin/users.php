@@ -21,10 +21,12 @@
                 <a href="/admin/dashboard" class="btn btn-secondary btn-sm">返回控制台</a>
             </div>
         </div>
+        <p class="text-muted mb-3">共 <?php echo $total; ?> 个用户，第 <?php echo $currentPage; ?> / <?php echo $totalPages; ?> 页</p>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>头像</th>
                         <th>粉糖账号</th>
                         <th>名称</th>
                         <th>邮箱</th>
@@ -37,6 +39,13 @@
                 <tbody>
                     <?php foreach ($users as $user): ?>
                         <tr>
+                            <td>
+                                <?php if ($user->headimage): ?>
+                                    <img src="/files/headimage/<?php echo $user->headimage; ?>" alt="头像" width="50" height="50">
+                                <?php else: ?>
+                                    <div><?php echo $user->name ?></div>
+                                <?php endif; ?>
+                            </td>
                             <td><?php echo $user->username; ?></td>
                             <td><?php echo $user->name; ?></td>
                             <td><?php echo $user->email; ?></td>
@@ -55,6 +64,23 @@
                 </tbody>
             </table>
         </div>
+        <?php if ($totalPages > 1): ?>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item <?php echo $currentPage <= 1 ? 'disabled' : ''; ?>">
+                        <a class="page-link" href="?page=<?php echo $currentPage - 1; ?>">上一页</a>
+                    </li>
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <li class="page-item <?php echo $i == $currentPage ? 'active' : ''; ?>">
+                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        </li>
+                    <?php endfor; ?>
+                    <li class="page-item <?php echo $currentPage >= $totalPages ? 'disabled' : ''; ?>">
+                        <a class="page-link" href="?page=<?php echo $currentPage + 1; ?>">下一页</a>
+                    </li>
+                </ul>
+            </nav>
+        <?php endif; ?>
     </div>
 </body>
 </html>

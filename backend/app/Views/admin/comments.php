@@ -21,6 +21,7 @@
                 <a href="/admin/dashboard" class="btn btn-secondary btn-sm">返回控制台</a>
             </div>
         </div>
+        <p class="text-muted mb-3">共 <?php echo $total; ?> 条评论，第 <?php echo $currentPage; ?> / <?php echo $totalPages; ?> 页</p>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -53,6 +54,23 @@
                 </tbody>
             </table>
         </div>
+        <?php if ($totalPages > 1): ?>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item <?php echo $currentPage <= 1 ? 'disabled' : ''; ?>">
+                        <a class="page-link" href="?page=<?php echo $currentPage - 1; ?>">上一页</a>
+                    </li>
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <li class="page-item <?php echo $i == $currentPage ? 'active' : ''; ?>">
+                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        </li>
+                    <?php endfor; ?>
+                    <li class="page-item <?php echo $currentPage >= $totalPages ? 'disabled' : ''; ?>">
+                        <a class="page-link" href="?page=<?php echo $currentPage + 1; ?>">下一页</a>
+                    </li>
+                </ul>
+            </nav>
+        <?php endif; ?>
     </div>
 </body>
 </html>

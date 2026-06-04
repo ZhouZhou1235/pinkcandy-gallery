@@ -48,7 +48,7 @@ export function EditUserForm(){
             </div>
             <div className="mb-3">
                 <label className="form-label">介绍</label>
-                <textarea className="form-control" rows={4} value={editUserForm.info} onChange={(e)=>{
+                <textarea className="form-control" rows={4} value={editUserForm.info?editUserForm.info:''} onChange={(e)=>{
                     setEditUserForm(prev => ({
                         ...prev,
                         info: e.target.value?e.target.value:''
@@ -57,7 +57,7 @@ export function EditUserForm(){
             </div>
             <div className="mb-3">
                 <label className="form-label">选择性别</label>
-                <select className="form-select" value={editUserForm.sex} onChange={(event)=>{
+                <select className="form-select" value={editUserForm.sex?editUserForm.sex:''} onChange={(event)=>{
                     setEditUserForm(prev => ({
                         ...prev,
                         sex: event.target.value

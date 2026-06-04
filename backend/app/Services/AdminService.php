@@ -128,7 +128,7 @@ class AdminService
         DB::table('gallery_comment')->where('id', $commentId)->delete();
     }
 
-    public function regenerateThumbnails()
+    public function generateThumbnail($filename)
     {
         $galleryPath = dirname(__DIR__, 2) . '/storage/gallery/';
         $previewPath = dirname(__DIR__, 2) . '/storage/GalleryPreview/';
@@ -137,52 +137,121 @@ class AdminService
             mkdir($previewPath, 0777, true);
         }
         
-        $artworks = DB::table('gallery')->get();
-        $count = 0;
-        
-        foreach ($artworks as $artwork) {
-            $originalPath = $galleryPath . $artwork->filename;
-            if (file_exists($originalPath)) {
-                $info = getimagesize($originalPath);
-                if ($info) {
-                    $mimeType = $info[2];
-                    $image = null;
-                    
-                    switch ($mimeType) {
-                        case IMAGETYPE_JPEG:
-                            $image = imagecreatefromjpeg($originalPath);
-                            break;
-                        case IMAGETYPE_PNG:
-                            $image = imagecreatefrompng($originalPath);
-                            break;
-                        case IMAGETYPE_GIF:
-                            $image = imagecreatefromgif($originalPath);
-                            break;
-                        case IMAGETYPE_WEBP:
-                            $image = imagecreatefromwebp($originalPath);
-                            break;
-                    }
-                    
-                    if ($image) {
-                        $width = imagesx($image);
-                        $height = imagesy($image);
-                        $newWidth = 370;
-                        $newHeight = intval($height * ($newWidth / $width));
-                        
-                        $thumbnail = imagecreatetruecolor($newWidth, $newHeight);
-                        imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-                        
-                        imagejpeg($thumbnail, $previewPath . $artwork->filename, 80);
-                        
-                        imagedestroy($image);
-                        imagedestroy($thumbnail);
-                        $count++;
-                    }
-                }
-            }
+        $originalPath = $galleryPath . $filename;
+        if (!file_exists($originalPath)) {
+            return false;
         }
         
-        return $count;
+        $info = getimagesize($originalPath);
+        if (!$info) {
+            return false;
+        }
+        
+        $mimeType = $info[2];
+        $image = null;
+        
+        switch ($mimeType) {
+            case IMAGETYPE_JPEG:
+                $image = imagecreatefromjpeg($originalPath);
+                break;
+            case IMAGETYPE_PNG:
+                $image = imagecreatefrompng($originalPath);
+                break;
+            case IMAGETYPE_GIF:
+                $image = imagecreatefromgif($originalPath);
+                break;
+            case IMAGETYPE_WEBP:
+                $image = imagecreatefromwebp($originalPath);
+                break;
+        }
+        
+        if (!$image) {
+            return false;
+        }
+        
+        $width = imagesx($image);
+        $height = imagesy($image);
+        $newWidth = 370;
+        $newHeight = intval($height * ($newWidth / $width));
+        
+        $thumbnail = imagecreatetruecolor($newWidth, $newHeight);
+        imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+        
+        imagejpeg($thumbnail, $previewPath . $filename, 80);
+        
+        imagedestroy($image);
+        imagedestroy($thumbnail);
+        
+        return true;
+    }
+
+    public function getArtworksPaginated($page = 1, $perPage = 20)
+    {
+        $offset = ($page - 1) * $perPage;
+        $total = DB::table('gallery')->count();
+        $totalPages = ceil($total / $perPage);
+        
+        $artworks = DB::table('gallery as g')
+            ->join('user as u', 'g.username', '=', 'u.username')
+            ->select('g.id', 'g.username', 'g.title', 'g.filename', 'g.time', 'u.name as user_name')
+            ->orderBy('g.time', 'desc')
+            ->offset($offset)
+            ->limit($perPage)
+            ->get();
+        
+        return [
+            'artworks' => $artworks,
+            'currentPage' => $page,
+            'perPage' => $perPage,
+            'total' => $total,
+            'totalPages' => $totalPages
+        ];
+    }
+
+    public function getUsersPaginated($page = 1, $perPage = 20)
+    {
+        $offset = ($page - 1) * $perPage;
+        $total = DB::table('user')->count();
+        $totalPages = ceil($total / $perPage);
+        
+        $users = DB::table('user')
+            ->select('username', 'name', 'email', 'headimage', 'sex', 'species', 'jointime')
+            ->orderBy('jointime', 'desc')
+            ->offset($offset)
+            ->limit($perPage)
+            ->get();
+        
+        return [
+            'users' => $users,
+            'currentPage' => $page,
+            'perPage' => $perPage,
+            'total' => $total,
+            'totalPages' => $totalPages
+        ];
+    }
+
+    public function getCommentsPaginated($page = 1, $perPage = 20)
+    {
+        $offset = ($page - 1) * $perPage;
+        $total = DB::table('gallery_comment')->count();
+        $totalPages = ceil($total / $perPage);
+        
+        $comments = DB::table('gallery_comment as c')
+            ->join('gallery as g', 'c.galleryid', '=', 'g.id')
+            ->join('user as u', 'c.username', '=', 'u.username')
+            ->select('c.id', 'c.galleryid', 'c.username', 'c.content', 'c.time', 'g.title as artwork_title', 'u.name as user_name')
+            ->orderBy('c.time', 'desc')
+            ->offset($offset)
+            ->limit($perPage)
+            ->get();
+        
+        return [
+            'comments' => $comments,
+            'currentPage' => $page,
+            'perPage' => $perPage,
+            'total' => $total,
+            'totalPages' => $totalPages
+        ];
     }
 
     public function clearSessions()

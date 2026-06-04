@@ -101,7 +101,12 @@ class SystemController
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
-        $users = $this->adminService->getAllUsers();
+        $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        $pagination = $this->adminService->getUsersPaginated($page);
+        $users = $pagination['users'];
+        $currentPage = $pagination['currentPage'];
+        $totalPages = $pagination['totalPages'];
+        $total = $pagination['total'];
         ob_start();
         include $this->viewPath . 'admin/users.php';
         $html = ob_get_clean();
@@ -123,7 +128,41 @@ class SystemController
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
-        $artworks = $this->adminService->getAllArtworks();
+        $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        $pagination = $this->adminService->getArtworksPaginated($page);
+        $artworks = $pagination['artworks'];
+        $currentPage = $pagination['currentPage'];
+        $totalPages = $pagination['totalPages'];
+        $total = $pagination['total'];
+        ob_start();
+        include $this->viewPath . 'admin/artworks.php';
+        $html = ob_get_clean();
+        $response->getBody()->write($html);
+        return $response;
+    }
+
+    public function regenerateSingleThumbnail(Request $request, Response $response, $args)
+    {
+        if (!$this->isAdminLoggedIn()) {
+            return $response->withHeader('Location', '/admin/login')->withStatus(302);
+        }
+        $artworkId = $args['id'];
+        $artwork = DB::table('gallery')->where('id', $artworkId)->first();
+        $success = false;
+        if ($artwork) {
+            $success = $this->adminService->generateThumbnail($artwork->filename);
+        }
+        $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        if ($success) {
+            $message = "缩略图重新生成成功";
+        } else {
+            $message = "缩略图重新生成失败";
+        }
+        $pagination = $this->adminService->getArtworksPaginated($page);
+        $artworks = $pagination['artworks'];
+        $currentPage = $pagination['currentPage'];
+        $totalPages = $pagination['totalPages'];
+        $total = $pagination['total'];
         ob_start();
         include $this->viewPath . 'admin/artworks.php';
         $html = ob_get_clean();
@@ -145,7 +184,12 @@ class SystemController
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
-        $comments = $this->adminService->getAllComments();
+        $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        $pagination = $this->adminService->getCommentsPaginated($page);
+        $comments = $pagination['comments'];
+        $currentPage = $pagination['currentPage'];
+        $totalPages = $pagination['totalPages'];
+        $total = $pagination['total'];
         ob_start();
         include $this->viewPath . 'admin/comments.php';
         $html = ob_get_clean();
@@ -167,20 +211,6 @@ class SystemController
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
-        ob_start();
-        include $this->viewPath . 'admin/resources.php';
-        $html = ob_get_clean();
-        $response->getBody()->write($html);
-        return $response;
-    }
-
-    public function regenerateThumbnails(Request $request, Response $response)
-    {
-        if (!$this->isAdminLoggedIn()) {
-            return $response->withHeader('Location', '/admin/login')->withStatus(302);
-        }
-        $count = $this->adminService->regenerateThumbnails();
-        $message = "成功重新生成了 $count 张缩略图";
         ob_start();
         include $this->viewPath . 'admin/resources.php';
         $html = ob_get_clean();
