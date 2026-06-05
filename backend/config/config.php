@@ -1,10 +1,10 @@
 <?php
-
+// 配置文件
 return [
     'host' => '0.0.0.0',
     'port' => 8082,
     'encoding' => 'utf-8',
-    
+
     'session' => [
         'secret' => 'pinkcandy gallery',
         'name' => 'PINKCANDYUSER',
@@ -15,7 +15,7 @@ return [
         'httponly' => true,
         'same_site' => 'Lax',
     ],
-    
+
     'database' => [
         'mysql' => [
             'host' => 'localhost',
@@ -28,7 +28,7 @@ return [
             'prefix' => '',
         ],
     ],
-    
+
     'files' => [
         'root' => __DIR__ . '/../storage',
         'gallery' => __DIR__ . '/../storage/gallery/',
@@ -37,13 +37,13 @@ return [
         'backimage' => __DIR__ . '/../storage/backimage/',
         'sessions' => __DIR__ . '/../storage/sessions/',
     ],
-    
+
     'upload' => [
         'max_size' => 50 * 1024 * 1024,
         'allowed_extensions' => ['jpg', 'jpeg', 'png', 'gif', 'tif', 'tiff', 'JPG', 'JPEG', 'PNG'],
         'image_resize' => 256,
     ],
-    
+
     'mailer' => [
         'host' => 'smtp.qq.com',
         'port' => 465,
@@ -52,7 +52,7 @@ return [
         'password' => '',
         'from' => '1479499289@qq.com',
     ],
-    
+
     'cors' => [
         'allowed_origins' => ['*'],
         'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

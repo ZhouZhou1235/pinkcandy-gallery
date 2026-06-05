@@ -1,8 +1,8 @@
 <?php
-
+// 主业务路由
 use Slim\App;
 
-return function (App $app, $mainController, $config) {
+return function (App $app, $mainController, $config){
     $app->get('/core/getUser/{username}', [$mainController, 'getUser']);
     $app->get('/core/getSessionUser', [$mainController, 'getSessionUser']);
     $app->get('/core/getArtworks', [$mainController, 'getArtworks']);
@@ -58,53 +58,49 @@ return function (App $app, $mainController, $config) {
     $app->post('/core/trendFinishRead', [$mainController, 'trendFinishRead']);
     $app->post('/core/trendNotRead', [$mainController, 'trendNotRead']);
 
-    $app->get('/files/gallery/{filename}', function ($request, $response, $args) use ($config) {
+    // 作品文件访问
+    $app->get('/files/gallery/{filename}', function ($request, $response, $args) use ($config){
         $filename = $args['filename'];
         $filePath = $config['files']['gallery'] . $filename;
-        
         if (!file_exists($filePath)) {
             return $response->withStatus(404);
         }
-        
         $response = $response->withHeader('Content-Type', mime_content_type($filePath));
         $response->getBody()->write(file_get_contents($filePath));
         return $response;
     });
 
-    $app->get('/files/headimage/{filename}', function ($request, $response, $args) use ($config) {
+    // 头像文件访问
+    $app->get('/files/headimage/{filename}', function ($request, $response, $args) use ($config){
         $filename = $args['filename'];
         $filePath = $config['files']['headimage'] . $filename;
-        
         if (!file_exists($filePath)) {
             return $response->withStatus(404);
         }
-        
         $response = $response->withHeader('Content-Type', mime_content_type($filePath));
         $response->getBody()->write(file_get_contents($filePath));
         return $response;
     });
 
-    $app->get('/files/backimage/{filename}', function ($request, $response, $args) use ($config) {
+    // 背景图文件访问
+    $app->get('/files/backimage/{filename}', function ($request, $response, $args) use ($config){
         $filename = $args['filename'];
         $filePath = $config['files']['backimage'] . $filename;
-        
         if (!file_exists($filePath)) {
             return $response->withStatus(404);
         }
-        
         $response = $response->withHeader('Content-Type', mime_content_type($filePath));
         $response->getBody()->write(file_get_contents($filePath));
         return $response;
     });
 
-    $app->get('/files/GalleryPreview/{filename}', function ($request, $response, $args) use ($config) {
+    // 作品预览图访问
+    $app->get('/files/GalleryPreview/{filename}', function ($request, $response, $args) use ($config){
         $filename = $args['filename'];
         $filePath = $config['files']['galleryPreview'] . $filename;
-        
         if (!file_exists($filePath)) {
             return $response->withStatus(404);
         }
-        
         $response = $response->withHeader('Content-Type', mime_content_type($filePath));
         $response->getBody()->write(file_get_contents($filePath));
         return $response;

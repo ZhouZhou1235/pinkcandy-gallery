@@ -21,17 +21,6 @@
 mysql -u username -p pinkcandy_gallery < pinkcandy_gallery.sql
 ```
 
-### 后端
-配置 `config/config.php`<br />
-安装依赖<br />
-```bash
-composer install
-```
-启动<br />
-```bash
-php -S localhost:8082
-```
-
 ### 前端
 配置 `src/code/config.ts`<br />
 安装依赖<br />
@@ -41,6 +30,17 @@ npm install
 启动<br />
 ```bash
 npm run dev
+```
+
+### 后端
+配置 `config/config.php`<br />
+安装依赖<br />
+```bash
+composer install
+```
+启动<br />
+```bash
+php -S localhost:8082
 ```
 
 
@@ -54,6 +54,7 @@ npm run build
 将 `dist/` 目录部署到 Web 服务器<br />
 以Nginx为例，完成以下配置。<br />
 ```nginx
+# 反向代理
 server {
     listen 80;
     server_name your-domain.com;
@@ -75,7 +76,7 @@ server {
 
 ### 后端
 使用 PHP-FPM 或启动内置服务器<br />
-以Nginx为例，添加以下配置。<br />
+以Nginx为例，完成以下配置。<br />
 ```nginx
 # index.php 处理请求
 location / {

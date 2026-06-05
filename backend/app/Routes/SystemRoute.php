@@ -1,10 +1,10 @@
 <?php
-
+// 管理系统路由
 use Slim\App;
 
-return function (App $app, $systemController) {
+return function (App $app, $systemController){
     $app->get('/', [$systemController, 'index']);
-    
+
     $app->get('/admin/login', [$systemController, 'loginPage']);
     $app->post('/admin/login', [$systemController, 'login']);
     $app->get('/admin/logout', [$systemController, 'logout']);
@@ -22,7 +22,7 @@ return function (App $app, $systemController) {
     $app->post('/admin/settings/add', [$systemController, 'addAdmin']);
     $app->get('/admin/settings/remove/{username}', [$systemController, 'removeAdmin']);
 
-    $app->get('/favicon.ico', function ($request, $response) {
+    $app->get('/favicon.ico', function ($request, $response){
         return $response->withStatus(204);
     });
 };

@@ -1,4 +1,5 @@
 <?php
+// 入口
 
 use App\Controllers\MainController;
 use App\Controllers\SystemController;

@@ -1,5 +1,5 @@
 <?php
-
+// 管理系统控制器
 namespace App\Controllers;
 
 use Illuminate\Database\Capsule\Manager as DB;
@@ -7,31 +7,27 @@ use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use App\Services\AdminService;
 
-class SystemController
-{
+class SystemController{
     private $viewPath;
     private $adminService;
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->viewPath = __DIR__ . '/../Views/';
         $this->adminService = new AdminService();
     }
-    
-    public function index(Request $request, Response $response)
-    {
+
+    // 首页
+    public function index(Request $request, Response $response){
         $stats = $this->getStats();
-        
         ob_start();
         include $this->viewPath . 'index.php';
         $html = ob_get_clean();
-        
         $response->getBody()->write($html);
         return $response->withHeader('Content-Type', 'text/html; charset=utf-8');
     }
-    
-    private function getStats()
-    {
+
+    // 获取统计信息
+    private function getStats(){
         return [
             'users' => DB::table('user')->count(),
             'artworks' => DB::table('gallery')->count(),
@@ -40,13 +36,13 @@ class SystemController
         ];
     }
 
-    private function isAdminLoggedIn()
-    {
+    // 检查管理员登录状态
+    private function isAdminLoggedIn(){
         return isset($_SESSION['admin_username']);
     }
 
-    public function loginPage(Request $request, Response $response)
-    {
+    // 登录页面
+    public function loginPage(Request $request, Response $response){
         if ($this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/dashboard')->withStatus(302);
         }
@@ -57,12 +53,11 @@ class SystemController
         return $response;
     }
 
-    public function login(Request $request, Response $response)
-    {
+    // 管理员登录
+    public function login(Request $request, Response $response){
         $data = $request->getParsedBody();
         $username = $data['username'] ?? '';
         $password = $data['password'] ?? '';
-
         $user = $this->adminService->login($username, $password);
         if ($user) {
             $_SESSION['admin_username'] = $user->username;
@@ -77,15 +72,15 @@ class SystemController
         }
     }
 
-    public function logout(Request $request, Response $response)
-    {
+    // 管理员登出
+    public function logout(Request $request, Response $response){
         unset($_SESSION['admin_username']);
         session_destroy();
         return $response->withHeader('Location', '/admin/login')->withStatus(302);
     }
 
-    public function dashboard(Request $request, Response $response)
-    {
+    // 管理后台首页
+    public function dashboard(Request $request, Response $response){
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
@@ -96,8 +91,8 @@ class SystemController
         return $response;
     }
 
-    public function users(Request $request, Response $response)
-    {
+    // 用户管理页面
+    public function users(Request $request, Response $response){
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
@@ -114,8 +109,8 @@ class SystemController
         return $response;
     }
 
-    public function deleteUser(Request $request, Response $response, $args)
-    {
+    // 删除用户
+    public function deleteUser(Request $request, Response $response, $args){
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
@@ -123,8 +118,8 @@ class SystemController
         return $response->withHeader('Location', '/admin/users')->withStatus(302);
     }
 
-    public function artworks(Request $request, Response $response)
-    {
+    // 作品管理页面
+    public function artworks(Request $request, Response $response){
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
@@ -141,8 +136,8 @@ class SystemController
         return $response;
     }
 
-    public function regenerateSingleThumbnail(Request $request, Response $response, $args)
-    {
+    // 重新生成单个缩略图
+    public function regenerateSingleThumbnail(Request $request, Response $response, $args){
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
@@ -170,8 +165,8 @@ class SystemController
         return $response;
     }
 
-    public function deleteArtwork(Request $request, Response $response, $args)
-    {
+    // 删除作品
+    public function deleteArtwork(Request $request, Response $response, $args){
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
@@ -179,8 +174,8 @@ class SystemController
         return $response->withHeader('Location', '/admin/artworks')->withStatus(302);
     }
 
-    public function comments(Request $request, Response $response)
-    {
+    // 评论管理页面
+    public function comments(Request $request, Response $response){
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
@@ -197,8 +192,8 @@ class SystemController
         return $response;
     }
 
-    public function deleteComment(Request $request, Response $response, $args)
-    {
+    // 删除评论
+    public function deleteComment(Request $request, Response $response, $args){
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
@@ -206,8 +201,8 @@ class SystemController
         return $response->withHeader('Location', '/admin/comments')->withStatus(302);
     }
 
-    public function resources(Request $request, Response $response)
-    {
+    // 资源管理页面
+    public function resources(Request $request, Response $response){
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
@@ -218,8 +213,8 @@ class SystemController
         return $response;
     }
 
-    public function clearSessions(Request $request, Response $response)
-    {
+    // 清理过期Session
+    public function clearSessions(Request $request, Response $response){
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
@@ -232,8 +227,8 @@ class SystemController
         return $response;
     }
 
-    public function settings(Request $request, Response $response)
-    {
+    // 设置页面
+    public function settings(Request $request, Response $response){
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
@@ -245,8 +240,8 @@ class SystemController
         return $response;
     }
 
-    public function addAdmin(Request $request, Response $response)
-    {
+    // 添加管理员
+    public function addAdmin(Request $request, Response $response){
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
@@ -258,8 +253,8 @@ class SystemController
         return $response->withHeader('Location', '/admin/settings')->withStatus(302);
     }
 
-    public function removeAdmin(Request $request, Response $response, $args)
-    {
+    // 移除管理员
+    public function removeAdmin(Request $request, Response $response, $args){
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }

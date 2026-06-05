@@ -1,45 +1,40 @@
 <?php
-
+// 主业务服务
 namespace App\Services;
 
 use Illuminate\Database\Capsule\Manager as DB;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class MainService
-{
+class MainService{
     private $config;
-    
-    public function __construct(array $config)
-    {
+
+    public function __construct(array $config){
         $this->config = $config;
     }
-    
-    public function getUser(string $username)
-    {
+
+    // 获取用户信息
+    public function getUser(string $username){
         return DB::table('user')->where('username', $username)->first();
     }
-    
-    public function getSessionUser(string $username)
-    {
+
+    // 获取会话用户信息
+    public function getSessionUser(string $username){
         return DB::table('user')->where('username', $username)->select(['username', 'name', 'email', 'info', 'headimage', 'backimage', 'sex', 'species', 'jointime'])->first();
     }
-    
-    public function getArtworks(int $begin = 0, int $num = 50, ?string $username = null)
-    {
+
+    // 获取作品列表
+    public function getArtworks(int $begin = 0, int $num = 50, ?string $username = null){
         $query = DB::table('gallery')->orderBy('time', 'desc')->offset($begin)->limit($num);
-        
         if ($username) {
             $query->where('username', $username);
         }
-        
         return $query->get()->all();
     }
-    
-    public function getTags(int $begin = 0, int $num = 50)
-    {
+
+    // 获取标签列表
+    public function getTags(int $begin = 0, int $num = 50){
         $tagsResult = DB::table('tag')->orderBy('time', 'desc')->offset($begin)->limit($num)->get()->all();
-        
         $tags = [];
         foreach ($tagsResult as $tagObj) {
             $usenum = DB::table('tag_gallery')->where('tagid', $tagObj->id)->count();
@@ -52,12 +47,11 @@ class MainService
                 'usenum' => $usenum
             ];
         }
-        
         return $tags;
     }
-    
-    public function getBoardMessages(int $begin = 0, int $num = 50)
-    {
+
+    // 获取留言板消息
+    public function getBoardMessages(int $begin = 0, int $num = 50){
         return DB::table('board')
             ->join('user', 'board.username', '=', 'user.username')
             ->select('board.*', 'user.name')
@@ -67,25 +61,23 @@ class MainService
             ->get()
             ->all();
     }
-    
-    public function getDBRecordCount(string $table)
-    {
+
+    // 获取数据库记录数
+    public function getDBRecordCount(string $table){
         $validTables = ['user', 'gallery', 'tag', 'tag_gallery', 'board', 'gallery_comment', 'gallery_paw', 'gallery_star', 'user_watch', 'user_active'];
-        
         if (!in_array($table, $validTables)) {
             return 0;
         }
-        
         return DB::table($table)->count();
     }
-    
-    public function getArtwork(string $id)
-    {
+
+    // 获取单个作品
+    public function getArtwork(string $id){
         return DB::table('gallery')->where('id', $id)->first();
     }
-    
-    public function getTagsArtwork(string $id)
-    {
+
+    // 获取作品的标签
+    public function getTagsArtwork(string $id){
         $tagsResult = DB::table('tag')
             ->join('tag_gallery', 'tag.id', '=', 'tag_gallery.tagid')
             ->where('tag_gallery.galleryid', $id)
@@ -93,7 +85,6 @@ class MainService
             ->select('tag.*')
             ->get()
             ->all();
-        
         $tags = [];
         foreach ($tagsResult as $tagObj) {
             $usenum = DB::table('tag_gallery')->where('tagid', $tagObj->id)->count();
@@ -106,12 +97,11 @@ class MainService
                 'usenum' => $usenum
             ];
         }
-        
         return $tags;
     }
-    
-    public function getArtworkComments(string $id, int $begin = 0, int $num = 50, ?string $username = null)
-    {
+
+    // 获取作品评论
+    public function getArtworkComments(string $id, int $begin = 0, int $num = 50, ?string $username = null){
         $comments = DB::table('gallery_comment')
             ->join('user', 'gallery_comment.username', '=', 'user.username')
             ->where('gallery_comment.galleryid', $id)
@@ -121,12 +111,10 @@ class MainService
             ->limit($num)
             ->get()
             ->all();
-        
         $result = [];
         foreach ($comments as $comment) {
             $pawnum = DB::table('gallery_paw')->where('commentid', $comment->id)->count();
             $havepaw = $username ? (DB::table('gallery_paw')->where(['username' => $username, 'galleryid' => $id, 'commentid' => $comment->id])->exists() ? true : false) : false;
-            
             $result[] = [
                 'id' => $comment->id,
                 'galleryid' => $comment->galleryid,
@@ -144,17 +132,16 @@ class MainService
                 'havepaw' => $havepaw,
             ];
         }
-        
         return $result;
     }
-    
-    public function getCommentGalleryCount(string $id)
-    {
+
+    // 获取作品评论数
+    public function getCommentGalleryCount(string $id){
         return DB::table('gallery_comment')->where('galleryid', $id)->count();
     }
-    
-    public function getArtworkPawAreaInfo(string $id, ?string $username = null)
-    {
+
+    // 获取作品爪印区域信息
+    public function getArtworkPawAreaInfo(string $id, ?string $username = null){
         return [
             'pawnum' => DB::table('gallery_paw')->where(['galleryid' => $id, 'commentid' => null])->count(),
             'starnum' => DB::table('gallery_star')->where('galleryid', $id)->count(),
@@ -165,24 +152,21 @@ class MainService
             ],
         ];
     }
-    
-    public function getUserInfoCount(string $username)
-    {
+
+    // 获取用户信息统计
+    public function getUserInfoCount(string $username){
         $watcherNum = DB::table('user_watch')->where('username', $username)->count();
         $towatchNum = DB::table('user_watch')->where('watcher', $username)->count();
         $artworkNum = DB::table('gallery')->where('username', $username)->count();
-        
         $gotPawnum = DB::table('gallery')
             ->join('gallery_paw', 'gallery.id', '=', 'gallery_paw.galleryid')
             ->where('gallery.username', $username)
             ->whereNull('gallery_paw.commentid')
             ->count();
-        
         $gotPawnum += DB::table('gallery_comment')
             ->join('gallery_paw', 'gallery_comment.id', '=', 'gallery_paw.commentid')
             ->where('gallery_comment.username', $username)
             ->count();
-        
         return [
             'watchernum' => $watcherNum,
             'towatchnum' => $towatchNum,
@@ -190,9 +174,9 @@ class MainService
             'gotpawnum' => $gotPawnum,
         ];
     }
-    
-    public function getUserWatch(string $username, int $begin = 0, int $num = 50)
-    {
+
+    // 获取用户关注列表
+    public function getUserWatch(string $username, int $begin = 0, int $num = 50){
         $watchersResult = DB::table('user_watch')
             ->join('user', 'user_watch.watcher', '=', 'user.username')
             ->where('user_watch.username', $username)
@@ -202,7 +186,6 @@ class MainService
             ->limit($num)
             ->get()
             ->all();
-        
         $towatchResult = DB::table('user_watch')
             ->join('user', 'user_watch.username', '=', 'user.username')
             ->where('user_watch.watcher', $username)
@@ -212,7 +195,6 @@ class MainService
             ->limit($num)
             ->get()
             ->all();
-        
         $watchers = [];
         foreach ($watchersResult as $item) {
             $watchers[] = [
@@ -229,7 +211,6 @@ class MainService
                 ]
             ];
         }
-        
         $towatch = [];
         foreach ($towatchResult as $item) {
             $towatch[] = [
@@ -246,14 +227,12 @@ class MainService
                 ]
             ];
         }
-        
         return ['watcher' => $watchers, 'towatch' => $towatch];
     }
-    
-    public function getStarArtworks(int $begin = 0, int $num = 50, ?string $username = null)
-    {
+
+    // 获取收藏作品列表
+    public function getStarArtworks(int $begin = 0, int $num = 50, ?string $username = null){
         if (!$username) return [];
-        
         $starList = DB::table('gallery_star')
             ->where('gallery_star.username', $username)
             ->orderBy('gallery_star.time', 'desc')
@@ -261,7 +240,6 @@ class MainService
             ->limit($num)
             ->get()
             ->all();
-        
         $result = [];
         foreach ($starList as $star) {
             $gallery = DB::table('gallery')->where('id', $star->galleryid)->first();
@@ -269,26 +247,22 @@ class MainService
             $item->gallery = $gallery;
             $result[] = $item;
         }
-        
         return $result;
     }
-    
-    public function getUserStarInfoCount(string $username)
-    {
+
+    // 获取用户收藏统计
+    public function getUserStarInfoCount(string $username){
         if (!$username) return ['artworknum' => 0];
-        
         return ['artworknum' => DB::table('gallery_star')->where('username', $username)->count()];
     }
-    
-    public function searchTags(string $tagtext)
-    {
+
+    // 搜索标签
+    public function searchTags(string $tagtext){
         $tagList = explode(' ', trim($tagtext));
         $result = [];
         $tagIds = [];
-        
         foreach ($tagList as $tag) {
             if (empty($tag)) continue;
-            
             $tags = DB::table('tag')->where('tag', 'like', "%{$tag}%")->get()->all();
             foreach ($tags as $t) {
                 if (!in_array($t->id, $tagIds)) {
@@ -305,19 +279,16 @@ class MainService
                 }
             }
         }
-        
         return $result;
     }
-    
-    public function searchPinkCandy(string $searchtext)
-    {
+
+    // 搜索粉糖内容
+    public function searchPinkCandy(string $searchtext){
         $tagList = explode(' ', trim($searchtext));
         $galleryIds = [];
         $usernames = [];
-        
         foreach ($tagList as $tag) {
             if (empty($tag)) continue;
-            
             $tagObj = DB::table('tag')->where('tag', $tag)->first();
             if ($tagObj) {
                 $tagGalleryIds = DB::table('tag_gallery')->where('tagid', $tagObj->id)->pluck('galleryid')->all();
@@ -327,34 +298,28 @@ class MainService
                     $galleryIds = array_intersect($galleryIds, $tagGalleryIds);
                 }
             }
-            
             $galleryByTitle = DB::table('gallery')->where('title', 'like', "%{$tag}%")->pluck('id')->all();
             $galleryIds = array_merge($galleryIds, $galleryByTitle);
-            
             $users = DB::table('user')->where('name', 'like', "%{$tag}%")->orWhere('username', 'like', "%{$tag}%")->pluck('username')->all();
             $usernames = array_merge($usernames, $users);
         }
-        
         $galleryIds = array_unique($galleryIds);
         $usernames = array_unique($usernames);
-        
         $artworks = [];
         foreach ($galleryIds as $id) {
             $artwork = DB::table('gallery')->where('id', $id)->first();
             if ($artwork) $artworks[] = $artwork;
         }
-        
         $users = [];
         foreach ($usernames as $username) {
             $user = DB::table('user')->where('username', $username)->select(['username', 'name', 'headimage', 'sex', 'species'])->first();
             if ($user) $users[] = $user;
         }
-        
         return ['artwork' => $artworks, 'user' => $users];
     }
-    
-    public function getRegisterableUsername()
-    {
+
+    // 获取可注册的用户名
+    public function getRegisterableUsername(){
         for ($i = 0; $i < 10; $i++) {
             $username = mt_rand(10000, 99999);
             if (!DB::table('user')->where('username', (string)$username)->exists()) {
@@ -363,41 +328,32 @@ class MainService
         }
         return 0;
     }
-    
-    public function login(string $username, string $password)
-    {
+
+    // 用户登录
+    public function login(string $username, string $password){
         $user = DB::table('user')->where('username', $username)->orWhere('email', $username)->first();
-        
         if (!$user) return false;
-        
         if (password_verify($password, $user->password)) {
             return $user;
         }
-        
         return false;
     }
-    
-    public function uploadArtwork(string $username, string $title, string $info, array $tags, $file)
-    {
+
+    // 上传作品
+    public function uploadArtwork(string $username, string $title, string $info, array $tags, $file){
         $id = $this->createRandomID();
         $ext = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
-        
         if (!in_array(strtolower($ext), $this->config['upload']['allowed_extensions'])) {
             return false;
         }
-        
         $saveFilename = $id . '.' . $ext;
         $savePath = $this->config['files']['gallery'] . $saveFilename;
-        
         if (DB::table('gallery')->where('id', $id)->exists()) {
             return false;
         }
-        
         $this->ensureDirectoryExists($this->config['files']['gallery']);
         $this->ensureDirectoryExists($this->config['files']['galleryPreview']);
-        
         DB::beginTransaction();
-        
         try {
             DB::table('gallery')->insert([
                 'id' => $id,
@@ -407,14 +363,10 @@ class MainService
                 'info' => $info,
                 'time' => date('Y-m-d H:i:s'),
             ]);
-            
             DB::table('user_active')->where('username', $username)->update(['mediatime' => date('Y-m-d H:i:s')]);
-            
             $this->addTagsForArtwork($id, $tags);
-            
             $file->moveTo($savePath);
             $this->compressImage($savePath, $this->config['files']['galleryPreview'] . $saveFilename);
-            
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -422,35 +374,32 @@ class MainService
             return false;
         }
     }
-    
-    public function addBoardMessage(string $username, string $content)
-    {
+
+    // 添加留言板消息
+    public function addBoardMessage(string $username, string $content){
         DB::table('board')->insert([
             'username' => $username,
             'content' => $content,
             'time' => date('Y-m-d H:i:s'),
         ]);
-        
         return true;
     }
-    
-    public function editUser(string $username, string $name, ?string $info = null, ?string $sex = null, ?string $species = null)
-    {
+
+    // 编辑用户信息
+    public function editUser(string $username, string $name, ?string $info = null, ?string $sex = null, ?string $species = null){
         DB::table('user')->where('username', $username)->update([
             'name' => $name,
             'info' => $info,
             'sex' => $sex,
             'species' => $species,
         ]);
-        
         return true;
     }
-    
-    public function editUserImage(string $username, $headimage = null, $backimage = null)
-    {
+
+    // 编辑用户头像/背景
+    public function editUserImage(string $username, $headimage = null, $backimage = null){
         $this->ensureDirectoryExists($this->config['files']['headimage']);
         $this->ensureDirectoryExists($this->config['files']['backimage']);
-        
         if ($headimage) {
             $id = $this->createRandomID();
             $ext = pathinfo($headimage->getClientFilename(), PATHINFO_EXTENSION);
@@ -459,18 +408,13 @@ class MainService
             }
             $saveFilename = $id . '.' . $ext;
             $savePath = $this->config['files']['headimage'] . $saveFilename;
-            
             $oldImage = DB::table('user')->where('username', $username)->value('headimage');
-            
             DB::table('user')->where('username', $username)->update(['headimage' => $saveFilename]);
-            
             $headimage->moveTo($savePath);
-            
             if ($oldImage) {
                 @unlink($this->config['files']['headimage'] . $oldImage);
             }
         }
-        
         if ($backimage) {
             $id = $this->createRandomID();
             $ext = pathinfo($backimage->getClientFilename(), PATHINFO_EXTENSION);
@@ -479,46 +423,36 @@ class MainService
             }
             $saveFilename = $id . '.' . $ext;
             $savePath = $this->config['files']['backimage'] . $saveFilename;
-            
             $oldImage = DB::table('user')->where('username', $username)->value('backimage');
-            
             DB::table('user')->where('username', $username)->update(['backimage' => $saveFilename]);
-            
             $backimage->moveTo($savePath);
             $this->compressImage($savePath, $savePath, $this->config['upload']['image_resize'] * 4);
-            
             if ($oldImage) {
                 @unlink($this->config['files']['backimage'] . $oldImage);
             }
         }
-        
         return true;
     }
-    
-    public function clearUserImage(string $username)
-    {
+
+    // 清除用户头像/背景
+    public function clearUserImage(string $username){
         $user = DB::table('user')->where('username', $username)->first();
-        
         if ($user->headimage) {
             unlink($this->config['files']['headimage'] . $user->headimage);
         }
         if ($user->backimage) {
             unlink($this->config['files']['backimage'] . $user->backimage);
         }
-        
         DB::table('user')->where('username', $username)->update(['headimage' => null, 'backimage' => null]);
-        
         return true;
     }
-    
-    public function sendCommentArtwork(string $galleryid, string $username, string $content)
-    {
+
+    // 发送作品评论
+    public function sendCommentArtwork(string $galleryid, string $username, string $content){
         $id = $this->createRandomID();
-        
         if (DB::table('gallery_comment')->where('id', $id)->exists()) {
             return false;
         }
-        
         DB::table('gallery_comment')->insert([
             'id' => $id,
             'galleryid' => $galleryid,
@@ -526,16 +460,14 @@ class MainService
             'content' => $content,
             'time' => date('Y-m-d H:i:s'),
         ]);
-        
         return true;
     }
-    
-    public function pawArtworkMedia(string $username, string $galleryid, ?string $commentid = null)
-    {
+
+    // 爪印作品/评论
+    public function pawArtworkMedia(string $username, string $galleryid, ?string $commentid = null){
         $exists = DB::table('gallery_paw')
             ->where(['username' => $username, 'galleryid' => $galleryid, 'commentid' => $commentid])
             ->exists();
-        
         if ($exists) {
             DB::table('gallery_paw')->where(['username' => $username, 'galleryid' => $galleryid, 'commentid' => $commentid])->delete();
         } else {
@@ -546,14 +478,12 @@ class MainService
                 'time' => date('Y-m-d H:i:s'),
             ]);
         }
-        
         return true;
     }
-    
-    public function starArtworkMedia(string $username, string $galleryid)
-    {
+
+    // 收藏/取消收藏作品
+    public function starArtworkMedia(string $username, string $galleryid){
         $exists = DB::table('gallery_star')->where(['username' => $username, 'galleryid' => $galleryid])->exists();
-        
         if ($exists) {
             DB::table('gallery_star')->where(['username' => $username, 'galleryid' => $galleryid])->delete();
         } else {
@@ -563,21 +493,18 @@ class MainService
                 'time' => date('Y-m-d H:i:s'),
             ]);
         }
-        
         return true;
     }
-    
-    public function haveWatch(string $watcher, string $username)
-    {
+
+    // 检查是否已关注
+    public function haveWatch(string $watcher, string $username){
         return DB::table('user_watch')->where(['username' => $username, 'watcher' => $watcher])->exists();
     }
-    
-    public function watchUser(string $watcher, string $username)
-    {
+
+    // 关注/取消关注用户
+    public function watchUser(string $watcher, string $username){
         if ($watcher == $username) return false;
-        
         $exists = DB::table('user_watch')->where(['username' => $username, 'watcher' => $watcher])->exists();
-        
         if ($exists) {
             DB::table('user_watch')->where(['username' => $username, 'watcher' => $watcher])->delete();
         } else {
@@ -587,25 +514,20 @@ class MainService
                 'time' => date('Y-m-d H:i:s'),
             ]);
         }
-        
         return true;
     }
-    
-    public function editArtwork(string $id, string $title, string $info, array $tags, string $username)
-    {
+
+    // 编辑作品
+    public function editArtwork(string $id, string $title, string $info, array $tags, string $username){
         $artwork = DB::table('gallery')->where('id', $id)->first();
-        
         if (!$artwork || $artwork->username != $username) {
             return false;
         }
-        
         DB::beginTransaction();
-        
         try {
             DB::table('gallery')->where('id', $id)->update(['title' => $title, 'info' => $info]);
             DB::table('tag_gallery')->where('galleryid', $id)->delete();
             $this->addTagsForArtwork($id, $tags);
-            
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -613,27 +535,22 @@ class MainService
             return false;
         }
     }
-    
-    public function deleteArtwork(string $id, string $username)
-    {
+
+    // 删除作品
+    public function deleteArtwork(string $id, string $username){
         $artwork = DB::table('gallery')->where('id', $id)->first();
-        
         if (!$artwork || $artwork->username != $username) {
             return false;
         }
-        
         DB::beginTransaction();
-        
         try {
             DB::table('gallery')->where('id', $id)->delete();
             DB::table('gallery_comment')->where('galleryid', $id)->delete();
             DB::table('gallery_paw')->where('galleryid', $id)->delete();
             DB::table('gallery_star')->where('galleryid', $id)->delete();
             DB::table('tag_gallery')->where('galleryid', $id)->delete();
-            
             unlink($this->config['files']['gallery'] . $artwork->filename);
             unlink($this->config['files']['galleryPreview'] . $artwork->filename);
-            
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -641,28 +558,26 @@ class MainService
             return false;
         }
     }
-    
-    public function editTag(string $id, string $tag, string $type, ?string $info = null)
-    {
+
+    // 编辑标签
+    public function editTag(string $id, string $tag, string $type, ?string $info = null){
         DB::table('tag')->where('id', $id)->update([
             'tag' => $tag,
             'type' => $type,
             'info' => $info,
         ]);
-        
         return true;
     }
-    
-    public function deleteTag(string $id)
-    {
+
+    // 删除标签
+    public function deleteTag(string $id){
         DB::table('tag')->where('id', $id)->delete();
         DB::table('tag_gallery')->where('tagid', $id)->delete();
-        
         return true;
     }
-    
-    public function sendMail(string $to, string $content, string $subject = 'PINKCANDY MAILER')
-    {
+
+    // 发送邮件
+    public function sendMail(string $to, string $content, string $subject = 'PINKCANDY MAILER'){
         try {
             $mail = new PHPMailer(true);
             $mail->isSMTP();
@@ -672,31 +587,25 @@ class MainService
             $mail->Password = $this->config['mailer']['password'];
             $mail->SMTPSecure = $this->config['mailer']['secure'] ? 'ssl' : 'tls';
             $mail->Port = $this->config['mailer']['port'];
-            
             $mail->setFrom($this->config['mailer']['from'], 'PinkCandy Gallery');
             $mail->addAddress($to);
-            
             $mail->isHTML(true);
             $mail->Subject = $subject;
             $mail->Body = $content;
-            
             $mail->send();
             return true;
         } catch (Exception $e) {
             return false;
         }
     }
-    
-    public function register(string $username, string $password, string $name, string $email)
-    {
+
+    // 用户注册
+    public function register(string $username, string $password, string $name, string $email){
         $exists = DB::table('user')->where('username', $username)->orWhere('email', $email)->exists();
-        
         if ($exists) {
             return false;
         }
-        
         DB::beginTransaction();
-        
         try {
             DB::table('user')->insert([
                 'username' => $username,
@@ -705,14 +614,12 @@ class MainService
                 'email' => $email,
                 'jointime' => date('Y-m-d H:i:s'),
             ]);
-            
             DB::table('user_active')->insert([
                 'username' => $username,
                 'noticetime' => date('Y-m-d H:i:s'),
                 'trendstime' => date('Y-m-d H:i:s'),
                 'mediatime' => date('Y-m-d H:i:s'),
             ]);
-            
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -720,48 +627,38 @@ class MainService
             return false;
         }
     }
-    
-    public function resetPassword(string $email, string $password)
-    {
+
+    // 重置密码
+    public function resetPassword(string $email, string $password){
         $user = DB::table('user')->where('email', $email)->first();
-        
         if (!$user) return false;
-        
         DB::table('user')->where('username', $user->username)->update(['password' => password_hash($password, PASSWORD_DEFAULT)]);
-        
         return true;
     }
-    
-    public function editUserImportant(string $username, ?string $password = null, ?string $email = null)
-    {
+
+    // 修改用户关键信息
+    public function editUserImportant(string $username, ?string $password = null, ?string $email = null){
         $data = [];
-        
         if ($password) {
             $data['password'] = password_hash($password, PASSWORD_DEFAULT);
         }
         if ($email) {
             $data['email'] = $email;
         }
-        
         if (!empty($data)) {
             DB::table('user')->where('username', $username)->update($data);
         }
-        
         return true;
     }
-    
-    public function getNoticenum(string $username)
-    {
+
+    // 获取通知数量
+    public function getNoticenum(string $username){
         $userActive = DB::table('user_active')->where('username', $username)->first();
-        
         if (!$userActive) {
             return 0;
         }
-        
         $noticetime = $userActive->noticetime;
-        
         $count = DB::table('user_watch')->where('username', $username)->where('time', '>=', $noticetime)->count();
-        
         $artworkList = DB::table('gallery')->where('username', $username)->get()->all();
         foreach ($artworkList as $artwork) {
             $count += DB::table('gallery_paw')
@@ -769,13 +666,11 @@ class MainService
                 ->whereNull('commentid')
                 ->where('time', '>=', $noticetime)
                 ->count();
-            
             $count += DB::table('gallery_comment')
                 ->where('galleryid', $artwork->id)
                 ->where('time', '>=', $noticetime)
                 ->count();
         }
-        
         $commentList = DB::table('gallery_comment')->where('username', $username)->get()->all();
         foreach ($commentList as $comment) {
             $count += DB::table('gallery_paw')
@@ -783,21 +678,17 @@ class MainService
                 ->where('time', '>=', $noticetime)
                 ->count();
         }
-        
         return $count;
     }
-    
-    public function getUserNoticePawArtwork(string $username)
-    {
+
+    // 获取用户通知-爪印作品
+    public function getUserNoticePawArtwork(string $username){
         $userActive = DB::table('user_active')->where('username', $username)->first();
-        
         if (!$userActive) {
             return ['artwork' => [], 'artworkcomment' => []];
         }
-        
         $noticetime = $userActive->noticetime;
         $result = ['artwork' => [], 'artworkcomment' => []];
-        
         $artworkList = DB::table('gallery')->where('username', $username)->get()->all();
         foreach ($artworkList as $artwork) {
             $paws = DB::table('gallery_paw')
@@ -810,7 +701,6 @@ class MainService
                 ->select(['gallery_paw.*', 'user.name', 'user.headimage', 'user.sex', 'user.species'])
                 ->get()
                 ->all();
-            
             foreach ($paws as $paw) {
                 $result['artwork'][] = [
                     'id' => $paw->id,
@@ -828,7 +718,6 @@ class MainService
                 ];
             }
         }
-        
         $commentList = DB::table('gallery_comment')->where('username', $username)->get()->all();
         foreach ($commentList as $comment) {
             $paws = DB::table('gallery_paw')
@@ -840,7 +729,6 @@ class MainService
                 ->select(['gallery_paw.*', 'user.name', 'user.headimage', 'user.sex', 'user.species'])
                 ->get()
                 ->all();
-            
             foreach ($paws as $paw) {
                 $result['artworkcomment'][] = [
                     'id' => $paw->id,
@@ -857,21 +745,17 @@ class MainService
                 ];
             }
         }
-        
         return $result;
     }
-    
-    public function getUserNoticeTextEcho(string $username)
-    {
+
+    // 获取用户通知-文字回复
+    public function getUserNoticeTextEcho(string $username){
         $userActive = DB::table('user_active')->where('username', $username)->first();
-        
         if (!$userActive) {
             return ['artworkcomment' => []];
         }
-        
         $noticetime = $userActive->noticetime;
         $result = ['artworkcomment' => []];
-        
         $artworkList = DB::table('gallery')->where('username', $username)->get()->all();
         foreach ($artworkList as $artwork) {
             $comments = DB::table('gallery_comment')
@@ -883,7 +767,6 @@ class MainService
                 ->select(['gallery_comment.*', 'user.name', 'user.headimage', 'user.sex', 'user.species'])
                 ->get()
                 ->all();
-            
             foreach ($comments as $comment) {
                 $result['artworkcomment'][] = [
                     'id' => $comment->id,
@@ -902,20 +785,16 @@ class MainService
                 ];
             }
         }
-        
         return $result;
     }
-    
-    public function getUserNoticeWatcher(string $username)
-    {
+
+    // 获取用户通知-新粉丝
+    public function getUserNoticeWatcher(string $username){
         $userActive = DB::table('user_active')->where('username', $username)->first();
-        
         if (!$userActive) {
             return [];
         }
-        
         $noticetime = $userActive->noticetime;
-        
         $results = DB::table('user_watch')
             ->join('user', 'user_watch.watcher', '=', 'user.username')
             ->where('user_watch.username', $username)
@@ -925,7 +804,6 @@ class MainService
             ->select(['user_watch.*', 'user.name', 'user.headimage', 'user.sex', 'user.species'])
             ->get()
             ->all();
-        
         $result = [];
         foreach ($results as $item) {
             $result[] = [
@@ -940,18 +818,17 @@ class MainService
                 'time' => $item->time,
             ];
         }
-        
         return $result;
     }
-    
-    public function noticeFinishRead(string $username)
-    {
+
+    // 标记通知已读
+    public function noticeFinishRead(string $username){
         DB::table('user_active')->where('username', $username)->update(['noticetime' => date('Y-m-d H:i:s')]);
         return true;
     }
-    
-    public function noticeNotRead(string $username)
-    {
+
+    // 标记通知未读
+    public function noticeNotRead(string $username){
         $userActive = DB::table('user_active')->where('username', $username)->first();
         if ($userActive) {
             $currentNoticetime = $userActive->noticetime;
@@ -960,34 +837,28 @@ class MainService
         }
         return true;
     }
-    
-    public function getTrendnum(string $username)
-    {
+
+    // 获取动态数量
+    public function getTrendnum(string $username){
         $userActive = DB::table('user_active')->where('username', $username)->first();
-        
         if (!$userActive) {
             return 0;
         }
-        
         $trendstime = $userActive->trendstime;
-        
         return DB::table('user_active')
             ->join('user_watch', 'user_active.username', '=', 'user_watch.username')
             ->where('user_watch.watcher', $username)
             ->where('user_active.mediatime', '>=', $trendstime)
             ->count();
     }
-    
-    public function getUserTrendUsers(string $username)
-    {
+
+    // 获取用户动态-关注的用户
+    public function getUserTrendUsers(string $username){
         $userActive = DB::table('user_active')->where('username', $username)->first();
-        
         if (!$userActive) {
             return [];
         }
-        
         $trendstime = $userActive->trendstime;
-        
         $results = DB::table('user_active')
             ->join('user_watch', 'user_active.username', '=', 'user_watch.username')
             ->join('user', 'user_active.username', '=', 'user.username')
@@ -1003,20 +874,16 @@ class MainService
             ])
             ->get()
             ->all();
-        
         return $results;
     }
-    
-    public function getUserTrendArtworks(string $username, string $myUsername)
-    {
+
+    // 获取用户动态-作品
+    public function getUserTrendArtworks(string $username, string $myUsername){
         $userActive = DB::table('user_active')->where('username', $myUsername)->first();
-        
         if (!$userActive) {
             return [];
         }
-        
         $trendstime = $userActive->trendstime;
-        
         return DB::table('gallery')
             ->where('username', $username)
             ->where('time', '>=', $trendstime)
@@ -1024,15 +891,15 @@ class MainService
             ->get()
             ->all();
     }
-    
-    public function trendFinishRead(string $username)
-    {
+
+    // 标记动态已读
+    public function trendFinishRead(string $username){
         DB::table('user_active')->where('username', $username)->update(['trendstime' => date('Y-m-d H:i:s')]);
         return true;
     }
-    
-    public function trendNotRead(string $username)
-    {
+
+    // 标记动态未读
+    public function trendNotRead(string $username){
         $userActive = DB::table('user_active')->where('username', $username)->first();
         if ($userActive) {
             $currentTrendstime = $userActive->trendstime;
@@ -1041,21 +908,19 @@ class MainService
         }
         return true;
     }
-    
-    private function addUsenumForTags(array $tags)
-    {
+
+    // 为标签添加使用次数
+    private function addUsenumForTags(array $tags){
         foreach ($tags as &$tag) {
             $tag->usenum = DB::table('tag_gallery')->where('tagid', $tag->id)->count();
         }
-        
         return $tags;
     }
-    
-    private function addTagsForArtwork(string $id, array $tags)
-    {
+
+    // 为作品添加标签
+    private function addTagsForArtwork(string $id, array $tags){
         foreach ($tags as $tag) {
             $tagObj = DB::table('tag')->where('tag', $tag)->first();
-            
             if (!$tagObj) {
                 $tagId = $this->createRandomID();
                 DB::table('tag')->insert([
@@ -1072,33 +937,30 @@ class MainService
             }
         }
     }
-    
-    private function createRandomID(int $length = 10)
-    {
+
+    // 生成随机ID
+    private function createRandomID(int $length = 10){
         return (string) mt_rand(pow(10, $length - 1), pow(10, $length) - 1);
     }
-    
-    private function ensureDirectoryExists(string $path): void
-    {
+
+    // 确保目录存在
+    private function ensureDirectoryExists(string $path): void{
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }
     }
-    
-    private function compressImage(string $source, string $destination, int $resizeNum = 256)
-    {
+
+    // 压缩图片
+    private function compressImage(string $source, string $destination, int $resizeNum = 256){
         if (!file_exists($source)) {
             return;
         }
-        
         if (function_exists('gd_info')) {
             $info = getimagesize($source);
             if (!$info) {
                 return;
             }
-            
             $mime = $info['mime'];
-            
             $image = null;
             switch ($mime) {
                 case 'image/jpeg':
@@ -1113,14 +975,11 @@ class MainService
                 default:
                     return;
             }
-            
             if (!$image) {
                 return;
             }
-            
             $width = imagesx($image);
             $height = imagesy($image);
-            
             if ($width > $resizeNum || $height > $resizeNum) {
                 if ($width > $height) {
                     $newWidth = $resizeNum;
@@ -1129,10 +988,8 @@ class MainService
                     $newHeight = $resizeNum;
                     $newWidth = ($resizeNum / $height) * $width;
                 }
-                
                 $newImage = imagecreatetruecolor($newWidth, $newHeight);
                 imagecopyresampled($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-                
                 switch ($mime) {
                     case 'image/jpeg':
                         imagejpeg($newImage, $destination, 80);
@@ -1144,12 +1001,10 @@ class MainService
                         imagegif($newImage, $destination);
                         break;
                 }
-                
                 imagedestroy($newImage);
             } else {
                 copy($source, $destination);
             }
-            
             imagedestroy($image);
         }
     }

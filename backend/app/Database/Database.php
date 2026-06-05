@@ -1,15 +1,13 @@
 <?php
-
+// 数据库连接类
 namespace App\Database;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-class Database
-{
-    public static function connect(array $config)
-    {
+class Database{
+    // 初始化数据库连接
+    public static function connect(array $config){
         $capsule = new Capsule;
-        
         $capsule->addConnection([
             'driver' => 'mysql',
             'host' => $config['database']['mysql']['host'],
@@ -23,10 +21,8 @@ class Database
             'strict' => true,
             'engine' => null,
         ]);
-        
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
-        
         return $capsule;
     }
 }

@@ -1,39 +1,37 @@
 <?php
-
+// 管理系统服务
 namespace App\Services;
 
 use Illuminate\Database\Capsule\Manager as DB;
 
-class AdminService
-{
+class AdminService{
     private $adminsFile;
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->adminsFile = dirname(__DIR__, 2) . '/storage/admins.json';
         if (!file_exists($this->adminsFile)) {
             file_put_contents($this->adminsFile, json_encode(['admins' => []], JSON_UNESCAPED_UNICODE));
         }
     }
 
-    private function getAdminsData()
-    {
+    // 读取管理员数据
+    private function getAdminsData(){
         return json_decode(file_get_contents($this->adminsFile), true);
     }
 
-    private function saveAdminsData($data)
-    {
+    // 保存管理员数据
+    private function saveAdminsData($data){
         file_put_contents($this->adminsFile, json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
     }
 
-    public function isAdmin($username)
-    {
+    // 检查是否为管理员
+    public function isAdmin($username){
         $data = $this->getAdminsData();
         return in_array($username, $data['admins']);
     }
 
-    public function addAdmin($username)
-    {
+    // 添加管理员
+    public function addAdmin($username){
         $data = $this->getAdminsData();
         if (!in_array($username, $data['admins'])) {
             $data['admins'][] = $username;
@@ -41,8 +39,8 @@ class AdminService
         }
     }
 
-    public function removeAdmin($username)
-    {
+    // 移除管理员
+    public function removeAdmin($username){
         $data = $this->getAdminsData();
         $index = array_search($username, $data['admins']);
         if ($index !== false) {
@@ -51,14 +49,14 @@ class AdminService
         }
     }
 
-    public function getAllAdmins()
-    {
+    // 获取所有管理员
+    public function getAllAdmins(){
         $data = $this->getAdminsData();
         return $data['admins'];
     }
 
-    public function login($username, $password)
-    {
+    // 管理员登录验证
+    public function login($username, $password){
         $user = DB::table('user')->where('username', $username)->first();
         if (!$user) {
             $user = DB::table('user')->where('email', $username)->first();
@@ -73,16 +71,16 @@ class AdminService
         return false;
     }
 
-    public function getAllUsers()
-    {
+    // 获取所有用户
+    public function getAllUsers(){
         return DB::table('user')
             ->select('username', 'name', 'email', 'headimage', 'sex', 'species', 'jointime')
             ->orderBy('jointime', 'desc')
             ->get();
     }
 
-    public function getAllArtworks()
-    {
+    // 获取所有作品
+    public function getAllArtworks(){
         return DB::table('gallery as g')
             ->join('user as u', 'g.username', '=', 'u.username')
             ->select('g.id', 'g.username', 'g.title', 'g.filename', 'g.time', 'u.name as user_name')
@@ -90,8 +88,8 @@ class AdminService
             ->get();
     }
 
-    public function getAllComments()
-    {
+    // 获取所有评论
+    public function getAllComments(){
         return DB::table('gallery_comment as c')
             ->join('gallery as g', 'c.galleryid', '=', 'g.id')
             ->join('user as u', 'c.username', '=', 'u.username')
@@ -100,56 +98,49 @@ class AdminService
             ->get();
     }
 
-    public function deleteUser($username)
-    {
+    // 删除用户
+    public function deleteUser($username){
         DB::table('user')->where('username', $username)->delete();
     }
 
-    public function deleteArtwork($artworkId)
-    {
+    // 删除作品
+    public function deleteArtwork($artworkId){
         $artwork = DB::table('gallery')->where('id', $artworkId)->first();
         if ($artwork) {
             $galleryPath = dirname(__DIR__, 2) . '/storage/gallery/';
             $previewPath = dirname(__DIR__, 2) . '/storage/GalleryPreview/';
-            
             if (file_exists($galleryPath . $artwork->filename)) {
                 unlink($galleryPath . $artwork->filename);
             }
             if (file_exists($previewPath . $artwork->filename)) {
                 unlink($previewPath . $artwork->filename);
             }
-            
             DB::table('gallery')->where('id', $artworkId)->delete();
         }
     }
 
-    public function deleteComment($commentId)
-    {
+    // 删除评论
+    public function deleteComment($commentId){
         DB::table('gallery_comment')->where('id', $commentId)->delete();
     }
 
-    public function generateThumbnail($filename)
-    {
+    // 生成缩略图
+    public function generateThumbnail($filename){
         $galleryPath = dirname(__DIR__, 2) . '/storage/gallery/';
         $previewPath = dirname(__DIR__, 2) . '/storage/GalleryPreview/';
-        
         if (!is_dir($previewPath)) {
             mkdir($previewPath, 0777, true);
         }
-        
         $originalPath = $galleryPath . $filename;
         if (!file_exists($originalPath)) {
             return false;
         }
-        
         $info = getimagesize($originalPath);
         if (!$info) {
             return false;
         }
-        
         $mimeType = $info[2];
         $image = null;
-        
         switch ($mimeType) {
             case IMAGETYPE_JPEG:
                 $image = imagecreatefromjpeg($originalPath);
@@ -164,33 +155,26 @@ class AdminService
                 $image = imagecreatefromwebp($originalPath);
                 break;
         }
-        
         if (!$image) {
             return false;
         }
-        
         $width = imagesx($image);
         $height = imagesy($image);
         $newWidth = 370;
         $newHeight = intval($height * ($newWidth / $width));
-        
         $thumbnail = imagecreatetruecolor($newWidth, $newHeight);
         imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-        
         imagejpeg($thumbnail, $previewPath . $filename, 80);
-        
         imagedestroy($image);
         imagedestroy($thumbnail);
-        
         return true;
     }
 
-    public function getArtworksPaginated($page = 1, $perPage = 20)
-    {
+    // 分页获取作品列表
+    public function getArtworksPaginated($page = 1, $perPage = 20){
         $offset = ($page - 1) * $perPage;
         $total = DB::table('gallery')->count();
         $totalPages = ceil($total / $perPage);
-        
         $artworks = DB::table('gallery as g')
             ->join('user as u', 'g.username', '=', 'u.username')
             ->select('g.id', 'g.username', 'g.title', 'g.filename', 'g.time', 'u.name as user_name')
@@ -198,7 +182,6 @@ class AdminService
             ->offset($offset)
             ->limit($perPage)
             ->get();
-        
         return [
             'artworks' => $artworks,
             'currentPage' => $page,
@@ -208,19 +191,17 @@ class AdminService
         ];
     }
 
-    public function getUsersPaginated($page = 1, $perPage = 20)
-    {
+    // 分页获取用户列表
+    public function getUsersPaginated($page = 1, $perPage = 20){
         $offset = ($page - 1) * $perPage;
         $total = DB::table('user')->count();
         $totalPages = ceil($total / $perPage);
-        
         $users = DB::table('user')
             ->select('username', 'name', 'email', 'headimage', 'sex', 'species', 'jointime')
             ->orderBy('jointime', 'desc')
             ->offset($offset)
             ->limit($perPage)
             ->get();
-        
         return [
             'users' => $users,
             'currentPage' => $page,
@@ -230,12 +211,11 @@ class AdminService
         ];
     }
 
-    public function getCommentsPaginated($page = 1, $perPage = 20)
-    {
+    // 分页获取评论列表
+    public function getCommentsPaginated($page = 1, $perPage = 20){
         $offset = ($page - 1) * $perPage;
         $total = DB::table('gallery_comment')->count();
         $totalPages = ceil($total / $perPage);
-        
         $comments = DB::table('gallery_comment as c')
             ->join('gallery as g', 'c.galleryid', '=', 'g.id')
             ->join('user as u', 'c.username', '=', 'u.username')
@@ -244,7 +224,6 @@ class AdminService
             ->offset($offset)
             ->limit($perPage)
             ->get();
-        
         return [
             'comments' => $comments,
             'currentPage' => $page,
@@ -254,24 +233,21 @@ class AdminService
         ];
     }
 
-    public function clearSessions()
-    {
+    // 清理过期Session
+    public function clearSessions(){
         $sessionPath = dirname(__DIR__, 2) . '/storage/sessions';
-        
         $count = 0;
         if (is_dir($sessionPath)) {
             $files = glob($sessionPath . '/session-*.json');
             foreach ($files as $file) {
                 $content = file_get_contents($file);
                 $data = json_decode($content, true);
-                
                 if ($data && isset($data['expires']) && time() > $data['expires']) {
                     @unlink($file);
                     $count++;
                 }
             }
         }
-        
         return $count;
     }
 }
