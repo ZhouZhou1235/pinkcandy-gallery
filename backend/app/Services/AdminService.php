@@ -235,14 +235,19 @@ class AdminService{
 
     // 清理过期Session
     public function clearSessions(){
-        $sessionPath = dirname(__DIR__, 2) . '/storage/sessions';
         $count = 0;
-        if (is_dir($sessionPath)) {
-            $files = glob($sessionPath . '/session-*.json');
+        $savePath = session_save_path();
+        if ($savePath === '' || $savePath === '0;/tmp') {
+            $savePath = sys_get_temp_dir();
+        }
+        if (is_dir($savePath)) {
+            $maxLifetime = (int)ini_get('session.gc_maxlifetime');
+            $files = glob($savePath . '/sess_*');
+            if ($files === false) {
+                $files = [];
+            }
             foreach ($files as $file) {
-                $content = file_get_contents($file);
-                $data = json_decode($content, true);
-                if ($data && isset($data['expires']) && time() > $data['expires']) {
+                if (filemtime($file) < time() - $maxLifetime) {
                     @unlink($file);
                     $count++;
                 }

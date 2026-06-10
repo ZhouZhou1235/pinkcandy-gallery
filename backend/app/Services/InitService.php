@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Database\Database;
-use App\Services\JsonSessionHandler;
 use Slim\Factory\AppFactory;
 use Slim\Psr7\Response;
 
@@ -32,15 +31,11 @@ class InitService{
 
     // 初始化Session
     private function initializeSession(): void{
-        $sessionSavePath = $this->config['files']['sessions'];
-        if (!is_dir($sessionSavePath)) {
-            mkdir($sessionSavePath, 0755, true);
-        }
-        $handler = new JsonSessionHandler($this->config);
-        session_set_save_handler($handler, true);
+        $lifetime = (int)$this->config['session']['lifetime'];
+        ini_set('session.gc_maxlifetime', (string)$lifetime);
         $sessionConfig = [
             'name' => $this->config['session']['name'],
-            'cookie_lifetime' => $this->config['session']['lifetime'],
+            'cookie_lifetime' => $lifetime,
             'cookie_path' => $this->config['session']['path'],
             'cookie_secure' => $this->config['session']['secure'],
             'cookie_httponly' => $this->config['session']['httponly'],

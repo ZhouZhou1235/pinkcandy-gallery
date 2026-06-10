@@ -35,7 +35,6 @@ return [
         'galleryPreview' => __DIR__ . '/../storage/GalleryPreview/',
         'headimage' => __DIR__ . '/../storage/headimage/',
         'backimage' => __DIR__ . '/../storage/backimage/',
-        'sessions' => __DIR__ . '/../storage/sessions/',
     ],
 
     'upload' => [
