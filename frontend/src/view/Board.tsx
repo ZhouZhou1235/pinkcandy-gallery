@@ -54,7 +54,7 @@ export function Board() {
 
         return (
             <nav aria-label="Page navigation" className="d-flex justify-content-center mt-3">
-                <ul className="pagination pagination-sm">
+                <ul className="pagination">
                     <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                         <button className="page-link" onClick={() => updateBoardPage(currentPage - 1)} disabled={currentPage === 1}>
                             上一页
@@ -120,9 +120,6 @@ export function Board() {
                                 alt="board" 
                                 className="img-fluid rounded mb-3"
                             />
-                            <p className="small text-muted mb-2">
-                                粉糖留言板是纪念功能，Hello World！
-                            </p>
                             <div className="text-primary small fw-semibold">
                                 “周周的网络世界”已运行 {getDaysBetween(new Date('2023-10-1'), new Date())} 天
                             </div>
