@@ -45,6 +45,23 @@ class MainService{
         return $query->get()->all();
     }
 
+    // 获取可见作品总数
+    public function getVisibleArtworkCount(?string $viewerUsername = null){
+        $query = DB::table('gallery');
+        $query->where('audit', 1);
+        if ($viewerUsername) {
+            $query->where(function ($q) use ($viewerUsername) {
+                $q->where('grading', '<', 2)
+                  ->orWhere(function ($q2) use ($viewerUsername) {
+                      $q2->where('grading', '=', 2)->where('username', $viewerUsername);
+                  });
+            });
+        } else {
+            $query->where('grading', '<', 2);
+        }
+        return $query->count();
+    }
+
     // 获取标签列表
     public function getTags(int $begin = 0, int $num = 50){
         $tagsResult = DB::table('tag')->orderBy('time', 'desc')->offset($begin)->limit($num)->get()->all();
@@ -290,7 +307,18 @@ class MainService{
     // 获取用户收藏统计
     public function getUserStarInfoCount(string $username){
         if (!$username) return ['artworknum' => 0];
-        return ['artworknum' => DB::table('gallery_star')->where('username', $username)->count()];
+        $count = DB::table('gallery_star')
+            ->join('gallery', 'gallery_star.galleryid', '=', 'gallery.id')
+            ->where('gallery_star.username', $username)
+            ->where('gallery.audit', 1)
+            ->where(function ($q) use ($username) {
+                $q->where('gallery.grading', '<', 2)
+                  ->orWhere(function ($q2) use ($username) {
+                      $q2->where('gallery.grading', '=', 2)->where('gallery.username', $username);
+                  });
+            })
+            ->count();
+        return ['artworknum' => $count];
     }
 
     // 搜索标签

@@ -9,6 +9,7 @@ return function (App $app, $mainController, $config){
     $app->get('/core/getTags', [$mainController, 'getTags']);
     $app->get('/core/getBoradMessages', [$mainController, 'getBoardMessages']);
     $app->get('/core/getDBRecordCount', [$mainController, 'getDBRecordCount']);
+    $app->get('/core/getArtworkVisibleCount', [$mainController, 'getArtworkVisibleCount']);
     $app->get('/core/getArtwork', [$mainController, 'getArtwork']);
     $app->get('/core/getTagsArtwork/{id}', [$mainController, 'getTagsArtwork']);
     $app->get('/core/getArtworkComments', [$mainController, 'getArtworkComments']);

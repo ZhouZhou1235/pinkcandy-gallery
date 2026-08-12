@@ -94,7 +94,7 @@ export function HomePage() {
     }
 
     async function loadPaginationData() {
-        const count = await getRequest(urls.getDBRecordCount + '?table=gallery');
+        const count = await getRequest(urls.getArtworkVisibleCount);
         const pages = Math.ceil(count / GArea.defaultShowNum);
         setTotalPages(pages);
     }

@@ -33,6 +33,7 @@ export const urls = {
     addBoardMessage: the_api_string + '/core/addBoardMessage',
     getBoradMessages: the_api_string + '/core/getBoradMessages',
     getDBRecordCount: the_api_string + '/core/getDBRecordCount',
+    getArtworkVisibleCount: the_api_string + '/core/getArtworkVisibleCount',
     getUser: the_api_string + '/core/getUser',
     editUser: the_api_string + '/core/editUser',
     editUserImage: the_api_string + '/core/editUserImage',

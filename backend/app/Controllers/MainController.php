@@ -77,6 +77,14 @@ class MainController{
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+    // 获取可见作品总数
+    public function getArtworkVisibleCount(Request $request, Response $response){
+        $viewerUsername = $_SESSION['username'] ?? null;
+        $count = $this->service->getVisibleArtworkCount($viewerUsername);
+        $response->getBody()->write(json_encode($count));
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
     // 获取单个作品
     public function getArtwork(Request $request, Response $response){
         $params = $request->getQueryParams();
