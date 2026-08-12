@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react";
 import { getRequest, postRequest, urls } from "../../code/api";
 import { DefaultObj } from "../../code/vars";
-import { selectPropsTagsToArray } from "../../code/utils";
-
-interface SelectOption {
-    label?: string;
-    value?: string | number;
-}
 
 export function EditArtworkForm({galleryid=''}){
     const [snackbarMessage,setSnackbarMessage] = useState('')
     const [snackbarOpen,setSnackbarOpen] = useState(false)
     const [artworkdata,setArtworkdata] = useState(DefaultObj.artworkdata)
-    const [selectedTags,setSelectedTags] = useState([] as string[])
+    const [tagsText,setTagsText] = useState('')
     const [editArtworkForm,setEditArtworkForm] = useState({
         id: galleryid,
         title: '',
@@ -20,16 +14,17 @@ export function EditArtworkForm({galleryid=''}){
         tags: '',
         grading: 0,
     })
-    const selectTag = (tags:string[])=>{
-        setSelectedTags(tags)
-        setEditArtworkForm(prev => ({
-            ...prev,
-            tags: JSON.stringify(tags)
-        }))
-    }
     function closeSnackbar(){setSnackbarOpen(false);setSnackbarMessage('')}
     function editArtwork(){
-        postRequest(urls.editArtwork,editArtworkForm).then(res=>{
+        const tags = tagsText
+            .split(/\s+/)
+            .map(t=>t.trim())
+            .filter(t=>t)
+        const form = {
+            ...editArtworkForm,
+            tags: JSON.stringify(tags)
+        }
+        postRequest(urls.editArtwork,form).then(res=>{
             if(res!=0){
                 setSnackbarMessage('已完成作品修改')
                 setSnackbarOpen(true)
@@ -50,21 +45,16 @@ export function EditArtworkForm({galleryid=''}){
         await getRequest(urls.getTagsArtwork+'/'+galleryid).then(data=>{
             if(data!=0){
                 let tagArray :any[] = data
-                let options: SelectOption[] = []
                 let currentTags: string[] = []
                 for(let i=0;i<tagArray.length;i++){
                     let obj = tagArray[i];
-                    options.push({
-                        label: obj.tag,
-                        value: obj.tag,
-                    })
                     currentTags.push(obj.tag)
                 }
-                setSelectedTags(currentTags)
-                theEditArtworkForm.tags = JSON.stringify(selectPropsTagsToArray(options))
+                setTagsText(currentTags.join(' '))
+                theEditArtworkForm.tags = JSON.stringify(currentTags)
             }
             else{
-                setSelectedTags([])
+                setTagsText('')
             }
         })
         setEditArtworkForm(theEditArtworkForm)
@@ -92,6 +82,18 @@ export function EditArtworkForm({galleryid=''}){
                 <div className="card-body">
                     <h5 className="card-title OnelineTextBox">{artworkdata.title}</h5>
                     <p className="card-text" style={{whiteSpace:'pre-line'}}>{artworkdata.info}</p>
+                    <p className="card-text">
+                        <small className="text-muted">
+                            状态：
+                            {
+                                (artworkdata as any).audit==1 ? (
+                                    <span className="badge bg-success">已审核</span>
+                                ) : (
+                                    <span className="badge bg-warning text-dark">未审核</span>
+                                )
+                            }
+                        </small>
+                    </p>
                 </div>
             </div>
             <div className="mt-3">
@@ -143,17 +145,14 @@ export function EditArtworkForm({galleryid=''}){
                 </div>
                 <div className="mb-3">
                     <label className="form-label">标签</label>
-                    <input 
-                        type="text" 
-                        className="form-control" 
-                        placeholder="输入标签，用逗号分隔"
-                        value={selectedTags.join(',')}
-                        onChange={(e)=>{
-                            const tags = e.target.value.split(',').map(t=>t.trim()).filter(t=>t)
-                            selectTag(tags)
-                        }}
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="输入标签，用空格分隔：标签1 标签2 ......"
+                        value={tagsText}
+                        onChange={(e)=>setTagsText(e.target.value)}
                     />
-                    <div className="form-text">当前标签: {selectedTags.join(', ') || '无'}</div>
+                    <div className="form-text">当前标签: {tagsText.trim() ? tagsText.trim().split(/\s+/).join('、') : '无'}</div>
                 </div>
                 <button className="btn btn-warning mt-2 w-100" onClick={editArtwork}>修改</button>
             </div>

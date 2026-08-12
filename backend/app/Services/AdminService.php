@@ -83,7 +83,7 @@ class AdminService{
     public function getAllArtworks(){
         return DB::table('gallery as g')
             ->join('user as u', 'g.username', '=', 'u.username')
-            ->select('g.id', 'g.username', 'g.title', 'g.filename', 'g.time', 'g.grading', 'u.name as user_name')
+            ->select('g.id', 'g.username', 'g.title', 'g.filename', 'g.time', 'g.grading', 'g.audit', 'u.name as user_name')
             ->orderBy('g.time', 'desc')
             ->get();
     }
@@ -177,7 +177,7 @@ class AdminService{
         $totalPages = ceil($total / $perPage);
         $artworks = DB::table('gallery as g')
             ->join('user as u', 'g.username', '=', 'u.username')
-            ->select('g.id', 'g.username', 'g.title', 'g.filename', 'g.time', 'g.grading', 'u.name as user_name')
+            ->select('g.id', 'g.username', 'g.title', 'g.filename', 'g.time', 'g.grading', 'g.audit', 'u.name as user_name')
             ->orderBy('g.time', 'desc')
             ->offset($offset)
             ->limit($perPage)
@@ -198,6 +198,87 @@ class AdminService{
             return false;
         }
         return DB::table('gallery')->where('id', $artworkId)->update(['grading' => $grading]) !== false;
+    }
+
+    // 更新作品审核状态
+    public function updateArtworkAudit($artworkId, $audit){
+        $audit = (int)$audit;
+        if ($audit < 0 || $audit > 1) {
+            return false;
+        }
+        return DB::table('gallery')->where('id', $artworkId)->update(['audit' => $audit]) !== false;
+    }
+
+    // 分页获取标签列表
+    public function getTagsPaginated($page = 1, $perPage = 20){
+        $offset = ($page - 1) * $perPage;
+        $total = DB::table('tag')->count();
+        $totalPages = ceil($total / $perPage);
+        $tagsResult = DB::table('tag')->orderBy('time', 'desc')->offset($offset)->limit($perPage)->get()->all();
+        $tags = [];
+        foreach ($tagsResult as $tagObj) {
+            $usenum = DB::table('tag_gallery')->where('tagid', $tagObj->id)->count();
+            $tags[] = [
+                'id' => $tagObj->id,
+                'tag' => $tagObj->tag,
+                'type' => $tagObj->type,
+                'info' => $tagObj->info,
+                'time' => $tagObj->time,
+                'usenum' => $usenum,
+            ];
+        }
+        return [
+            'tags' => $tags,
+            'currentPage' => $page,
+            'perPage' => $perPage,
+            'total' => $total,
+            'totalPages' => $totalPages
+        ];
+    }
+
+    // 搜索标签
+    public function searchTags($tagtext){
+        $tagList = explode(' ', trim($tagtext));
+        $tagIds = [];
+        $result = [];
+        foreach ($tagList as $tag) {
+            if (empty($tag)) continue;
+            $tags = DB::table('tag')->where('tag', 'like', "%{$tag}%")->get()->all();
+            foreach ($tags as $t) {
+                if (!in_array($t->id, $tagIds)) {
+                    $tagIds[] = $t->id;
+                    $usenum = DB::table('tag_gallery')->where('tagid', $t->id)->count();
+                    $result[] = [
+                        'id' => $t->id,
+                        'tag' => $t->tag,
+                        'type' => $t->type,
+                        'info' => $t->info,
+                        'time' => $t->time,
+                        'usenum' => $usenum,
+                    ];
+                }
+            }
+        }
+        return $result;
+    }
+
+    // 更新标签
+    public function updateTag($tagId, $tag, $type, $info){
+        if (empty($tagId) || empty($tag) || empty($type)) {
+            return false;
+        }
+        return DB::table('tag')->where('id', $tagId)->update([
+            'tag' => $tag,
+            'type' => $type,
+            'info' => $info,
+        ]) !== false;
+    }
+
+    // 删除标签
+    public function deleteTag($tagId){
+        DB::table('tag')->where('id', $tagId)->delete();
+        DB::table('tag_gallery')->where('tagid', $tagId)->delete();
+        return true;
     }
 
     // 分页获取用户列表

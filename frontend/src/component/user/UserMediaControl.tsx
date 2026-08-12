@@ -9,6 +9,7 @@ export function UserMediaControl({username=''}){
     const [artworkitems,setArtworkitems] = useState([] as JSX.Element[])
     const [editformElement,setEditformElement] = useState(<></>)
     const [galleryPage,setGalleryPage] = useState(1)
+    const [currentPage,setCurrentPage] = useState(1)
     const [tabvalue,setTabvalue] = useState('artworks')
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
     function closeForm(){
@@ -18,7 +19,8 @@ export function UserMediaControl({username=''}){
         setEditformElement(<EditArtworkForm galleryid={id}/>)
     }
     function updateGalleryPage(value:number){
-        getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${username}`).then(data=>{
+        setCurrentPage(value)
+        getRequest(urls.getArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${username}&includeUnaudited=1`).then(data=>{
             if(data!=0){
                 let artworks :any[] = data
                 let theArtworkItems = artworks.map(item=>
@@ -39,7 +41,7 @@ export function UserMediaControl({username=''}){
     useEffect(()=>{
         (async()=>{
             updateGalleryPage(1)
-            await getRequest(urls.getUserInfoCount+'?username='+username).then(data=>{
+            await getRequest(urls.getUserInfoCount+'?username='+username+'&audited_only=0').then(data=>{
                 if(data!=0){
                     setGalleryPage(Math.ceil(data.artworknum/GArea.defaultShowNum))
                 }
@@ -71,7 +73,7 @@ export function UserMediaControl({username=''}){
                                 <nav>
                                     <ul className="pagination mb-0">
                                         {Array.from({length: galleryPage}, (_, i) => (
-                                            <li key={i} className={`page-item ${galleryPage === i+1 ? 'active' : ''}`}>
+                                            <li key={i} className={`page-item ${currentPage === i+1 ? 'active' : ''}`}>
                                                 <button className="page-link" onClick={()=>updateGalleryPage(i+1)}>{i+1}</button>
                                             </li>
                                         ))}

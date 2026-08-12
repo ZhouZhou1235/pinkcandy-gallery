@@ -39,7 +39,11 @@ class MainController{
         $num = isset($params['num']) ? (int)$params['num'] : 50;
         $username = isset($params['username']) ? $params['username'] : null;
         $viewerUsername = $_SESSION['username'] ?? null;
-        $artworks = $this->service->getArtworks($begin, $num, $username, $viewerUsername);
+        $includeUnaudited = false;
+        if (isset($params['includeUnaudited']) && $params['includeUnaudited'] == 1 && $viewerUsername && $viewerUsername === $username) {
+            $includeUnaudited = true;
+        }
+        $artworks = $this->service->getArtworks($begin, $num, $username, $viewerUsername, $includeUnaudited);
         $response->getBody()->write(json_encode($artworks));
         return $response->withHeader('Content-Type', 'application/json');
     }
@@ -138,7 +142,12 @@ class MainController{
             $response->getBody()->write(json_encode(0));
             return $response->withHeader('Content-Type', 'application/json');
         }
-        $info = $this->service->getUserInfoCount($username);
+        $auditedOnly = true;
+        $viewerUsername = $_SESSION['username'] ?? null;
+        if (isset($params['audited_only']) && $params['audited_only'] == 0 && $viewerUsername && $viewerUsername === $username) {
+            $auditedOnly = false;
+        }
+        $info = $this->service->getUserInfoCount($username, $auditedOnly);
         $response->getBody()->write(json_encode($info));
         return $response->withHeader('Content-Type', 'application/json');
     }
@@ -716,35 +725,6 @@ class MainController{
             return $response->withHeader('Content-Type', 'application/json');
         }
         $result = $this->service->deleteArtwork($id, $username);
-        $response->getBody()->write(json_encode($result ? 1 : 0));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // 编辑标签
-    public function editTag(Request $request, Response $response){
-        $data = json_decode($request->getBody()->getContents(), true);
-        $id = $data['id'] ?? '';
-        $tag = $data['tag'] ?? '';
-        $type = $data['type'] ?? '';
-        $info = $data['info'] ?? '';
-        if (!$id || !$tag || !$type) {
-            $response->getBody()->write(json_encode(0));
-            return $response->withHeader('Content-Type', 'application/json');
-        }
-        $result = $this->service->editTag($id, $tag, $type, $info);
-        $response->getBody()->write(json_encode($result ? 1 : 0));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // 删除标签
-    public function deleteTag(Request $request, Response $response){
-        $data = json_decode($request->getBody()->getContents(), true);
-        $id = $data['id'] ?? '';
-        if (!$id) {
-            $response->getBody()->write(json_encode(0));
-            return $response->withHeader('Content-Type', 'application/json');
-        }
-        $result = $this->service->deleteTag($id);
         $response->getBody()->write(json_encode($result ? 1 : 0));
         return $response->withHeader('Content-Type', 'application/json');
     }

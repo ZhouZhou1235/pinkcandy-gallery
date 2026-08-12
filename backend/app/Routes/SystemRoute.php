@@ -15,6 +15,9 @@ return function (App $app, $systemController){
     $app->post('/admin/artworks', [$systemController, 'artworks']);
     $app->get('/admin/artworks/delete/{id}', [$systemController, 'deleteArtwork']);
     $app->get('/admin/artworks/regenerate-thumbnail/{id}', [$systemController, 'regenerateSingleThumbnail']);
+    $app->get('/admin/tags', [$systemController, 'tags']);
+    $app->post('/admin/tags', [$systemController, 'tags']);
+    $app->get('/admin/tags/delete/{id}', [$systemController, 'deleteTag']);
     $app->get('/admin/comments', [$systemController, 'comments']);
     $app->get('/admin/comments/delete/{id}', [$systemController, 'deleteComment']);
     $app->get('/admin/resources', [$systemController, 'resources']);

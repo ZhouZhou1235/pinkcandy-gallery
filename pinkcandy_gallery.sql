@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
--- 主机： localhost
--- 生成日期： 2026-05-26 12:12:05
--- 服务器版本： 9.4.0-commercial
--- PHP 版本： 8.4.12
+-- 主机： mysql
+-- 生成日期： 2026-08-12 08:54:49
+-- 服务器版本： 8.4.9
+-- PHP 版本： 8.3.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -46,6 +46,8 @@ CREATE TABLE `gallery` (
   `filename` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `info` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `grading` int NOT NULL DEFAULT '0',
+  `audit` int NOT NULL DEFAULT '0',
   `time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

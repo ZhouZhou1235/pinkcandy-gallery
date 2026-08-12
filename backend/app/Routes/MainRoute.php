@@ -51,8 +51,6 @@ return function (App $app, $mainController, $config){
     $app->post('/core/watchUser', [$mainController, 'watchUser']);
     $app->post('/core/editArtwork', [$mainController, 'editArtwork']);
     $app->post('/core/deleteArtwork', [$mainController, 'deleteArtwork']);
-    $app->post('/core/editTag', [$mainController, 'editTag']);
-    $app->post('/core/deleteTag', [$mainController, 'deleteTag']);
     $app->post('/core/noticeFinishRead', [$mainController, 'noticeFinishRead']);
     $app->post('/core/noticeNotRead', [$mainController, 'noticeNotRead']);
     $app->post('/core/trendFinishRead', [$mainController, 'trendFinishRead']);

@@ -135,6 +135,14 @@ class SystemController{
                     $message = "作品分级更新失败";
                 }
             }
+            $audit = isset($data['audit']) ? (int)$data['audit'] : -1;
+            if ($artworkId && $audit >= 0 && $audit <= 1) {
+                if ($this->adminService->updateArtworkAudit($artworkId, $audit)) {
+                    $message = $audit == 1 ? "作品审核通过" : "作品已取消审核";
+                } else {
+                    $message = "作品审核操作失败";
+                }
+            }
         }
         $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
         $pagination = $this->adminService->getArtworksPaginated($page);
@@ -185,6 +193,56 @@ class SystemController{
         }
         $this->adminService->deleteArtwork($args['id']);
         return $response->withHeader('Location', '/admin/artworks')->withStatus(302);
+    }
+
+    // 标签管理页面
+    public function tags(Request $request, Response $response){
+        if (!$this->isAdminLoggedIn()) {
+            return $response->withHeader('Location', '/admin/login')->withStatus(302);
+        }
+        $message = null;
+        if ($request->getMethod() === 'POST') {
+            $data = $request->getParsedBody();
+            $tagId = $data['tag_id'] ?? '';
+            $tag = $data['tag'] ?? '';
+            $type = $data['type'] ?? '';
+            $info = isset($data['info']) ? $data['info'] : null;
+            if ($tagId && $tag && $type) {
+                if ($this->adminService->updateTag($tagId, $tag, $type, $info)) {
+                    $message = "标签更新成功";
+                } else {
+                    $message = "标签更新失败";
+                }
+            }
+        }
+        $searchtag = isset($_GET['search']) ? trim($_GET['search']) : '';
+        if ($searchtag !== '') {
+            $tags = $this->adminService->searchTags($searchtag);
+            $total = count($tags);
+            $totalPages = 1;
+            $currentPage = 1;
+        } else {
+            $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+            $pagination = $this->adminService->getTagsPaginated($page);
+            $tags = $pagination['tags'];
+            $currentPage = $pagination['currentPage'];
+            $totalPages = $pagination['totalPages'];
+            $total = $pagination['total'];
+        }
+        ob_start();
+        include $this->viewPath . 'admin/tags.php';
+        $html = ob_get_clean();
+        $response->getBody()->write($html);
+        return $response;
+    }
+
+    // 删除标签
+    public function deleteTag(Request $request, Response $response, $args){
+        if (!$this->isAdminLoggedIn()) {
+            return $response->withHeader('Location', '/admin/login')->withStatus(302);
+        }
+        $this->adminService->deleteTag($args['id']);
+        return $response->withHeader('Location', '/admin/tags')->withStatus(302);
     }
 
     // 评论管理页面

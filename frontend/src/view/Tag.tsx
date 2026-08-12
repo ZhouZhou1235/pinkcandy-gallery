@@ -1,60 +1,50 @@
-// 标签
+// 标签 - 仅搜索展示
 
 import { JSX, useEffect, useState } from "react";
 import { getRequest, urls } from "../code/api";
 import { DefaultObj, GArea, PageTitle } from "../code/vars";
 import { tagtypeNumToColorString } from "../code/utils";
-import { EditTagForm } from "../component/form/EditTagForm";
-import { DeleteTagButton } from "../component/DeleteTagButton";
 
 export function Tag() {
     const [tagPage, setTagPage] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
-    const [tagtableItems, setTagtableItems] = useState<JSX.Element[]>([]);
+    const [tagItems, setTagItems] = useState<JSX.Element[]>([]);
     const [searchtagText, setSearchtagText] = useState('');
-    const [searchtagtableItems, setSearchtagtableItems] = useState<JSX.Element[]>([]);
+    const [searchtagItems, setSearchtagItems] = useState<JSX.Element[]>([]);
+    const [isSearching, setIsSearching] = useState(false);
 
-    function renderTagtableItems(data = DefaultObj.tagArray) {
+    function renderTagItems(data = DefaultObj.tagArray) {
         let theItems = data.map(item => (
-            <tr key={item.id}>
-                <td style={{ color: tagtypeNumToColorString(Number(item.type)), fontWeight: 'bold' }}>
-                    {item.tag} <span className="badge bg-secondary ms-1">{item.usenum}</span>
-                </td>
-                <td>{item.info || '-'}</td>
-                <td>
-                    <div className="d-flex gap-1">
-                        <EditTagForm tagdata={item} />
-                        <DeleteTagButton tagdata={item} />
-                    </div>
-                </td>
-            </tr>
+            <span
+                key={item.id}
+                className="badge me-2 mb-2 p-2"
+                style={{ backgroundColor: tagtypeNumToColorString(Number(item.type)), color: 'white', fontSize: '1rem' }}
+            >
+                {item.tag} <span className="ms-1">{item.usenum}</span>
+            </span>
         ));
-        setTagtableItems(theItems);
+        setTagItems(theItems);
     }
 
-    function renderSearchTagtableItems(data = DefaultObj.tagArray) {
+    function renderSearchTagItems(data = DefaultObj.tagArray) {
         let theItems = data.map(item => (
-            <tr key={item.id}>
-                <td style={{ color: tagtypeNumToColorString(Number(item.type)), fontWeight: 'bold' }}>
-                    {item.tag} <span className="badge bg-secondary ms-1">{item.usenum}</span>
-                </td>
-                <td>
-                    <div className="d-flex gap-1">
-                        <EditTagForm tagdata={item} />
-                        <DeleteTagButton tagdata={item} />
-                    </div>
-                </td>
-            </tr>
+            <span
+                key={item.id}
+                className="badge me-2 mb-2 p-2"
+                style={{ backgroundColor: tagtypeNumToColorString(Number(item.type)), color: 'white', fontSize: '1rem' }}
+            >
+                {item.tag} <span className="ms-1">{item.usenum}</span>
+            </span>
         ));
-        setSearchtagtableItems(theItems);
+        setSearchtagItems(theItems);
     }
 
     function getTags() {
-        getRequest(urls.getTags + `?num=${Math.floor(GArea.defaultShowNum)}`).then(data => {
+        getRequest(urls.getTags + `?num=${Math.floor(GArea.defaultShowNum*4)}`).then(data => {
             if (data != 0) {
-                renderTagtableItems(data);
+                renderTagItems(data);
                 getRequest(urls.getDBRecordCount + '?table=tag').then(count => {
-                    const pages = Math.ceil(count / Math.floor(GArea.defaultShowNum));
+                    const pages = Math.ceil(count / Math.floor(GArea.defaultShowNum*4));
                     setTagPage(pages);
                 });
             }
@@ -63,26 +53,34 @@ export function Tag() {
 
     function updateTagPage(page: number) {
         setCurrentPage(page);
-        getRequest(urls.getTags + `?num=${GArea.defaultShowNum}&begin=${(page - 1) * GArea.defaultShowNum}`).then(data => {
+        getRequest(urls.getTags + `?num=${GArea.defaultShowNum*4}&begin=${(page - 1) * GArea.defaultShowNum*4}`).then(data => {
             if (data != 0) {
-                renderTagtableItems(data);
+                renderTagItems(data);
             }
         });
     }
 
     function searchTags() {
         if (!searchtagText.trim()) {
-            setSearchtagtableItems([]);
+            setSearchtagItems([]);
+            setIsSearching(false);
             return;
         }
+        setIsSearching(true);
         getRequest(urls.searchTags + '?tagtext=' + searchtagText).then(data => {
             if (data != 0) {
                 let tagArray: any[] = data;
-                renderSearchTagtableItems(tagArray);
+                renderSearchTagItems(tagArray);
             } else {
-                setSearchtagtableItems([]);
+                setSearchtagItems([]);
             }
         });
+    }
+
+    function clearSearch() {
+        setSearchtagText('');
+        setSearchtagItems([]);
+        setIsSearching(false);
     }
 
     function renderPagination() {
@@ -149,65 +147,40 @@ export function Tag() {
 
     return (
         <div className="container py-3">
-            <div className="row">
-                <div className="col-md-4 mb-4">
-                    <div className="input-group mb-3">
+            <div className="card mb-4">
+                <div className="card-body">
+                    <h5 className="card-title mb-3">搜索标签</h5>
+                    <div className="input-group mb-2">
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="输入标签"
+                            placeholder="输入标签关键字"
                             value={searchtagText}
                             onChange={(e) => setSearchtagText(e.target.value)}
                             onKeyPress={(e) => e.key === 'Enter' && searchTags()}
                         />
-                        <button className="btn btn-outline-secondary" onClick={searchTags}>
-                            搜索
-                        </button>
+                        <button className="btn btn-outline-primary" onClick={searchTags}>搜索</button>
+                        {isSearching && (
+                            <button className="btn btn-outline-secondary" onClick={clearSearch}>清除</button>
+                        )}
                     </div>
-                    <div className="table-responsive">
-                        <table className="table table-sm table-hover">
-                            <thead className="table-light">
-                                <tr>
-                                    <th>标签</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {searchtagtableItems.length > 0 ? searchtagtableItems : (
-                                    <tr>
-                                        <td colSpan={2} className="text-center text-muted">
-                                            输入标签进行搜索
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-body p-0">
-                            <div className="table-responsive">
-                                <table className="table table-hover mb-0">
-                                    <thead className="table-light">
-                                        <tr>
-                                            <th>标签</th>
-                                            <th>描述</th>
-                                            <th>操作</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {tagtableItems.length > 0 ? tagtableItems : (
-                                            <tr>
-                                                <td colSpan={3} className="text-center text-muted">
-                                                    加载中...
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </table>
-                            </div>
+                    {isSearching && (
+                        <div className="mt-3">
+                            {searchtagItems.length > 0 ? searchtagItems : (
+                                <span className="text-muted">未找到匹配的标签</span>
+                            )}
                         </div>
+                    )}
+                </div>
+            </div>
+
+            <div className="card">
+                <div className="card-body">
+                    <h5 className="card-title mb-3">全部标签</h5>
+                    <div className="p-2">
+                        {tagItems.length > 0 ? tagItems : (
+                            <span className="text-muted">加载中...</span>
+                        )}
                     </div>
                     {renderPagination()}
                 </div>

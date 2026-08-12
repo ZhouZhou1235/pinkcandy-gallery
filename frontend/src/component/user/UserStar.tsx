@@ -6,9 +6,11 @@ import { ArtworkPreview } from "../artwork/ArtworkPreview";
 export function UserStar({username=''}){
     const [artworkitems,setArtworkitems] = useState([] as JSX.Element[])
     const [galleryPage,setGalleryPage] = useState(1)
+    const [currentPage,setCurrentPage] = useState(1)
     const [tabvalue,setTabvalue] = useState('artworks')
     const tabHandleChange = (_event:SyntheticEvent,newTabvalue:string)=>{setTabvalue(newTabvalue)}
     function updateGalleryPage(value:number){
+        setCurrentPage(value)
         getRequest(urls.getStarArtworks+`?num=${GArea.defaultShowNum}&begin=${(value-1)*GArea.defaultShowNum}&username=${username}`).then(data=>{
             if(data!=0){
                 let artworks :any[] = data
@@ -48,7 +50,7 @@ export function UserStar({username=''}){
                             <nav>
                                 <ul className="pagination mb-0">
                                     {Array.from({length: galleryPage}, (_, i) => (
-                                        <li key={i} className={`page-item ${galleryPage === i+1 ? 'active' : ''}`}>
+                                        <li key={i} className={`page-item ${currentPage === i+1 ? 'active' : ''}`}>
                                             <button className="page-link" onClick={()=>updateGalleryPage(i+1)}>{i+1}</button>
                                         </li>
                                     ))}

@@ -127,11 +127,10 @@ export function ArtworkForm() {
         <div className="row">
             <div className="col-md-6 p-2">
                 <div className="alert alert-info small">
-                    只能由作者或经过作者授权上传。
-                    至少上传图片、填写标题和选择分级，
-                    图片仅支持png、jpg、gif格式，
-                    超过5M的图片可能导致失败。
-                    输入标签有利于搜索。
+                    上传须知：<br />
+                    只能由作者或经过作者授权上传。<br />
+                    至少上传图片、填写标题和选择分级，图片仅支持png、jpg、gif格式，超过10M的图片可能导致失败。输入标签有利于搜索。<br />
+                    作品上传后需等待审核，完成方可展示。<br />
                 </div>
 
                 <div className="mb-3">
@@ -174,9 +173,6 @@ export function ArtworkForm() {
                         <option value={1}>辅导级 - 点击进入可见</option>
                         <option value={2}>限制级 - 公开不可见</option>
                     </select>
-                    <div className="form-text small text-muted">
-                        默认普遍级，请根据作品内容选择合适的分级。
-                    </div>
                 </div>
                 <div className="mb-3">
                     <label className="form-label fw-bold">标签</label>

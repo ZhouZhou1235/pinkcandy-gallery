@@ -48,6 +48,16 @@
                 </a>
             </div>
             <div class="col-md-3 mb-3">
+                <a href="/admin/tags" class="text-decoration-none">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5>标签管理</h5>
+                            <p class="card-text">管理作品标签</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 mb-3">
                 <a href="/admin/resources" class="text-decoration-none">
                     <div class="card text-center">
                         <div class="card-body">

@@ -111,6 +111,9 @@ export function Artwork(){
                                 {(artworkdata as any).grading==2 && (
                                     <span className="badge bg-danger align-middle fs-6">限制级</span>
                                 )}
+                                {(artworkdata as any).audit==0 && (
+                                    <span className="badge bg-secondary align-middle fs-6">未审核</span>
+                                )}
                             </h1>
                             <div className="mb-4">
                                 <p className="card-text">{artworkdata.info}</p>

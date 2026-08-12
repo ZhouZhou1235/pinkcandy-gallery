@@ -17,7 +17,7 @@ export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
                 <Link to={'/artwork/'+artworkdata.id}>
                     <LazyLoadComponent>
                         <div className="ratio ratio-1x1">
-                            <img 
+                            <img
                                 src={
                                     artworkdata.grading==0
                                     ?
@@ -32,6 +32,11 @@ export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
                         </div>
                     </LazyLoadComponent>
                 </Link>
+                {artworkdata.audit==0 && (
+                    <span className="position-absolute top-0 start-0 m-2 badge bg-warning text-dark">
+                        未审核
+                    </span>
+                )}
                 {showTitle && (
                     <div className="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-75">
                         <Link 

@@ -40,6 +40,7 @@ export const DefaultObj = {
         title: '',
         info: '',
         grading: 0,
+        audit: 0,
         time: '',
     },
     // 用户数据结构
@@ -131,6 +132,7 @@ export const DefaultObj = {
             title: '',
             info: '',
             grading: 0,
+            audit: 0,
             time: '',
         }],
         user: [{

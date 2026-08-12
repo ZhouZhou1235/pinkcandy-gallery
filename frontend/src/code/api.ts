@@ -29,8 +29,6 @@ export const urls = {
     getTags: the_api_string + '/core/getTags',
     getTagsArtwork: the_api_string + '/core/getTagsArtwork',
     searchTags: the_api_string + '/core/searchTags',
-    editTag: the_api_string + '/core/editTag',
-    deleteTag: the_api_string + '/core/deleteTag',
     getTopTags: the_api_string + '/core/getTopTags',
     addBoardMessage: the_api_string + '/core/addBoardMessage',
     getBoradMessages: the_api_string + '/core/getBoradMessages',

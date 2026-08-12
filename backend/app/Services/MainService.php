@@ -24,10 +24,13 @@ class MainService{
     }
 
     // 获取作品列表
-    public function getArtworks(int $begin = 0, int $num = 50, ?string $username = null, ?string $viewerUsername = null){
+    public function getArtworks(int $begin = 0, int $num = 50, ?string $username = null, ?string $viewerUsername = null, bool $includeUnaudited = false){
         $query = DB::table('gallery')->orderBy('time', 'desc')->offset($begin)->limit($num);
         if ($username) {
             $query->where('username', $username);
+        }
+        if (!$includeUnaudited) {
+            $query->where('audit', 1);
         }
         if ($viewerUsername) {
             $query->where(function ($q) use ($viewerUsername) {
@@ -85,6 +88,9 @@ class MainService{
     public function getArtwork(string $id, ?string $viewerUsername = null){
         $artwork = DB::table('gallery')->where('id', $id)->first();
         if (!$artwork) {
+            return null;
+        }
+        if ($artwork->audit == 0 && $artwork->username != $viewerUsername) {
             return null;
         }
         if ($artwork->grading == 2 && $artwork->username != $viewerUsername) {
@@ -171,19 +177,26 @@ class MainService{
     }
 
     // 获取用户信息统计
-    public function getUserInfoCount(string $username){
+    public function getUserInfoCount(string $username, bool $auditedOnly = true){
         $watcherNum = DB::table('user_watch')->where('username', $username)->count();
         $towatchNum = DB::table('user_watch')->where('watcher', $username)->count();
-        $artworkNum = DB::table('gallery')->where('username', $username)->count();
+        $artworkQuery = DB::table('gallery')->where('username', $username);
+        if ($auditedOnly) {
+            $artworkQuery->where('audit', 1);
+        }
+        $artworkNum = $artworkQuery->count();
         $gotPawnum = DB::table('gallery')
             ->join('gallery_paw', 'gallery.id', '=', 'gallery_paw.galleryid')
             ->where('gallery.username', $username)
-            ->whereNull('gallery_paw.commentid')
-            ->count();
-        $gotPawnum += DB::table('gallery_comment')
+            ->whereNull('gallery_paw.commentid');
+        if ($auditedOnly) {
+            $gotPawnum->where('gallery.audit', 1);
+        }
+        $gotPawnum = $gotPawnum->count();
+        $commentPawQuery = DB::table('gallery_comment')
             ->join('gallery_paw', 'gallery_comment.id', '=', 'gallery_paw.commentid')
-            ->where('gallery_comment.username', $username)
-            ->count();
+            ->where('gallery_comment.username', $username);
+        $gotPawnum += $commentPawQuery->count();
         return [
             'watchernum' => $watcherNum,
             'towatchnum' => $towatchNum,
@@ -261,6 +274,9 @@ class MainService{
         foreach ($starList as $star) {
             $gallery = DB::table('gallery')->where('id', $star->galleryid)->first();
             if (!$gallery) continue;
+            if ($gallery->audit == 0) {
+                continue;
+            }
             if ($gallery->grading == 2 && $gallery->username != $username) {
                 continue;
             }
@@ -330,7 +346,9 @@ class MainService{
         foreach ($galleryIds as $id) {
             $artwork = DB::table('gallery')->where('id', $id)->first();
             if (!$artwork) continue;
-            // 分级过滤：限制级(grading=2)只有作者自己可见
+            if ($artwork->audit == 0) {
+                continue;
+            }
             if ($artwork->grading == 2 && $artwork->username != $viewerUsername) {
                 continue;
             }
@@ -388,6 +406,7 @@ class MainService{
                 'title' => $title,
                 'info' => $info,
                 'grading' => $grading,
+                'audit' => 0,
                 'time' => date('Y-m-d H:i:s'),
             ]);
             DB::table('user_active')->where('username', $username)->update(['mediatime' => date('Y-m-d H:i:s')]);
@@ -588,23 +607,6 @@ class MainService{
             DB::rollBack();
             return false;
         }
-    }
-
-    // 编辑标签
-    public function editTag(string $id, string $tag, string $type, ?string $info = null){
-        DB::table('tag')->where('id', $id)->update([
-            'tag' => $tag,
-            'type' => $type,
-            'info' => $info,
-        ]);
-        return true;
-    }
-
-    // 删除标签
-    public function deleteTag(string $id){
-        DB::table('tag')->where('id', $id)->delete();
-        DB::table('tag_gallery')->where('tagid', $id)->delete();
-        return true;
     }
 
     // 发送邮件
@@ -918,6 +920,7 @@ class MainService{
         $query = DB::table('gallery')
             ->where('username', $username)
             ->where('time', '>=', $trendstime)
+            ->where('audit', 1)
             ->orderBy('time', 'desc');
         if ($myUsername != $username) {
             $query->where('grading', '<', 2);

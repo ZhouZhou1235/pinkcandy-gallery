@@ -34,6 +34,7 @@
                         <th>标题</th>
                         <th>作者</th>
                         <th>分级</th>
+                        <th>审核</th>
                         <th>文件名</th>
                         <th>上传时间</th>
                         <th>操作</th>
@@ -55,6 +56,10 @@
                                     $gradingBadge = '<span class="badge bg-danger">限制级</span>';
                                     break;
                             }
+                            $audit = isset($artwork->audit) ? (int)$artwork->audit : 0;
+                            $auditBadge = $audit === 1
+                                ? '<span class="badge bg-success">已审核</span>'
+                                : '<span class="badge bg-warning text-dark">未审核</span>';
                         ?>
                         <tr>
                             <td>
@@ -76,6 +81,26 @@
                                         <input type="hidden" name="page" value="<?php echo $currentPage; ?>">
                                         <button type="submit" class="btn btn-sm btn-outline-primary">改</button>
                                     </form>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column gap-1">
+                                    <?php echo $auditBadge; ?>
+                                    <?php if ($audit === 1): ?>
+                                        <form method="POST" action="/admin/artworks" class="d-inline">
+                                            <input type="hidden" name="artwork_id" value="<?php echo $artwork->id; ?>">
+                                            <input type="hidden" name="audit" value="0">
+                                            <input type="hidden" name="page" value="<?php echo $currentPage; ?>">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary">取消审核</button>
+                                        </form>
+                                    <?php else: ?>
+                                        <form method="POST" action="/admin/artworks" class="d-inline">
+                                            <input type="hidden" name="artwork_id" value="<?php echo $artwork->id; ?>">
+                                            <input type="hidden" name="audit" value="1">
+                                            <input type="hidden" name="page" value="<?php echo $currentPage; ?>">
+                                            <button type="submit" class="btn btn-sm btn-outline-success">通过审核</button>
+                                        </form>
+                                    <?php endif; ?>
                                 </div>
                             </td>
                             <td><?php echo htmlspecialchars($artwork->filename); ?></td>
