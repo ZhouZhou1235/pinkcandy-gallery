@@ -123,6 +123,19 @@ class SystemController{
         if (!$this->isAdminLoggedIn()) {
             return $response->withHeader('Location', '/admin/login')->withStatus(302);
         }
+        $message = null;
+        if ($request->getMethod() === 'POST') {
+            $data = $request->getParsedBody();
+            $artworkId = $data['artwork_id'] ?? '';
+            $grading = isset($data['grading']) ? (int)$data['grading'] : -1;
+            if ($artworkId && $grading >= 0 && $grading <= 2) {
+                if ($this->adminService->updateArtworkGrading($artworkId, $grading)) {
+                    $message = "作品分级更新成功";
+                } else {
+                    $message = "作品分级更新失败";
+                }
+            }
+        }
         $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
         $pagination = $this->adminService->getArtworksPaginated($page);
         $artworks = $pagination['artworks'];

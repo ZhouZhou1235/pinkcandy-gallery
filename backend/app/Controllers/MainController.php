@@ -38,7 +38,8 @@ class MainController{
         $begin = isset($params['begin']) ? (int)$params['begin'] : 0;
         $num = isset($params['num']) ? (int)$params['num'] : 50;
         $username = isset($params['username']) ? $params['username'] : null;
-        $artworks = $this->service->getArtworks($begin, $num, $username);
+        $viewerUsername = $_SESSION['username'] ?? null;
+        $artworks = $this->service->getArtworks($begin, $num, $username, $viewerUsername);
         $response->getBody()->write(json_encode($artworks));
         return $response->withHeader('Content-Type', 'application/json');
     }
@@ -76,8 +77,9 @@ class MainController{
     public function getArtwork(Request $request, Response $response){
         $params = $request->getQueryParams();
         $id = isset($params['id']) ? $params['id'] : '';
-        $artwork = $this->service->getArtwork($id);
-        $response->getBody()->write(json_encode($artwork));
+        $viewerUsername = $_SESSION['username'] ?? null;
+        $artwork = $this->service->getArtwork($id, $viewerUsername);
+        $response->getBody()->write(json_encode($artwork ?: 0));
         return $response->withHeader('Content-Type', 'application/json');
     }
 
@@ -192,7 +194,8 @@ class MainController{
     public function searchPinkCandy(Request $request, Response $response){
         $params = $request->getQueryParams();
         $searchtext = isset($params['searchtext']) ? $params['searchtext'] : '';
-        $result = $this->service->searchPinkCandy($searchtext);
+        $viewerUsername = $_SESSION['username'] ?? null;
+        $result = $this->service->searchPinkCandy($searchtext, $viewerUsername);
         $response->getBody()->write(json_encode($result));
         return $response->withHeader('Content-Type', 'application/json');
     }
@@ -371,12 +374,16 @@ class MainController{
         $title = $data['title'] ?? '';
         $info = $data['info'] ?? '';
         $tags = isset($data['tags']) ? (json_decode($data['tags'], true) ?: []) : [];
+        $grading = isset($data['grading']) ? (int)$data['grading'] : 0;
+        if ($grading < 0 || $grading > 2) {
+            $grading = 0;
+        }
         $file = $files['file'] ?? null;
         if (!$title || !$file) {
             $response->getBody()->write(json_encode(0));
             return $response->withHeader('Content-Type', 'application/json');
         }
-        $result = $this->service->uploadArtwork($username, $title, $info, $tags, $file);
+        $result = $this->service->uploadArtwork($username, $title, $info, $tags, $file, $grading);
         $response->getBody()->write(json_encode($result ? 1 : 0));
         return $response->withHeader('Content-Type', 'application/json');
     }
@@ -682,11 +689,15 @@ class MainController{
         $title = $data['title'] ?? '';
         $info = $data['info'] ?? '';
         $tags = isset($data['tags']) ? (json_decode($data['tags'], true) ?: []) : [];
+        $grading = isset($data['grading']) ? (int)$data['grading'] : null;
+        if ($grading !== null && ($grading < 0 || $grading > 2)) {
+            $grading = 0;
+        }
         if (!$id || !$title) {
             $response->getBody()->write(json_encode(0));
             return $response->withHeader('Content-Type', 'application/json');
         }
-        $result = $this->service->editArtwork($id, $title, $info, $tags, $username);
+        $result = $this->service->editArtwork($id, $title, $info, $tags, $username, $grading);
         $response->getBody()->write(json_encode($result ? 1 : 0));
         return $response->withHeader('Content-Type', 'application/json');
     }

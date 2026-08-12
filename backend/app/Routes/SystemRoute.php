@@ -12,6 +12,7 @@ return function (App $app, $systemController){
     $app->get('/admin/users', [$systemController, 'users']);
     $app->get('/admin/users/delete/{id}', [$systemController, 'deleteUser']);
     $app->get('/admin/artworks', [$systemController, 'artworks']);
+    $app->post('/admin/artworks', [$systemController, 'artworks']);
     $app->get('/admin/artworks/delete/{id}', [$systemController, 'deleteArtwork']);
     $app->get('/admin/artworks/regenerate-thumbnail/{id}', [$systemController, 'regenerateSingleThumbnail']);
     $app->get('/admin/comments', [$systemController, 'comments']);

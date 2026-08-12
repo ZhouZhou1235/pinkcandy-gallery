@@ -10,6 +10,7 @@ export const GArea = {
     SkyblueHound: '/images/SkyblueHound.webp',
     Board: '/images/board.png',
     homepage: '/images/homepage.webp',
+    gradingPlaceholder: '/images/gradingPlaceholder.png',
     defaultShowNum: 12,
     defaultGetNum: 20,
 }
@@ -38,6 +39,7 @@ export const DefaultObj = {
         filename: '',
         title: '',
         info: '',
+        grading: 0,
         time: '',
     },
     // 用户数据结构
@@ -128,6 +130,7 @@ export const DefaultObj = {
             filename: '',
             title: '',
             info: '',
+            grading: 0,
             time: '',
         }],
         user: [{

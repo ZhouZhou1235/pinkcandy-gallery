@@ -24,10 +24,20 @@ class MainService{
     }
 
     // 获取作品列表
-    public function getArtworks(int $begin = 0, int $num = 50, ?string $username = null){
+    public function getArtworks(int $begin = 0, int $num = 50, ?string $username = null, ?string $viewerUsername = null){
         $query = DB::table('gallery')->orderBy('time', 'desc')->offset($begin)->limit($num);
         if ($username) {
             $query->where('username', $username);
+        }
+        if ($viewerUsername) {
+            $query->where(function ($q) use ($viewerUsername) {
+                $q->where('grading', '<', 2)
+                  ->orWhere(function ($q2) use ($viewerUsername) {
+                      $q2->where('grading', '=', 2)->where('username', $viewerUsername);
+                  });
+            });
+        } else {
+            $query->where('grading', '<', 2);
         }
         return $query->get()->all();
     }
@@ -72,8 +82,15 @@ class MainService{
     }
 
     // 获取单个作品
-    public function getArtwork(string $id){
-        return DB::table('gallery')->where('id', $id)->first();
+    public function getArtwork(string $id, ?string $viewerUsername = null){
+        $artwork = DB::table('gallery')->where('id', $id)->first();
+        if (!$artwork) {
+            return null;
+        }
+        if ($artwork->grading == 2 && $artwork->username != $viewerUsername) {
+            return null;
+        }
+        return $artwork;
     }
 
     // 获取作品的标签
@@ -243,6 +260,10 @@ class MainService{
         $result = [];
         foreach ($starList as $star) {
             $gallery = DB::table('gallery')->where('id', $star->galleryid)->first();
+            if (!$gallery) continue;
+            if ($gallery->grading == 2 && $gallery->username != $username) {
+                continue;
+            }
             $item = $star;
             $item->gallery = $gallery;
             $result[] = $item;
@@ -283,7 +304,7 @@ class MainService{
     }
 
     // 搜索粉糖内容
-    public function searchPinkCandy(string $searchtext){
+    public function searchPinkCandy(string $searchtext, ?string $viewerUsername = null){
         $tagList = explode(' ', trim($searchtext));
         $galleryIds = [];
         $usernames = [];
@@ -308,7 +329,12 @@ class MainService{
         $artworks = [];
         foreach ($galleryIds as $id) {
             $artwork = DB::table('gallery')->where('id', $id)->first();
-            if ($artwork) $artworks[] = $artwork;
+            if (!$artwork) continue;
+            // 分级过滤：限制级(grading=2)只有作者自己可见
+            if ($artwork->grading == 2 && $artwork->username != $viewerUsername) {
+                continue;
+            }
+            $artworks[] = $artwork;
         }
         $users = [];
         foreach ($usernames as $username) {
@@ -340,7 +366,7 @@ class MainService{
     }
 
     // 上传作品
-    public function uploadArtwork(string $username, string $title, string $info, array $tags, $file){
+    public function uploadArtwork(string $username, string $title, string $info, array $tags, $file, int $grading = 0){
         $id = $this->createRandomID();
         $ext = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
         if (!in_array(strtolower($ext), $this->config['upload']['allowed_extensions'])) {
@@ -361,6 +387,7 @@ class MainService{
                 'filename' => $saveFilename,
                 'title' => $title,
                 'info' => $info,
+                'grading' => $grading,
                 'time' => date('Y-m-d H:i:s'),
             ]);
             DB::table('user_active')->where('username', $username)->update(['mediatime' => date('Y-m-d H:i:s')]);
@@ -518,14 +545,18 @@ class MainService{
     }
 
     // 编辑作品
-    public function editArtwork(string $id, string $title, string $info, array $tags, string $username){
+    public function editArtwork(string $id, string $title, string $info, array $tags, string $username, ?int $grading = null){
         $artwork = DB::table('gallery')->where('id', $id)->first();
         if (!$artwork || $artwork->username != $username) {
             return false;
         }
         DB::beginTransaction();
         try {
-            DB::table('gallery')->where('id', $id)->update(['title' => $title, 'info' => $info]);
+            $updateData = ['title' => $title, 'info' => $info];
+            if ($grading !== null) {
+                $updateData['grading'] = $grading;
+            }
+            DB::table('gallery')->where('id', $id)->update($updateData);
             DB::table('tag_gallery')->where('galleryid', $id)->delete();
             $this->addTagsForArtwork($id, $tags);
             DB::commit();
@@ -884,12 +915,14 @@ class MainService{
             return [];
         }
         $trendstime = $userActive->trendstime;
-        return DB::table('gallery')
+        $query = DB::table('gallery')
             ->where('username', $username)
             ->where('time', '>=', $trendstime)
-            ->orderBy('time', 'desc')
-            ->get()
-            ->all();
+            ->orderBy('time', 'desc');
+        if ($myUsername != $username) {
+            $query->where('grading', '<', 2);
+        }
+        return $query->get()->all();
     }
 
     // 标记动态已读

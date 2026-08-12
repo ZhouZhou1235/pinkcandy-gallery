@@ -1,4 +1,4 @@
-import { DefaultObj } from "../../code/vars";
+import { DefaultObj, GArea } from "../../code/vars";
 import { Link } from "react-router";
 import { ArtworkPawArea } from "./ArtworkPawArea";
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
@@ -18,7 +18,13 @@ export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
                     <LazyLoadComponent>
                         <div className="ratio ratio-1x1">
                             <img 
-                                src={ urls.artworkimagePreviewURL+artworkdata.filename }
+                                src={
+                                    artworkdata.grading==0
+                                    ?
+                                    urls.artworkimagePreviewURL+artworkdata.filename
+                                    :
+                                    GArea.gradingPlaceholder
+                                }
                                 alt={artworkdata.title}
                                 className="card-img-top"
                                 style={{ objectFit: 'cover' }}

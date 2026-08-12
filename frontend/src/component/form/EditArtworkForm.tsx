@@ -18,6 +18,7 @@ export function EditArtworkForm({galleryid=''}){
         title: '',
         info: '',
         tags: '',
+        grading: 0,
     })
     const selectTag = (tags:string[])=>{
         setSelectedTags(tags)
@@ -43,6 +44,7 @@ export function EditArtworkForm({galleryid=''}){
                 theEditArtworkForm.id = data.id
                 theEditArtworkForm.title = data.title
                 theEditArtworkForm.info = data.info
+                theEditArtworkForm.grading = typeof data.grading === 'number' ? data.grading : 0
             }
         })
         await getRequest(urls.getTagsArtwork+'/'+galleryid).then(data=>{
@@ -120,6 +122,24 @@ export function EditArtworkForm({galleryid=''}){
                             }))
                         }}
                     ></textarea>
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">分级</label>
+                    <p>分级修改暂不可用</p>
+                    {/* <select
+                        className="form-select"
+                        value={editArtworkForm.grading}
+                        onChange={(e)=>{
+                            setEditArtworkForm(prev => ({
+                                ...prev,
+                                grading: Number(e.target.value)
+                            }))
+                        }}
+                    >
+                        <option value={0}>普遍级 - 公开可见</option>
+                        <option value={1}>辅导级 - 点击进入可见</option>
+                        <option value={2}>限制级 - 公开不可见</option>
+                    </select> */}
                 </div>
                 <div className="mb-3">
                     <label className="form-label">标签</label>

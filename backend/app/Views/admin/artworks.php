@@ -13,7 +13,7 @@
             <a class="btn btn-outline-light btn-sm" href="/admin/logout">退出登录</a>
         </div>
     </nav>
-    
+
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
             <h1 class="mb-0 h3">作品管理</h1>
@@ -26,13 +26,14 @@
         <?php endif; ?>
         <p class="text-muted mb-3">共 <?php echo $total; ?> 个作品，第 <?php echo $currentPage; ?> / <?php echo $totalPages; ?> 页</p>
         <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped align-middle">
                 <thead>
                     <tr>
                         <th>缩略图</th>
                         <th>ID</th>
                         <th>标题</th>
                         <th>作者</th>
+                        <th>分级</th>
                         <th>文件名</th>
                         <th>上传时间</th>
                         <th>操作</th>
@@ -40,23 +41,53 @@
                 </thead>
                 <tbody>
                     <?php foreach ($artworks as $artwork): ?>
+                        <?php
+                            $grading = isset($artwork->grading) ? (int)$artwork->grading : 0;
+                            $gradingBadge = '';
+                            switch ($grading) {
+                                case 0:
+                                    $gradingBadge = '<span class="badge bg-success">普遍级</span>';
+                                    break;
+                                case 1:
+                                    $gradingBadge = '<span class="badge bg-warning text-dark">辅导级</span>';
+                                    break;
+                                case 2:
+                                    $gradingBadge = '<span class="badge bg-danger">限制级</span>';
+                                    break;
+                            }
+                        ?>
                         <tr>
                             <td>
                                 <img src="/files/GalleryPreview/<?php echo $artwork->filename; ?>" alt="缩略图" style="width: 80px; height: auto; object-fit: cover; border-radius: 4px;">
                             </td>
                             <td><?php echo $artwork->id; ?></td>
-                            <td><?php echo $artwork->title; ?></td>
-                            <td><?php echo $artwork->username; ?> (<?php echo $artwork->user_name; ?>)</td>
-                            <td><?php echo $artwork->filename; ?></td>
+                            <td><?php echo htmlspecialchars($artwork->title); ?></td>
+                            <td><?php echo htmlspecialchars($artwork->username); ?> (<?php echo htmlspecialchars($artwork->user_name); ?>)</td>
+                            <td>
+                                <div class="d-flex flex-column gap-1">
+                                    <?php echo $gradingBadge; ?>
+                                    <form method="POST" action="/admin/artworks" class="d-inline-flex align-items-center gap-1">
+                                        <input type="hidden" name="artwork_id" value="<?php echo $artwork->id; ?>">
+                                        <select name="grading" class="form-select form-select-sm" style="width: auto;">
+                                            <option value="0" <?php echo $grading === 0 ? 'selected' : ''; ?>>普遍</option>
+                                            <option value="1" <?php echo $grading === 1 ? 'selected' : ''; ?>>辅导</option>
+                                            <option value="2" <?php echo $grading === 2 ? 'selected' : ''; ?>>限制</option>
+                                        </select>
+                                        <input type="hidden" name="page" value="<?php echo $currentPage; ?>">
+                                        <button type="submit" class="btn btn-sm btn-outline-primary">改</button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td><?php echo htmlspecialchars($artwork->filename); ?></td>
                             <td><?php echo $artwork->time; ?></td>
                             <td>
-                                <div class="d-flex gap-2">
-                                    <a href="/admin/artworks/regenerate-thumbnail/<?php echo $artwork->id; ?>?page=<?php echo $currentPage; ?>" 
+                                <div class="d-flex flex-column gap-2">
+                                    <a href="/admin/artworks/regenerate-thumbnail/<?php echo $artwork->id; ?>?page=<?php echo $currentPage; ?>"
                                        class="btn btn-sm btn-primary">
                                         重新生成缩略图
                                     </a>
-                                    <a href="/admin/artworks/delete/<?php echo $artwork->id; ?>" 
-                                       class="btn btn-sm btn-danger" 
+                                    <a href="/admin/artworks/delete/<?php echo $artwork->id; ?>"
+                                       class="btn btn-sm btn-danger"
                                        onclick="return confirm('确定要删除这个作品吗？');">
                                         删除
                                     </a>

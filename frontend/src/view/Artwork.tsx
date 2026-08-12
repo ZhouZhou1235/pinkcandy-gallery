@@ -102,7 +102,16 @@ export function Artwork(){
                     </div>
                     <div className="card shadow-sm mb-4">
                         <div className="card-body">
-                            <h1 className="card-title h3 mb-3">{artworkdata.title}</h1>
+                            <h1 className="card-title h3 mb-3">
+                                {artworkdata.title}
+                                {' '}
+                                {(artworkdata as any).grading==1 && (
+                                    <span className="badge bg-warning text-dark align-middle fs-6">辅导级</span>
+                                )}
+                                {(artworkdata as any).grading==2 && (
+                                    <span className="badge bg-danger align-middle fs-6">限制级</span>
+                                )}
+                            </h1>
                             <div className="mb-4">
                                 <p className="card-text">{artworkdata.info}</p>
                                 {toNormalDate(artworkdata.time)}

@@ -83,7 +83,7 @@ class AdminService{
     public function getAllArtworks(){
         return DB::table('gallery as g')
             ->join('user as u', 'g.username', '=', 'u.username')
-            ->select('g.id', 'g.username', 'g.title', 'g.filename', 'g.time', 'u.name as user_name')
+            ->select('g.id', 'g.username', 'g.title', 'g.filename', 'g.time', 'g.grading', 'u.name as user_name')
             ->orderBy('g.time', 'desc')
             ->get();
     }
@@ -177,7 +177,7 @@ class AdminService{
         $totalPages = ceil($total / $perPage);
         $artworks = DB::table('gallery as g')
             ->join('user as u', 'g.username', '=', 'u.username')
-            ->select('g.id', 'g.username', 'g.title', 'g.filename', 'g.time', 'u.name as user_name')
+            ->select('g.id', 'g.username', 'g.title', 'g.filename', 'g.time', 'g.grading', 'u.name as user_name')
             ->orderBy('g.time', 'desc')
             ->offset($offset)
             ->limit($perPage)
@@ -189,6 +189,15 @@ class AdminService{
             'total' => $total,
             'totalPages' => $totalPages
         ];
+    }
+
+    // 更新作品分级
+    public function updateArtworkGrading($artworkId, $grading){
+        $grading = (int)$grading;
+        if ($grading < 0 || $grading > 2) {
+            return false;
+        }
+        return DB::table('gallery')->where('id', $artworkId)->update(['grading' => $grading]) !== false;
     }
 
     // 分页获取用户列表
