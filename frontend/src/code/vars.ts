@@ -7,9 +7,6 @@ export const GArea = {
     logoURL: '/images/logo.svg',
     titleURL: '/images/title.png',
     image404URL: '/images/image404.png',
-    SkyblueHound: '/images/SkyblueHound.webp',
-    Board: '/images/board.png',
-    homepage: '/images/homepage.webp',
     gradingPlaceholder: '/images/gradingPlaceholder.png',
     defaultShowNum: 12,
     defaultGetNum: 20,
@@ -17,15 +14,15 @@ export const GArea = {
 
 // 页面标题配置
 export const PageTitle = {
-    pinkcandy: '粉糖 - 幻想动物画廊',
+    pinkcandy: '幻想动物画廊',
     about: '幻想动物画廊 - 关于',
     add: '幻想动物画廊 - 添加',
-    artwork: '作品 | ',
+    artwork: '作品 - ',
     login: '幻想动物画廊 - 登录',
     notFound: '幻想动物画廊 - 404',
     gallery: '幻想动物画廊 - 画廊',
-    zoom: '空间 | ',
-    notice: '幻想动物画廊 - 消息中心',
+    zoom: '空间 - ',
+    notice: '幻想动物画廊 - 消息',
     tag: '幻想动物画廊 - 标签',
     board: '幻想动物画廊 - 留言',
 }

@@ -1,6 +1,6 @@
 import { PageTitle } from "../code/vars";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { UserZoomShow } from "../component/user/UserZoomShow";
 
 export function UserZoom(){

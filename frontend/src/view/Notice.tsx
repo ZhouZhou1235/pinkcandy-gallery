@@ -1,4 +1,4 @@
-// 通知
+// 消息
 
 import { JSX, useEffect, useState } from "react";
 import { getRequest, postRequest, urls } from "../code/api";

@@ -14,7 +14,7 @@ export function About() {
                 <div className="card border-0 shadow-sm mb-4">
                     <div className="card-body p-4">
                         <div className="text-center mb-3">
-                            <img src={GArea.titleURL} alt="幻想动物画廊" style={{ maxWidth: "500px", width: "100%" }} />
+                            <img src={GArea.titleURL} alt="幻想动物画廊" style={{ maxWidth: "400px", width: "100%" }} />
                         </div>
                         <h2 className="mb-3 text-center">
                             毛茸茸主题中文艺术图站，发布各类拟人小动物绘画作品。

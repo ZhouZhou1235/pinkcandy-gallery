@@ -9,8 +9,8 @@ use App\Services\MainService;
 class MainController{
     private $service;
 
-    public function __construct(MainService $service){
-        $this->service = $service;
+    public function __construct(Array $config){
+        $this->service = new MainService($config);
     }
 
     // 获取用户信息

@@ -1,14 +1,5 @@
 // 工具
 
-// 下拉选项接口定义
-interface SelectOption{
-    label?: string;
-    value?: string | number;
-}
-
-// 下拉选项数组类型
-type SelectOptions = SelectOption[];
-
 // 验证键名是否在对象中
 function isValidKey(key: any, object: object): key is keyof typeof object {
     return key in object;
@@ -51,11 +42,6 @@ export function checkObjHaveEmpty(obj: Object, exclude: string[] = []){
     return false;
 }
 
-// 验证字符串是否为数字
-export function isNumberString(num: string){
-    return !isNaN(Number(num));
-}
-
 // 对象排序函数
 export function objSortBy(attr = '', desc = false){
     let num = 1;
@@ -73,23 +59,6 @@ export function objSortBy(attr = '', desc = false){
         }
         return 0;
     };
-}
-
-// 标签类型数字转中文
-export function tagtypeNumToString(type: number){
-    switch (type) {
-        case 1:
-            return '描述';
-        case 2:
-            return '作者';
-        case 3:
-            return '系列';
-        case 4:
-            return '角色';
-        case 5:
-            return '兽种';
-    }
-    return '';
 }
 
 // 标签类型数字转颜色值
@@ -111,18 +80,5 @@ export function tagtypeNumToColorString(type: number){
 
 // 验证是否为用户名
 export function isUsername(num: string){
-    return isNumberString(num);
-}
-
-// 将下拉选项对象数组转换为标签数组
-export function selectPropsTagsToArray(selectpropsArray: SelectOptions = []){
-    let tagList: string[] = [];
-    for (let i = 0; i < selectpropsArray.length; i++) {
-        let obj = selectpropsArray[i];
-        let tag = obj.value?.toString();
-        if (tag) {
-            tagList.push(tag);
-        }
-    }
-    return tagList;
+    return isNaN(Number(num));
 }

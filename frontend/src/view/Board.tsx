@@ -93,14 +93,6 @@ export function Board() {
         );
     }
 
-    function getDaysBetween(date1: Date, date2: Date) {
-        const d1 = new Date(date1);
-        const d2 = new Date(date2);
-        const timeDiff = d2.getTime() - d1.getTime();
-        const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
-        return Math.floor(daysDiff);
-    }
-
     useEffect(() => {
         document.title = PageTitle.board;
         loadBoardMessages(1);
@@ -111,34 +103,16 @@ export function Board() {
 
     return (
         <div className="container py-4">
-            <div className="row">
-                <div className="col-md-4 mb-4">
-                    <div className="card border-0 shadow-sm">
-                        <div className="card-body text-center">
-                            <img 
-                                src={GArea.Board} 
-                                alt="board" 
-                                className="img-fluid rounded mb-3"
-                            />
-                            <div className="text-primary small fw-semibold">
-                                “周周的网络世界”已运行 {getDaysBetween(new Date('2023-10-1'), new Date())} 天
-                            </div>
-                        </div>
+            <div className="card border-0 shadow-sm">
+                <div className="card-body p-0">
+                    <div className="list-group list-group-flush">
+                        {boardItems.length > 0 ? boardItems : (
+                            <div className="list-group-item text-center text-muted">暂无留言</div>
+                        )}
                     </div>
-                </div>
-                <div className="col-md-8">
-                    <div className="card border-0 shadow-sm">
-                        <div className="card-body p-0">
-                            <div className="list-group list-group-flush">
-                                {boardItems.length > 0 ? boardItems : (
-                                    <div className="list-group-item text-center text-muted">暂无留言</div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    {renderPagination()}
                 </div>
             </div>
+            {renderPagination()}
         </div>
     );
 }

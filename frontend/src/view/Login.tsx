@@ -3,25 +3,16 @@
 import { RegisterForm } from "../component/form/RegisterForm";
 import { LoginForm } from "../component/form/LoginForm";
 import { ResetPasswordForm } from "../component/form/ResetPasswordForm";
-import { GArea } from "../code/vars";
-import { useState } from "react";
+import { GArea, PageTitle } from "../code/vars";
+import { useEffect, useState } from "react";
+import { Footer } from "../component/Footer";
 
 export function Login() {
     const [activePanel, setActivePanel] = useState<'login' | 'register' | 'reset'>('login');
+    useEffect(()=>{document.title=PageTitle.login},[])
     return (
         <>
-            <div 
-                className="position-fixed top-0 start-0 w-100 h-100"
-                style={{
-                    zIndex: -1,
-                    backgroundImage: `url(${GArea.SkyblueHound})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundAttachment: 'fixed',
-                    backgroundRepeat: 'no-repeat'
-                }}
-            />
-            <div className="container py-4" style={{ minHeight: '100vh' }}>
+            <div className="container py-4">
                 <div className="row justify-content-center">
                     <div className="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">
                         <div className="card shadow-lg border-0 bg-white mt-4 mt-sm-5 mt-md-0">
@@ -33,9 +24,6 @@ export function Login() {
                                         className="img-fluid"
                                         style={{ maxWidth: '280px' }}
                                     />
-                                </div>
-                                <div className="text-muted small text-center mb-4">
-                                    幻想动物画廊是一个非盈利毛绒绒主题中文艺术网站，用户能发布有关毛绒绒的绘画作品。
                                 </div>
 
                                 <ul className="nav nav-tabs nav-fill mb-3">
@@ -75,6 +63,7 @@ export function Login() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }

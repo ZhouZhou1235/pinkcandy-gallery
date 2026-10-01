@@ -4,6 +4,6 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap'
-import './assets/default.css'
+import './assets/global.css'
 
 createRoot(document.getElementById('root')!).render(<App />)

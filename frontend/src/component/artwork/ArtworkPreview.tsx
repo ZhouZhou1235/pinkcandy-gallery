@@ -43,7 +43,7 @@ export function ArtworkPreview({artworkdata=DefaultObj.artworkdata}){
                             to={'/artwork/'+artworkdata.id} 
                             className="text-decoration-none text-white"
                         >
-                            <h6 className="mb-0 OnelineTextBox">
+                            <h6 className="mb-0">
                                 {artworkdata.title}
                             </h6>
                         </Link>

@@ -1,5 +1,5 @@
 import { DefaultObj, GArea } from "../code/vars";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import { useEffect, useState } from "react";
 import { getRequest, urls } from "../code/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

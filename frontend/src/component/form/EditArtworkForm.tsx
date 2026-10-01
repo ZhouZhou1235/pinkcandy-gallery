@@ -80,7 +80,7 @@ export function EditArtworkForm({galleryid=''}){
                     style={{height: '300px', objectFit: 'cover'}}
                 />
                 <div className="card-body">
-                    <h5 className="card-title OnelineTextBox">{artworkdata.title}</h5>
+                    <h5 className="card-title">{artworkdata.title}</h5>
                     <p className="card-text" style={{whiteSpace:'pre-line'}}>{artworkdata.info}</p>
                     <p className="card-text">
                         <small className="text-muted">

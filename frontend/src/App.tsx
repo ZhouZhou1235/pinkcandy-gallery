@@ -1,7 +1,7 @@
 // 根组件
 
 import { Bar } from "./component/Bar"
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom"
+import { BrowserRouter, Outlet, Route, Routes } from "react-router"
 import { Login } from "./view/Login"
 import { NotFound } from "./view/NotFound"
 import { UserZoom } from "./view/UserZoom"
